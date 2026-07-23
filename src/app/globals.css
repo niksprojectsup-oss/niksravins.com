@@ -1,0 +1,372 @@
+@import "tailwindcss";
+@import "../styles/tokens.css";
+
+/* ── Tailwind theme bridge ──────────────────────────────────── */
+
+@theme inline {
+  /* Colors */
+  --color-canvas: var(--nr-canvas);
+  --color-surface: var(--nr-surface);
+  --color-surface-muted: var(--nr-surface-muted);
+  --color-surface-elevated: var(--nr-surface-elevated);
+
+  --color-ink: var(--nr-ink);
+  --color-ink-muted: var(--nr-ink-muted);
+  --color-ink-subtle: var(--nr-ink-subtle);
+  --color-ink-faint: var(--nr-ink-faint);
+
+  --color-accent: var(--nr-accent);
+  --color-accent-strong: var(--nr-accent-strong);
+  --color-accent-soft: var(--nr-accent-soft);
+  --color-accent-muted: var(--nr-accent-muted);
+
+  --color-warm: var(--nr-warm);
+  --color-warm-soft: var(--nr-warm-soft);
+
+  --color-border: var(--nr-border);
+  --color-border-subtle: var(--nr-border-subtle);
+  --color-border-strong: var(--nr-border-strong);
+
+  /* Typography */
+  --font-sans: var(--font-family-sans), "Source Sans 3", ui-sans-serif,
+    system-ui, sans-serif;
+  --font-display: var(--font-family-display), "Fraunces", "Iowan Old Style",
+    "Palatino Linotype", Palatino, ui-serif, Georgia, serif;
+
+  --text-xs: var(--nr-text-xs);
+  --text-sm: var(--nr-text-sm);
+  --text-base: var(--nr-text-base);
+  --text-md: var(--nr-text-md);
+  --text-lg: var(--nr-text-lg);
+  --text-xl: var(--nr-text-xl);
+  --text-2xl: var(--nr-text-2xl);
+  --text-3xl: var(--nr-text-3xl);
+  --text-4xl: var(--nr-text-4xl);
+  --text-display: var(--nr-text-display);
+
+  --leading-tight: var(--nr-leading-tight);
+  --leading-snug: var(--nr-leading-snug);
+  --leading-normal: var(--nr-leading-normal);
+  --leading-relaxed: var(--nr-leading-relaxed);
+
+  --tracking-tight: var(--nr-tracking-tight);
+  --tracking-snug: var(--nr-tracking-snug);
+  --tracking-normal: var(--nr-tracking-normal);
+  --tracking-wide: var(--nr-tracking-wide);
+  --tracking-wider: var(--nr-tracking-wider);
+
+  /* Spacing extensions */
+  --spacing-section-sm: var(--nr-section-y-sm);
+  --spacing-section-md: var(--nr-section-y-md);
+  --spacing-section-lg: var(--nr-section-y-lg);
+  --spacing-gutter: var(--nr-gutter);
+  --spacing-stack-sm: var(--nr-stack-sm);
+  --spacing-stack-md: var(--nr-stack-md);
+  --spacing-stack-lg: var(--nr-stack-lg);
+
+  /* Layout widths */
+  --width-prose: var(--nr-width-prose);
+  --width-content: var(--nr-width-content);
+  --width-wide: var(--nr-width-wide);
+  --width-max: var(--nr-width-max);
+
+  /* Radius */
+  --radius-sm: var(--nr-radius-sm);
+  --radius-md: var(--nr-radius-md);
+  --radius-lg: var(--nr-radius-lg);
+  --radius-xl: var(--nr-radius-xl);
+
+  /* Shadows */
+  --shadow-soft: var(--nr-shadow-soft);
+  --shadow-elevated: var(--nr-shadow-elevated);
+}
+
+/* ── Base ───────────────────────────────────────────────────── */
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--nr-border-subtle);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  body {
+    background-color: var(--nr-canvas);
+    color: var(--nr-ink);
+    font-family: var(--font-family-sans), "Source Sans 3", ui-sans-serif,
+      system-ui, sans-serif;
+    font-size: var(--nr-text-base);
+    line-height: var(--nr-leading-normal);
+    letter-spacing: var(--nr-tracking-normal);
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+
+  ::selection {
+    background-color: var(--nr-selection-bg);
+    color: var(--nr-selection-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--nr-focus);
+    outline-offset: 3px;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
+      serif;
+    font-weight: 500;
+    color: var(--nr-ink);
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: var(--nr-text-display);
+    line-height: var(--nr-leading-tight);
+    letter-spacing: var(--nr-tracking-tight);
+  }
+
+  h2 {
+    font-size: var(--nr-text-3xl);
+    line-height: var(--nr-leading-tight);
+    letter-spacing: var(--nr-tracking-snug);
+  }
+
+  h3 {
+    font-size: var(--nr-text-xl);
+    line-height: var(--nr-leading-snug);
+    letter-spacing: var(--nr-tracking-snug);
+  }
+
+  h4 {
+    font-size: var(--nr-text-lg);
+    line-height: var(--nr-leading-snug);
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    transition: color var(--nr-duration-fast) var(--nr-ease-out);
+  }
+
+  a:hover {
+    color: var(--nr-accent);
+  }
+
+  strong {
+    font-weight: 600;
+    color: var(--nr-ink);
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--nr-border-subtle);
+  }
+
+  img,
+  picture,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ── Typography presets ─────────────────────────────────────── */
+
+@layer components {
+  .type-display {
+    font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
+      serif;
+    font-size: var(--nr-text-display);
+    line-height: var(--nr-leading-tight);
+    letter-spacing: var(--nr-tracking-tight);
+    font-weight: 500;
+    color: var(--nr-ink);
+  }
+
+  .type-heading {
+    font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
+      serif;
+    font-size: var(--nr-text-3xl);
+    line-height: var(--nr-leading-tight);
+    letter-spacing: var(--nr-tracking-snug);
+    font-weight: 500;
+    color: var(--nr-ink);
+  }
+
+  .type-heading-sm {
+    font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
+      serif;
+    font-size: var(--nr-text-xl);
+    line-height: var(--nr-leading-snug);
+    letter-spacing: var(--nr-tracking-snug);
+    font-weight: 500;
+    color: var(--nr-ink);
+  }
+
+  .type-lead {
+    font-size: var(--nr-text-md);
+    line-height: var(--nr-leading-relaxed);
+    color: var(--nr-ink-muted);
+  }
+
+  .type-body {
+    font-size: var(--nr-text-base);
+    line-height: var(--nr-leading-normal);
+    color: var(--nr-ink-muted);
+  }
+
+  .type-caption {
+    font-size: var(--nr-text-sm);
+    line-height: var(--nr-leading-snug);
+    color: var(--nr-ink-subtle);
+  }
+
+  .type-label {
+    font-size: var(--nr-text-xs);
+    line-height: var(--nr-leading-snug);
+    letter-spacing: var(--nr-tracking-wider);
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--nr-ink-subtle);
+  }
+
+  .type-accent-link {
+    color: var(--nr-accent);
+    text-decoration: underline;
+    text-decoration-color: var(--nr-accent-muted);
+    text-underline-offset: 0.25em;
+    transition: color var(--nr-duration-fast) var(--nr-ease-out),
+      text-decoration-color var(--nr-duration-fast) var(--nr-ease-out);
+  }
+
+  .type-accent-link:hover {
+    color: var(--nr-accent-strong);
+    text-decoration-color: var(--nr-accent);
+  }
+}
+
+/* ── Layout presets ───────────────────────────────────────────── */
+
+@layer components {
+  .layout-container {
+    width: 100%;
+    max-width: var(--nr-width-max);
+    margin-inline: auto;
+    padding-inline: var(--nr-gutter);
+  }
+
+  .layout-prose {
+    max-width: var(--nr-width-prose);
+  }
+
+  .layout-content {
+    max-width: var(--nr-width-content);
+  }
+
+  .layout-wide {
+    max-width: var(--nr-width-wide);
+  }
+
+  .layout-section {
+    padding-block: var(--nr-section-y-md);
+  }
+
+  .layout-section-sm {
+    padding-block: var(--nr-section-y-sm);
+  }
+
+  .layout-section-lg {
+    padding-block: var(--nr-section-y-lg);
+  }
+
+  .layout-stack-sm > * + * {
+    margin-top: var(--nr-stack-sm);
+  }
+
+  .layout-stack-md > * + * {
+    margin-top: var(--nr-stack-md);
+  }
+
+  .layout-stack-lg > * + * {
+    margin-top: var(--nr-stack-lg);
+  }
+}
+
+/* ── Surface presets ──────────────────────────────────────────── */
+
+@layer components {
+  .surface-base {
+    background-color: var(--nr-surface);
+    border: 1px solid var(--nr-border-subtle);
+    border-radius: var(--nr-radius-lg);
+  }
+
+  .surface-elevated {
+    background-color: var(--nr-surface-elevated);
+    border: 1px solid var(--nr-border-subtle);
+    border-radius: var(--nr-radius-lg);
+    box-shadow: var(--nr-shadow-soft);
+  }
+
+  .surface-muted {
+    background-color: var(--nr-surface-muted);
+    border-radius: var(--nr-radius-lg);
+  }
+
+  .surface-accent {
+    background-color: var(--nr-accent-soft);
+    border-radius: var(--nr-radius-lg);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity var(--nr-duration-slow) var(--nr-ease-out),
+      transform var(--nr-duration-slow) var(--nr-ease-out);
+  }
+
+  .reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
