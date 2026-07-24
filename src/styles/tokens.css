@@ -36,30 +36,31 @@
   --nr-selection-bg: #dce8e2;
   --nr-selection-fg: #1a1917;
 
-  /* ── Typography: scale (17px base for warmth & readability) */
+  /* ── Typography: scale ────────────────────────────────────── */
   --nr-text-xs: 0.75rem;
   --nr-text-sm: 0.875rem;
-  --nr-text-base: 1.0625rem;
-  --nr-text-md: 1.1875rem;
-  --nr-text-lg: 1.375rem;
-  --nr-text-xl: 1.75rem;
-  --nr-text-2xl: 2.25rem;
-  --nr-text-3xl: 3rem;
-  --nr-text-4xl: 3.75rem;
-  --nr-text-display: clamp(2.75rem, 5vw + 1rem, 4.5rem);
+  --nr-text-base: 1.125rem;
+  --nr-text-md: 1.3125rem;
+  --nr-text-lg: 1.5rem;
+  --nr-text-xl: 2rem;
+  --nr-text-2xl: 2.625rem;
+  --nr-text-3xl: 3.375rem;
+  --nr-text-4xl: 4.25rem;
+  --nr-text-display: clamp(2.875rem, 6vw + 1rem, 5.25rem);
+  --nr-text-editorial: clamp(1.375rem, 2vw + 0.75rem, 1.75rem);
 
   /* ── Typography: line height ────────────────────────────── */
-  --nr-leading-tight: 1.12;
-  --nr-leading-snug: 1.3;
-  --nr-leading-normal: 1.62;
-  --nr-leading-relaxed: 1.78;
+  --nr-leading-tight: 1.08;
+  --nr-leading-snug: 1.28;
+  --nr-leading-normal: 1.65;
+  --nr-leading-relaxed: 1.82;
 
   /* ── Typography: letter spacing ─────────────────────────── */
-  --nr-tracking-tight: -0.025em;
-  --nr-tracking-snug: -0.015em;
+  --nr-tracking-tight: -0.03em;
+  --nr-tracking-snug: -0.018em;
   --nr-tracking-normal: 0;
   --nr-tracking-wide: 0.04em;
-  --nr-tracking-wider: 0.08em;
+  --nr-tracking-wider: 0.1em;
 
   /* ── Spacing: base unit (4px grid) ──────────────────────── */
   --nr-space-1: 0.25rem;
@@ -75,21 +76,23 @@
   --nr-space-20: 5rem;
   --nr-space-24: 6rem;
   --nr-space-32: 8rem;
+  --nr-space-40: 10rem;
 
   /* ── Spacing: layout rhythm ───────────────────────────────── */
-  --nr-section-y-sm: var(--nr-space-16);
-  --nr-section-y-md: var(--nr-space-24);
-  --nr-section-y-lg: var(--nr-space-32);
-  --nr-gutter: clamp(1.25rem, 4vw, 2.5rem);
-  --nr-stack-sm: var(--nr-space-6);
-  --nr-stack-md: var(--nr-space-10);
-  --nr-stack-lg: var(--nr-space-16);
+  --nr-section-y-sm: var(--nr-space-20);
+  --nr-section-y-md: var(--nr-space-32);
+  --nr-section-y-lg: var(--nr-space-40);
+  --nr-gutter: clamp(1.5rem, 5vw, 3rem);
+  --nr-stack-sm: var(--nr-space-8);
+  --nr-stack-md: var(--nr-space-12);
+  --nr-stack-lg: var(--nr-space-20);
+  --nr-stack-xl: var(--nr-space-24);
 
   /* ── Layout: content widths ───────────────────────────────── */
-  --nr-width-prose: 42rem;
-  --nr-width-content: 48rem;
-  --nr-width-wide: 64rem;
-  --nr-width-max: 80rem;
+  --nr-width-prose: 38rem;
+  --nr-width-content: 44rem;
+  --nr-width-wide: 56rem;
+  --nr-width-max: 72rem;
 
   /* ── Radius (soft, editorial — not pill/corporate) ──────── */
   --nr-radius-sm: 0.375rem;
@@ -98,15 +101,15 @@
   --nr-radius-xl: 1.5rem;
 
   /* ── Shadow (barely there, warm) ──────────────────────────── */
-  --nr-shadow-soft: 0 1px 2px rgb(26 25 23 / 0.04),
-    0 4px 16px rgb(26 25 23 / 0.06);
-  --nr-shadow-elevated: 0 2px 4px rgb(26 25 23 / 0.04),
-    0 12px 32px rgb(26 25 23 / 0.08);
+  --nr-shadow-soft: 0 1px 2px rgb(26 25 23 / 0.03),
+    0 4px 16px rgb(26 25 23 / 0.04);
+  --nr-shadow-elevated: 0 2px 4px rgb(26 25 23 / 0.03),
+    0 12px 32px rgb(26 25 23 / 0.06);
 
   /* ── Motion ───────────────────────────────────────────────── */
   --nr-duration-fast: 150ms;
-  --nr-duration-normal: 250ms;
-  --nr-duration-slow: 400ms;
+  --nr-duration-normal: 300ms;
+  --nr-duration-slow: 500ms;
   --nr-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --nr-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }

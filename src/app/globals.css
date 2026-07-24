@@ -43,6 +43,7 @@
   --text-3xl: var(--nr-text-3xl);
   --text-4xl: var(--nr-text-4xl);
   --text-display: var(--nr-text-display);
+  --text-editorial: var(--nr-text-editorial);
 
   --leading-tight: var(--nr-leading-tight);
   --leading-snug: var(--nr-leading-snug);
@@ -63,6 +64,7 @@
   --spacing-stack-sm: var(--nr-stack-sm);
   --spacing-stack-md: var(--nr-stack-md);
   --spacing-stack-lg: var(--nr-stack-lg);
+  --spacing-stack-xl: var(--nr-stack-xl);
 
   /* Layout widths */
   --width-prose: var(--nr-width-prose);
@@ -248,6 +250,12 @@
     color: var(--nr-ink-muted);
   }
 
+  .type-editorial {
+    font-size: var(--nr-text-editorial);
+    line-height: var(--nr-leading-relaxed);
+    color: var(--nr-ink-muted);
+  }
+
   .type-body {
     font-size: var(--nr-text-base);
     line-height: var(--nr-leading-normal);
@@ -328,6 +336,10 @@
 
   .layout-stack-lg > * + * {
     margin-top: var(--nr-stack-lg);
+  }
+
+  .layout-stack-xl > * + * {
+    margin-top: var(--nr-stack-xl);
   }
 }
 

@@ -1,40 +1,47 @@
 import { testimonials } from "@/content/site";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { SectionHeading } from "@/components/ui/SectionHeading";
 
 export function Testimonials() {
   return (
-    <Section
-      size="lg"
-      aria-labelledby="testimonials-heading"
-      className="bg-surface-muted/50"
-    >
-      <SectionHeading
-        id="testimonials-heading"
-        label="Reflections"
-        title="What shifts when the body catches up"
-        className="mb-stack-lg"
-      />
+    <Section size="lg" aria-labelledby="testimonials-heading">
+      <div className="layout-stack-xl max-w-wide">
+        <header className="max-w-prose layout-stack-sm">
+          <p className="type-label">Observed changes</p>
+          <h2 id="testimonials-heading" className="type-heading">
+            What shifts in daily life
+          </h2>
+        </header>
 
-      <ul className="grid gap-8 md:grid-cols-3 md:gap-6">
-        {testimonials.map((item, index) => (
-          <li key={item.attribution}>
-            <Reveal delay={index * 120}>
-              <figure className="surface-elevated flex h-full flex-col justify-between p-8 md:p-10">
-                <blockquote className="layout-stack-sm">
-                  <p className="font-display text-lg leading-relaxed text-ink">
-                    &ldquo;{item.quote}&rdquo;
-                  </p>
-                </blockquote>
-                <figcaption className="type-caption mt-8 pt-6 border-t border-border-subtle">
-                  {item.attribution}
-                </figcaption>
-              </figure>
-            </Reveal>
-          </li>
-        ))}
-      </ul>
+        <ul className="layout-stack-lg list-none">
+          {testimonials.map((item, index) => (
+            <li
+              key={item.before}
+              className="border-t border-border-subtle pt-stack-md first:border-t-0 first:pt-0"
+            >
+              <Reveal delay={index * 100}>
+                <figure className="max-w-prose layout-stack-md">
+                  <blockquote className="layout-stack-sm">
+                    <p className="type-body">
+                      <span className="text-ink-faint">Before: </span>
+                      {item.before}
+                    </p>
+                    <p className="type-editorial text-ink">
+                      <span className="font-sans text-sm text-ink-faint">
+                        After:{" "}
+                      </span>
+                      {item.after}
+                    </p>
+                  </blockquote>
+                  <figcaption className="type-caption">
+                    {item.attribution}
+                  </figcaption>
+                </figure>
+              </Reveal>
+            </li>
+          ))}
+        </ul>
+      </div>
     </Section>
   );
 }

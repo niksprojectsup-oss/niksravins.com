@@ -10,16 +10,24 @@ export function FinalCTA() {
       aria-labelledby="contact-heading"
       className="pb-section-lg"
     >
-      <div className="mx-auto max-w-prose text-center layout-stack-md">
-        <h2 id="contact-heading" className="type-heading">
-          {finalCta.headline}
+      <div className="max-w-prose layout-stack-lg">
+        <h2 id="contact-heading" className="sr-only">
+          Contact
         </h2>
-        <p className="type-lead">{finalCta.subtext}</p>
-        <div className="flex flex-col items-center gap-6 pt-2">
+
+        <div className="layout-stack-sm">
+          {finalCta.lines.map((line) => (
+            <p key={line} className="type-heading-sm text-ink">
+              {line}
+            </p>
+          ))}
+        </div>
+
+        <div className="flex flex-col gap-6 pt-4 sm:flex-row sm:items-center">
           <Button href={finalCta.button.href}>{finalCta.button.label}</Button>
           <a
             href={`mailto:${siteConfig.email}`}
-            className="type-accent-link"
+            className="type-caption text-ink-subtle no-underline hover:text-accent"
           >
             {siteConfig.email}
           </a>

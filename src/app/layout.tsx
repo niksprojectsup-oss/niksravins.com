@@ -21,11 +21,11 @@ export const metadata: Metadata = {
     template: "%s · Niks Ravins",
   },
   description:
-    "Psychotherapy focused on nervous system regulation. Helping your body stop reacting to the past through Adaptive Association Processing.",
+    "Psychotherapy focused on changing learned emotional associations — the links that keep automatic reactions running, even after you understand them.",
   openGraph: {
     title: "Niks Ravins",
     description:
-      "A calm nervous system changes everything. Psychotherapy with clarity, care, and scientific grounding.",
+      "You understand the reaction. It still happens. Sessions focus on identifying and changing the learned emotional associations behind automatic reactions.",
     type: "website",
     locale: "en",
     siteName: "Niks Ravins",

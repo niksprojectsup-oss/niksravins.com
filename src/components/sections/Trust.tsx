@@ -4,11 +4,22 @@ import { Section } from "@/components/ui/Section";
 export function Trust() {
   return (
     <Section size="md" aria-labelledby="trust-heading">
-      <div className="mx-auto max-w-prose border-y border-border-subtle py-section-sm">
+      <div className="mx-auto max-w-prose layout-stack-md py-8 md:py-12">
         <h2 id="trust-heading" className="sr-only">
-          Understanding emotional patterns
+          Why people come here
         </h2>
-        <p className="type-lead text-center text-ink-muted">{trust.text}</p>
+        {trust.statements.map((statement, index) => (
+          <p
+            key={statement}
+            className={
+              index === trust.statements.length - 1
+                ? "type-editorial text-ink"
+                : "type-editorial"
+            }
+          >
+            {statement}
+          </p>
+        ))}
       </div>
     </Section>
   );

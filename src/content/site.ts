@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Niks Ravins",
-  tagline: "Psychotherapist",
+  tagline: "Psychotherapist · Adaptive Association Processing",
   email: "hello@niksravins.com",
   bookingUrl: "#contact",
 } as const;
@@ -14,94 +14,105 @@ export const navigation = [
 
 export const hero = {
   name: "Niks Ravins",
-  headline: "Helping your nervous system stop reacting to the past.",
-  subheadline: "A calm nervous system changes everything.",
+  headline: "You understand the reaction. It still happens.",
+  explanation: [
+    "Automatic emotional reactions can continue because the nervous system still links them to specific past experiences.",
+    "Most people who come here already understand their patterns. Talking explained them. It did not change the reaction.",
+    "Sessions focus on identifying and changing those learned emotional associations.",
+  ],
   primaryCta: { label: "Book a Session", href: "#contact" },
-  secondaryCta: { label: "Learn about AAP", href: "#aap" },
+  secondaryCta: { label: "How AAP Works", href: "#aap" },
 } as const;
 
 export const trust = {
-  text: "Many emotional reactions are not character flaws. They are learned nervous system patterns — responses your body memorized when staying alert felt necessary. Understanding this is the first step toward change that lasts.",
+  statements: [
+    "People don't come because they don't understand themselves.",
+    "Most already do.",
+    "They come because understanding alone didn't change the reaction.",
+    "This work focuses on changing the reaction itself.",
+  ],
 } as const;
 
 export const about = {
+  title: "Why this work exists",
   story: [
-    "I work with people whose reactions feel automatic — the sudden anxiety, the shutdown, the anger that arrives before thought. Often, these patterns formed long ago, when they served a purpose.",
-    "My approach combines clinical training with a deep respect for how the nervous system actually learns and unlearns. Sessions are structured, unhurried, and grounded in what research tells us about memory, emotion, and recovery.",
+    "For years, I watched the same thing repeat across clients: clear insight, unchanged reaction. They could describe the pattern perfectly. The anxiety still arrived. The shutdown still came. The anger still moved faster than thought.",
+    "AAP grew from that observation — and from my own experience of reactions that understanding alone could not reach. Not from a theory I wanted to prove, but from a question that would not leave: if someone already knows why they react, what exactly still needs to change?",
+    "The answer, as I came to see it, is the association itself — the learned link between a past experience and a present response. This work exists to reach that link directly, through a structured session framework built from extensive practical work and continuous observation of how automatic emotional reactions shift.",
   ],
-  why: "When your nervous system no longer treats the present as the past, clarity returns. Decisions feel possible again. Relationships soften. This work matters because regulation is not a luxury — it is the foundation for everything else.",
 } as const;
 
 export const aap = {
-  title: "Adaptive Association Processing",
+  title: "How AAP works",
   intro:
-    "AAP is a structured method for updating the associations your nervous system holds between past experience and present response. It works with how memory is stored in the body — not against it.",
-  steps: [
+    "Adaptive Association Processing is not something you study. It is something that happens in the room — quietly, precisely, at the pace your system allows.",
+  points: [
     {
-      number: "01",
-      title: "Map the pattern",
+      title: "What happens in a session",
       description:
-        "We identify the specific triggers, bodily sensations, and automatic responses that keep repeating — without judgment, with precision.",
+        "We locate a specific reaction — the one that still arrives automatically — and trace it to the emotional association that keeps it running. The session stays focused on that link. There is no performance, no rush to insight.",
     },
     {
-      number: "02",
-      title: "Access the association",
+      title: "Why the same reaction returns",
       description:
-        "Through focused, guided processing, we reach the stored connection between a past event and your current reaction — the link your nervous system still operates from.",
+        "A reaction repeats when the nervous system still treats a present moment as connected to a past one. The association was learned. It can be difficult to override through understanding alone because it operates before thought.",
     },
     {
-      number: "03",
-      title: "Update the response",
+      title: "How one memory reaches into the present",
       description:
-        "The association is reprocessed so the body can distinguish then from now. The memory remains; the automatic reaction loosens.",
+        "An emotional association does not require conscious recall. A tone, a look, a situation can activate the same response the original experience produced — even when the person knows, rationally, that the past is not the present.",
     },
     {
-      number: "04",
-      title: "Integrate the change",
+      title: "What may change",
       description:
-        "New responses are reinforced through practice and reflection. Stability builds gradually — not as performance, but as physiology.",
+        "When an association shifts, the reaction that followed it may soften or stop arriving altogether. This is not a promise. It is what clients often describe: not a new understanding, but a different response in daily life.",
     },
   ],
 } as const;
 
 export const testimonials = [
   {
-    quote:
-      "I stopped trying to think my way out of reactions that were happening in my body. That shift alone changed how I show up in my work and my marriage.",
+    before: "I constantly checked my partner's social media.",
+    after: "I simply stopped feeling the need.",
+    attribution: "Client, 34",
+  },
+  {
+    before: "Every meeting at work, my chest tightened before I spoke.",
+    after: "I still prepare. The tightening rarely comes.",
+    attribution: "Client, 41",
+  },
+  {
+    before: "I knew my anger wasn't about what was happening in front of me.",
+    after: "It stopped arriving before I could think.",
     attribution: "Client, 38",
-  },
-  {
-    quote:
-      "The sessions felt calm and precise. Nothing was rushed. For the first time, I understood why I responded the way I did — and that it could actually change.",
-    attribution: "Client, 45",
-  },
-  {
-    quote:
-      "I came in exhausted from managing anxiety I didn't fully understand. Now I have language for it, and more importantly, my body handles stress differently.",
-    attribution: "Client, 31",
   },
 ] as const;
 
 export const faq = [
   {
-    question: "What happens in a first session?",
+    question: "What happens during a session?",
     answer:
-      "We begin with what brought you here. I ask about your history, current patterns, and what you hope will be different. There is no pressure to share more than feels right. The goal is to understand your nervous system, not to diagnose you quickly.",
+      "We identify a specific automatic reaction and work with the emotional association connected to it. Sessions are structured and focused. You are not asked to perform or produce insight — the work happens at the level of the association itself.",
   },
   {
-    question: "How is AAP different from talk therapy?",
+    question: "Do I need to relive painful memories?",
     answer:
-      "Talk therapy works primarily through insight and narrative. AAP works directly with how associations are stored and updated in the nervous system. We still talk — but the focus is on processing the patterns that run beneath words.",
+      "No. The work does not require detailed retelling or re-experiencing events. We work with the association as it presents now — in the reaction, in the body — not through narrative reconstruction.",
   },
   {
-    question: "How long does the work take?",
+    question: "Is AAP psychotherapy?",
     answer:
-      "Some people notice shifts within several sessions. Deeper patterns often require more time. We move at a pace your nervous system can tolerate — not faster, not slower than necessary.",
+      "Yes. AAP is a structured session framework used within psychotherapy. It is not coaching, and it is not a standalone technique applied outside a therapeutic relationship.",
   },
   {
-    question: "Do you offer online sessions?",
+    question: "How many sessions do people usually have?",
     answer:
-      "Yes. Online sessions are conducted with the same structure and care as in-person work. What matters most is that you are in a private, undisturbed space.",
+      "It varies. Some people work on a single pattern over several sessions. Others continue longer. There is no prescribed course length — we work until the reaction you came for has shifted enough to matter in your daily life.",
+  },
+  {
+    question: "Can this help if I've already tried therapy?",
+    answer:
+      "Often, yes — especially if previous therapy helped you understand your patterns but the automatic reactions remained. AAP addresses a different layer: not the story about the reaction, but the association that produces it.",
   },
   {
     question: "What if I am in crisis?",
@@ -111,8 +122,10 @@ export const faq = [
 ] as const;
 
 export const finalCta = {
-  headline: "When you are ready, we can begin.",
-  subtext:
-    "Reach out to schedule an initial conversation. There is no obligation — only space to see if this work fits.",
+  lines: [
+    "If you've understood yourself for years",
+    "but your reactions still feel automatic,",
+    "perhaps it isn't understanding that's missing.",
+  ],
   button: { label: "Book a Session", href: "#contact" },
 } as const;
