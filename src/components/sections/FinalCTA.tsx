@@ -8,9 +8,9 @@ export function FinalCTA() {
       id="contact"
       size="lg"
       aria-labelledby="contact-heading"
-      className="pb-section-lg"
+      className="!pb-10 md:!pb-20 lg:!pb-32"
     >
-      <div className="max-w-prose layout-stack-lg">
+      <div className="max-w-prose layout-stack-md md:layout-stack-lg">
         <h2 id="contact-heading" className="sr-only">
           Contact
         </h2>
@@ -23,7 +23,7 @@ export function FinalCTA() {
           ))}
         </div>
 
-        <div className="flex flex-col gap-6 pt-4 sm:flex-row sm:items-center">
+        <div className="flex flex-col gap-5 pt-2 md:gap-6 md:pt-4 sm:flex-row sm:items-center">
           <Button href={finalCta.button.href}>{finalCta.button.label}</Button>
           <a
             href={`mailto:${siteConfig.email}`}

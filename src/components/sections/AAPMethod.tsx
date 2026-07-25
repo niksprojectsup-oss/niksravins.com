@@ -4,8 +4,8 @@ import { Section } from "@/components/ui/Section";
 export function AAPMethod() {
   return (
     <Section id="aap" size="lg" aria-labelledby="aap-heading">
-      <div className="layout-stack-xl max-w-wide">
-        <header className="layout-stack-md max-w-prose">
+      <div className="max-w-wide">
+        <header className="layout-stack-sm layout-section-header max-w-prose md:layout-stack-md">
           <p className="type-label">AAP</p>
           <h2 id="aap-heading" className="type-heading">
             {aap.title}
@@ -13,11 +13,11 @@ export function AAPMethod() {
           <p className="type-editorial">{aap.intro}</p>
         </header>
 
-        <ol className="layout-stack-lg max-w-prose list-none">
+        <ol className="layout-stack-md max-w-prose list-none md:layout-stack-lg">
           {aap.points.map((point, index) => (
             <li
               key={point.title}
-              className="border-t border-border-subtle pt-stack-md first:border-t-0 first:pt-0"
+              className="border-t border-border-subtle pt-6 first:border-t-0 first:pt-0 md:pt-stack-md"
             >
               <div className="layout-stack-sm">
                 <span className="type-label text-ink-faint" aria-hidden>

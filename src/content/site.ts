@@ -1,6 +1,8 @@
 export const siteConfig = {
   name: "Niks Ravins",
-  tagline: "Psychotherapist · Adaptive Association Processing",
+  method: "Adaptive Association Processing (AAP)",
+  availability: "Online sessions worldwide",
+  brandDescriptor: "Automatic Nervous System Response Rewriting Specialist",
   email: "hello@niksravins.com",
   bookingUrl: "#contact",
 } as const;

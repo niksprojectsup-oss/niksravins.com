@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
+import { siteConfig } from "@/content/site";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -20,12 +21,11 @@ export const metadata: Metadata = {
     default: "Niks Ravins",
     template: "%s · Niks Ravins",
   },
-  description:
-    "Psychotherapy focused on changing learned emotional associations — the links that keep automatic reactions running, even after you understand them.",
+  description: `${siteConfig.brandDescriptor}. Adaptive Association Processing for learned emotional associations — the links that keep automatic reactions running, even after you understand them.`,
   openGraph: {
     title: "Niks Ravins",
     description:
-      "You understand the reaction. It still happens. Sessions focus on identifying and changing the learned emotional associations behind automatic reactions.",
+      "You understand the reaction. It still happens. Adaptive Association Processing for learned emotional associations behind automatic reactions.",
     type: "website",
     locale: "en",
     siteName: "Niks Ravins",

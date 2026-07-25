@@ -5,22 +5,22 @@ import { Section } from "@/components/ui/Section";
 export function Testimonials() {
   return (
     <Section size="lg" aria-labelledby="testimonials-heading">
-      <div className="layout-stack-xl max-w-wide">
-        <header className="max-w-prose layout-stack-sm">
+      <div className="max-w-wide">
+        <header className="layout-stack-sm layout-section-header max-w-prose">
           <p className="type-label">Observed changes</p>
           <h2 id="testimonials-heading" className="type-heading">
             What shifts in daily life
           </h2>
         </header>
 
-        <ul className="layout-stack-lg list-none">
+        <ul className="layout-stack-md list-none md:layout-stack-lg">
           {testimonials.map((item, index) => (
             <li
               key={item.before}
-              className="border-t border-border-subtle pt-stack-md first:border-t-0 first:pt-0"
+              className="border-t border-border-subtle pt-6 first:border-t-0 first:pt-0 md:pt-stack-md"
             >
               <Reveal delay={index * 100}>
-                <figure className="max-w-prose layout-stack-md">
+                <figure className="max-w-prose layout-stack-sm md:layout-stack-md">
                   <blockquote className="layout-stack-sm">
                     <p className="type-body">
                       <span className="text-ink-faint">Before: </span>

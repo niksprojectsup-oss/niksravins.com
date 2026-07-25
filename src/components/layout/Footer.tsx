@@ -10,10 +10,13 @@ export function Footer() {
         <div className="flex flex-col gap-10 md:flex-row md:items-start md:justify-between">
           <div className="layout-stack-sm max-w-prose">
             <p className="font-display text-xl text-ink">{siteConfig.name}</p>
-            <p className="type-body">{siteConfig.tagline}</p>
+            <p className="type-body">{siteConfig.method}</p>
+            <p className="type-caption text-ink-subtle">
+              {siteConfig.availability}
+            </p>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="type-accent-link w-fit"
+              className="type-accent-link w-fit pt-2"
             >
               {siteConfig.email}
             </a>
