@@ -1,12 +1,19 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
 import { siteConfig } from "@/content/site";
+import { getServerSession } from "@/lib/auth/session";
 
 type AdminLoginPageProps = {
   searchParams: Promise<{ next?: string; error?: string }>;
 };
 
 export default async function AdminLoginPage({ searchParams }: AdminLoginPageProps) {
+  const session = await getServerSession();
+  if (session?.role === "ADMIN" && session.mfaVerified) {
+    redirect("/admin");
+  }
+
   const params = await searchParams;
 
   return (

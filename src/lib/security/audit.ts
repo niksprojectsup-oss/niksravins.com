@@ -6,7 +6,7 @@ export type AuditLogInput = {
   action: AuditAction;
   resource: AuditResource;
   resourceId?: string | null;
-  actorId?: string | null;
+  actorAdminId?: string | null;
   actorRole?: Role | null;
   metadata?: Prisma.InputJsonValue | null;
   ipAddress?: string | null;
@@ -27,7 +27,7 @@ export async function logAuditEvent(input: AuditLogInput): Promise<void> {
         action: input.action,
         resource: input.resource,
         resourceId: input.resourceId ?? null,
-        actorId: input.actorId ?? null,
+        actorAdminId: input.actorAdminId ?? null,
         actorRole: input.actorRole ?? null,
         metadata: input.metadata ?? undefined,
         ipAddress: input.ipAddress ?? null,
@@ -46,6 +46,11 @@ export async function listRecentAuditEvents(limit = 50) {
     return await prisma.auditLog.findMany({
       orderBy: { createdAt: "desc" },
       take: limit,
+      include: {
+        admin: {
+          select: { email: true, displayName: true },
+        },
+      },
     });
   } catch {
     return [];

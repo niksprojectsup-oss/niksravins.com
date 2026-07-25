@@ -25,7 +25,7 @@ export async function saveReactionAnalysisAction(
     action: "reaction_analysis.update",
     resource: "reaction_analysis",
     resourceId: clientId,
-    actorId: session.id,
+    actorAdminId: session.id,
     actorRole: session.role,
   });
   revalidatePath(`/admin/clients/${clientId}`);
@@ -41,7 +41,7 @@ export async function saveChecklistItemAction(
     action: "client.update",
     resource: "client",
     resourceId: clientId,
-    actorId: session.id,
+    actorAdminId: session.id,
     actorRole: session.role,
     metadata: { section: "checklist", itemKey: payload.itemKey },
   });
@@ -55,7 +55,7 @@ export async function savePractitionerNotesAction(clientId: string, notes: strin
     action: "practitioner_notes.update",
     resource: "practitioner_notes",
     resourceId: clientId,
-    actorId: session.id,
+    actorAdminId: session.id,
     actorRole: session.role,
   });
   revalidatePath(`/admin/clients/${clientId}`);
@@ -68,7 +68,7 @@ export async function addSessionNoteAction(clientId: string, input: SessionNoteI
     action: "session.create",
     resource: "session",
     resourceId: clientId,
-    actorId: session.id,
+    actorAdminId: session.id,
     actorRole: session.role,
   });
   revalidatePath(`/admin/clients/${clientId}`);

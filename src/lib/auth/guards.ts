@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { isAdminSessionActive } from "@/lib/auth/admin-repository";
 import { canAccessClientData } from "@/lib/security/permissions";
 import type { Permission } from "@/lib/security/types";
 import { hasPermission } from "@/lib/security/permissions";
@@ -9,6 +10,13 @@ export class AuthorizationError extends Error {
   constructor(message = "Unauthorized") {
     super(message);
     this.name = "AuthorizationError";
+  }
+}
+
+async function assertActiveAdminSession(session: SessionContext): Promise<void> {
+  const active = await isAdminSessionActive(session.sessionId);
+  if (!active) {
+    redirect("/admin/login?error=Session%20expired.%20Please%20sign%20in%20again.");
   }
 }
 
@@ -28,11 +36,13 @@ export async function requireAdmin(): Promise<SessionContext> {
   if (!session.mfaVerified) {
     redirect("/admin/login/mfa");
   }
+
+  await assertActiveAdminSession(session);
   return session;
 }
 
 export async function requirePermission(permission: Permission): Promise<SessionContext> {
-  const session = await requireAuth();
+  const session = await requireAdmin();
   if (!hasPermission(session.role, permission)) {
     throw new AuthorizationError();
   }
@@ -40,7 +50,7 @@ export async function requirePermission(permission: Permission): Promise<Session
 }
 
 export async function requireClientAccess(clientId: string): Promise<SessionContext> {
-  const session = await requireAuth();
+  const session = await requireAdmin();
   if (!canAccessClientData(session.role, session.clientId, clientId)) {
     throw new AuthorizationError("You can only access your own data.");
   }

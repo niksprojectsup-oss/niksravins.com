@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { Field, Input } from "@/components/ui/Field";
 import { loginAction } from "@/lib/auth/actions";
 
 type AdminLoginFormProps = {
@@ -29,36 +30,28 @@ export function AdminLoginForm({ nextPath, initialError }: AdminLoginFormProps) 
     <form action={formAction} className="layout-stack-md">
       {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
 
-      <div className="layout-stack-sm">
-        <label htmlFor="email" className="type-caption block text-ink-subtle">
-          Email
-        </label>
-        <input
+      <Field label="Email" id="email">
+        <Input
           id="email"
           name="email"
           type="email"
           autoComplete="username"
           required
-          className="w-full rounded-md border border-border-subtle bg-canvas px-3 py-2 type-body text-ink"
         />
-      </div>
+      </Field>
 
-      <div className="layout-stack-sm">
-        <label htmlFor="password" className="type-caption block text-ink-subtle">
-          Password
-        </label>
-        <input
+      <Field label="Password" id="password">
+        <Input
           id="password"
           name="password"
           type="password"
           autoComplete="current-password"
           required
-          className="w-full rounded-md border border-border-subtle bg-canvas px-3 py-2 type-body text-ink"
         />
-      </div>
+      </Field>
 
       {state.error ? (
-        <p className="type-caption text-red-700" role="alert">
+        <p className="type-caption text-warm" role="alert">
           {state.error}
         </p>
       ) : null}
@@ -66,7 +59,7 @@ export function AdminLoginForm({ nextPath, initialError }: AdminLoginFormProps) 
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-md bg-ink px-4 py-3 type-body text-canvas transition-opacity duration-200 disabled:opacity-60"
+        className="w-full min-h-12 rounded-md bg-ink px-4 py-3 type-body text-canvas transition-opacity duration-200 disabled:opacity-60"
       >
         {pending ? "Signing in…" : "Sign in"}
       </button>

@@ -38,6 +38,40 @@ enum UserRole {
   CLIENT
 }
 
+model AdminUser {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  passwordHash  String
+  displayName   String?
+  isActive      Boolean   @default(true)
+  mfaEnabled    Boolean   @default(false)
+  totpSecret    String?
+  lastLoginAt   DateTime?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  sessions  AdminSession[]
+  auditLogs AuditLog[]   @relation("AdminAuditActor")
+
+  @@index([isActive])
+}
+
+model AdminSession {
+  id        String   @id @default(cuid())
+  adminId   String
+  tokenHash String   @unique
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  admin AdminUser @relation(fields: [adminId], references: [id], onDelete: Cascade)
+
+  @@index([adminId])
+  @@index([expiresAt])
+}
+
 model User {
   id             String   @id @default(cuid())
   email          String   @unique
@@ -53,7 +87,6 @@ model User {
 
   client       Client?       @relation(fields: [clientId], references: [id], onDelete: SetNull)
   authSessions AuthSession[]
-  auditLogs    AuditLog[]    @relation("AuditActor")
 
   @@index([role])
   @@index([practitionerId])
@@ -75,22 +108,22 @@ model AuthSession {
 }
 
 model AuditLog {
-  id         String    @id @default(cuid())
-  actorId    String?
-  actorRole  UserRole?
-  action     String
-  resource   String
-  resourceId String?
-  metadata   Json?
-  ipAddress  String?
-  userAgent  String?
-  createdAt  DateTime  @default(now())
+  id           String    @id @default(cuid())
+  actorAdminId String?
+  actorRole    UserRole?
+  action       String
+  resource     String
+  resourceId   String?
+  metadata     Json?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime  @default(now())
 
-  actor User? @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+  admin AdminUser? @relation("AdminAuditActor", fields: [actorAdminId], references: [id], onDelete: SetNull)
 
   @@index([action, createdAt])
   @@index([resource, resourceId])
-  @@index([actorId, createdAt])
+  @@index([actorAdminId, createdAt])
 }
 
 model Client {

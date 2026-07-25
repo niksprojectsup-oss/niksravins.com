@@ -3,10 +3,11 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import {
-  createAuthSessionRecord,
-  revokeAuthSession,
-  verifyUserCredentials,
-} from "@/lib/auth/repository";
+  createAdminSession,
+  revokeAdminSession,
+  touchAdminLastLogin,
+  verifyAdminCredentials,
+} from "@/lib/auth/admin-repository";
 import {
   clearSessionCookie,
   createSessionToken,
@@ -44,8 +45,8 @@ export async function loginAction(formData: FormData) {
     return { error: "Too many login attempts. Try again later." };
   }
 
-  const user = await verifyUserCredentials(email, password);
-  if (!user) {
+  const admin = await verifyAdminCredentials(email, password);
+  if (!admin) {
     await logAuditEvent({
       action: "auth.login_failed",
       resource: "auth",
@@ -56,13 +57,13 @@ export async function loginAction(formData: FormData) {
     return { error: "Invalid email or password." };
   }
 
-  const mfaVerified = !user.mfaEnabled;
+  const mfaVerified = !admin.mfaEnabled;
   const maxAge = mfaVerified ? SESSION_MAX_AGE_SECONDS : MFA_PENDING_MAX_AGE_SECONDS;
   const expiresAt = new Date(Date.now() + maxAge * 1000);
 
   const provisionalToken = crypto.randomUUID();
-  const sessionId = await createAuthSessionRecord({
-    userId: user.id,
+  const sessionId = await createAdminSession({
+    adminId: admin.id,
     token: provisionalToken,
     expiresAt,
     ipAddress,
@@ -71,11 +72,11 @@ export async function loginAction(formData: FormData) {
 
   const token = await createSessionToken(
     {
-      sub: user.id,
-      email: user.email,
-      role: user.role,
-      clientId: user.clientId,
-      practitionerId: user.practitionerId,
+      sub: admin.id,
+      email: admin.email,
+      role: "ADMIN",
+      clientId: null,
+      practitionerId: null,
       sessionId,
       mfaVerified,
     },
@@ -83,30 +84,27 @@ export async function loginAction(formData: FormData) {
   );
 
   await setSessionCookie(token, maxAge);
+  await touchAdminLastLogin(admin.id);
 
   await logAuditEvent({
-    action: user.mfaEnabled ? "auth.mfa_required" : "auth.login",
+    action: admin.mfaEnabled ? "auth.mfa_required" : "auth.login",
     resource: "auth",
-    actorId: user.id,
-    actorRole: user.role,
+    actorAdminId: admin.id,
+    actorRole: "ADMIN",
     ipAddress,
     userAgent,
   });
 
-  if (user.mfaEnabled) {
+  if (admin.mfaEnabled) {
     redirect("/admin/login/mfa");
   }
 
   const nextPath = String(formData.get("next") ?? "");
-  if (nextPath.startsWith("/admin") && user.role === "ADMIN") {
+  if (nextPath.startsWith("/admin")) {
     redirect(nextPath);
   }
 
-  if (user.role === "ADMIN") {
-    redirect("/admin");
-  }
-
-  redirect("/portal");
+  redirect("/admin");
 }
 
 export async function logoutAction() {
@@ -114,12 +112,12 @@ export async function logoutAction() {
   const headerStore = await headers();
 
   if (session) {
-    await revokeAuthSession(session.sessionId);
+    await revokeAdminSession(session.sessionId);
     await logAuditEvent({
       action: "auth.logout",
       resource: "auth",
-      actorId: session.id,
-      actorRole: session.role,
+      actorAdminId: session.id,
+      actorRole: "ADMIN",
       ipAddress: getClientIp(headerStore),
       userAgent: headerStore.get("user-agent"),
     });

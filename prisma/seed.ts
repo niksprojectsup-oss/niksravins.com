@@ -12,16 +12,16 @@ async function main() {
   const adminPassword = process.env.ADMIN_PASSWORD ?? "change-me-in-production";
   const passwordHash = await hashPassword(adminPassword);
 
-  await prisma.user.upsert({
+  await prisma.adminUser.upsert({
     where: { email: adminEmail },
     create: {
       email: adminEmail,
       passwordHash,
-      role: "ADMIN",
+      displayName: "Primary Admin",
     },
     update: {
       passwordHash,
-      role: "ADMIN",
+      isActive: true,
     },
   });
 

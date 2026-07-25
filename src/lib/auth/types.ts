@@ -17,6 +17,7 @@ export type AuthenticatedUser = {
   clientId: string | null;
   practitionerId: string | null;
   mfaEnabled: boolean;
+  displayName?: string | null;
 };
 
 export type SessionContext = AuthenticatedUser & {
