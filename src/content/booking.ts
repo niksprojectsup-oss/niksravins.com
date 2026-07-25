@@ -4,19 +4,9 @@ export const bookingContent = {
     subtitle:
       "Begin the process of changing the automatic reactions that no longer serve you.",
   },
-  sessions: {
-    initial: {
-      title: "Initial Session",
-      description:
-        "A first session focused on understanding the reaction you want to change and working directly with the pattern maintaining it.",
-      duration: "60 minutes",
-    },
-    followUp: {
-      title: "Follow-up Session",
-      description:
-        "Continued work focused on integrating changes and addressing additional patterns.",
-      duration: "60 minutes",
-    },
+  services: {
+    title: "Select a service",
+    description: "All offerings are paid sessions conducted online.",
   },
   calendar: {
     title: "Choose a time",

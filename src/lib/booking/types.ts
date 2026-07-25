@@ -1,6 +1,17 @@
 /** Booking domain types — shared across client UI, API routes, and future admin. */
 
-export type SessionType = "initial" | "follow-up";
+export type ServiceId = "initial-aap-session" | "aap-transformation-package";
+
+export type ServiceKind = "single-session" | "package";
+
+export interface BookableService {
+  id: ServiceId;
+  title: string;
+  description: string;
+  kind: ServiceKind;
+  durationLabel?: string;
+  durationMinutes?: number;
+}
 
 export type BookingStep =
   | "session"
@@ -39,14 +50,14 @@ export interface ClientDetails extends ClientProfile {
 }
 
 export interface BookingDraft {
-  sessionType: SessionType | null;
+  serviceId: ServiceId | null;
   slotId: string | null;
   scheduledAt: string | null;
   client: ClientDetails | null;
 }
 
 export interface BookingRequest {
-  sessionType: SessionType;
+  serviceId: ServiceId;
   slotId: string;
   scheduledAt: string;
   client: ClientDetails;
@@ -63,7 +74,11 @@ export interface BookingRecord extends BookingRequest {
 
 /** Future: replace mock with real availability provider. */
 export interface AvailabilityService {
-  getAvailability(from: Date, to: Date): Promise<AvailabilityDay[]>;
+  getAvailability(
+    from: Date,
+    to: Date,
+    serviceId: ServiceId,
+  ): Promise<AvailabilityDay[]>;
 }
 
 /** Future: persist bookings and send confirmations. */
@@ -84,6 +99,7 @@ export interface AdminService {
   listClients(): Promise<ClientProfile[]>;
   getClientHistory(clientId: string): Promise<BookingRecord[]>;
   updateAvailability(slots: TimeSlot[]): Promise<void>;
+  listServices(): Promise<BookableService[]>;
 }
 
 export const BOOKING_STEPS: BookingStep[] = [
@@ -94,7 +110,5 @@ export const BOOKING_STEPS: BookingStep[] = [
   "confirmed",
 ];
 
-export const SESSION_DURATIONS: Record<SessionType, number> = {
-  initial: 60,
-  "follow-up": 60,
-};
+/** @deprecated Use BookableService catalog — kept for migration compatibility. */
+export type SessionType = ServiceId;

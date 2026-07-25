@@ -1,4 +1,4 @@
-import type { AvailabilityDay, TimeSlot } from "./types";
+import type { AvailabilityDay, ServiceId, TimeSlot } from "./types";
 
 const SLOT_HOURS = [9, 11, 14, 16];
 
@@ -6,11 +6,11 @@ function formatDate(date: Date): string {
   return date.toISOString().slice(0, 10);
 }
 
-function createSlot(date: Date, hour: number): TimeSlot {
+function createSlot(date: Date, hour: number, durationMinutes: number): TimeSlot {
   const start = new Date(date);
   start.setHours(hour, 0, 0, 0);
   const end = new Date(start);
-  end.setMinutes(end.getMinutes() + 60);
+  end.setMinutes(end.getMinutes() + durationMinutes);
 
   return {
     id: `${formatDate(date)}-${hour}`,
@@ -21,7 +21,13 @@ function createSlot(date: Date, hour: number): TimeSlot {
 }
 
 /** Mock availability for Phase 1. Swap for AvailabilityService in production. */
-export function getMockAvailability(daysAhead = 28): AvailabilityDay[] {
+export function getMockAvailability(
+  daysAhead = 28,
+  durationMinutes = 90,
+  _serviceId?: ServiceId,
+): AvailabilityDay[] {
+  void _serviceId;
+
   const days: AvailabilityDay[] = [];
   const today = new Date();
   today.setHours(0, 0, 0, 0);
@@ -33,9 +39,9 @@ export function getMockAvailability(daysAhead = 28): AvailabilityDay[] {
     const dayOfWeek = date.getDay();
     if (dayOfWeek === 0 || dayOfWeek === 6) continue;
 
-    const slots = SLOT_HOURS.map((hour) => createSlot(date, hour)).filter(
-      (_, index) => (date.getDate() + index) % 5 !== 0,
-    );
+    const slots = SLOT_HOURS.map((hour) =>
+      createSlot(date, hour, durationMinutes),
+    ).filter((_, index) => (date.getDate() + index) % 5 !== 0);
 
     if (slots.length > 0) {
       days.push({ date: formatDate(date), slots });

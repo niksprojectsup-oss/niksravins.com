@@ -27,7 +27,7 @@ export function BookingPanel({
 type SessionCardProps = {
   title: string;
   description: string;
-  duration: string;
+  duration?: string;
   selected: boolean;
   onSelect: () => void;
 };
@@ -52,7 +52,7 @@ export function SessionCard({
       <div className="layout-stack-sm">
         <h3 className="type-heading-sm">{title}</h3>
         <p className="type-body">{description}</p>
-        <p className="type-caption">{duration}</p>
+        {duration ? <p className="type-caption">{duration}</p> : null}
       </div>
     </button>
   );

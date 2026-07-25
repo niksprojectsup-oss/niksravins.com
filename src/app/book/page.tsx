@@ -6,7 +6,7 @@ import { BookingFlow } from "@/components/booking/BookingFlow";
 export const metadata: Metadata = {
   title: "Book a Session",
   description:
-    "Book an online session with Niks Ravins. Initial and follow-up sessions focused on changing automatic emotional reactions.",
+    "Book an online session with Niks Ravins. Initial AAP sessions and transformation packages focused on changing automatic emotional reactions.",
 };
 
 export default function BookPage() {

@@ -4,12 +4,13 @@ import { useMemo, useState } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
 import { getMockAvailability } from "@/lib/booking/mock-availability";
+import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
 import { createMockBooking } from "@/lib/booking/services";
 import type {
   BookingDraft,
   BookingStep,
   ClientDetails,
-  SessionType,
+  ServiceId,
 } from "@/lib/booking/types";
 import { BookingCalendar } from "./BookingCalendar";
 import { BookingConfirmation } from "./BookingConfirmation";
@@ -32,12 +33,10 @@ const STEP_ORDER: BookingStep[] = [
 ];
 
 export function BookingFlow() {
-  const availability = useMemo(() => getMockAvailability(), []);
-
   const [step, setStep] = useState<BookingStep>("session");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [draft, setDraft] = useState<BookingDraft>({
-    sessionType: null,
+    serviceId: null,
     slotId: null,
     scheduledAt: null,
     client: null,
@@ -48,13 +47,22 @@ export function BookingFlow() {
     Partial<Record<keyof ClientDetails, string>>
   >({});
 
+  const availability = useMemo(() => {
+    if (!draft.serviceId) return [];
+    return getMockAvailability(
+      28,
+      getServiceDurationMinutes(draft.serviceId),
+      draft.serviceId,
+    );
+  }, [draft.serviceId]);
+
   function goToStep(nextStep: BookingStep) {
     setStep(nextStep);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function handleNext() {
-    if (step === "session" && draft.sessionType) {
+    if (step === "session" && draft.serviceId) {
       goToStep("schedule");
       return;
     }
@@ -79,8 +87,13 @@ export function BookingFlow() {
     if (index > 0) goToStep(STEP_ORDER[index - 1]);
   }
 
-  function handleSessionSelect(type: SessionType) {
-    setDraft((prev) => ({ ...prev, sessionType: type }));
+  function handleServiceSelect(serviceId: ServiceId) {
+    setDraft((prev) => ({
+      ...prev,
+      serviceId,
+      slotId: null,
+      scheduledAt: null,
+    }));
   }
 
   function handleSlotSelect(slotId: string, scheduledAt: string) {
@@ -89,7 +102,7 @@ export function BookingFlow() {
 
   async function handleConfirmBooking() {
     if (
-      !draft.sessionType ||
+      !draft.serviceId ||
       !draft.slotId ||
       !draft.scheduledAt ||
       !draft.client
@@ -101,7 +114,7 @@ export function BookingFlow() {
 
     try {
       await createMockBooking({
-        sessionType: draft.sessionType,
+        serviceId: draft.serviceId,
         slotId: draft.slotId,
         scheduledAt: draft.scheduledAt,
         client: draft.client,
@@ -113,7 +126,7 @@ export function BookingFlow() {
   }
 
   const canContinue =
-    (step === "session" && draft.sessionType !== null) ||
+    (step === "session" && draft.serviceId !== null) ||
     (step === "schedule" && draft.slotId !== null) ||
     step === "details";
 
@@ -133,8 +146,8 @@ export function BookingFlow() {
       <div className="layout-stack-lg pt-10 md:pt-14">
         {step === "session" ? (
           <SessionSelection
-            selected={draft.sessionType}
-            onSelect={handleSessionSelect}
+            selected={draft.serviceId}
+            onSelect={handleServiceSelect}
           />
         ) : null}
 
