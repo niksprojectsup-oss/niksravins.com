@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   AdminStatusBadge,
@@ -5,10 +6,13 @@ import {
 } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
 import { adminPages } from "@/content/admin";
-import { formatAdminDate, mockClients } from "@/lib/admin/mock-data";
-import type { AdminClient } from "@/lib/admin/types";
+import { listClientRecords } from "@/lib/admin/client-repository";
+import type { ClientListItem } from "@/lib/admin/client-types";
+import { formatAdminDate } from "@/lib/admin/mock-data";
 
-export default function AdminClientsPage() {
+export default async function AdminClientsPage() {
+  const clients = await listClientRecords();
+
   return (
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader
@@ -16,13 +20,20 @@ export default function AdminClientsPage() {
         description={adminPages.clients.description}
       />
 
-      <AdminTable<AdminClient>
-        rows={mockClients}
+      <AdminTable<ClientListItem>
+        rows={clients}
         columns={[
           {
             key: "name",
             header: "Name",
-            cell: (row) => `${row.firstName} ${row.lastName}`,
+            cell: (row) => (
+              <Link
+                href={`/admin/clients/${row.id}`}
+                className="type-accent-link no-underline hover:underline"
+              >
+                {row.firstName} {row.lastName}
+              </Link>
+            ),
           },
           {
             key: "email",

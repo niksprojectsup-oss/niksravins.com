@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ClientStatus {
+  ACTIVE
+  PAUSED
+  COMPLETED
+  ARCHIVED
+}
+
+enum ChecklistType {
+  BEFORE
+  CURRENT
+}
+
+enum SessionStatus {
+  SCHEDULED
+  COMPLETED
+  CANCELLED
+  NO_SHOW
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+model Client {
+  id               String       @id @default(cuid())
+  firstName        String
+  lastName         String
+  email            String       @unique
+  country          String
+  timezone         String       @default("Europe/Riga")
+  status           ClientStatus @default(ACTIVE)
+  firstSessionDate DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  profile          ClientProfile?
+  reactionAnalysis ReactionAnalysis?
+  checklists       Checklist[]
+  sessions         Session[]
+  payments         Payment[]
+
+  @@index([status])
+  @@index([lastName, firstName])
+}
+
+model ClientProfile {
+  id                 String   @id @default(cuid())
+  clientId           String   @unique
+  practitionerNotes  String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model ReactionAnalysis {
+  id                 String   @id @default(cuid())
+  clientId           String   @unique
+  mainConcern        String   @default("")
+  triggers           String   @default("")
+  automaticReactions String   @default("")
+  bodySensations     String   @default("")
+  emotionalResponses String   @default("")
+  oldPatterns        String   @default("")
+  currentResponses   String   @default("")
+  notes              String   @default("")
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+}
+
+model Checklist {
+  id        String        @id @default(cuid())
+  clientId  String
+  type      ChecklistType
+  itemKey   String
+  checked   Boolean       @default(false)
+  updatedAt DateTime      @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, type, itemKey])
+  @@index([clientId, type])
+}
+
+model Session {
+  id             String        @id @default(cuid())
+  clientId       String
+  scheduledAt    DateTime
+  sessionType    String
+  serviceId      String?
+  status         SessionStatus @default(SCHEDULED)
+  mainTopic      String        @default("")
+  notes          String        @default("")
+  changesNoticed String        @default("")
+  nextFocus      String        @default("")
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  payments Payment[]
+
+  @@index([clientId, scheduledAt])
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  clientId    String
+  sessionId   String?
+  amountCents Int
+  currency    String        @default("EUR")
+  status      PaymentStatus @default(PENDING)
+  provider    String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  client  Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+
+  @@index([clientId])
+  @@index([sessionId])
+}
