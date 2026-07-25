@@ -74,12 +74,12 @@ export const aap = {
 
 export const testimonials = {
   intro:
-    "These are real-life changes people notice after their reactions begin to change — not new insights, but different behaviour in ordinary moments.",
+    "These are everyday changes people often notice after an automatic reaction begins to change. Not because they try harder or think differently, but because the reaction itself is no longer the same.",
   items: [
     {
       title: "The checking stops",
       description:
-        "A habit of monitoring a partner's social media ended. Not through discipline — the compulsion simply no longer arrived.",
+        "The urge to monitor a partner's social media simply fades. Not through self-control or discipline, but because the nervous system no longer treats it as something that needs to be checked.",
     },
     {
       title: "The tightening eases",
@@ -101,9 +101,14 @@ export const faq = [
       "We identify a specific automatic reaction and work with the emotional association connected to it. Sessions are structured and focused. You are not asked to perform or produce insight — the work happens at the level of the association itself.",
   },
   {
-    question: "Do I need to relive painful memories?",
-    answer:
-      "No. The work does not require detailed retelling or re-experiencing events. We work with the association as it presents now — in the reaction, in the body — not through narrative reconstruction.",
+    question: "Will I have to relive my past?",
+    answer: [
+      "Not in the way most people imagine.",
+      "The goal is not to relive painful experiences or stay in difficult emotions.",
+      "During the session, we briefly activate the specific emotional memory or learned association connected to your automatic reaction. This gives the nervous system access to the pattern that is still maintaining that response today.",
+      "From there, the focus shifts to changing how the nervous system responds. The aim is not to repeatedly revisit the past, but to allow the reaction connected to that memory to change.",
+      "Most clients are surprised by how little time is spent talking about the past compared with the amount of time spent creating change.",
+    ],
   },
   {
     question: "Is AAP psychotherapy?",

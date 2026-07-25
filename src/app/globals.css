@@ -456,6 +456,13 @@
       transform var(--nr-duration-slow) var(--nr-ease-out);
   }
 
+  @media (max-width: 767px) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   .reveal-visible {
     opacity: 1;
     transform: translateY(0);

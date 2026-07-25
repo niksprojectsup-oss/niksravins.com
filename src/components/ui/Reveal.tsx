@@ -9,6 +9,11 @@ type RevealProps = {
   delay?: number;
 };
 
+function isInViewport(element: Element) {
+  const rect = element.getBoundingClientRect();
+  return rect.top < window.innerHeight && rect.bottom > 0;
+}
+
 export function Reveal({ children, className, delay = 0 }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
@@ -20,6 +25,11 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     if (motionQuery.matches) return;
 
+    if (isInViewport(element)) {
+      setVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -27,7 +37,7 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
           observer.disconnect();
         }
       },
-      { threshold: 0.15, rootMargin: "0px 0px -5% 0px" },
+      { threshold: 0, rootMargin: "0px 0px 10% 0px" },
     );
 
     observer.observe(element);
@@ -37,7 +47,7 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
   return (
     <div
       ref={ref}
-      className={cn("reveal", visible && "reveal-visible", className)}
+      className={cn("reveal w-full", visible && "reveal-visible", className)}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}

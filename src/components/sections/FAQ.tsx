@@ -21,7 +21,17 @@ export function FAQ() {
               <dt>
                 <h3 className="type-heading-sm">{item.question}</h3>
               </dt>
-              <dd className="type-body mt-4 md:mt-5">{item.answer}</dd>
+              <dd className="type-body mt-4 md:mt-5">
+                {Array.isArray(item.answer) ? (
+                  <div className="layout-stack-sm">
+                    {item.answer.map((paragraph) => (
+                      <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+                    ))}
+                  </div>
+                ) : (
+                  item.answer
+                )}
+              </dd>
             </div>
           ))}
         </dl>
