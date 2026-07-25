@@ -4,7 +4,7 @@ export const siteConfig = {
   availability: "Online sessions worldwide",
   brandDescriptor: "Automatic Nervous System Response Rewriting Specialist",
   email: "hello@niksravins.com",
-  bookingUrl: "#contact",
+  bookingUrl: "/book",
 } as const;
 
 export const navigation = [
@@ -22,7 +22,7 @@ export const hero = {
     "Most people who come here already understand their patterns. Talking explained them. It did not change the reaction.",
     "Sessions focus on identifying and changing those learned emotional associations.",
   ],
-  primaryCta: { label: "Book a Session", href: "#contact" },
+  primaryCta: { label: "Book a Session", href: "/book" },
   secondaryCta: { label: "How AAP Works", href: "#aap" },
 } as const;
 
@@ -138,5 +138,5 @@ export const finalCta = {
     "but your reactions still feel automatic,",
     "perhaps it isn't understanding that's missing.",
   ],
-  button: { label: "Book a Session", href: "#contact" },
+  button: { label: "Book a Session", href: "/book" },
 } as const;

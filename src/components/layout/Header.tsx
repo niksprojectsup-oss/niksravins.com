@@ -54,7 +54,7 @@ export function Header() {
             </Link>
           ))}
           <Link
-            href="#contact"
+            href="/book"
             className="type-caption font-medium text-accent no-underline transition-colors duration-300 hover:text-accent-strong"
           >
             Book
@@ -140,7 +140,7 @@ export function Header() {
           ))}
           <li className="pt-4">
             <Link
-              href="#contact"
+              href="/book"
               className="inline-flex min-h-12 items-center text-accent no-underline"
               onClick={() => setMenuOpen(false)}
             >
