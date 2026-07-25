@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { about } from "@/content/site";
 import { Section } from "@/components/ui/Section";
 
@@ -6,21 +7,14 @@ export function About() {
     <Section id="about" size="lg" aria-labelledby="about-heading">
       <div className="grid gap-12 md:gap-16 lg:grid-cols-[minmax(0,16rem)_1fr] lg:gap-24 lg:items-start">
         <div className="mx-auto w-full max-w-[14rem] lg:mx-0 lg:max-w-none">
-          <div
-            className="relative aspect-[3/4] w-full overflow-hidden bg-surface-muted"
-            role="img"
-            aria-label="Professional portrait placeholder for Niks Ravins"
-          >
-            <div
-              aria-hidden
-              className="absolute inset-6 border border-border-subtle"
+          <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-surface-muted">
+            <Image
+              src="/images/niks.jpg"
+              alt="Portrait of Niks Ravins"
+              fill
+              sizes="(max-width: 1024px) 224px, 256px"
+              className="object-cover"
             />
-            <span
-              aria-hidden
-              className="absolute bottom-8 left-8 font-display text-4xl tracking-tight text-ink-faint/50"
-            >
-              NR
-            </span>
           </div>
         </div>
 

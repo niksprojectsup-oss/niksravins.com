@@ -6,37 +6,22 @@ export function Testimonials() {
   return (
     <Section size="lg" aria-labelledby="testimonials-heading">
       <div className="max-w-wide">
-        <header className="layout-stack-sm layout-section-header max-w-prose">
+        <header className="layout-stack-sm layout-section-header max-w-prose md:layout-stack-md">
           <p className="type-label">Observed changes</p>
           <h2 id="testimonials-heading" className="type-heading">
             What shifts in daily life
           </h2>
+          <p className="type-body">{testimonials.intro}</p>
         </header>
 
-        <ul className="layout-stack-md list-none md:layout-stack-lg">
-          {testimonials.map((item, index) => (
-            <li
-              key={item.before}
-              className="border-t border-border-subtle pt-6 first:border-t-0 first:pt-0 md:pt-stack-md"
-            >
-              <Reveal delay={index * 100}>
-                <figure className="max-w-prose layout-stack-sm md:layout-stack-md">
-                  <blockquote className="layout-stack-sm">
-                    <p className="type-body">
-                      <span className="text-ink-faint">Before: </span>
-                      {item.before}
-                    </p>
-                    <p className="type-editorial text-ink">
-                      <span className="font-sans text-sm text-ink-faint">
-                        After:{" "}
-                      </span>
-                      {item.after}
-                    </p>
-                  </blockquote>
-                  <figcaption className="type-caption">
-                    {item.attribution}
-                  </figcaption>
-                </figure>
+        <ul className="grid list-none gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-3 lg:gap-8">
+          {testimonials.items.map((item, index) => (
+            <li key={item.title} className="flex">
+              <Reveal delay={index * 80} className="flex flex-1">
+                <article className="observed-card flex flex-1 flex-col p-7 md:p-8">
+                  <h3 className="type-heading-sm">{item.title}</h3>
+                  <p className="type-body mt-4 flex-1">{item.description}</p>
+                </article>
               </Reveal>
             </li>
           ))}

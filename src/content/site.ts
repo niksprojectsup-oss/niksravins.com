@@ -72,23 +72,27 @@ export const aap = {
   ],
 } as const;
 
-export const testimonials = [
-  {
-    before: "I constantly checked my partner's social media.",
-    after: "I simply stopped feeling the need.",
-    attribution: "Client, 34",
-  },
-  {
-    before: "Every meeting at work, my chest tightened before I spoke.",
-    after: "I still prepare. The tightening rarely comes.",
-    attribution: "Client, 41",
-  },
-  {
-    before: "I knew my anger wasn't about what was happening in front of me.",
-    after: "It stopped arriving before I could think.",
-    attribution: "Client, 38",
-  },
-] as const;
+export const testimonials = {
+  intro:
+    "These are real-life changes people notice after their reactions begin to change — not new insights, but different behaviour in ordinary moments.",
+  items: [
+    {
+      title: "The checking stops",
+      description:
+        "A habit of monitoring a partner's social media ended. Not through discipline — the compulsion simply no longer arrived.",
+    },
+    {
+      title: "The tightening eases",
+      description:
+        "Chest tightness before speaking at work rarely comes now. Preparation continues. The body no longer responds the same way.",
+    },
+    {
+      title: "The anger arrives less",
+      description:
+        "Anger that had nothing to do with the present moment stopped coming ahead of thought. The situation didn't change. The reaction did.",
+    },
+  ],
+} as const;
 
 export const faq = [
   {

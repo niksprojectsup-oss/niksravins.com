@@ -460,4 +460,20 @@
     opacity: 1;
     transform: translateY(0);
   }
+
+  .observed-card {
+    background-color: var(--nr-surface);
+    border: 1px solid var(--nr-border-subtle);
+    border-radius: var(--nr-radius-lg);
+    transition:
+      border-color var(--nr-duration-normal) var(--nr-ease-out),
+      background-color var(--nr-duration-normal) var(--nr-ease-out);
+  }
+
+  @media (hover: hover) and (min-width: 768px) {
+    .observed-card:hover {
+      border-color: var(--nr-border);
+      background-color: var(--nr-surface-elevated);
+    }
+  }
 }
