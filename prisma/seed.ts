@@ -2,11 +2,29 @@ import {
   BEFORE_CHECKLIST_ITEMS,
   CURRENT_CHECKLIST_ITEMS,
 } from "../src/lib/admin/client-constants";
+import { hashPassword } from "../src/lib/auth/password";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
+  const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@niksravins.com").toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD ?? "change-me-in-production";
+  const passwordHash = await hashPassword(adminPassword);
+
+  await prisma.user.upsert({
+    where: { email: adminEmail },
+    create: {
+      email: adminEmail,
+      passwordHash,
+      role: "ADMIN",
+    },
+    update: {
+      passwordHash,
+      role: "ADMIN",
+    },
+  });
+
   const clients = [
     {
       id: "cl_001",

@@ -6,6 +6,7 @@ import { useState } from "react";
 import { adminNav } from "@/content/admin";
 import { siteConfig } from "@/content/site";
 import { cn } from "@/lib/utils";
+import { AdminLogoutButton } from "@/components/admin/AdminLogoutButton";
 
 export function AdminSidebar() {
   const pathname = usePathname();
@@ -75,9 +76,7 @@ export function AdminSidebar() {
             </ul>
           </nav>
 
-          <p className="type-caption text-ink-faint">
-            Private area · Auth coming soon
-          </p>
+          <AdminLogoutButton />
         </div>
       </aside>
 

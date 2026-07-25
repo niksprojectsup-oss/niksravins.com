@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { saveReactionAnalysisAction } from "@/app/admin/clients/[id]/actions";
+import { saveReactionAnalysisAction } from "@/lib/admin/actions/clients";
 import { Field, Textarea } from "@/components/ui/Field";
 import { REACTION_ANALYSIS_FIELDS } from "@/lib/admin/client-constants";
 import type { ClientWorkspace, ReactionAnalysisInput } from "@/lib/admin/client-types";

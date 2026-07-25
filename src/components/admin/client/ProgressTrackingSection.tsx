@@ -1,7 +1,7 @@
 "use client";
 
 import { useTransition } from "react";
-import { saveChecklistItemAction } from "@/app/admin/clients/[id]/actions";
+import { saveChecklistItemAction } from "@/lib/admin/actions/clients";
 import {
   BEFORE_CHECKLIST_ITEMS,
   CURRENT_CHECKLIST_ITEMS,

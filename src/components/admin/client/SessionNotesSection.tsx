@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { addSessionNoteAction } from "@/app/admin/clients/[id]/actions";
+import { addSessionNoteAction } from "@/lib/admin/actions/clients";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Field";
 import { formatAdminDateTime } from "@/lib/admin/mock-data";

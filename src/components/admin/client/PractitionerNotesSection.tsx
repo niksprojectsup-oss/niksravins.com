@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { savePractitionerNotesAction } from "@/app/admin/clients/[id]/actions";
+import { savePractitionerNotesAction } from "@/lib/admin/actions/clients";
 import { Button } from "@/components/ui/Button";
 import { Field, Textarea } from "@/components/ui/Field";
 

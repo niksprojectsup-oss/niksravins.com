@@ -17,6 +17,13 @@ import type {
   SessionNoteInput,
 } from "./client-types";
 import { isDatabaseConfigured, prisma } from "@/lib/db/prisma";
+import {
+  decryptField,
+  decryptFields,
+  encryptField,
+  encryptFields,
+  SENSITIVE_FIELD_GROUPS,
+} from "@/lib/security/encryption";
 import type { ChecklistType } from "@prisma/client";
 
 function mapChecklist(items: { itemKey: string; checked: boolean; type: ChecklistType }[]) {
@@ -48,6 +55,31 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
 
   if (!client) return null;
 
+  const reactionAnalysis = client.reactionAnalysis
+    ? decryptFields(
+        {
+          mainConcern: client.reactionAnalysis.mainConcern,
+          triggers: client.reactionAnalysis.triggers,
+          automaticReactions: client.reactionAnalysis.automaticReactions,
+          bodySensations: client.reactionAnalysis.bodySensations,
+          emotionalResponses: client.reactionAnalysis.emotionalResponses,
+          oldPatterns: client.reactionAnalysis.oldPatterns,
+          currentResponses: client.reactionAnalysis.currentResponses,
+          notes: client.reactionAnalysis.notes,
+        },
+        SENSITIVE_FIELD_GROUPS.reactionAnalysis,
+      )
+    : {
+        mainConcern: "",
+        triggers: "",
+        automaticReactions: "",
+        bodySensations: "",
+        emotionalResponses: "",
+        oldPatterns: "",
+        currentResponses: "",
+        notes: "",
+      };
+
   return {
     id: client.id,
     firstName: client.firstName,
@@ -57,28 +89,19 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     timezone: client.timezone,
     status: client.status,
     firstSessionDate: client.firstSessionDate?.toISOString() ?? null,
-    reactionAnalysis: {
-      mainConcern: client.reactionAnalysis?.mainConcern ?? "",
-      triggers: client.reactionAnalysis?.triggers ?? "",
-      automaticReactions: client.reactionAnalysis?.automaticReactions ?? "",
-      bodySensations: client.reactionAnalysis?.bodySensations ?? "",
-      emotionalResponses: client.reactionAnalysis?.emotionalResponses ?? "",
-      oldPatterns: client.reactionAnalysis?.oldPatterns ?? "",
-      currentResponses: client.reactionAnalysis?.currentResponses ?? "",
-      notes: client.reactionAnalysis?.notes ?? "",
-    },
+    reactionAnalysis,
     checklist: mapChecklist(client.checklists),
     sessionNotes: client.sessions.map((session) => ({
       id: session.id,
       scheduledAt: session.scheduledAt.toISOString(),
       sessionType: session.sessionType,
       mainTopic: session.mainTopic,
-      notes: session.notes,
-      changesNoticed: session.changesNoticed,
-      nextFocus: session.nextFocus,
+      notes: decryptField(session.notes),
+      changesNoticed: decryptField(session.changesNoticed),
+      nextFocus: decryptField(session.nextFocus),
       status: session.status,
     })),
-    practitionerNotes: client.profile?.practitionerNotes ?? "",
+    practitionerNotes: decryptField(client.profile?.practitionerNotes ?? ""),
   };
 }
 
@@ -138,10 +161,11 @@ export async function updateReactionAnalysis(
 ): Promise<ClientWorkspace | null> {
   if (isDatabaseConfigured()) {
     try {
+      const encrypted = encryptFields(data, SENSITIVE_FIELD_GROUPS.reactionAnalysis);
       await prisma.reactionAnalysis.upsert({
         where: { clientId },
-        create: { clientId, ...data },
-        update: data,
+        create: { clientId, ...encrypted },
+        update: encrypted,
       });
       return getClientWorkspace(clientId);
     } catch {
@@ -199,8 +223,8 @@ export async function updatePractitionerNotes(
     try {
       await prisma.clientProfile.upsert({
         where: { clientId },
-        create: { clientId, practitionerNotes: notes },
-        update: { practitionerNotes: notes },
+        create: { clientId, practitionerNotes: encryptField(notes) },
+        update: { practitionerNotes: encryptField(notes) },
       });
       return getClientWorkspace(clientId);
     } catch {
@@ -226,9 +250,9 @@ export async function addSessionNote(
           scheduledAt: new Date(input.scheduledAt),
           sessionType: input.sessionType,
           mainTopic: input.mainTopic,
-          notes: input.notes,
-          changesNoticed: input.changesNoticed,
-          nextFocus: input.nextFocus,
+          notes: encryptField(input.notes),
+          changesNoticed: encryptField(input.changesNoticed),
+          nextFocus: encryptField(input.nextFocus),
           status: "COMPLETED",
         },
       });
@@ -238,9 +262,9 @@ export async function addSessionNote(
         scheduledAt: session.scheduledAt.toISOString(),
         sessionType: session.sessionType,
         mainTopic: session.mainTopic,
-        notes: session.notes,
-        changesNoticed: session.changesNoticed,
-        nextFocus: session.nextFocus,
+        notes: input.notes,
+        changesNoticed: input.changesNoticed,
+        nextFocus: input.nextFocus,
         status: session.status,
       };
     } catch {
