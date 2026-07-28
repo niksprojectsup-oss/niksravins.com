@@ -5,7 +5,7 @@ import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
 import { getMockAvailability } from "@/lib/booking/mock-availability";
 import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
-import { createMockBooking } from "@/lib/booking/services";
+import { createBookingAction } from "@/lib/booking/actions";
 import type {
   BookingDraft,
   BookingStep,
@@ -46,6 +46,7 @@ export function BookingFlow() {
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof ClientDetails, string>>
   >({});
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const availability = useMemo(() => {
     if (!draft.serviceId) return [];
@@ -111,14 +112,21 @@ export function BookingFlow() {
     }
 
     setIsSubmitting(true);
+    setSubmitError(null);
 
     try {
-      await createMockBooking({
+      const result = await createBookingAction({
         serviceId: draft.serviceId,
         slotId: draft.slotId,
         scheduledAt: draft.scheduledAt,
         client: draft.client,
       });
+
+      if (!result.success) {
+        setSubmitError(result.error);
+        return;
+      }
+
       goToStep("confirmed");
     } finally {
       setIsSubmitting(false);
@@ -172,6 +180,7 @@ export function BookingFlow() {
           <PaymentPlaceholder
             onConfirm={handleConfirmBooking}
             isSubmitting={isSubmitting}
+            error={submitError}
           />
         ) : null}
 

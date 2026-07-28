@@ -27,3 +27,12 @@ export function getServiceById(id: ServiceId): BookableService | undefined {
 export function getServiceDurationMinutes(id: ServiceId): number {
   return getServiceById(id)?.durationMinutes ?? 90;
 }
+
+export const SERVICE_PRICES_CENTS: Record<ServiceId, number> = {
+  "initial-aap-session": 18000,
+  "aap-transformation-package": 88000,
+};
+
+export function getServicePriceCents(id: ServiceId): number {
+  return SERVICE_PRICES_CENTS[id];
+}

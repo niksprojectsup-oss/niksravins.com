@@ -33,6 +33,12 @@ enum PaymentStatus {
   REFUNDED
 }
 
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
 enum UserRole {
   ADMIN
   CLIENT
@@ -143,6 +149,7 @@ model Client {
   checklists       Checklist[]
   sessions         Session[]
   payments         Payment[]
+  bookings         Booking[]
   user             User?
 
   @@index([status])
@@ -206,8 +213,29 @@ model Session {
 
   client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
   payments Payment[]
+  booking  Booking?
 
   @@index([clientId, scheduledAt])
+  @@index([scheduledAt])
+  @@index([status])
+}
+
+model Booking {
+  id               String        @id @default(cuid())
+  clientId         String
+  sessionId        String        @unique
+  serviceId        String
+  slotId           String
+  sessionIntention String        @default("")
+  status           BookingStatus @default(CONFIRMED)
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+  @@index([createdAt])
 }
 
 model Payment {

@@ -181,20 +181,44 @@ export function getMockClientWorkspace(id: string): ClientWorkspace | null {
 }
 
 export function getMockClientList(): ClientListItem[] {
-  return Object.values(mockClientWorkspaces).map((client) => ({
-    id: client.id,
-    firstName: client.firstName,
-    lastName: client.lastName,
-    email: client.email,
-    country: client.country,
-    timezone: client.timezone,
-    sessionsCount: client.sessionNotes.length,
-    lastSessionAt: client.sessionNotes[0]?.scheduledAt ?? null,
-    paymentStatus:
-      client.id === "cl_002" ? ("pending" as const) : ("paid" as const),
-    createdAt: client.firstSessionDate ?? new Date().toISOString(),
-    status: client.status,
-  }));
+  const now = Date.now();
+
+  return Object.values(mockClientWorkspaces).map((client) => {
+    const sortedSessions = [...client.sessionNotes].sort(
+      (a, b) => new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime(),
+    );
+    const past = sortedSessions.filter(
+      (session) =>
+        session.status === "COMPLETED" ||
+        new Date(session.scheduledAt).getTime() <= now,
+    );
+    const upcoming = sortedSessions
+      .filter(
+        (session) =>
+          session.status === "SCHEDULED" &&
+          new Date(session.scheduledAt).getTime() > now,
+      )
+      .sort(
+        (a, b) =>
+          new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime(),
+      );
+
+    return {
+      id: client.id,
+      firstName: client.firstName,
+      lastName: client.lastName,
+      email: client.email,
+      country: client.country,
+      timezone: client.timezone,
+      sessionsCount: client.sessionNotes.length,
+      lastSessionAt: past[0]?.scheduledAt ?? null,
+      nextSessionAt: upcoming[0]?.scheduledAt ?? null,
+      paymentStatus:
+        client.id === "cl_002" ? ("pending" as const) : ("paid" as const),
+      createdAt: client.firstSessionDate ?? new Date().toISOString(),
+      status: client.status,
+    };
+  });
 }
 
 export function createEmptyMockWorkspace(id: string): ClientWorkspace {

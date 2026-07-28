@@ -5,10 +5,13 @@ import {
 } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
 import { adminPages } from "@/content/admin";
-import { formatAdminDateTime, mockSessions } from "@/lib/admin/mock-data";
+import { formatAdminDateTime } from "@/lib/admin/mock-data";
+import { listAdminSessions } from "@/lib/admin/session-repository";
 import type { AdminSession } from "@/lib/admin/types";
 
-export default function AdminSessionsPage() {
+export default async function AdminSessionsPage() {
+  const sessions = await listAdminSessions();
+
   return (
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader
@@ -17,7 +20,8 @@ export default function AdminSessionsPage() {
       />
 
       <AdminTable<AdminSession>
-        rows={mockSessions}
+        rows={sessions}
+        emptyMessage="No sessions yet. Bookings will appear here once submitted."
         columns={[
           {
             key: "client",

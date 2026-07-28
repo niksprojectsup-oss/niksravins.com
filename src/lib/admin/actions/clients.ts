@@ -4,7 +4,10 @@ import { revalidatePath } from "next/cache";
 import { requireAdmin, requireClientAccess } from "@/lib/auth/guards";
 import {
   addSessionNote,
+  archiveClientRecord,
+  deleteClientRecord,
   updateChecklistItem,
+  updateClientRecord,
   updatePractitionerNotes,
   updateReactionAnalysis,
 } from "@/lib/admin/client-repository";
@@ -72,4 +75,74 @@ export async function addSessionNoteAction(clientId: string, input: SessionNoteI
     actorRole: session.role,
   });
   revalidatePath(`/admin/clients/${clientId}`);
+}
+
+export async function updateClientAction(
+  clientId: string,
+  input: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    country: string;
+    timezone: string;
+  },
+) {
+  const session = await requireAdmin();
+  const updated = await updateClientRecord(clientId, input);
+  if (!updated) {
+    return { error: "Unable to update client." };
+  }
+
+  await logAuditEvent({
+    action: "client.update",
+    resource: "client",
+    resourceId: clientId,
+    actorAdminId: session.id,
+    actorRole: session.role,
+  });
+
+  revalidatePath("/admin/clients");
+  revalidatePath(`/admin/clients/${clientId}`);
+  return { success: true as const };
+}
+
+export async function archiveClientAction(clientId: string) {
+  const session = await requireAdmin();
+  const archived = await archiveClientRecord(clientId);
+  if (!archived) {
+    return { error: "Unable to archive client." };
+  }
+
+  await logAuditEvent({
+    action: "client.update",
+    resource: "client",
+    resourceId: clientId,
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { status: "ARCHIVED" },
+  });
+
+  revalidatePath("/admin/clients");
+  revalidatePath(`/admin/clients/${clientId}`);
+  return { success: true as const };
+}
+
+export async function deleteClientAction(clientId: string) {
+  const session = await requireAdmin();
+  const deleted = await deleteClientRecord(clientId);
+  if (!deleted) {
+    return { error: "Unable to delete client." };
+  }
+
+  await logAuditEvent({
+    action: "data.delete",
+    resource: "client",
+    resourceId: clientId,
+    actorAdminId: session.id,
+    actorRole: session.role,
+  });
+
+  revalidatePath("/admin/clients");
+  revalidatePath("/admin/calendar");
+  revalidatePath("/admin/sessions");
 }

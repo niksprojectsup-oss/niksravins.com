@@ -11,7 +11,9 @@ import type {
   ChecklistInput,
   ChecklistUpdatePayload,
   ClientListItem,
+  ClientListSort,
   ClientSessionNote,
+  ClientUpdateInput,
   ClientWorkspace,
   ReactionAnalysisInput,
   SessionNoteInput,
@@ -24,7 +26,110 @@ import {
   encryptFields,
   SENSITIVE_FIELD_GROUPS,
 } from "@/lib/security/encryption";
-import type { ChecklistType } from "@prisma/client";
+import type { ChecklistType, ClientStatus } from "@prisma/client";
+
+function computeSessionDates(
+  sessions: { scheduledAt: Date; status: string }[],
+  now = new Date(),
+) {
+  const past = sessions
+    .filter(
+      (session) =>
+        session.status === "COMPLETED" || session.scheduledAt.getTime() <= now.getTime(),
+    )
+    .sort((a, b) => b.scheduledAt.getTime() - a.scheduledAt.getTime());
+
+  const upcoming = sessions
+    .filter(
+      (session) =>
+        session.status === "SCHEDULED" && session.scheduledAt.getTime() > now.getTime(),
+    )
+    .sort((a, b) => a.scheduledAt.getTime() - b.scheduledAt.getTime());
+
+  return {
+    lastSessionAt: past[0]?.scheduledAt.toISOString() ?? null,
+    nextSessionAt: upcoming[0]?.scheduledAt.toISOString() ?? null,
+  };
+}
+
+function sortClientList(items: ClientListItem[], sort: ClientListSort): ClientListItem[] {
+  const rows = [...items];
+
+  switch (sort) {
+    case "newest":
+      return rows.sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+      );
+    case "last_session":
+      return rows.sort((a, b) => {
+        if (!a.lastSessionAt && !b.lastSessionAt) return 0;
+        if (!a.lastSessionAt) return 1;
+        if (!b.lastSessionAt) return -1;
+        return new Date(b.lastSessionAt).getTime() - new Date(a.lastSessionAt).getTime();
+      });
+    case "next_session":
+      return rows.sort((a, b) => {
+        if (!a.nextSessionAt && !b.nextSessionAt) return 0;
+        if (!a.nextSessionAt) return 1;
+        if (!b.nextSessionAt) return -1;
+        return new Date(a.nextSessionAt).getTime() - new Date(b.nextSessionAt).getTime();
+      });
+    case "alphabetical":
+    default:
+      return rows.sort((a, b) => {
+        const last = a.lastName.localeCompare(b.lastName);
+        if (last !== 0) return last;
+        return a.firstName.localeCompare(b.firstName);
+      });
+  }
+}
+
+function filterClientList(items: ClientListItem[], search?: string): ClientListItem[] {
+  const query = search?.trim().toLowerCase();
+  if (!query) return items;
+
+  return items.filter(
+    (client) =>
+      client.firstName.toLowerCase().includes(query) ||
+      client.lastName.toLowerCase().includes(query) ||
+      client.email.toLowerCase().includes(query),
+  );
+}
+
+function mapClientListItem(client: {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  country: string;
+  timezone: string;
+  status: ClientStatus;
+  createdAt: Date;
+  sessions: { scheduledAt: Date; status: string }[];
+  payments: { status: string }[];
+  _count: { sessions: number };
+}): ClientListItem {
+  const { lastSessionAt, nextSessionAt } = computeSessionDates(client.sessions);
+
+  return {
+    id: client.id,
+    firstName: client.firstName,
+    lastName: client.lastName,
+    email: client.email,
+    country: client.country,
+    timezone: client.timezone,
+    sessionsCount: client._count.sessions,
+    lastSessionAt,
+    nextSessionAt,
+    paymentStatus: (client.payments[0]?.status.toLowerCase() ?? "pending") as
+      | "pending"
+      | "paid"
+      | "failed"
+      | "refunded",
+    createdAt: client.createdAt.toISOString(),
+    status: client.status,
+  };
+}
 
 function mapChecklist(items: { itemKey: string; checked: boolean; type: ChecklistType }[]) {
   const before = Object.fromEntries(
@@ -118,41 +223,35 @@ export async function getClientWorkspace(id: string): Promise<ClientWorkspace | 
   return getMockClientWorkspace(id);
 }
 
-export async function listClientRecords(): Promise<ClientListItem[]> {
+export async function listClientRecords(options?: {
+  search?: string;
+  sort?: ClientListSort;
+}): Promise<ClientListItem[]> {
+  const sort = options?.sort ?? "alphabetical";
+
   if (isDatabaseConfigured()) {
     try {
       const clients = await prisma.client.findMany({
         include: {
-          sessions: { orderBy: { scheduledAt: "desc" }, take: 1 },
+          sessions: { select: { scheduledAt: true, status: true } },
           payments: { orderBy: { createdAt: "desc" }, take: 1 },
           _count: { select: { sessions: true } },
         },
-        orderBy: { lastName: "asc" },
       });
 
-      return clients.map((client) => ({
-        id: client.id,
-        firstName: client.firstName,
-        lastName: client.lastName,
-        email: client.email,
-        country: client.country,
-        timezone: client.timezone,
-        sessionsCount: client._count.sessions,
-        lastSessionAt: client.sessions[0]?.scheduledAt.toISOString() ?? null,
-        paymentStatus: (client.payments[0]?.status.toLowerCase() ?? "pending") as
-          | "pending"
-          | "paid"
-          | "failed"
-          | "refunded",
-        createdAt: client.createdAt.toISOString(),
-        status: client.status,
-      }));
+      const mapped = clients.map(mapClientListItem);
+      return sortClientList(filterClientList(mapped, options?.search), sort);
     } catch {
       // Fall through to mock data.
     }
   }
 
-  return getMockClientList();
+  const mockClients = getMockClientList().map((client) => ({
+    ...client,
+    nextSessionAt: null,
+  }));
+
+  return sortClientList(filterClientList(mockClients, options?.search), sort);
 }
 
 export async function updateReactionAnalysis(
@@ -291,4 +390,72 @@ export async function replaceChecklistState(
   const workspace = mockClientWorkspaces[clientId];
   if (workspace) workspace.checklist = checklist;
   return workspace ?? getClientWorkspace(clientId);
+}
+
+export async function updateClientRecord(
+  clientId: string,
+  input: ClientUpdateInput,
+): Promise<ClientWorkspace | null> {
+  const normalizedEmail = input.email.trim().toLowerCase();
+
+  if (isDatabaseConfigured()) {
+    try {
+      await prisma.client.update({
+        where: { id: clientId },
+        data: {
+          firstName: input.firstName.trim(),
+          lastName: input.lastName.trim(),
+          email: normalizedEmail,
+          country: input.country,
+          timezone: input.timezone,
+        },
+      });
+      return getClientWorkspace(clientId);
+    } catch {
+      return null;
+    }
+  }
+
+  const workspace = mockClientWorkspaces[clientId];
+  if (!workspace) return null;
+
+  workspace.firstName = input.firstName.trim();
+  workspace.lastName = input.lastName.trim();
+  workspace.email = normalizedEmail;
+  workspace.country = input.country;
+  workspace.timezone = input.timezone;
+  return workspace;
+}
+
+export async function archiveClientRecord(clientId: string): Promise<boolean> {
+  if (isDatabaseConfigured()) {
+    try {
+      await prisma.client.update({
+        where: { id: clientId },
+        data: { status: "ARCHIVED" },
+      });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  const workspace = mockClientWorkspaces[clientId];
+  if (!workspace) return false;
+  workspace.status = "ARCHIVED";
+  return true;
+}
+
+export async function deleteClientRecord(clientId: string): Promise<boolean> {
+  if (isDatabaseConfigured()) {
+    try {
+      await prisma.client.delete({ where: { id: clientId } });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  delete mockClientWorkspaces[clientId];
+  return true;
 }

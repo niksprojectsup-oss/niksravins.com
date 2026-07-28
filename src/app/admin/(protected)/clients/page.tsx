@@ -1,17 +1,39 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import {
   AdminStatusBadge,
-  paymentStatusVariant,
+  clientStatusVariant,
 } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
+import { ClientsToolbar } from "@/components/admin/ClientsToolbar";
 import { adminPages } from "@/content/admin";
 import { listClientRecords } from "@/lib/admin/client-repository";
-import type { ClientListItem } from "@/lib/admin/client-types";
+import type { ClientListItem, ClientListSort } from "@/lib/admin/client-types";
 import { formatAdminDate } from "@/lib/admin/mock-data";
 
-export default async function AdminClientsPage() {
-  const clients = await listClientRecords();
+type AdminClientsPageProps = {
+  searchParams: Promise<{ q?: string; sort?: string }>;
+};
+
+function parseSort(value?: string): ClientListSort {
+  if (
+    value === "newest" ||
+    value === "alphabetical" ||
+    value === "last_session" ||
+    value === "next_session"
+  ) {
+    return value;
+  }
+  return "alphabetical";
+}
+
+export default async function AdminClientsPage({ searchParams }: AdminClientsPageProps) {
+  const params = await searchParams;
+  const clients = await listClientRecords({
+    search: params.q,
+    sort: parseSort(params.sort),
+  });
 
   return (
     <div className="layout-stack-lg max-w-wide">
@@ -20,8 +42,17 @@ export default async function AdminClientsPage() {
         description={adminPages.clients.description}
       />
 
+      <Suspense fallback={null}>
+        <ClientsToolbar />
+      </Suspense>
+
       <AdminTable<ClientListItem>
         rows={clients}
+        emptyMessage={
+          params.q
+            ? "No clients match your search."
+            : "No clients yet. Bookings will appear here once submitted."
+        }
         columns={[
           {
             key: "name",
@@ -47,22 +78,22 @@ export default async function AdminClientsPage() {
           },
           {
             key: "sessions",
-            header: "Sessions",
+            header: "Total sessions",
             cell: (row) => row.sessionsCount,
           },
           {
-            key: "lastSession",
-            header: "Last session",
+            key: "nextSession",
+            header: "Next session",
             cell: (row) =>
-              row.lastSessionAt ? formatAdminDate(row.lastSessionAt) : "—",
+              row.nextSessionAt ? formatAdminDate(row.nextSessionAt) : "—",
           },
           {
-            key: "paymentStatus",
-            header: "Payment status",
+            key: "status",
+            header: "Status",
             cell: (row) => (
               <AdminStatusBadge
-                label={row.paymentStatus}
-                variant={paymentStatusVariant(row.paymentStatus)}
+                label={String(row.status).toLowerCase()}
+                variant={clientStatusVariant(String(row.status))}
               />
             ),
           },

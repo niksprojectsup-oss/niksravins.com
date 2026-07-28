@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { ClientManagementPanel } from "@/components/admin/client/ClientManagementPanel";
 import { ClientOverview, ClientProfileHeader } from "@/components/admin/client/ClientOverview";
 import { PractitionerNotesSection } from "@/components/admin/client/PractitionerNotesSection";
 import { ProgressTrackingSection } from "@/components/admin/client/ProgressTrackingSection";
@@ -21,6 +22,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
   return (
     <div className="layout-stack-lg max-w-wide">
       <ClientProfileHeader client={client} />
+      <ClientManagementPanel client={client} />
       <ClientOverview client={client} />
       <ReactionAnalysisSection
         clientId={client.id}

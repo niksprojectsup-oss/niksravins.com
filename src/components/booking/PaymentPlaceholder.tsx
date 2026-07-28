@@ -5,11 +5,13 @@ import { BookingPanel } from "./BookingPanel";
 type PaymentPlaceholderProps = {
   onConfirm: () => void;
   isSubmitting?: boolean;
+  error?: string | null;
 };
 
 export function PaymentPlaceholder({
   onConfirm,
   isSubmitting = false,
+  error,
 }: PaymentPlaceholderProps) {
   return (
     <BookingPanel
@@ -40,6 +42,12 @@ export function PaymentPlaceholder({
         </div>
 
         <p className="type-caption">{bookingContent.payment.placeholderNote}</p>
+
+        {error ? (
+          <p className="type-caption text-warm" role="alert">
+            {error}
+          </p>
+        ) : null}
 
         <Button
           type="button"

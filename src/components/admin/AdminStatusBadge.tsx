@@ -59,3 +59,20 @@ export function paymentStatusVariant(
       return "default";
   }
 }
+
+export function clientStatusVariant(
+  status: string,
+): AdminStatusBadgeProps["variant"] {
+  switch (status.toLowerCase()) {
+    case "active":
+      return "accent";
+    case "paused":
+      return "muted";
+    case "completed":
+      return "default";
+    case "archived":
+      return "warm";
+    default:
+      return "default";
+  }
+}

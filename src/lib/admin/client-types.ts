@@ -37,10 +37,21 @@ export interface ClientListItem {
   timezone: string;
   sessionsCount: number;
   lastSessionAt: string | null;
+  nextSessionAt: string | null;
   paymentStatus: "pending" | "paid" | "failed" | "refunded";
   createdAt: string;
   status: string;
 }
+
+export type ClientListSort = "newest" | "alphabetical" | "last_session" | "next_session";
+
+export type ClientUpdateInput = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  country: string;
+  timezone: string;
+};
 
 export interface ClientWorkspace {
   id: string;
