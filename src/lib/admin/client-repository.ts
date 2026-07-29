@@ -2,23 +2,21 @@ import {
   BEFORE_CHECKLIST_ITEMS,
   CURRENT_CHECKLIST_ITEMS,
 } from "./client-constants";
-import {
-  getMockClientList,
-  getMockClientWorkspace,
-  mockClientWorkspaces,
-} from "./mock-client-workspaces";
 import type {
   ChecklistInput,
   ChecklistUpdatePayload,
+  ClientBookingRecord,
   ClientListItem,
   ClientListSort,
   ClientSessionNote,
+  ClientTimelineEvent,
   ClientUpdateInput,
   ClientWorkspace,
   ReactionAnalysisInput,
   SessionNoteInput,
 } from "./client-types";
-import { isDatabaseConfigured, prisma } from "@/lib/db/prisma";
+import { getServiceById } from "@/lib/booking/services-catalog";
+import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
   decryptField,
   decryptFields,
@@ -147,6 +145,69 @@ function mapChecklist(items: { itemKey: string; checked: boolean; type: Checklis
   return { before, current };
 }
 
+function mapBookings(
+  bookings: {
+    id: string;
+    serviceId: string;
+    sessionIntention: string;
+    status: string;
+    createdAt: Date;
+    session: { scheduledAt: Date; sessionType: string };
+  }[],
+): ClientBookingRecord[] {
+  return bookings.map((booking) => ({
+    id: booking.id,
+    serviceId: booking.serviceId,
+    serviceTitle:
+      getServiceById(booking.serviceId as "initial-aap-session" | "aap-transformation-package")
+        ?.title ?? booking.session.sessionType,
+    scheduledAt: booking.session.scheduledAt.toISOString(),
+    status: booking.status.toLowerCase(),
+    sessionIntention: booking.sessionIntention,
+    createdAt: booking.createdAt.toISOString(),
+  }));
+}
+
+function buildTimeline(input: {
+  createdAt: Date;
+  bookings: ClientBookingRecord[];
+  sessions: ClientSessionNote[];
+}): ClientTimelineEvent[] {
+  const events: ClientTimelineEvent[] = [
+    {
+      id: "client-created",
+      type: "client",
+      title: "Client profile created",
+      description: "Client entered the system.",
+      occurredAt: input.createdAt.toISOString(),
+    },
+  ];
+
+  input.bookings.forEach((booking) => {
+    events.push({
+      id: `booking-${booking.id}`,
+      type: "booking",
+      title: `Booking confirmed · ${booking.serviceTitle}`,
+      description: booking.sessionIntention || "Session booked online.",
+      occurredAt: booking.createdAt,
+    });
+  });
+
+  input.sessions.forEach((session) => {
+    events.push({
+      id: `session-${session.id}`,
+      type: "session",
+      title: `${session.sessionType} · ${session.status.toLowerCase()}`,
+      description: session.mainTopic || session.notes || "Session recorded.",
+      occurredAt: session.scheduledAt,
+    });
+  });
+
+  return events.sort(
+    (a, b) => new Date(b.occurredAt).getTime() - new Date(a.occurredAt).getTime(),
+  );
+}
+
 async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | null> {
   const client = await prisma.client.findUnique({
     where: { id },
@@ -155,6 +216,10 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
       reactionAnalysis: true,
       checklists: true,
       sessions: { orderBy: { scheduledAt: "desc" } },
+      bookings: {
+        include: { session: true },
+        orderBy: { createdAt: "desc" },
+      },
     },
   });
 
@@ -185,6 +250,19 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
         notes: "",
       };
 
+  const sessionNotes: ClientSessionNote[] = client.sessions.map((session) => ({
+    id: session.id,
+    scheduledAt: session.scheduledAt.toISOString(),
+    sessionType: session.sessionType,
+    mainTopic: session.mainTopic,
+    notes: decryptField(session.notes),
+    changesNoticed: decryptField(session.changesNoticed),
+    nextFocus: decryptField(session.nextFocus),
+    status: session.status,
+  }));
+
+  const bookings = mapBookings(client.bookings);
+
   return {
     id: client.id,
     firstName: client.firstName,
@@ -194,268 +272,163 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     timezone: client.timezone,
     status: client.status,
     firstSessionDate: client.firstSessionDate?.toISOString() ?? null,
+    createdAt: client.createdAt.toISOString(),
     reactionAnalysis,
     checklist: mapChecklist(client.checklists),
-    sessionNotes: client.sessions.map((session) => ({
-      id: session.id,
-      scheduledAt: session.scheduledAt.toISOString(),
-      sessionType: session.sessionType,
-      mainTopic: session.mainTopic,
-      notes: decryptField(session.notes),
-      changesNoticed: decryptField(session.changesNoticed),
-      nextFocus: decryptField(session.nextFocus),
-      status: session.status,
-    })),
+    sessionNotes,
+    bookings,
+    timeline: buildTimeline({
+      createdAt: client.createdAt,
+      bookings,
+      sessions: sessionNotes,
+    }),
     practitionerNotes: decryptField(client.profile?.practitionerNotes ?? ""),
   };
 }
 
 export async function getClientWorkspace(id: string): Promise<ClientWorkspace | null> {
-  if (isDatabaseConfigured()) {
-    try {
-      const workspace = await getClientWorkspaceFromDb(id);
-      if (workspace) return workspace;
-    } catch {
-      // Fall through to mock data when database is unavailable.
-    }
-  }
-
-  return getMockClientWorkspace(id);
+  requireDatabase();
+  return getClientWorkspaceFromDb(id);
 }
 
 export async function listClientRecords(options?: {
   search?: string;
   sort?: ClientListSort;
 }): Promise<ClientListItem[]> {
+  requireDatabase();
   const sort = options?.sort ?? "alphabetical";
 
-  if (isDatabaseConfigured()) {
-    try {
-      const clients = await prisma.client.findMany({
-        include: {
-          sessions: { select: { scheduledAt: true, status: true } },
-          payments: { orderBy: { createdAt: "desc" }, take: 1 },
-          _count: { select: { sessions: true } },
-        },
-      });
+  const clients = await prisma.client.findMany({
+    include: {
+      sessions: { select: { scheduledAt: true, status: true } },
+      payments: { orderBy: { createdAt: "desc" }, take: 1 },
+      _count: { select: { sessions: true } },
+    },
+  });
 
-      const mapped = clients.map(mapClientListItem);
-      return sortClientList(filterClientList(mapped, options?.search), sort);
-    } catch {
-      // Fall through to mock data.
-    }
-  }
-
-  const mockClients = getMockClientList().map((client) => ({
-    ...client,
-    nextSessionAt: null,
-  }));
-
-  return sortClientList(filterClientList(mockClients, options?.search), sort);
+  const mapped = clients.map(mapClientListItem);
+  return sortClientList(filterClientList(mapped, options?.search), sort);
 }
 
 export async function updateReactionAnalysis(
   clientId: string,
   data: ReactionAnalysisInput,
 ): Promise<ClientWorkspace | null> {
-  if (isDatabaseConfigured()) {
-    try {
-      const encrypted = encryptFields(data, SENSITIVE_FIELD_GROUPS.reactionAnalysis);
-      await prisma.reactionAnalysis.upsert({
-        where: { clientId },
-        create: { clientId, ...encrypted },
-        update: encrypted,
-      });
-      return getClientWorkspace(clientId);
-    } catch {
-      // Fall through to mock.
-    }
-  }
-
-  const workspace = mockClientWorkspaces[clientId];
-  if (!workspace) return null;
-  workspace.reactionAnalysis = data;
-  return workspace;
+  requireDatabase();
+  const encrypted = encryptFields(data, SENSITIVE_FIELD_GROUPS.reactionAnalysis);
+  await prisma.reactionAnalysis.upsert({
+    where: { clientId },
+    create: { clientId, ...encrypted },
+    update: encrypted,
+  });
+  return getClientWorkspace(clientId);
 }
 
 export async function updateChecklistItem(
   clientId: string,
   payload: ChecklistUpdatePayload,
 ): Promise<ClientWorkspace | null> {
-  if (isDatabaseConfigured()) {
-    try {
-      await prisma.checklist.upsert({
-        where: {
-          clientId_type_itemKey: {
-            clientId,
-            type: payload.type,
-            itemKey: payload.itemKey,
-          },
-        },
-        create: {
-          clientId,
-          type: payload.type,
-          itemKey: payload.itemKey,
-          checked: payload.checked,
-        },
-        update: { checked: payload.checked },
-      });
-      return getClientWorkspace(clientId);
-    } catch {
-      // Fall through to mock.
-    }
-  }
-
-  const workspace = mockClientWorkspaces[clientId];
-  if (!workspace) return null;
-
-  const bucket = payload.type === "BEFORE" ? workspace.checklist.before : workspace.checklist.current;
-  bucket[payload.itemKey] = payload.checked;
-  return workspace;
+  requireDatabase();
+  await prisma.checklist.upsert({
+    where: {
+      clientId_type_itemKey: {
+        clientId,
+        type: payload.type,
+        itemKey: payload.itemKey,
+      },
+    },
+    create: {
+      clientId,
+      type: payload.type,
+      itemKey: payload.itemKey,
+      checked: payload.checked,
+    },
+    update: { checked: payload.checked },
+  });
+  return getClientWorkspace(clientId);
 }
 
 export async function updatePractitionerNotes(
   clientId: string,
   notes: string,
 ): Promise<ClientWorkspace | null> {
-  if (isDatabaseConfigured()) {
-    try {
-      await prisma.clientProfile.upsert({
-        where: { clientId },
-        create: { clientId, practitionerNotes: encryptField(notes) },
-        update: { practitionerNotes: encryptField(notes) },
-      });
-      return getClientWorkspace(clientId);
-    } catch {
-      // Fall through to mock.
-    }
-  }
-
-  const workspace = mockClientWorkspaces[clientId];
-  if (!workspace) return null;
-  workspace.practitionerNotes = notes;
-  return workspace;
+  requireDatabase();
+  await prisma.clientProfile.upsert({
+    where: { clientId },
+    create: { clientId, practitionerNotes: encryptField(notes) },
+    update: { practitionerNotes: encryptField(notes) },
+  });
+  return getClientWorkspace(clientId);
 }
 
 export async function addSessionNote(
   clientId: string,
   input: SessionNoteInput,
 ): Promise<ClientSessionNote | null> {
-  if (isDatabaseConfigured()) {
-    try {
-      const session = await prisma.session.create({
-        data: {
-          clientId,
-          scheduledAt: new Date(input.scheduledAt),
-          sessionType: input.sessionType,
-          mainTopic: input.mainTopic,
-          notes: encryptField(input.notes),
-          changesNoticed: encryptField(input.changesNoticed),
-          nextFocus: encryptField(input.nextFocus),
-          status: "COMPLETED",
-        },
-      });
+  requireDatabase();
+  const session = await prisma.session.create({
+    data: {
+      clientId,
+      scheduledAt: new Date(input.scheduledAt),
+      sessionType: input.sessionType,
+      mainTopic: input.mainTopic,
+      notes: encryptField(input.notes),
+      changesNoticed: encryptField(input.changesNoticed),
+      nextFocus: encryptField(input.nextFocus),
+      status: "COMPLETED",
+    },
+  });
 
-      return {
-        id: session.id,
-        scheduledAt: session.scheduledAt.toISOString(),
-        sessionType: session.sessionType,
-        mainTopic: session.mainTopic,
-        notes: input.notes,
-        changesNoticed: input.changesNoticed,
-        nextFocus: input.nextFocus,
-        status: session.status,
-      };
-    } catch {
-      // Fall through to mock.
-    }
-  }
-
-  const workspace = mockClientWorkspaces[clientId];
-  if (!workspace) return null;
-
-  const note: ClientSessionNote = {
-    id: `ses_${Date.now()}`,
-    ...input,
-    status: "COMPLETED",
+  return {
+    id: session.id,
+    scheduledAt: session.scheduledAt.toISOString(),
+    sessionType: session.sessionType,
+    mainTopic: session.mainTopic,
+    notes: input.notes,
+    changesNoticed: input.changesNoticed,
+    nextFocus: input.nextFocus,
+    status: session.status,
   };
-  workspace.sessionNotes.unshift(note);
-  return note;
 }
 
 export async function replaceChecklistState(
   clientId: string,
   checklist: ChecklistInput,
 ): Promise<ClientWorkspace | null> {
-  const workspace = mockClientWorkspaces[clientId];
-  if (workspace) workspace.checklist = checklist;
-  return workspace ?? getClientWorkspace(clientId);
+  return getClientWorkspace(clientId);
 }
 
 export async function updateClientRecord(
   clientId: string,
   input: ClientUpdateInput,
 ): Promise<ClientWorkspace | null> {
+  requireDatabase();
   const normalizedEmail = input.email.trim().toLowerCase();
 
-  if (isDatabaseConfigured()) {
-    try {
-      await prisma.client.update({
-        where: { id: clientId },
-        data: {
-          firstName: input.firstName.trim(),
-          lastName: input.lastName.trim(),
-          email: normalizedEmail,
-          country: input.country,
-          timezone: input.timezone,
-        },
-      });
-      return getClientWorkspace(clientId);
-    } catch {
-      return null;
-    }
-  }
-
-  const workspace = mockClientWorkspaces[clientId];
-  if (!workspace) return null;
-
-  workspace.firstName = input.firstName.trim();
-  workspace.lastName = input.lastName.trim();
-  workspace.email = normalizedEmail;
-  workspace.country = input.country;
-  workspace.timezone = input.timezone;
-  return workspace;
+  await prisma.client.update({
+    where: { id: clientId },
+    data: {
+      firstName: input.firstName.trim(),
+      lastName: input.lastName.trim(),
+      email: normalizedEmail,
+      country: input.country,
+      timezone: input.timezone,
+    },
+  });
+  return getClientWorkspace(clientId);
 }
 
 export async function archiveClientRecord(clientId: string): Promise<boolean> {
-  if (isDatabaseConfigured()) {
-    try {
-      await prisma.client.update({
-        where: { id: clientId },
-        data: { status: "ARCHIVED" },
-      });
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  const workspace = mockClientWorkspaces[clientId];
-  if (!workspace) return false;
-  workspace.status = "ARCHIVED";
+  requireDatabase();
+  await prisma.client.update({
+    where: { id: clientId },
+    data: { status: "ARCHIVED" },
+  });
   return true;
 }
 
 export async function deleteClientRecord(clientId: string): Promise<boolean> {
-  if (isDatabaseConfigured()) {
-    try {
-      await prisma.client.delete({ where: { id: clientId } });
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
-  delete mockClientWorkspaces[clientId];
+  requireDatabase();
+  await prisma.client.delete({ where: { id: clientId } });
   return true;
 }

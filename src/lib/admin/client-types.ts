@@ -62,10 +62,31 @@ export interface ClientWorkspace {
   timezone: string;
   status: ClientStatus | string;
   firstSessionDate: string | null;
+  createdAt: string;
   reactionAnalysis: ReactionAnalysisData;
   checklist: ChecklistState;
   sessionNotes: ClientSessionNote[];
+  bookings: ClientBookingRecord[];
+  timeline: ClientTimelineEvent[];
   practitionerNotes: string;
+}
+
+export interface ClientBookingRecord {
+  id: string;
+  serviceId: string;
+  serviceTitle: string;
+  scheduledAt: string;
+  status: string;
+  sessionIntention: string;
+  createdAt: string;
+}
+
+export interface ClientTimelineEvent {
+  id: string;
+  type: "booking" | "session" | "client";
+  title: string;
+  description: string;
+  occurredAt: string;
 }
 
 export type ReactionAnalysisInput = ReactionAnalysisData;

@@ -1,5 +1,5 @@
 import { initializeClientWorkspace } from "@/lib/admin/client-workspace";
-import { isDatabaseConfigured, prisma } from "@/lib/db/prisma";
+import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
   getServiceById,
   getServicePriceCents,
@@ -16,11 +16,7 @@ export class BookingPersistenceError extends Error {
 export async function createBooking(
   request: BookingRequest,
 ): Promise<BookingRecord> {
-  if (!isDatabaseConfigured()) {
-    throw new BookingPersistenceError(
-      "Bookings require a database connection. Set DATABASE_URL and run db:push.",
-    );
-  }
+  requireDatabase();
 
   const service = getServiceById(request.serviceId);
   if (!service) {

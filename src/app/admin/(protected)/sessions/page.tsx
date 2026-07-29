@@ -5,7 +5,7 @@ import {
 } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
 import { adminPages } from "@/content/admin";
-import { formatAdminDateTime } from "@/lib/admin/mock-data";
+import { formatAdminDateTime } from "@/lib/admin/format";
 import { listAdminSessions } from "@/lib/admin/session-repository";
 import type { AdminSession } from "@/lib/admin/types";
 

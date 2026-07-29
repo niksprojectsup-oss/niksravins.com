@@ -1,7 +1,7 @@
 import { AdminPageHeader, AdminPanel, AdminStatCard } from "@/components/admin/AdminPageHeader";
 import { AdminStatusBadge } from "@/components/admin/AdminStatusBadge";
 import { adminPages } from "@/content/admin";
-import { formatAdminDateTime, formatCurrency } from "@/lib/admin/mock-data";
+import { formatAdminDateTime, formatCurrency } from "@/lib/admin/format";
 import {
   getDashboardStats,
   getSessionsForDay,

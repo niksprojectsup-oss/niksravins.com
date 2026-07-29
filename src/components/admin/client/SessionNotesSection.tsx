@@ -4,7 +4,7 @@ import { useState, useTransition } from "react";
 import { addSessionNoteAction } from "@/lib/admin/actions/clients";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Field";
-import { formatAdminDateTime } from "@/lib/admin/mock-data";
+import { formatAdminDateTime } from "@/lib/admin/format";
 import type { ClientSessionNote } from "@/lib/admin/client-types";
 
 const emptyForm = {
@@ -42,7 +42,7 @@ export function SessionNotesSection({
     <section className="observed-card p-6 md:p-8">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
         <div className="layout-stack-sm">
-          <h2 className="type-heading-sm">Session notes</h2>
+          <h2 className="type-heading-sm">Session history</h2>
           <p className="type-body">Record of sessions, topics, and observed changes.</p>
         </div>
         <Button

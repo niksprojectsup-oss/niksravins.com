@@ -18,9 +18,8 @@ import { BookingHero } from "./BookingHero";
 import { BookingStepIndicator } from "./BookingStepIndicator";
 import {
   ClientInfoForm,
-  emptyClientDetails,
-  validateClientDetails,
 } from "./ClientInfoForm";
+import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
 import { PaymentPlaceholder } from "./PaymentPlaceholder";
 import { SessionSelection } from "./SessionSelection";
 

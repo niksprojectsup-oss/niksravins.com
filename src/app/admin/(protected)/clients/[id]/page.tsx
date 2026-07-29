@@ -1,6 +1,8 @@
 import { notFound } from "next/navigation";
+import { BookingHistorySection } from "@/components/admin/client/BookingHistorySection";
 import { ClientManagementPanel } from "@/components/admin/client/ClientManagementPanel";
 import { ClientOverview, ClientProfileHeader } from "@/components/admin/client/ClientOverview";
+import { ClientTimelineSection } from "@/components/admin/client/ClientTimelineSection";
 import { PractitionerNotesSection } from "@/components/admin/client/PractitionerNotesSection";
 import { ProgressTrackingSection } from "@/components/admin/client/ProgressTrackingSection";
 import { ReactionAnalysisSection } from "@/components/admin/client/ReactionAnalysisSection";
@@ -24,16 +26,18 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
       <ClientProfileHeader client={client} />
       <ClientManagementPanel client={client} />
       <ClientOverview client={client} />
+      <BookingHistorySection bookings={client.bookings} />
+      <SessionNotesSection clientId={client.id} sessions={client.sessionNotes} />
+      <ProgressTrackingSection clientId={client.id} checklist={client.checklist} />
       <ReactionAnalysisSection
         clientId={client.id}
         initialData={client.reactionAnalysis}
       />
-      <ProgressTrackingSection clientId={client.id} checklist={client.checklist} />
-      <SessionNotesSection clientId={client.id} sessions={client.sessionNotes} />
       <PractitionerNotesSection
         clientId={client.id}
         initialNotes={client.practitionerNotes}
       />
+      <ClientTimelineSection events={client.timeline} />
     </div>
   );
 }

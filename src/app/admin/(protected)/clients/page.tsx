@@ -10,7 +10,7 @@ import { ClientsToolbar } from "@/components/admin/ClientsToolbar";
 import { adminPages } from "@/content/admin";
 import { listClientRecords } from "@/lib/admin/client-repository";
 import type { ClientListItem, ClientListSort } from "@/lib/admin/client-types";
-import { formatAdminDate } from "@/lib/admin/mock-data";
+import { formatAdminDate } from "@/lib/admin/format";
 
 type AdminClientsPageProps = {
   searchParams: Promise<{ q?: string; sort?: string }>;
@@ -56,7 +56,7 @@ export default async function AdminClientsPage({ searchParams }: AdminClientsPag
         columns={[
           {
             key: "name",
-            header: "Name",
+            header: "Full name",
             cell: (row) => (
               <Link
                 href={`/admin/clients/${row.id}`}

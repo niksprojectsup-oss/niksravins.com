@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { AdminStatusBadge } from "@/components/admin/AdminStatusBadge";
-import { formatAdminDate } from "@/lib/admin/mock-data";
+import { formatAdminDate } from "@/lib/admin/format";
 import type { ClientWorkspace } from "@/lib/admin/client-types";
 
 export function ClientOverview({ client }: { client: ClientWorkspace }) {
@@ -28,6 +28,12 @@ export function ClientOverview({ client }: { client: ClientWorkspace }) {
           <dt className="type-caption">Status</dt>
           <dd className="mt-1">
             <AdminStatusBadge label={String(client.status).toLowerCase()} variant="accent" />
+          </dd>
+        </div>
+        <div>
+          <dt className="type-caption">Client since</dt>
+          <dd className="type-body mt-1 text-ink">
+            {formatAdminDate(client.createdAt)}
           </dd>
         </div>
         <div>

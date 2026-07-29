@@ -5,10 +5,13 @@ import {
 } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
 import { adminPages } from "@/content/admin";
-import { formatCurrency, mockPayments } from "@/lib/admin/mock-data";
+import { formatCurrency } from "@/lib/admin/format";
+import { listAdminPayments } from "@/lib/admin/session-repository";
 import type { AdminPayment } from "@/lib/admin/types";
 
-export default function AdminPaymentsPage() {
+export default async function AdminPaymentsPage() {
+  const payments = await listAdminPayments();
+
   return (
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader
@@ -17,7 +20,8 @@ export default function AdminPaymentsPage() {
       />
 
       <AdminTable<AdminPayment>
-        rows={mockPayments}
+        rows={payments}
+        emptyMessage="No payments yet. They appear when bookings are submitted."
         columns={[
           {
             key: "client",
