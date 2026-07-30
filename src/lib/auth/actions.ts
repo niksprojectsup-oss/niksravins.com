@@ -18,6 +18,10 @@ import { MFA_PENDING_MAX_AGE_SECONDS, SESSION_MAX_AGE_SECONDS } from "@/lib/auth
 import { logAuditEvent } from "@/lib/security/audit";
 import { checkRateLimit } from "@/lib/security/rate-limit";
 
+export type LoginState = {
+  error?: string;
+};
+
 function getClientIp(headerStore: Headers): string {
   return (
     headerStore.get("x-forwarded-for")?.split(",")[0]?.trim() ??
@@ -26,7 +30,10 @@ function getClientIp(headerStore: Headers): string {
   );
 }
 
-export async function loginAction(formData: FormData) {
+export async function loginAction(
+  _prevState: LoginState,
+  formData: FormData,
+): Promise<LoginState> {
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
   const headerStore = await headers();

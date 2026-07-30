@@ -2,27 +2,15 @@
 
 import { useActionState } from "react";
 import { Field, Input } from "@/components/ui/Field";
-import { loginAction } from "@/lib/auth/actions";
+import { loginAction, type LoginState } from "@/lib/auth/actions";
 
 type AdminLoginFormProps = {
   nextPath?: string;
   initialError?: string;
 };
 
-type LoginState = {
-  error?: string;
-};
-
-async function loginWithState(
-  _previousState: LoginState,
-  formData: FormData,
-): Promise<LoginState> {
-  const result = await loginAction(formData);
-  return result ?? {};
-}
-
 export function AdminLoginForm({ nextPath, initialError }: AdminLoginFormProps) {
-  const [state, formAction, pending] = useActionState(loginWithState, {
+  const [state, formAction, pending] = useActionState<LoginState, FormData>(loginAction, {
     error: initialError,
   });
 

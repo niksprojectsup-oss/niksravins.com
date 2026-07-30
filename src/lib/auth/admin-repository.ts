@@ -56,14 +56,10 @@ export async function findAdminByEmail(email: string): Promise<AdminUserRecord |
   const normalized = email.trim().toLowerCase();
 
   if (isDatabaseConfigured()) {
-    try {
-      const admin = await prisma.adminUser.findUnique({
-        where: { email: normalized },
-      });
-      if (admin) return mapAdminUser(admin);
-    } catch {
-      // Fall through when database is unavailable.
-    }
+    const admin = await prisma.adminUser.findUnique({
+      where: { email: normalized },
+    });
+    if (admin) return mapAdminUser(admin);
   }
 
   if (isDevMockAuthEnabled()) {
