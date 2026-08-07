@@ -2,9 +2,15 @@
 
 import { revalidatePath } from "next/cache";
 import { createBooking, BookingPersistenceError } from "@/lib/booking/booking-repository";
+import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
-import type { BookingRecord, BookingRequest } from "@/lib/booking/types";
 import { Prisma } from "@prisma/client";
+
+export type BookingFormState = {
+  error?: string;
+  success?: boolean;
+  bookingId?: string;
+};
 
 function mapBookingError(error: unknown): string {
   if (error instanceof BookingPersistenceError) {
@@ -24,23 +30,31 @@ function mapBookingError(error: unknown): string {
   return "Unable to complete your booking. Please try again.";
 }
 
-export async function createBookingAction(
-  request: BookingRequest,
-): Promise<{ success: true; booking: BookingRecord } | { success: false; error: string }> {
+export async function submitBookingFormAction(
+  _prevState: BookingFormState,
+  formData: FormData,
+): Promise<BookingFormState> {
+  const request = parseBookingFormData(formData);
+
   const validationError = validateBookingRequest(request);
   if (validationError) {
-    return { success: false, error: validationError };
+    return { error: validationError };
   }
 
   try {
     const booking = await createBooking(request);
+
     revalidatePath("/admin");
     revalidatePath("/admin/clients");
     revalidatePath("/admin/sessions");
     revalidatePath("/admin/calendar");
     revalidatePath("/admin/payments");
-    return { success: true, booking };
+
+    return {
+      success: true,
+      bookingId: booking.id,
+    };
   } catch (error) {
-    return { success: false, error: mapBookingError(error) };
+    return { error: mapBookingError(error) };
   }
 }

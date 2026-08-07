@@ -1,26 +1,18 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
 import { getMockAvailability } from "@/lib/booking/mock-availability";
+import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
 import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
-import { createBookingAction } from "@/lib/booking/actions";
-import type {
-  BookingDraft,
-  BookingStep,
-  ClientDetails,
-  ServiceId,
-} from "@/lib/booking/types";
+import type { BookingStep, ServiceId } from "@/lib/booking/types";
 import { BookingCalendar } from "./BookingCalendar";
 import { BookingConfirmation } from "./BookingConfirmation";
 import { BookingHero } from "./BookingHero";
 import { BookingStepIndicator } from "./BookingStepIndicator";
-import {
-  ClientInfoForm,
-} from "./ClientInfoForm";
-import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
-import { PaymentPlaceholder } from "./PaymentPlaceholder";
+import { ClientInfoForm } from "./ClientInfoForm";
+import { PaymentBookingForm } from "./PaymentBookingForm";
 import { SessionSelection } from "./SessionSelection";
 
 const STEP_ORDER: BookingStep[] = [
@@ -33,41 +25,35 @@ const STEP_ORDER: BookingStep[] = [
 
 export function BookingFlow() {
   const [step, setStep] = useState<BookingStep>("session");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [draft, setDraft] = useState<BookingDraft>({
-    serviceId: null,
-    slotId: null,
-    scheduledAt: null,
-    client: null,
-  });
-  const [clientDetails, setClientDetails] =
-    useState<ClientDetails>(emptyClientDetails);
+  const [serviceId, setServiceId] = useState<ServiceId | null>(null);
+  const [slotId, setSlotId] = useState<string | null>(null);
+  const [scheduledAt, setScheduledAt] = useState<string | null>(null);
+  const [clientDetails, setClientDetails] = useState(emptyClientDetails);
   const [formErrors, setFormErrors] = useState<
-    Partial<Record<keyof ClientDetails, string>>
+    Partial<Record<keyof typeof clientDetails, string>>
   >({});
-  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const availability = useMemo(() => {
-    if (!draft.serviceId) return [];
-    return getMockAvailability(
-      28,
-      getServiceDurationMinutes(draft.serviceId),
-      draft.serviceId,
-    );
-  }, [draft.serviceId]);
+    if (!serviceId) return [];
+    return getMockAvailability(28, getServiceDurationMinutes(serviceId), serviceId);
+  }, [serviceId]);
 
-  function goToStep(nextStep: BookingStep) {
+  const goToStep = useCallback((nextStep: BookingStep) => {
     setStep(nextStep);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }
+  }, []);
+
+  const handleBookingSuccess = useCallback(() => {
+    goToStep("confirmed");
+  }, [goToStep]);
 
   function handleNext() {
-    if (step === "session" && draft.serviceId) {
+    if (step === "session" && serviceId) {
       goToStep("schedule");
       return;
     }
 
-    if (step === "schedule" && draft.slotId) {
+    if (step === "schedule" && slotId && scheduledAt) {
       goToStep("details");
       return;
     }
@@ -76,8 +62,6 @@ export function BookingFlow() {
       const errors = validateClientDetails(clientDetails);
       setFormErrors(errors);
       if (Object.keys(errors).length > 0) return;
-
-      setDraft((prev) => ({ ...prev, client: clientDetails }));
       goToStep("payment");
     }
   }
@@ -87,55 +71,27 @@ export function BookingFlow() {
     if (index > 0) goToStep(STEP_ORDER[index - 1]);
   }
 
-  function handleServiceSelect(serviceId: ServiceId) {
-    setDraft((prev) => ({
-      ...prev,
-      serviceId,
-      slotId: null,
-      scheduledAt: null,
-    }));
+  function handleServiceSelect(nextServiceId: ServiceId) {
+    setServiceId(nextServiceId);
+    setSlotId(null);
+    setScheduledAt(null);
   }
 
-  function handleSlotSelect(slotId: string, scheduledAt: string) {
-    setDraft((prev) => ({ ...prev, slotId, scheduledAt }));
-  }
-
-  async function handleConfirmBooking() {
-    if (
-      !draft.serviceId ||
-      !draft.slotId ||
-      !draft.scheduledAt ||
-      !draft.client
-    ) {
-      return;
-    }
-
-    setIsSubmitting(true);
-    setSubmitError(null);
-
-    try {
-      const result = await createBookingAction({
-        serviceId: draft.serviceId,
-        slotId: draft.slotId,
-        scheduledAt: draft.scheduledAt,
-        client: draft.client,
-      });
-
-      if (!result.success) {
-        setSubmitError(result.error);
-        return;
-      }
-
-      goToStep("confirmed");
-    } finally {
-      setIsSubmitting(false);
-    }
+  function handleSlotSelect(nextSlotId: string, nextScheduledAt: string) {
+    setSlotId(nextSlotId);
+    setScheduledAt(nextScheduledAt);
   }
 
   const canContinue =
-    (step === "session" && draft.serviceId !== null) ||
-    (step === "schedule" && draft.slotId !== null) ||
+    (step === "session" && serviceId !== null) ||
+    (step === "schedule" && slotId !== null && scheduledAt !== null) ||
     step === "details";
+
+  const canSubmitPayment =
+    serviceId !== null &&
+    slotId !== null &&
+    scheduledAt !== null &&
+    Object.keys(validateClientDetails(clientDetails)).length === 0;
 
   if (step === "confirmed") {
     return (
@@ -152,16 +108,13 @@ export function BookingFlow() {
 
       <div className="layout-stack-lg pt-10 md:pt-14">
         {step === "session" ? (
-          <SessionSelection
-            selected={draft.serviceId}
-            onSelect={handleServiceSelect}
-          />
+          <SessionSelection selected={serviceId} onSelect={handleServiceSelect} />
         ) : null}
 
         {step === "schedule" ? (
           <BookingCalendar
             availability={availability}
-            selectedSlotId={draft.slotId}
+            selectedSlotId={slotId}
             onSelectSlot={handleSlotSelect}
             timezone={clientDetails.timezone || undefined}
           />
@@ -175,11 +128,13 @@ export function BookingFlow() {
           />
         ) : null}
 
-        {step === "payment" ? (
-          <PaymentPlaceholder
-            onConfirm={handleConfirmBooking}
-            isSubmitting={isSubmitting}
-            error={submitError}
+        {step === "payment" && canSubmitPayment ? (
+          <PaymentBookingForm
+            serviceId={serviceId}
+            slotId={slotId}
+            scheduledAt={scheduledAt}
+            client={clientDetails}
+            onSuccess={handleBookingSuccess}
           />
         ) : null}
 

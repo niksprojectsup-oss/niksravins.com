@@ -1,6 +1,8 @@
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { requireAdmin } from "@/lib/auth/guards";
 
+export const dynamic = "force-dynamic";
+
 export default async function ProtectedAdminLayout({
   children,
 }: Readonly<{
