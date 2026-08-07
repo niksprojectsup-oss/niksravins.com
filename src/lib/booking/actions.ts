@@ -9,6 +9,7 @@ import {
   AvailabilityError,
   getAvailableSlots,
 } from "@/lib/booking/availability/availability-service";
+import { sendBookingConfirmationEmails } from "@/lib/email/send-booking-emails";
 import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
 import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
@@ -51,6 +52,8 @@ export async function submitBookingFormAction(
 
   try {
     const booking = await createBooking(request);
+
+    await sendBookingConfirmationEmails(booking);
 
     revalidatePath("/admin");
     revalidatePath("/admin/clients");

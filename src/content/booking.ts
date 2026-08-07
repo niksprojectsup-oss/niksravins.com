@@ -35,8 +35,10 @@ export const bookingContent = {
   },
   confirmation: {
     title: "Your session is confirmed.",
-    message: "You will receive a confirmation email with all details.",
-    closing: "I look forward to meeting you.",
+    message:
+      "A confirmation email with your session details has been sent to the address you provided.",
+    closing:
+      "If it does not arrive within a few minutes, check your spam folder. I look forward to meeting you.",
   },
   actions: {
     continue: "Continue",
