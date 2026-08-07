@@ -318,4 +318,6 @@ model DailyTimeBlock {
   endTime   String
   label     String
   active    Boolean @default(true)
+
+  @@unique([startTime, endTime])
 }

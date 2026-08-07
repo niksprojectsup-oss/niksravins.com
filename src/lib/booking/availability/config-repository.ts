@@ -44,21 +44,41 @@ export async function ensureAvailabilityDefaults(): Promise<void> {
       horizonDays: 56,
       slotStepMinutes: 15,
     },
-    update: {},
+    update: {
+      businessTimezone: "Europe/Riga",
+      minNoticeHours: 24,
+      bufferMinutes: 15,
+      horizonDays: 56,
+      slotStepMinutes: 15,
+    },
   });
 
   for (const day of DEFAULT_WEEKLY_SCHEDULE) {
     await prisma.weeklyAvailability.upsert({
       where: { dayOfWeek: day.dayOfWeek },
       create: day,
-      update: {},
+      update: {
+        enabled: day.enabled,
+        startTime: day.startTime,
+        endTime: day.endTime,
+        note: day.note,
+      },
     });
   }
 
-  const blockCount = await prisma.dailyTimeBlock.count();
-  if (blockCount === 0) {
-    await prisma.dailyTimeBlock.createMany({
-      data: DEFAULT_DAILY_BLOCKS,
+  for (const block of DEFAULT_DAILY_BLOCKS) {
+    await prisma.dailyTimeBlock.upsert({
+      where: {
+        startTime_endTime: {
+          startTime: block.startTime,
+          endTime: block.endTime,
+        },
+      },
+      create: block,
+      update: {
+        label: block.label,
+        active: block.active,
+      },
     });
   }
 }
