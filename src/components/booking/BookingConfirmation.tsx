@@ -1,7 +1,11 @@
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
 
-export function BookingConfirmation() {
+type BookingConfirmationProps = {
+  followUpSessionNumber?: number;
+};
+
+export function BookingConfirmation({ followUpSessionNumber }: BookingConfirmationProps) {
   const { title, message, closing } = bookingContent.confirmation;
 
   return (
@@ -10,9 +14,13 @@ export function BookingConfirmation() {
       className="layout-stack-md max-w-prose py-10 md:py-16"
     >
       <h2 id="confirmation-heading" className="type-heading">
-        {title}
+        {followUpSessionNumber != null ? "Next session scheduled" : title}
       </h2>
-      <p className="type-lead">{message}</p>
+      <p className="type-lead">
+        {followUpSessionNumber != null
+          ? `Session ${followUpSessionNumber} of your transformation package is confirmed.`
+          : message}
+      </p>
       <p className="type-body">{closing}</p>
       <div className="pt-4">
         <Button href="/" variant="secondary">

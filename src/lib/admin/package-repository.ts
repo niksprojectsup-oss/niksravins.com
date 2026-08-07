@@ -13,6 +13,23 @@ export class PackageOperationError extends Error {
   }
 }
 
+export type PackageFollowUpEligibility = {
+  eligible: boolean;
+  packageId: string;
+  clientId: string;
+  serviceId: string;
+  nextSessionNumber: number;
+  completedSessions: number;
+  remainingSessions: number;
+  totalSessions: number;
+};
+
+export type SchedulePackageSessionInput = {
+  slotId: string;
+  scheduledAt: string;
+  mainTopic?: string;
+};
+
 function mapSlotStatus(
   status: string | undefined,
 ): PackageSessionSlot["status"] {
@@ -60,6 +77,25 @@ function buildPackageTimeline(
   });
 }
 
+export function getNextSchedulableSessionNumber(
+  completedSessions: number,
+  totalSessions: number,
+  timeline: PackageSessionSlot[],
+): number | null {
+  if (completedSessions >= totalSessions) {
+    return null;
+  }
+
+  const nextSessionNumber = completedSessions + 1;
+  const slot = timeline.find((entry) => entry.sessionNumber === nextSessionNumber);
+
+  if (!slot || slot.status !== "not_scheduled") {
+    return null;
+  }
+
+  return nextSessionNumber;
+}
+
 export function mapSessionPackageRecord(pkg: {
   id: string;
   serviceId: string;
@@ -79,7 +115,13 @@ export function mapSessionPackageRecord(pkg: {
       pkg.serviceId as "initial-aap-session" | "aap-transformation-package",
     )?.title ?? pkg.serviceId;
 
+  const timeline = buildPackageTimeline(pkg.totalSessions, pkg.sessions);
   const remainingSessions = pkg.totalSessions - pkg.completedSessions;
+  const nextSchedulableSessionNumber = getNextSchedulableSessionNumber(
+    pkg.completedSessions,
+    pkg.totalSessions,
+    timeline,
+  );
 
   return {
     id: pkg.id,
@@ -90,7 +132,9 @@ export function mapSessionPackageRecord(pkg: {
     remainingSessions,
     status: pkg.status.toLowerCase(),
     createdAt: pkg.createdAt.toISOString(),
-    timeline: buildPackageTimeline(pkg.totalSessions, pkg.sessions),
+    timeline,
+    nextSchedulableSessionNumber,
+    canScheduleNext: pkg.status === "ACTIVE" && nextSchedulableSessionNumber != null,
   };
 }
 
@@ -116,29 +160,90 @@ async function syncPackageProgress(
   });
 }
 
+export async function getPackageFollowUpEligibility(
+  email: string,
+): Promise<PackageFollowUpEligibility | null> {
+  requireDatabase();
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail) {
+    return null;
+  }
+
+  const client = await prisma.client.findUnique({
+    where: { email: normalizedEmail },
+  });
+  if (!client) {
+    return null;
+  }
+
+  const packages = await listClientPackages(client.id);
+  const activePackage = packages.find(
+    (pkg) => pkg.status === "active" && pkg.serviceId === "aap-transformation-package",
+  );
+
+  if (!activePackage || !activePackage.canScheduleNext) {
+    return null;
+  }
+
+  const nextSessionNumber = activePackage.nextSchedulableSessionNumber;
+  if (nextSessionNumber == null) {
+    return null;
+  }
+
+  return {
+    eligible: true,
+    packageId: activePackage.id,
+    clientId: client.id,
+    serviceId: activePackage.serviceId,
+    nextSessionNumber,
+    completedSessions: activePackage.completedSessions,
+    remainingSessions: activePackage.remainingSessions,
+    totalSessions: activePackage.totalSessions,
+  };
+}
+
 export async function schedulePackageSession(
   packageId: string,
-  scheduledAt: string,
+  input: SchedulePackageSessionInput,
+  options?: { clientId?: string },
 ): Promise<void> {
   requireDatabase();
 
-  const when = new Date(scheduledAt);
-  if (Number.isNaN(when.getTime())) {
+  const scheduledAt = new Date(input.scheduledAt);
+  if (Number.isNaN(scheduledAt.getTime())) {
     throw new PackageOperationError("Please provide a valid date and time.");
   }
 
   const pkgPreview = await prisma.sessionPackage.findUnique({
     where: { id: packageId },
+    include: {
+      sessions: {
+        where: { status: { not: "CANCELLED" } },
+      },
+    },
   });
   if (!pkgPreview) {
     throw new PackageOperationError("Package not found.");
   }
 
+  if (options?.clientId && pkgPreview.clientId !== options.clientId) {
+    throw new PackageOperationError("Package does not belong to this client.");
+  }
+
+  const previewRecord = mapSessionPackageRecord(pkgPreview);
+  const nextSessionNumber = previewRecord.nextSchedulableSessionNumber;
+  if (previewRecord.status !== "active" || nextSessionNumber == null) {
+    throw new PackageOperationError(
+      "Complete the current session before scheduling the next one.",
+    );
+  }
+
   try {
     await validateBookableSlot({
       serviceId: pkgPreview.serviceId as "initial-aap-session" | "aap-transformation-package",
-      slotId: `slot-${when.getTime()}`,
-      scheduledAt: when.toISOString(),
+      slotId: input.slotId,
+      scheduledAt: input.scheduledAt,
       displayTimezone: "Europe/Riga",
     });
   } catch (error) {
@@ -166,22 +271,22 @@ export async function schedulePackageSession(
       throw new PackageOperationError("This package is no longer active.");
     }
 
+    const liveRecord = mapSessionPackageRecord(pkg);
+    const sessionNumber = liveRecord.nextSchedulableSessionNumber;
+    if (sessionNumber == null) {
+      throw new PackageOperationError(
+        "Complete the current session before scheduling the next one.",
+      );
+    }
+
     const usedNumbers = new Set(
       pkg.sessions
         .map((session) => session.sessionNumber)
         .filter((value): value is number => value != null),
     );
 
-    if (usedNumbers.size >= pkg.totalSessions) {
-      throw new PackageOperationError("All package sessions are already scheduled.");
-    }
-
-    let nextNumber = 1;
-    for (let number = 1; number <= pkg.totalSessions; number += 1) {
-      if (!usedNumbers.has(number)) {
-        nextNumber = number;
-        break;
-      }
+    if (usedNumbers.has(sessionNumber)) {
+      throw new PackageOperationError("This package session is already scheduled.");
     }
 
     const service = getServiceById(
@@ -192,11 +297,12 @@ export async function schedulePackageSession(
       data: {
         clientId: pkg.clientId,
         packageId: pkg.id,
-        sessionNumber: nextNumber,
-        scheduledAt: when,
+        sessionNumber,
+        scheduledAt,
         sessionType: service?.title ?? "Package session",
         serviceId: pkg.serviceId,
         status: "SCHEDULED",
+        mainTopic: input.mainTopic?.trim() ?? "",
       },
     });
   });
@@ -246,4 +352,21 @@ export async function listClientPackages(
   });
 
   return packages.map(mapSessionPackageRecord);
+}
+
+export async function clientHasActivePackage(
+  clientId: string,
+  serviceId: string,
+): Promise<boolean> {
+  requireDatabase();
+
+  const existing = await prisma.sessionPackage.findFirst({
+    where: {
+      clientId,
+      serviceId,
+      status: "ACTIVE",
+    },
+  });
+
+  return existing != null;
 }
