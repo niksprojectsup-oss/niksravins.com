@@ -1,5 +1,5 @@
 import { prisma, requireDatabase } from "@/lib/db/prisma";
-import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
+import { getServiceDurationMinutes, getServiceById } from "@/lib/booking/services-catalog";
 import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
 import {
   findSlotInAvailability,
@@ -7,6 +7,11 @@ import {
   slotMatchesScheduledAt,
 } from "./slot-generator";
 import { getAvailabilityConfig } from "./config-repository";
+import {
+  logAvailabilityError,
+  resolveDisplayTimezone,
+  resolveServiceId,
+} from "./utils";
 
 export class AvailabilityError extends Error {
   constructor(message: string) {
@@ -27,12 +32,13 @@ async function loadBookedSessions(from: Date, to: Date) {
     },
   });
 
-  return sessions.map((session) => ({
-    scheduledAt: session.scheduledAt,
-    durationMinutes: getServiceDurationMinutes(
-      (session.serviceId ?? "initial-aap-session") as ServiceId,
-    ),
-  }));
+  return sessions.map((session) => {
+    const serviceId = resolveServiceId(session.serviceId ?? "") ?? "initial-aap-session";
+    return {
+      scheduledAt: session.scheduledAt,
+      durationMinutes: getServiceDurationMinutes(serviceId),
+    };
+  });
 }
 
 export async function getAvailableSlots(
@@ -41,20 +47,35 @@ export async function getAvailableSlots(
 ): Promise<AvailabilityDay[]> {
   requireDatabase();
 
-  const config = await getAvailabilityConfig();
-  const now = new Date();
-  const horizonEnd = new Date(now);
-  horizonEnd.setUTCDate(horizonEnd.getUTCDate() + config.settings.horizonDays + 7);
+  const resolvedServiceId = resolveServiceId(serviceId);
+  if (!resolvedServiceId || !getServiceById(resolvedServiceId)) {
+    throw new AvailabilityError("The selected service is not available for booking.");
+  }
 
-  const bookedSessions = await loadBookedSessions(now, horizonEnd);
+  const resolvedTimezone = resolveDisplayTimezone(displayTimezone);
 
-  return generateAvailableSlots({
-    config,
-    serviceId,
-    displayTimezone,
-    bookedSessions,
-    now,
-  });
+  try {
+    const config = await getAvailabilityConfig();
+    const now = new Date();
+    const horizonEnd = new Date(now);
+    horizonEnd.setUTCDate(horizonEnd.getUTCDate() + config.settings.horizonDays + 7);
+
+    const bookedSessions = await loadBookedSessions(now, horizonEnd);
+
+    return generateAvailableSlots({
+      config,
+      serviceId: resolvedServiceId,
+      displayTimezone: resolvedTimezone,
+      bookedSessions,
+      now,
+    });
+  } catch (error) {
+    logAvailabilityError("getAvailableSlots failed", error, {
+      serviceId: resolvedServiceId,
+      displayTimezone: resolvedTimezone,
+    });
+    throw error;
+  }
 }
 
 export async function validateBookableSlot(input: {
@@ -72,7 +93,7 @@ export async function validateBookableSlot(input: {
 
   const availability = await getAvailableSlots(
     input.serviceId,
-    input.displayTimezone ?? "UTC",
+    resolveDisplayTimezone(input.displayTimezone),
   );
 
   const slot = findSlotInAvailability(availability, input.slotId);

@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
-import { getAvailabilityAction } from "@/lib/booking/actions";
+import { getAvailabilityAction } from "@/lib/booking/availability/actions";
 import { getServiceById } from "@/lib/booking/services-catalog";
 import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
 import type { AvailabilityDay, BookingStep, ServiceId } from "@/lib/booking/types";

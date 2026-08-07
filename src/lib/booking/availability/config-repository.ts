@@ -108,7 +108,12 @@ export async function updateAvailabilityConfig(input: {
 
   await prisma.bookingSettings.update({
     where: { id: "default" },
-    data: input.settings,
+    data: {
+      minNoticeHours: Math.max(1, input.settings.minNoticeHours || 24),
+      bufferMinutes: Math.max(0, input.settings.bufferMinutes || 15),
+      horizonDays: Math.min(Math.max(1, input.settings.horizonDays || 56), 90),
+      slotStepMinutes: Math.max(1, input.settings.slotStepMinutes || 15),
+    },
   });
 
   for (const day of input.weekly) {
