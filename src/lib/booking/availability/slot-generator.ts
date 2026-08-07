@@ -79,7 +79,7 @@ export function generateAvailableSlots(input: {
 }): AvailabilityDay[] {
   const { config, serviceId, displayTimezone, bookedSessions } = input;
   const now = input.now ?? new Date();
-  const durationMinutes = getServiceDurationMinutes(serviceId);
+  const durationMinutes = Math.max(getServiceDurationMinutes(serviceId), 1);
   const {
     businessTimezone,
     minNoticeHours,
@@ -90,11 +90,13 @@ export function generateAvailableSlots(input: {
 
   const minStartMs = now.getTime() + minNoticeHours * 60 * 60_000;
   const weeklyByDay = new Map(config.weekly.map((day) => [day.dayOfWeek, day]));
+  const safeHorizonDays = Math.min(Math.max(horizonDays || 56, 1), 90);
+  const safeSlotStep = Math.max(slotStepMinutes || 15, 1);
 
   let businessDateKey = getDateKeyInTimeZone(now, businessTimezone);
   const daysByDisplayDate = new Map<string, TimeSlot[]>();
 
-  for (let dayOffset = 0; dayOffset < horizonDays; dayOffset += 1) {
+  for (let dayOffset = 0; dayOffset < safeHorizonDays; dayOffset += 1) {
     const isoDay = getIsoDayOfWeek(businessDateKey, businessTimezone);
     const schedule = weeklyByDay.get(isoDay);
 
@@ -105,7 +107,7 @@ export function generateAvailableSlots(input: {
       for (
         let startMinutes = windowStart;
         startMinutes + durationMinutes <= windowEnd;
-        startMinutes += slotStepMinutes
+        startMinutes += safeSlotStep
       ) {
         if (!isWithinWorkingWindow(startMinutes, startMinutes + durationMinutes, windowStart, windowEnd)) {
           continue;
