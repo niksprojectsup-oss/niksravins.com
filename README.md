@@ -1,5 +1,41 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Environment variables
+
+Copy `.env.example` to `.env` and fill in the values for your environment.
+
+| Variable | Required | Description |
+| --- | --- | --- |
+| `DATABASE_URL` | Yes (production) | PostgreSQL connection string |
+| `AUTH_SECRET` | Yes (production) | Secret for admin session tokens |
+| `ADMIN_EMAIL` | For seed/admin | Admin login email |
+| `ADMIN_PASSWORD` | For seed/admin | Admin login password |
+| `RESEND_API_KEY` | For email | Resend API key |
+| `EMAIL_FROM` | For email | Verified sender, e.g. `Niks Ravins <hello@niksravins.com>` |
+| `ADMIN_NOTIFICATION_EMAIL` | Optional | Admin booking alerts (defaults to `hello@niksravins.com`) |
+
+## Booking confirmation emails
+
+After a booking is saved, the app sends:
+
+1. A confirmation email to the client (session details + next steps)
+2. A notification email to the admin address
+
+Email delivery uses [Resend](https://resend.com). Bookings are still saved if email delivery fails; failures are logged server-side without exposing secrets to the client.
+
+### Testing emails locally
+
+1. Create a free Resend account and generate an API key.
+2. Add to `.env`:
+   ```bash
+   RESEND_API_KEY=re_xxxxxxxx
+   EMAIL_FROM="onboarding@resend.dev"
+   ADMIN_NOTIFICATION_EMAIL=your-verified-email@example.com
+   ```
+3. On Resend's free tier, you can send from `onboarding@resend.dev` only to the email address verified on your Resend account.
+4. Run `npm run dev`, complete a booking, and check the Resend dashboard plus your inbox.
+5. For production, verify your domain in Resend and set `EMAIL_FROM` to an address on that domain (e.g. `hello@niksravins.com`).
+
 ## Getting Started
 
 First, run the development server:
