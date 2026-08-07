@@ -1,5 +1,9 @@
 import { validateBookableSlot } from "@/lib/booking/availability/availability-service";
 import { initializeClientWorkspace } from "@/lib/admin/client-workspace";
+import {
+  getPackageFollowUpEligibility,
+  schedulePackageSession,
+} from "@/lib/admin/package-repository";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
   getServiceById,
@@ -104,6 +108,20 @@ export async function createBooking(
     let packageId: string | undefined;
 
     if (isPackage) {
+      const existingPackage = await tx.sessionPackage.findFirst({
+        where: {
+          clientId: client.id,
+          serviceId: request.serviceId,
+          status: "ACTIVE",
+        },
+      });
+
+      if (existingPackage) {
+        throw new BookingPersistenceError(
+          "You already have an active transformation package. Schedule your next session instead of purchasing again.",
+        );
+      }
+
       const sessionPackage = await tx.sessionPackage.create({
         data: {
           clientId: client.id,
@@ -164,4 +182,75 @@ export async function createBooking(
     createdAt: result.booking.createdAt.toISOString(),
     updatedAt: result.booking.updatedAt.toISOString(),
   };
+}
+
+export type PackageFollowUpRequest = {
+  email: string;
+  slotId: string;
+  scheduledAt: string;
+  timezone: string;
+  sessionIntention?: string;
+};
+
+export type PackageFollowUpRecord = {
+  sessionId: string;
+  packageId: string;
+  sessionNumber: number;
+  scheduledAt: string;
+};
+
+export async function createPackageFollowUpSession(
+  request: PackageFollowUpRequest,
+): Promise<PackageFollowUpRecord> {
+  requireDatabase();
+
+  const normalizedEmail = request.email.trim().toLowerCase();
+  const eligibility = await getPackageFollowUpEligibility(normalizedEmail);
+
+  if (!eligibility) {
+    throw new BookingPersistenceError(
+      "No package session is ready to schedule for this email. Complete your current session first, or purchase a new package.",
+    );
+  }
+
+  await schedulePackageSession(
+    eligibility.packageId,
+    {
+      slotId: request.slotId,
+      scheduledAt: request.scheduledAt,
+      mainTopic: request.sessionIntention?.trim(),
+    },
+    { clientId: eligibility.clientId },
+  );
+
+  const session = await prisma.session.findFirst({
+    where: {
+      packageId: eligibility.packageId,
+      sessionNumber: eligibility.nextSessionNumber,
+      status: "SCHEDULED",
+    },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (!session) {
+    throw new BookingPersistenceError("Unable to confirm the scheduled session.");
+  }
+
+  await prisma.client.update({
+    where: { id: eligibility.clientId },
+    data: {
+      timezone: request.timezone.trim() || undefined,
+    },
+  });
+
+  return {
+    sessionId: session.id,
+    packageId: eligibility.packageId,
+    sessionNumber: eligibility.nextSessionNumber,
+    scheduledAt: request.scheduledAt,
+  };
+}
+
+export async function lookupPackageFollowUpEligibility(email: string) {
+  return getPackageFollowUpEligibility(email);
 }

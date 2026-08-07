@@ -1,15 +1,17 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { AdminStatusBadge } from "@/components/admin/AdminStatusBadge";
-import { Field, Input } from "@/components/ui/Field";
+import { BookingCalendar } from "@/components/booking/BookingCalendar";
 import {
   markSessionCompletedAction,
   schedulePackageSessionAction,
 } from "@/lib/admin/actions/clients";
+import { getAvailabilityAction } from "@/lib/booking/actions";
 import { formatAdminDateTime } from "@/lib/admin/format";
 import type { ClientPackageRecord } from "@/lib/admin/client-types";
+import type { AvailabilityDay } from "@/lib/booking/types";
 
 type PackageManagementSectionProps = {
   clientId: string;
@@ -20,23 +22,63 @@ function PackageCard({ clientId, pkg }: { clientId: string; pkg: ClientPackageRe
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
-  const [schedulingSlot, setSchedulingSlot] = useState<number | null>(null);
-  const [scheduledAt, setScheduledAt] = useState("");
+  const [isScheduling, setIsScheduling] = useState(false);
+  const [selectedSlotId, setSelectedSlotId] = useState<string | null>(null);
+  const [selectedScheduledAt, setSelectedScheduledAt] = useState<string | null>(null);
+  const [availability, setAvailability] = useState<AvailabilityDay[]>([]);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
 
-  const nextUnscheduled = pkg.timeline.find((slot) => slot.status === "not_scheduled");
-  const canScheduleMore = pkg.status === "active" && nextUnscheduled != null;
+  const nextSessionNumber = pkg.nextSchedulableSessionNumber;
+  const nextSlotLabel =
+    nextSessionNumber != null ? `Session ${nextSessionNumber}` : null;
+
+  useEffect(() => {
+    if (!isScheduling) return;
+
+    let cancelled = false;
+    setAvailabilityLoading(true);
+    setAvailabilityError(null);
+
+    getAvailabilityAction(
+      pkg.serviceId as "initial-aap-session" | "aap-transformation-package",
+      "Europe/Riga",
+    )
+      .then((days) => {
+        if (!cancelled) setAvailability(days);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setAvailability([]);
+          setAvailabilityError("Unable to load available times. Please try again.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setAvailabilityLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isScheduling, pkg.serviceId]);
 
   function handleSchedule() {
-    if (!scheduledAt) return;
+    if (!selectedSlotId || !selectedScheduledAt) return;
     setError(null);
     startTransition(async () => {
-      const result = await schedulePackageSessionAction(clientId, pkg.id, scheduledAt);
+      const result = await schedulePackageSessionAction(
+        clientId,
+        pkg.id,
+        selectedSlotId,
+        selectedScheduledAt,
+      );
       if ("error" in result && result.error) {
         setError(result.error);
         return;
       }
-      setSchedulingSlot(null);
-      setScheduledAt("");
+      setIsScheduling(false);
+      setSelectedSlotId(null);
+      setSelectedScheduledAt(null);
       router.refresh();
     });
   }
@@ -80,6 +122,58 @@ function PackageCard({ clientId, pkg }: { clientId: string; pkg: ClientPackageRe
         </div>
       </dl>
 
+      {pkg.canScheduleNext && nextSlotLabel ? (
+        <div className="mt-6">
+          {!isScheduling ? (
+            <button
+              type="button"
+              onClick={() => setIsScheduling(true)}
+              disabled={isPending}
+              className="min-h-11 rounded-md bg-ink px-4 py-2 type-body text-canvas disabled:opacity-60"
+            >
+              Schedule next session ({nextSlotLabel})
+            </button>
+          ) : (
+            <div className="layout-stack-md border-t border-border-subtle pt-6">
+              <h4 className="type-label">Choose a time for {nextSlotLabel}</h4>
+              <BookingCalendar
+                availability={availability}
+                selectedSlotId={selectedSlotId}
+                onSelectSlot={(slotId, scheduledAt) => {
+                  setSelectedSlotId(slotId);
+                  setSelectedScheduledAt(scheduledAt);
+                }}
+                timezone="Europe/Riga"
+                loading={availabilityLoading}
+                error={availabilityError}
+              />
+              <div className="flex flex-wrap gap-3">
+                <button
+                  type="button"
+                  onClick={handleSchedule}
+                  disabled={isPending || !selectedSlotId || !selectedScheduledAt}
+                  className="min-h-11 rounded-md bg-ink px-4 py-2 type-body text-canvas disabled:opacity-60"
+                >
+                  Save session
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsScheduling(false);
+                    setSelectedSlotId(null);
+                    setSelectedScheduledAt(null);
+                    setAvailabilityError(null);
+                  }}
+                  className="min-h-11 rounded-md border border-border-subtle px-4 py-2 type-body text-ink"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : null}
+
       <div className="mt-8">
         <h4 className="type-label">Session timeline</h4>
         <ol className="mt-4 layout-stack-sm">
@@ -115,61 +209,11 @@ function PackageCard({ clientId, pkg }: { clientId: string; pkg: ClientPackageRe
                     Mark completed
                   </button>
                 ) : null}
-
-                {slot.status === "not_scheduled" &&
-                canScheduleMore &&
-                nextUnscheduled?.sessionNumber === slot.sessionNumber ? (
-                  <button
-                    type="button"
-                    onClick={() =>
-                      setSchedulingSlot(
-                        schedulingSlot === slot.sessionNumber ? null : slot.sessionNumber,
-                      )
-                    }
-                    disabled={isPending}
-                    className="min-h-10 rounded-md border border-border-subtle px-3 type-caption text-ink disabled:opacity-60"
-                  >
-                    Schedule
-                  </button>
-                ) : null}
               </div>
             </li>
           ))}
         </ol>
       </div>
-
-      {schedulingSlot != null ? (
-        <div className="mt-6 layout-stack-md border-t border-border-subtle pt-6">
-          <Field label={`Schedule ${pkg.timeline.find((s) => s.sessionNumber === schedulingSlot)?.label}`} id={`schedule-${pkg.id}`}>
-            <Input
-              id={`schedule-${pkg.id}`}
-              type="datetime-local"
-              value={scheduledAt}
-              onChange={(event) => setScheduledAt(event.target.value)}
-            />
-          </Field>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={handleSchedule}
-              disabled={isPending || !scheduledAt}
-              className="min-h-11 rounded-md bg-ink px-4 py-2 type-body text-canvas disabled:opacity-60"
-            >
-              Save session
-            </button>
-            <button
-              type="button"
-              onClick={() => {
-                setSchedulingSlot(null);
-                setScheduledAt("");
-              }}
-              className="min-h-11 rounded-md border border-border-subtle px-4 py-2 type-body text-ink"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      ) : null}
 
       {error ? (
         <p className="type-caption mt-4 text-warm" role="alert">

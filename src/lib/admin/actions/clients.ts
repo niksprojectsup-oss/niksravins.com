@@ -156,12 +156,17 @@ export async function deleteClientAction(clientId: string) {
 export async function schedulePackageSessionAction(
   clientId: string,
   packageId: string,
+  slotId: string,
   scheduledAt: string,
 ) {
   const session = await requireAdmin();
 
   try {
-    await schedulePackageSession(packageId, scheduledAt);
+    await schedulePackageSession(
+      packageId,
+      { slotId, scheduledAt },
+      { clientId },
+    );
   } catch (error) {
     if (error instanceof PackageOperationError) {
       return { error: error.message };

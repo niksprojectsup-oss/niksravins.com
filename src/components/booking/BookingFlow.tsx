@@ -1,9 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useTransition } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
-import { getAvailabilityAction } from "@/lib/booking/actions";
+import {
+  getAvailabilityAction,
+  getPackageFollowUpEligibilityAction,
+  type PackageFollowUpEligibilityState,
+} from "@/lib/booking/actions";
 import { getServiceById } from "@/lib/booking/services-catalog";
 import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
 import type { AvailabilityDay, BookingStep, ServiceId } from "@/lib/booking/types";
@@ -12,6 +16,7 @@ import { BookingConfirmation } from "./BookingConfirmation";
 import { BookingHero } from "./BookingHero";
 import { BookingStepIndicator } from "./BookingStepIndicator";
 import { ClientInfoForm } from "./ClientInfoForm";
+import { PackageFollowUpForm } from "./PackageFollowUpForm";
 import { PaymentBookingForm } from "./PaymentBookingForm";
 import { SessionSelection } from "./SessionSelection";
 
@@ -44,8 +49,13 @@ export function BookingFlow() {
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof typeof clientDetails, string>>
   >({});
+  const [followUpPackage, setFollowUpPackage] =
+    useState<PackageFollowUpEligibilityState | null>(null);
+  const [detailsError, setDetailsError] = useState<string | null>(null);
+  const [isCheckingFollowUp, startFollowUpCheck] = useTransition();
 
   const selectedService = serviceId ? getServiceById(serviceId) : null;
+  const isFollowUpBooking = followUpPackage?.eligible === true;
 
   useEffect(() => {
     const detected = detectBrowserTimezone();
@@ -94,6 +104,7 @@ export function BookingFlow() {
 
   function handleNext() {
     if (step === "session" && serviceId) {
+      setFollowUpPackage(null);
       goToStep("schedule");
       return;
     }
@@ -107,6 +118,24 @@ export function BookingFlow() {
       const errors = validateClientDetails(clientDetails);
       setFormErrors(errors);
       if (Object.keys(errors).length > 0) return;
+
+      setDetailsError(null);
+
+      if (serviceId === "aap-transformation-package") {
+        startFollowUpCheck(async () => {
+          const eligibility = await getPackageFollowUpEligibilityAction(clientDetails.email);
+          if (eligibility.eligible) {
+            setFollowUpPackage(eligibility);
+            goToStep("payment");
+            return;
+          }
+          setFollowUpPackage(null);
+          goToStep("payment");
+        });
+        return;
+      }
+
+      setFollowUpPackage(null);
       goToStep("payment");
     }
   }
@@ -120,6 +149,7 @@ export function BookingFlow() {
     setServiceId(nextServiceId);
     setSlotId(null);
     setScheduledAt(null);
+    setFollowUpPackage(null);
   }
 
   function handleSlotSelect(nextSlotId: string, nextScheduledAt: string) {
@@ -148,15 +178,19 @@ export function BookingFlow() {
   if (step === "confirmed") {
     return (
       <div className="layout-container max-w-wide pb-section-lg">
-        <BookingConfirmation />
+        <BookingConfirmation
+          followUpSessionNumber={
+            isFollowUpBooking ? followUpPackage?.nextSessionNumber : undefined
+          }
+        />
       </div>
     );
   }
 
   return (
     <div className="layout-container max-w-wide pb-section-lg">
-      <BookingHero />
-      <BookingStepIndicator currentStep={step} />
+      <BookingHero followUpMode={isFollowUpBooking} />
+      <BookingStepIndicator currentStep={step} followUpMode={isFollowUpBooking} />
 
       <div className="layout-stack-lg pt-10 md:pt-14">
         {step === "session" ? (
@@ -183,7 +217,18 @@ export function BookingFlow() {
         ) : null}
 
         {step === "payment" ? (
-          canSubmitPayment ? (
+          canSubmitPayment && isFollowUpBooking && followUpPackage ? (
+            <PackageFollowUpForm
+              slotId={slotId}
+              scheduledAt={scheduledAt}
+              client={clientDetails}
+              completedSessions={followUpPackage.completedSessions ?? 0}
+              remainingSessions={followUpPackage.remainingSessions ?? 0}
+              totalSessions={followUpPackage.totalSessions ?? 5}
+              nextSessionNumber={followUpPackage.nextSessionNumber ?? 2}
+              onSuccess={handleBookingSuccess}
+            />
+          ) : canSubmitPayment ? (
             <PaymentBookingForm
               serviceId={serviceId}
               slotId={slotId}
@@ -218,10 +263,16 @@ export function BookingFlow() {
             <Button
               type="button"
               onClick={handleNext}
-              disabled={!canContinue || (step === "schedule" && availabilityLoading)}
+              disabled={
+                !canContinue ||
+                (step === "schedule" && availabilityLoading) ||
+                (step === "details" && isCheckingFollowUp)
+              }
               className="w-full sm:w-auto"
             >
-              {bookingContent.actions.continue}
+              {step === "details" && isCheckingFollowUp
+                ? "Checking…"
+                : bookingContent.actions.continue}
             </Button>
           </div>
         ) : (
@@ -236,6 +287,12 @@ export function BookingFlow() {
             </Button>
           </div>
         )}
+
+        {detailsError ? (
+          <p className="type-caption text-warm" role="alert">
+            {detailsError}
+          </p>
+        ) : null}
       </div>
     </div>
   );

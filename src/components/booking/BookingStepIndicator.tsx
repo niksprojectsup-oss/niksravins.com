@@ -10,6 +10,7 @@ const STEP_LABELS: Record<Exclude<BookingStep, "confirmed">, string> = {
 
 type BookingStepIndicatorProps = {
   currentStep: BookingStep;
+  followUpMode?: boolean;
 };
 
 const VISIBLE_STEPS: Exclude<BookingStep, "confirmed">[] = [
@@ -21,10 +22,12 @@ const VISIBLE_STEPS: Exclude<BookingStep, "confirmed">[] = [
 
 export function BookingStepIndicator({
   currentStep,
+  followUpMode = false,
 }: BookingStepIndicatorProps) {
   if (currentStep === "confirmed") return null;
 
   const currentIndex = VISIBLE_STEPS.indexOf(currentStep);
+  const paymentLabel = followUpMode ? "Confirm" : STEP_LABELS.payment;
 
   return (
     <nav aria-label="Booking progress" className="border-b border-border-subtle pb-6">
@@ -32,6 +35,7 @@ export function BookingStepIndicator({
         {VISIBLE_STEPS.map((step, index) => {
           const isActive = step === currentStep;
           const isComplete = index < currentIndex;
+          const label = step === "payment" ? paymentLabel : STEP_LABELS[step];
 
           return (
             <li key={step}>
@@ -44,7 +48,7 @@ export function BookingStepIndicator({
                 )}
                 aria-current={isActive ? "step" : undefined}
               >
-                {String(index + 1).padStart(2, "0")} {STEP_LABELS[step]}
+                {String(index + 1).padStart(2, "0")} {label}
               </span>
             </li>
           );

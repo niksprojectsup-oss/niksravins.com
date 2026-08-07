@@ -103,6 +103,8 @@ export interface ClientPackageRecord {
   status: string;
   createdAt: string;
   timeline: PackageSessionSlot[];
+  nextSchedulableSessionNumber: number | null;
+  canScheduleNext: boolean;
 }
 
 export interface ClientBookingRecord {
