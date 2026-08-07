@@ -155,6 +155,7 @@ export async function createBooking(
 
   return {
     id: result.booking.id,
+    clientId: result.client.id,
     serviceId: request.serviceId,
     slotId: request.slotId,
     scheduledAt: request.scheduledAt,

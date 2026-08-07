@@ -59,6 +59,12 @@ export function Header() {
           >
             Book
           </Link>
+          <Link
+            href="/client/login"
+            className="type-caption text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
+          >
+            Client Portal
+          </Link>
         </nav>
 
         <button
@@ -145,6 +151,15 @@ export function Header() {
               onClick={() => setMenuOpen(false)}
             >
               Book a Session
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/client/login"
+              className="block py-4 font-display text-2xl text-ink no-underline"
+              onClick={() => setMenuOpen(false)}
+            >
+              Client Portal
             </Link>
           </li>
         </ul>

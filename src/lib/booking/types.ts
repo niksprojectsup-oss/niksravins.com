@@ -71,6 +71,7 @@ export interface BookingRequest {
 
 export interface BookingRecord extends BookingRequest {
   id: string;
+  clientId: string;
   status: BookingStatus;
   paymentStatus: PaymentStatus;
   paymentProvider?: PaymentProvider;

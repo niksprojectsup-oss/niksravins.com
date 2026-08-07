@@ -10,6 +10,8 @@ import {
   getAvailableSlots,
 } from "@/lib/booking/availability/availability-service";
 import { sendBookingConfirmationEmails } from "@/lib/email/send-booking-emails";
+import { sendCreatePasswordEmail } from "@/lib/email/send-portal-setup-email";
+import { ensureClientPortalAccount } from "@/lib/auth/client-repository";
 import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
 import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
@@ -54,6 +56,26 @@ export async function submitBookingFormAction(
     const booking = await createBooking(request);
 
     await sendBookingConfirmationEmails(booking);
+
+    try {
+      const portalAccount = await ensureClientPortalAccount({
+        clientId: booking.clientId,
+        email: booking.client.email,
+      });
+
+      if (portalAccount?.isNewAccount && portalAccount.setupToken) {
+        await sendCreatePasswordEmail({
+          firstName: booking.client.firstName,
+          email: booking.client.email,
+          setupToken: portalAccount.setupToken,
+        });
+      }
+    } catch (error) {
+      console.error("[portal] Failed to provision client account after booking", {
+        bookingId: booking.id,
+        message: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
 
     revalidatePath("/admin");
     revalidatePath("/admin/clients");
