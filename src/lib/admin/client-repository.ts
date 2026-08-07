@@ -129,6 +129,38 @@ function mapClientListItem(client: {
   };
 }
 
+function partitionSessions(
+  sessions: ClientSessionNote[],
+  now = new Date(),
+): { upcoming: ClientSessionNote[]; completed: ClientSessionNote[] } {
+  const upcoming = sessions
+    .filter(
+      (session) =>
+        session.status === "SCHEDULED" &&
+        new Date(session.scheduledAt).getTime() > now.getTime(),
+    )
+    .sort(
+      (a, b) =>
+        new Date(a.scheduledAt).getTime() - new Date(b.scheduledAt).getTime(),
+    );
+
+  const completed = sessions
+    .filter(
+      (session) =>
+        session.status === "COMPLETED" ||
+        session.status === "NO_SHOW" ||
+        session.status === "CANCELLED" ||
+        (session.status === "SCHEDULED" &&
+          new Date(session.scheduledAt).getTime() <= now.getTime()),
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.scheduledAt).getTime() - new Date(a.scheduledAt).getTime(),
+    );
+
+  return { upcoming, completed };
+}
+
 function mapChecklist(items: { itemKey: string; checked: boolean; type: ChecklistType }[]) {
   const before = Object.fromEntries(
     BEFORE_CHECKLIST_ITEMS.map((item) => [item.key, false]),
@@ -261,6 +293,7 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     status: session.status,
   }));
 
+  const { upcoming, completed } = partitionSessions(sessionNotes);
   const bookings = mapBookings(client.bookings);
 
   return {
@@ -268,6 +301,7 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     firstName: client.firstName,
     lastName: client.lastName,
     email: client.email,
+    phone: client.phone,
     country: client.country,
     timezone: client.timezone,
     status: client.status,
@@ -276,6 +310,8 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     reactionAnalysis,
     checklist: mapChecklist(client.checklists),
     sessionNotes,
+    upcomingSessions: upcoming,
+    completedSessions: completed,
     bookings,
     timeline: buildTimeline({
       createdAt: client.createdAt,
@@ -411,6 +447,7 @@ export async function updateClientRecord(
       firstName: input.firstName.trim(),
       lastName: input.lastName.trim(),
       email: normalizedEmail,
+      phone: input.phone?.trim() || null,
       country: input.country,
       timezone: input.timezone,
     },

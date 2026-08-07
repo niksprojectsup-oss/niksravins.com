@@ -110,7 +110,9 @@ export async function getAdminCalendarSlots(monthKey: string): Promise<CalendarS
       endTime: endTime.toISOString(),
       kind: "booked" as const,
       sessionId: session.id,
-      clientName: `${session.client.firstName} ${session.client.lastName.charAt(0)}.`,
+      clientName: `${session.client.firstName} ${session.client.lastName}`,
+      serviceTitle: session.sessionType,
+      status: mapSessionStatus(session.status),
     };
   });
 }

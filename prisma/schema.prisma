@@ -137,6 +137,7 @@ model Client {
   firstName        String
   lastName         String
   email            String       @unique
+  phone            String?
   country          String
   timezone         String       @default("Europe/Riga")
   status           ClientStatus @default(ACTIVE)

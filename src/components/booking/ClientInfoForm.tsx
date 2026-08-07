@@ -61,6 +61,17 @@ export function ClientInfoForm({ value, onChange, errors }: ClientInfoFormProps)
           />
         </Field>
 
+        <Field label="Phone (optional)" id="phone" error={errors?.phone}>
+          <Input
+            id="phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            value={value.phone ?? ""}
+            onChange={(e) => updateField("phone", e.target.value)}
+          />
+        </Field>
+
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
           <Field label="Country" id="country" error={errors?.country}>
             <Select

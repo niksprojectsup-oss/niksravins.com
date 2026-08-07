@@ -83,6 +83,7 @@ export async function updateClientAction(
     firstName: string;
     lastName: string;
     email: string;
+    phone?: string;
     country: string;
     timezone: string;
   },

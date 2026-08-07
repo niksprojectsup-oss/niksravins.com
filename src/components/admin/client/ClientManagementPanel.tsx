@@ -25,6 +25,7 @@ export function ClientManagementPanel({ client }: ClientManagementPanelProps) {
     firstName: client.firstName,
     lastName: client.lastName,
     email: client.email,
+    phone: client.phone ?? "",
     country: client.country,
     timezone: client.timezone,
   });
@@ -146,6 +147,17 @@ export function ClientManagementPanel({ client }: ClientManagementPanelProps) {
             />
           </Field>
 
+          <Field label="Phone" id="edit-phone">
+            <Input
+              id="edit-phone"
+              type="tel"
+              value={form.phone}
+              onChange={(event) =>
+                setForm((current) => ({ ...current, phone: event.target.value }))
+              }
+            />
+          </Field>
+
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
             <Field label="Country" id="edit-country">
               <Select
@@ -198,6 +210,7 @@ export function ClientManagementPanel({ client }: ClientManagementPanelProps) {
                   firstName: client.firstName,
                   lastName: client.lastName,
                   email: client.email,
+                  phone: client.phone ?? "",
                   country: client.country,
                   timezone: client.timezone,
                 });

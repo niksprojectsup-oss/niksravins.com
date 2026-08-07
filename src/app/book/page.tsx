@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     "Book an online session with Niks Ravins. Initial AAP sessions and transformation packages focused on changing automatic emotional reactions.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default function BookPage() {
   return (
     <>

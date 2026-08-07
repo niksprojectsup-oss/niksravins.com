@@ -49,6 +49,7 @@ export type ClientUpdateInput = {
   firstName: string;
   lastName: string;
   email: string;
+  phone?: string;
   country: string;
   timezone: string;
 };
@@ -58,6 +59,7 @@ export interface ClientWorkspace {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string | null;
   country: string;
   timezone: string;
   status: ClientStatus | string;
@@ -66,6 +68,8 @@ export interface ClientWorkspace {
   reactionAnalysis: ReactionAnalysisData;
   checklist: ChecklistState;
   sessionNotes: ClientSessionNote[];
+  upcomingSessions: ClientSessionNote[];
+  completedSessions: ClientSessionNote[];
   bookings: ClientBookingRecord[];
   timeline: ClientTimelineEvent[];
   practitionerNotes: string;

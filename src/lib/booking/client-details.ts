@@ -4,6 +4,7 @@ export const emptyClientDetails: ClientDetails = {
   firstName: "",
   lastName: "",
   email: "",
+  phone: "",
   country: "",
   timezone: "Europe/Riga",
   sessionIntention: "",
@@ -20,6 +21,9 @@ export function validateClientDetails(
     errors.email = "Email is required.";
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(client.email)) {
     errors.email = "Enter a valid email address.";
+  }
+  if (client.phone?.trim() && !/^[\d\s+\-().]{6,24}$/.test(client.phone.trim())) {
+    errors.phone = "Enter a valid phone number.";
   }
   if (!client.country) errors.country = "Country is required.";
   if (!client.timezone) errors.timezone = "Time zone is required.";

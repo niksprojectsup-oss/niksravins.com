@@ -13,6 +13,35 @@ export class BookingPersistenceError extends Error {
   }
 }
 
+function normalizePhone(phone?: string): string | null {
+  const trimmed = phone?.trim();
+  return trimmed ? trimmed : null;
+}
+
+function mergeClientFields(
+  existing: {
+    firstName: string;
+    lastName: string;
+    phone: string | null;
+    country: string;
+    timezone: string;
+    firstSessionDate: Date | null;
+  },
+  incoming: BookingRequest["client"],
+  scheduledAt: Date,
+) {
+  const phone = normalizePhone(incoming.phone) ?? existing.phone;
+
+  return {
+    firstName: incoming.firstName.trim() || existing.firstName,
+    lastName: incoming.lastName.trim() || existing.lastName,
+    phone,
+    country: incoming.country.trim() || existing.country,
+    timezone: incoming.timezone.trim() || existing.timezone,
+    firstSessionDate: existing.firstSessionDate ?? scheduledAt,
+  };
+}
+
 export async function createBooking(
   request: BookingRequest,
 ): Promise<BookingRecord> {
@@ -31,14 +60,13 @@ export async function createBooking(
       where: { email: normalizedEmail },
     });
 
-    const isNewClient = !client;
-
     if (!client) {
       client = await tx.client.create({
         data: {
           firstName: request.client.firstName.trim(),
           lastName: request.client.lastName.trim(),
           email: normalizedEmail,
+          phone: normalizePhone(request.client.phone),
           country: request.client.country,
           timezone: request.client.timezone,
           firstSessionDate: scheduledAt,
@@ -47,15 +75,11 @@ export async function createBooking(
 
       await initializeClientWorkspace(tx, client.id);
     } else {
+      const merged = mergeClientFields(client, request.client, scheduledAt);
+
       client = await tx.client.update({
         where: { id: client.id },
-        data: {
-          firstName: request.client.firstName.trim(),
-          lastName: request.client.lastName.trim(),
-          country: request.client.country,
-          timezone: request.client.timezone,
-          firstSessionDate: client.firstSessionDate ?? scheduledAt,
-        },
+        data: merged,
       });
 
       const profile = await tx.clientProfile.findUnique({
@@ -97,7 +121,7 @@ export async function createBooking(
       },
     });
 
-    return { booking, client, session, isNewClient };
+    return { booking, client, session };
   });
 
   return {

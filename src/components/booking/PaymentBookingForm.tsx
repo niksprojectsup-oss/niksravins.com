@@ -45,6 +45,7 @@ export function PaymentBookingForm({
         <input type="hidden" name="firstName" value={client.firstName} />
         <input type="hidden" name="lastName" value={client.lastName} />
         <input type="hidden" name="email" value={client.email} />
+        <input type="hidden" name="phone" value={client.phone ?? ""} />
         <input type="hidden" name="country" value={client.country} />
         <input type="hidden" name="timezone" value={client.timezone} />
         <input type="hidden" name="sessionIntention" value={client.sessionIntention} />

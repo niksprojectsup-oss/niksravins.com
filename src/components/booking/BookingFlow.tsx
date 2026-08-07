@@ -128,14 +128,23 @@ export function BookingFlow() {
           />
         ) : null}
 
-        {step === "payment" && canSubmitPayment ? (
-          <PaymentBookingForm
-            serviceId={serviceId}
-            slotId={slotId}
-            scheduledAt={scheduledAt}
-            client={clientDetails}
-            onSuccess={handleBookingSuccess}
-          />
+        {step === "payment" ? (
+          canSubmitPayment ? (
+            <PaymentBookingForm
+              serviceId={serviceId}
+              slotId={slotId}
+              scheduledAt={scheduledAt}
+              client={clientDetails}
+              onSuccess={handleBookingSuccess}
+            />
+          ) : (
+            <div className="observed-card p-6 md:p-8">
+              <p className="type-body text-warm" role="alert">
+                Your booking details are incomplete. Go back and fill in all required
+                fields before confirming.
+              </p>
+            </div>
+          )
         ) : null}
 
         {step !== "payment" ? (

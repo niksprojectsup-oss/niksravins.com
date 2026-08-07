@@ -6,6 +6,7 @@ import { ClientTimelineSection } from "@/components/admin/client/ClientTimelineS
 import { PractitionerNotesSection } from "@/components/admin/client/PractitionerNotesSection";
 import { ProgressTrackingSection } from "@/components/admin/client/ProgressTrackingSection";
 import { ReactionAnalysisSection } from "@/components/admin/client/ReactionAnalysisSection";
+import { ClientSessionsSection } from "@/components/admin/client/ClientSessionsSection";
 import { SessionNotesSection } from "@/components/admin/client/SessionNotesSection";
 import { getClientWorkspace } from "@/lib/admin/client-repository";
 
@@ -27,6 +28,10 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
       <ClientManagementPanel client={client} />
       <ClientOverview client={client} />
       <BookingHistorySection bookings={client.bookings} />
+      <ClientSessionsSection
+        upcomingSessions={client.upcomingSessions}
+        completedSessions={client.completedSessions}
+      />
       <SessionNotesSection clientId={client.id} sessions={client.sessionNotes} />
       <ProgressTrackingSection clientId={client.id} checklist={client.checklist} />
       <ReactionAnalysisSection

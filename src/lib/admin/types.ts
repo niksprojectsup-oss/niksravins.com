@@ -57,6 +57,8 @@ export interface CalendarSlot {
   kind: "available" | "booked";
   sessionId?: string;
   clientName?: string;
+  serviceTitle?: string;
+  status?: AdminSessionStatus;
 }
 
 export interface DashboardStats {

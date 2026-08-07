@@ -170,11 +170,21 @@ export function AdminCalendar({
                   {slot.clientName ? (
                     <p className="type-caption">{slot.clientName}</p>
                   ) : null}
+                  {slot.serviceTitle ? (
+                    <p className="type-caption text-ink-faint">{slot.serviceTitle}</p>
+                  ) : null}
                 </div>
-                <AdminStatusBadge
-                  label={slot.kind === "booked" ? "Booked" : "Available"}
-                  variant={slot.kind === "booked" ? "default" : "accent"}
-                />
+                {slot.kind === "booked" && slot.status ? (
+                  <AdminStatusBadge
+                    label={slot.status}
+                    variant={slot.status === "scheduled" ? "accent" : "default"}
+                  />
+                ) : (
+                  <AdminStatusBadge
+                    label={slot.kind === "booked" ? "Booked" : "Available"}
+                    variant={slot.kind === "booked" ? "default" : "accent"}
+                  />
+                )}
               </li>
             ))}
           </ul>
