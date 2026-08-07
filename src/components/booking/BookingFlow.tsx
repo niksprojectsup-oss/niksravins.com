@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
 import { getAvailabilityAction } from "@/lib/booking/availability/actions";
@@ -44,6 +44,8 @@ export function BookingFlow() {
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof typeof clientDetails, string>>
   >({});
+  const stepContentRef = useRef<HTMLDivElement>(null);
+  const isInitialStepRender = useRef(true);
 
   const selectedService = serviceId ? getServiceById(serviceId) : null;
 
@@ -83,9 +85,33 @@ export function BookingFlow() {
     };
   }, [serviceId, displayTimezone, step]);
 
+  useEffect(() => {
+    if (isInitialStepRender.current) {
+      isInitialStepRender.current = false;
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const behavior: ScrollBehavior = prefersReducedMotion ? "auto" : "smooth";
+
+    const scrollToStep = () => {
+      if (step === "confirmed") {
+        window.scrollTo({ top: 0, behavior });
+        return;
+      }
+
+      stepContentRef.current?.scrollIntoView({ behavior, block: "start" });
+    };
+
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToStep);
+    });
+  }, [step]);
+
   const goToStep = useCallback((nextStep: BookingStep) => {
     setStep(nextStep);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
   const handleBookingSuccess = useCallback(() => {
@@ -158,7 +184,7 @@ export function BookingFlow() {
       <BookingHero />
       <BookingStepIndicator currentStep={step} />
 
-      <div className="layout-stack-lg pt-10 md:pt-14">
+      <div ref={stepContentRef} className="layout-stack-lg scroll-mt-24 pt-10 md:scroll-mt-28 md:pt-14">
         {step === "session" ? (
           <SessionSelection selected={serviceId} onSelect={handleServiceSelect} />
         ) : null}
