@@ -12,6 +12,7 @@ import {
 import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
 import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
+import { sendBookingConfirmationEmails } from "@/lib/email/booking-emails";
 import { Prisma } from "@prisma/client";
 
 export type BookingFormState = {
@@ -57,6 +58,15 @@ export async function submitBookingFormAction(
     revalidatePath("/admin/sessions");
     revalidatePath("/admin/calendar");
     revalidatePath("/admin/payments");
+
+    try {
+      await sendBookingConfirmationEmails(booking);
+    } catch (error) {
+      console.error("[booking-email] Unexpected delivery error", {
+        bookingId: booking.id,
+        error: error instanceof Error ? error.message : "Unknown error",
+      });
+    }
 
     return {
       success: true,
