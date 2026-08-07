@@ -4,8 +4,11 @@ import { useCallback, useMemo, useState } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
 import { getMockAvailability } from "@/lib/booking/mock-availability";
+import {
+  getServiceById,
+  getServiceDurationMinutes,
+} from "@/lib/booking/services-catalog";
 import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
-import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
 import type { BookingStep, ServiceId } from "@/lib/booking/types";
 import { BookingCalendar } from "./BookingCalendar";
 import { BookingConfirmation } from "./BookingConfirmation";
@@ -32,6 +35,8 @@ export function BookingFlow() {
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof typeof clientDetails, string>>
   >({});
+
+  const selectedService = serviceId ? getServiceById(serviceId) : null;
 
   const availability = useMemo(() => {
     if (!serviceId) return [];
@@ -135,6 +140,7 @@ export function BookingFlow() {
               slotId={slotId}
               scheduledAt={scheduledAt}
               client={clientDetails}
+              checkoutNote={selectedService?.checkoutNote}
               onSuccess={handleBookingSuccess}
             />
           ) : (

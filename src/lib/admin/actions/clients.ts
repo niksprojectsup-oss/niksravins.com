@@ -11,6 +11,11 @@ import {
   updatePractitionerNotes,
   updateReactionAnalysis,
 } from "@/lib/admin/client-repository";
+import {
+  markSessionCompleted,
+  PackageOperationError,
+  schedulePackageSession,
+} from "@/lib/admin/package-repository";
 import type {
   ChecklistUpdatePayload,
   ReactionAnalysisInput,
@@ -146,4 +151,67 @@ export async function deleteClientAction(clientId: string) {
   revalidatePath("/admin/clients");
   revalidatePath("/admin/calendar");
   revalidatePath("/admin/sessions");
+}
+
+export async function schedulePackageSessionAction(
+  clientId: string,
+  packageId: string,
+  scheduledAt: string,
+) {
+  const session = await requireAdmin();
+
+  try {
+    await schedulePackageSession(packageId, scheduledAt);
+  } catch (error) {
+    if (error instanceof PackageOperationError) {
+      return { error: error.message };
+    }
+    return { error: "Unable to schedule session." };
+  }
+
+  await logAuditEvent({
+    action: "session.create",
+    resource: "session_package",
+    resourceId: packageId,
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { clientId },
+  });
+
+  revalidatePath(`/admin/clients/${clientId}`);
+  revalidatePath("/admin/calendar");
+  revalidatePath("/admin/sessions");
+  revalidatePath("/admin");
+  return { success: true as const };
+}
+
+export async function markSessionCompletedAction(
+  clientId: string,
+  sessionId: string,
+) {
+  const session = await requireAdmin();
+
+  try {
+    await markSessionCompleted(sessionId);
+  } catch (error) {
+    if (error instanceof PackageOperationError) {
+      return { error: error.message };
+    }
+    return { error: "Unable to mark session completed." };
+  }
+
+  await logAuditEvent({
+    action: "session.update",
+    resource: "session",
+    resourceId: sessionId,
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { status: "COMPLETED", clientId },
+  });
+
+  revalidatePath(`/admin/clients/${clientId}`);
+  revalidatePath("/admin/calendar");
+  revalidatePath("/admin/sessions");
+  revalidatePath("/admin");
+  return { success: true as const };
 }

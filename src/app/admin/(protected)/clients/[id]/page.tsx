@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import { PackageManagementSection } from "@/components/admin/client/PackageManagementSection";
 import { BookingHistorySection } from "@/components/admin/client/BookingHistorySection";
 import { ClientManagementPanel } from "@/components/admin/client/ClientManagementPanel";
 import { ClientOverview, ClientProfileHeader } from "@/components/admin/client/ClientOverview";
@@ -27,6 +28,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
       <ClientProfileHeader client={client} />
       <ClientManagementPanel client={client} />
       <ClientOverview client={client} />
+      <PackageManagementSection clientId={client.id} packages={client.packages} />
       <BookingHistorySection bookings={client.bookings} />
       <ClientSessionsSection
         upcomingSessions={client.upcomingSessions}

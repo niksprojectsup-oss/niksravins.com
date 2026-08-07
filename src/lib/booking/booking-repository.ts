@@ -3,6 +3,8 @@ import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
   getServiceById,
   getServicePriceCents,
+  isPackageService,
+  PACKAGE_TOTAL_SESSIONS,
 } from "@/lib/booking/services-catalog";
 import type { BookingRecord, BookingRequest } from "@/lib/booking/types";
 
@@ -54,6 +56,7 @@ export async function createBooking(
 
   const normalizedEmail = request.client.email.trim().toLowerCase();
   const scheduledAt = new Date(request.scheduledAt);
+  const isPackage = isPackageService(request.serviceId);
 
   const result = await prisma.$transaction(async (tx) => {
     let client = await tx.client.findUnique({
@@ -90,9 +93,25 @@ export async function createBooking(
       }
     }
 
+    let packageId: string | undefined;
+
+    if (isPackage) {
+      const sessionPackage = await tx.sessionPackage.create({
+        data: {
+          clientId: client.id,
+          serviceId: request.serviceId,
+          totalSessions: PACKAGE_TOTAL_SESSIONS,
+          completedSessions: 0,
+        },
+      });
+      packageId = sessionPackage.id;
+    }
+
     const session = await tx.session.create({
       data: {
         clientId: client.id,
+        packageId,
+        sessionNumber: isPackage ? 1 : null,
         scheduledAt,
         sessionType: service.title,
         serviceId: request.serviceId,
@@ -105,6 +124,7 @@ export async function createBooking(
       data: {
         clientId: client.id,
         sessionId: session.id,
+        packageId,
         serviceId: request.serviceId,
         slotId: request.slotId,
         sessionIntention: request.client.sessionIntention.trim(),
@@ -115,13 +135,14 @@ export async function createBooking(
     await tx.payment.create({
       data: {
         clientId: client.id,
-        sessionId: session.id,
+        sessionId: isPackage ? null : session.id,
+        packageId,
         amountCents: getServicePriceCents(request.serviceId),
         status: "PENDING",
       },
     });
 
-    return { booking, client, session };
+    return { booking, client, session, packageId };
   });
 
   return {

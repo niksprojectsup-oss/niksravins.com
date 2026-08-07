@@ -20,7 +20,11 @@ export function SessionSelection({ selected, onSelect }: SessionSelectionProps) 
             key={service.id}
             title={service.title}
             description={service.description}
+            detail={service.detail}
+            highlights={service.highlights}
+            bonuses={service.bonuses}
             duration={service.durationLabel}
+            priceLabel={service.priceLabel}
             selected={selected === service.id}
             onSelect={() => onSelect(service.id)}
           />

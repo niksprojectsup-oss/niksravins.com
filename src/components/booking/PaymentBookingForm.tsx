@@ -12,6 +12,7 @@ type PaymentBookingFormProps = {
   slotId: string;
   scheduledAt: string;
   client: ClientDetails;
+  checkoutNote?: string;
   onSuccess: () => void;
 };
 
@@ -20,6 +21,7 @@ export function PaymentBookingForm({
   slotId,
   scheduledAt,
   client,
+  checkoutNote,
   onSuccess,
 }: PaymentBookingFormProps) {
   const [state, formAction, pending] = useActionState<BookingFormState, FormData>(
@@ -39,6 +41,10 @@ export function PaymentBookingForm({
       description={bookingContent.payment.description}
     >
       <form action={formAction} className="layout-stack-md max-w-prose">
+        {checkoutNote ? (
+          <p className="type-body text-ink-muted">{checkoutNote}</p>
+        ) : null}
+
         <input type="hidden" name="serviceId" value={serviceId} />
         <input type="hidden" name="slotId" value={slotId} />
         <input type="hidden" name="scheduledAt" value={scheduledAt} />

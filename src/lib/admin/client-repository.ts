@@ -16,6 +16,7 @@ import type {
   SessionNoteInput,
 } from "./client-types";
 import { getServiceById } from "@/lib/booking/services-catalog";
+import { listClientPackages } from "@/lib/admin/package-repository";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
   decryptField,
@@ -286,6 +287,8 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     id: session.id,
     scheduledAt: session.scheduledAt.toISOString(),
     sessionType: session.sessionType,
+    sessionNumber: session.sessionNumber,
+    packageId: session.packageId,
     mainTopic: session.mainTopic,
     notes: decryptField(session.notes),
     changesNoticed: decryptField(session.changesNoticed),
@@ -295,6 +298,7 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
 
   const { upcoming, completed } = partitionSessions(sessionNotes);
   const bookings = mapBookings(client.bookings);
+  const packages = await listClientPackages(client.id);
 
   return {
     id: client.id,
@@ -312,6 +316,7 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
     sessionNotes,
     upcomingSessions: upcoming,
     completedSessions: completed,
+    packages,
     bookings,
     timeline: buildTimeline({
       createdAt: client.createdAt,

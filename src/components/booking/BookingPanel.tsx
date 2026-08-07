@@ -27,15 +27,38 @@ export function BookingPanel({
 type SessionCardProps = {
   title: string;
   description: string;
+  detail?: string;
+  highlights?: string[];
+  bonuses?: string[];
   duration?: string;
+  priceLabel?: string;
   selected: boolean;
   onSelect: () => void;
 };
 
+function ServiceList({ items }: { items: string[] }) {
+  return (
+    <ul className="layout-stack-sm">
+      {items.map((item) => (
+        <li key={item} className="flex gap-2.5 type-body text-ink-muted">
+          <span className="text-accent shrink-0" aria-hidden>
+            —
+          </span>
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 export function SessionCard({
   title,
   description,
+  detail,
+  highlights,
+  bonuses,
   duration,
+  priceLabel,
   selected,
   onSelect,
 }: SessionCardProps) {
@@ -52,7 +75,26 @@ export function SessionCard({
       <div className="layout-stack-sm">
         <h3 className="type-heading-sm">{title}</h3>
         <p className="type-body">{description}</p>
-        {duration ? <p className="type-caption">{duration}</p> : null}
+        {detail ? <p className="type-body text-ink-muted">{detail}</p> : null}
+        {highlights && highlights.length > 0 ? (
+          <div className="pt-2">
+            <ServiceList items={highlights} />
+          </div>
+        ) : null}
+        {bonuses && bonuses.length > 0 ? (
+          <div className="border-t border-border-subtle pt-4">
+            <p className="type-label text-ink-subtle">Included bonuses</p>
+            <div className="mt-3">
+              <ServiceList items={bonuses} />
+            </div>
+          </div>
+        ) : null}
+        {duration || priceLabel ? (
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-1">
+            {duration ? <p className="type-caption">{duration}</p> : null}
+            {priceLabel ? <p className="type-caption text-ink">{priceLabel}</p> : null}
+          </div>
+        ) : null}
       </div>
     </button>
   );

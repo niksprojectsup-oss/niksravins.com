@@ -8,9 +8,14 @@ export interface BookableService {
   id: ServiceId;
   title: string;
   description: string;
+  detail?: string;
+  highlights?: string[];
+  bonuses?: string[];
+  checkoutNote?: string;
   kind: ServiceKind;
   durationLabel?: string;
   durationMinutes?: number;
+  priceLabel?: string;
 }
 
 export type BookingStep =

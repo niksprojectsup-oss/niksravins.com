@@ -21,6 +21,8 @@ export interface ClientSessionNote {
   id: string;
   scheduledAt: string;
   sessionType: string;
+  sessionNumber?: number | null;
+  packageId?: string | null;
   mainTopic: string;
   notes: string;
   changesNoticed: string;
@@ -70,9 +72,37 @@ export interface ClientWorkspace {
   sessionNotes: ClientSessionNote[];
   upcomingSessions: ClientSessionNote[];
   completedSessions: ClientSessionNote[];
+  packages: ClientPackageRecord[];
   bookings: ClientBookingRecord[];
   timeline: ClientTimelineEvent[];
   practitionerNotes: string;
+}
+
+export type PackageSessionSlotStatus =
+  | "not_scheduled"
+  | "scheduled"
+  | "completed"
+  | "cancelled"
+  | "no-show";
+
+export interface PackageSessionSlot {
+  sessionNumber: number;
+  label: string;
+  sessionId?: string;
+  scheduledAt?: string;
+  status: PackageSessionSlotStatus;
+}
+
+export interface ClientPackageRecord {
+  id: string;
+  serviceId: string;
+  serviceTitle: string;
+  totalSessions: number;
+  completedSessions: number;
+  remainingSessions: number;
+  status: string;
+  createdAt: string;
+  timeline: PackageSessionSlot[];
 }
 
 export interface ClientBookingRecord {

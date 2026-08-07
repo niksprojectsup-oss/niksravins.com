@@ -39,6 +39,12 @@ enum BookingStatus {
   CANCELLED
 }
 
+enum PackageStatus {
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
 enum UserRole {
   ADMIN
   CLIENT
@@ -151,6 +157,7 @@ model Client {
   sessions         Session[]
   payments         Payment[]
   bookings         Booking[]
+  sessionPackages  SessionPackage[]
   user             User?
 
   @@index([status])
@@ -201,6 +208,8 @@ model Checklist {
 model Session {
   id             String        @id @default(cuid())
   clientId       String
+  packageId      String?
+  sessionNumber  Int?
   scheduledAt    DateTime
   sessionType    String
   serviceId      String?
@@ -212,12 +221,33 @@ model Session {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
-  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  client   Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  package  SessionPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
   payments Payment[]
   booking  Booking?
 
   @@index([clientId, scheduledAt])
+  @@index([packageId, sessionNumber])
   @@index([scheduledAt])
+  @@index([status])
+}
+
+model SessionPackage {
+  id                String        @id @default(cuid())
+  clientId          String
+  serviceId         String
+  totalSessions     Int           @default(5)
+  completedSessions Int           @default(0)
+  status            PackageStatus @default(ACTIVE)
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+
+  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  sessions Session[]
+  booking  Booking?
+  payment  Payment?
+
+  @@index([clientId])
   @@index([status])
 }
 
@@ -225,6 +255,7 @@ model Booking {
   id               String        @id @default(cuid())
   clientId         String
   sessionId        String        @unique
+  packageId        String?       @unique
   serviceId        String
   slotId           String
   sessionIntention String        @default("")
@@ -232,8 +263,9 @@ model Booking {
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 
-  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  client  Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session Session         @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  package SessionPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
 
   @@index([clientId])
   @@index([createdAt])
@@ -243,6 +275,7 @@ model Payment {
   id          String        @id @default(cuid())
   clientId    String
   sessionId   String?
+  packageId   String?       @unique
   amountCents Int
   currency    String        @default("EUR")
   status      PaymentStatus @default(PENDING)
@@ -250,8 +283,9 @@ model Payment {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
-  client  Client   @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  session Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  client  Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session Session?        @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+  package SessionPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
 
   @@index([clientId])
   @@index([sessionId])

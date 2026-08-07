@@ -58,6 +58,7 @@ export async function listAdminPayments(): Promise<AdminPayment[]> {
     include: {
       client: { select: { firstName: true, lastName: true } },
       session: { select: { sessionType: true, scheduledAt: true } },
+      package: { select: { serviceId: true } },
     },
     orderBy: { createdAt: "desc" },
   });
@@ -66,10 +67,12 @@ export async function listAdminPayments(): Promise<AdminPayment[]> {
     id: payment.id,
     clientId: payment.clientId,
     clientName: `${payment.client.firstName} ${payment.client.lastName}`,
-    sessionId: payment.sessionId ?? "",
+    sessionId: payment.sessionId ?? payment.packageId ?? "",
     sessionLabel: payment.session
       ? `${payment.session.sessionType} · ${formatAdminDateTime(payment.session.scheduledAt.toISOString())}`
-      : "—",
+      : payment.package
+        ? "Transformation package · 5 sessions"
+        : "—",
     amountCents: payment.amountCents,
     currency: payment.currency,
     status: payment.status.toLowerCase() as AdminPayment["status"],
