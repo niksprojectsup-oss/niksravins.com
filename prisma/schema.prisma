@@ -290,3 +290,32 @@ model Payment {
   @@index([clientId])
   @@index([sessionId])
 }
+
+model BookingSettings {
+  id              String   @id @default("default")
+  businessTimezone String  @default("Europe/Riga")
+  minNoticeHours  Int      @default(24)
+  bufferMinutes   Int      @default(15)
+  horizonDays     Int      @default(56)
+  slotStepMinutes Int      @default(15)
+  updatedAt       DateTime @updatedAt
+}
+
+model WeeklyAvailability {
+  id        String  @id @default(cuid())
+  dayOfWeek Int
+  enabled   Boolean @default(true)
+  startTime String
+  endTime   String
+  note      String  @default("")
+
+  @@unique([dayOfWeek])
+}
+
+model DailyTimeBlock {
+  id        String  @id @default(cuid())
+  startTime String
+  endTime   String
+  label     String
+  active    Boolean @default(true)
+}

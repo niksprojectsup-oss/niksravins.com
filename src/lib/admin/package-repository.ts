@@ -1,4 +1,5 @@
 import { getServiceById } from "@/lib/booking/services-catalog";
+import { validateBookableSlot } from "@/lib/booking/availability/availability-service";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import type {
   ClientPackageRecord,
@@ -124,6 +125,27 @@ export async function schedulePackageSession(
   const when = new Date(scheduledAt);
   if (Number.isNaN(when.getTime())) {
     throw new PackageOperationError("Please provide a valid date and time.");
+  }
+
+  const pkgPreview = await prisma.sessionPackage.findUnique({
+    where: { id: packageId },
+  });
+  if (!pkgPreview) {
+    throw new PackageOperationError("Package not found.");
+  }
+
+  try {
+    await validateBookableSlot({
+      serviceId: pkgPreview.serviceId as "initial-aap-session" | "aap-transformation-package",
+      slotId: `slot-${when.getTime()}`,
+      scheduledAt: when.toISOString(),
+      displayTimezone: "Europe/Riga",
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new PackageOperationError(error.message);
+    }
+    throw new PackageOperationError("This time is outside online availability.");
   }
 
   await prisma.$transaction(async (tx) => {

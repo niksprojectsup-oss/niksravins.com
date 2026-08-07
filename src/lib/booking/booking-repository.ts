@@ -1,3 +1,4 @@
+import { validateBookableSlot } from "@/lib/booking/availability/availability-service";
 import { initializeClientWorkspace } from "@/lib/admin/client-workspace";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
@@ -57,6 +58,13 @@ export async function createBooking(
   const normalizedEmail = request.client.email.trim().toLowerCase();
   const scheduledAt = new Date(request.scheduledAt);
   const isPackage = isPackageService(request.serviceId);
+
+  await validateBookableSlot({
+    serviceId: request.serviceId,
+    slotId: request.slotId,
+    scheduledAt: request.scheduledAt,
+    displayTimezone: request.client.timezone,
+  });
 
   const result = await prisma.$transaction(async (tx) => {
     let client = await tx.client.findUnique({

@@ -1,3 +1,4 @@
+import { ensureAvailabilityDefaults } from "../src/lib/booking/availability/config-repository";
 import {
   BEFORE_CHECKLIST_ITEMS,
   CURRENT_CHECKLIST_ITEMS,
@@ -8,6 +9,8 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  await ensureAvailabilityDefaults();
+
   const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@niksravins.com").toLowerCase();
   const adminPassword = process.env.ADMIN_PASSWORD ?? "change-me-in-production";
   const passwordHash = await hashPassword(adminPassword);

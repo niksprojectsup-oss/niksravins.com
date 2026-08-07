@@ -10,7 +10,11 @@ export const bookingContent = {
   },
   calendar: {
     title: "Choose a time",
-    description: "All sessions are conducted online. Select an available date and time.",
+    description:
+      "Select an available online session. You'll only see times when Niks is available for online work.",
+    loading: "Loading available times…",
+    noAvailability:
+      "No online sessions are available in the next booking window. Please check back soon.",
     noSlots: "No available times on this date.",
   },
   form: {

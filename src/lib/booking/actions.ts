@@ -1,9 +1,17 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createBooking, BookingPersistenceError } from "@/lib/booking/booking-repository";
+import {
+  createBooking,
+  BookingPersistenceError,
+} from "@/lib/booking/booking-repository";
+import {
+  AvailabilityError,
+  getAvailableSlots,
+} from "@/lib/booking/availability/availability-service";
 import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
+import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
 import { Prisma } from "@prisma/client";
 
 export type BookingFormState = {
@@ -13,7 +21,7 @@ export type BookingFormState = {
 };
 
 function mapBookingError(error: unknown): string {
-  if (error instanceof BookingPersistenceError) {
+  if (error instanceof BookingPersistenceError || error instanceof AvailabilityError) {
     return error.message;
   }
 
@@ -57,4 +65,11 @@ export async function submitBookingFormAction(
   } catch (error) {
     return { error: mapBookingError(error) };
   }
+}
+
+export async function getAvailabilityAction(
+  serviceId: ServiceId,
+  displayTimezone: string,
+): Promise<AvailabilityDay[]> {
+  return getAvailableSlots(serviceId, displayTimezone);
 }

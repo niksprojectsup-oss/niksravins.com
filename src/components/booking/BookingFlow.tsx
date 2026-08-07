@@ -1,15 +1,12 @@
 "use client";
 
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { bookingContent } from "@/content/booking";
 import { Button } from "@/components/ui/Button";
-import { getMockAvailability } from "@/lib/booking/mock-availability";
-import {
-  getServiceById,
-  getServiceDurationMinutes,
-} from "@/lib/booking/services-catalog";
+import { getAvailabilityAction } from "@/lib/booking/actions";
+import { getServiceById } from "@/lib/booking/services-catalog";
 import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
-import type { BookingStep, ServiceId } from "@/lib/booking/types";
+import type { AvailabilityDay, BookingStep, ServiceId } from "@/lib/booking/types";
 import { BookingCalendar } from "./BookingCalendar";
 import { BookingConfirmation } from "./BookingConfirmation";
 import { BookingHero } from "./BookingHero";
@@ -26,22 +23,65 @@ const STEP_ORDER: BookingStep[] = [
   "confirmed",
 ];
 
+function detectBrowserTimezone(): string {
+  try {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone || "Europe/Riga";
+  } catch {
+    return "Europe/Riga";
+  }
+}
+
 export function BookingFlow() {
   const [step, setStep] = useState<BookingStep>("session");
   const [serviceId, setServiceId] = useState<ServiceId | null>(null);
   const [slotId, setSlotId] = useState<string | null>(null);
   const [scheduledAt, setScheduledAt] = useState<string | null>(null);
   const [clientDetails, setClientDetails] = useState(emptyClientDetails);
+  const [displayTimezone, setDisplayTimezone] = useState("Europe/Riga");
+  const [availability, setAvailability] = useState<AvailabilityDay[]>([]);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState<string | null>(null);
   const [formErrors, setFormErrors] = useState<
     Partial<Record<keyof typeof clientDetails, string>>
   >({});
 
   const selectedService = serviceId ? getServiceById(serviceId) : null;
 
-  const availability = useMemo(() => {
-    if (!serviceId) return [];
-    return getMockAvailability(28, getServiceDurationMinutes(serviceId), serviceId);
-  }, [serviceId]);
+  useEffect(() => {
+    const detected = detectBrowserTimezone();
+    setDisplayTimezone(detected);
+    setClientDetails((current) =>
+      current.timezone === "Europe/Riga"
+        ? { ...current, timezone: detected }
+        : current,
+    );
+  }, []);
+
+  useEffect(() => {
+    if (!serviceId || step !== "schedule") return;
+
+    let cancelled = false;
+    setAvailabilityLoading(true);
+    setAvailabilityError(null);
+
+    getAvailabilityAction(serviceId, displayTimezone)
+      .then((days) => {
+        if (!cancelled) setAvailability(days);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setAvailability([]);
+          setAvailabilityError("Unable to load available times. Please try again.");
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setAvailabilityLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [serviceId, displayTimezone, step]);
 
   const goToStep = useCallback((nextStep: BookingStep) => {
     setStep(nextStep);
@@ -87,6 +127,13 @@ export function BookingFlow() {
     setScheduledAt(nextScheduledAt);
   }
 
+  function handleClientDetailsChange(next: typeof clientDetails) {
+    setClientDetails(next);
+    if (next.timezone) {
+      setDisplayTimezone(next.timezone);
+    }
+  }
+
   const canContinue =
     (step === "session" && serviceId !== null) ||
     (step === "schedule" && slotId !== null && scheduledAt !== null) ||
@@ -121,14 +168,16 @@ export function BookingFlow() {
             availability={availability}
             selectedSlotId={slotId}
             onSelectSlot={handleSlotSelect}
-            timezone={clientDetails.timezone || undefined}
+            timezone={displayTimezone}
+            loading={availabilityLoading}
+            error={availabilityError}
           />
         ) : null}
 
         {step === "details" ? (
           <ClientInfoForm
             value={clientDetails}
-            onChange={setClientDetails}
+            onChange={handleClientDetailsChange}
             errors={formErrors}
           />
         ) : null}
@@ -169,7 +218,7 @@ export function BookingFlow() {
             <Button
               type="button"
               onClick={handleNext}
-              disabled={!canContinue}
+              disabled={!canContinue || (step === "schedule" && availabilityLoading)}
               className="w-full sm:w-auto"
             >
               {bookingContent.actions.continue}

@@ -1,47 +1,41 @@
 import { AdminPageHeader, AdminPanel } from "@/components/admin/AdminPageHeader";
+import { AvailabilitySettingsForm } from "@/components/admin/AvailabilitySettingsForm";
 import { adminPages } from "@/content/admin";
+import { getAvailabilityConfig } from "@/lib/booking/availability/config-repository";
 
-export default function AdminSettingsPage() {
+export default async function AdminSettingsPage() {
+  const config = await getAvailabilityConfig();
+
   return (
-    <div className="layout-stack-lg max-w-prose">
+    <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader
         title={adminPages.settings.title}
         description={adminPages.settings.description}
       />
 
-      <AdminPanel title="Authentication">
-        <div className="observed-card p-6">
-          <p className="type-body">
-            Admin authentication is not yet enabled. Future integration will
-            protect all /admin routes behind secure sign-in.
-          </p>
-        </div>
-      </AdminPanel>
-
-      <AdminPanel title="Integrations">
-        <div className="layout-stack-sm">
-          <div className="observed-card p-6">
-            <p className="type-label">Database</p>
-            <p className="type-body mt-2">
-              Client profiles, sessions, and availability will persist through a
-              dedicated data layer.
-            </p>
-          </div>
-          <div className="observed-card p-6">
-            <p className="type-label">Stripe</p>
-            <p className="type-body mt-2">
-              Payment records and checkout sessions will sync here once Stripe is
-              connected.
-            </p>
-          </div>
-          <div className="observed-card p-6">
-            <p className="type-label">Client portal</p>
-            <p className="type-body mt-2">
-              Clients will access their session history and upcoming appointments
-              through a separate private portal.
-            </p>
-          </div>
-        </div>
+      <AdminPanel title="Online availability">
+        <AvailabilitySettingsForm
+          initialSettings={{
+            minNoticeHours: config.settings.minNoticeHours,
+            bufferMinutes: config.settings.bufferMinutes,
+            horizonDays: config.settings.horizonDays,
+            slotStepMinutes: config.settings.slotStepMinutes,
+          }}
+          initialWeekly={config.weekly.map((day) => ({
+            dayOfWeek: day.dayOfWeek,
+            enabled: day.enabled,
+            startTime: day.startTime,
+            endTime: day.endTime,
+            note: day.note,
+          }))}
+          initialBlocks={config.blocks.map((block) => ({
+            id: block.id,
+            startTime: block.startTime,
+            endTime: block.endTime,
+            label: block.label,
+            active: block.active,
+          }))}
+        />
       </AdminPanel>
     </div>
   );

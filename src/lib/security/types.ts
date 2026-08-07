@@ -27,7 +27,8 @@ export type AuditAction =
   | "payment.create"
   | "user.create"
   | "data.export"
-  | "data.delete";
+  | "data.delete"
+  | "availability.update";
 
 export type AuditResource =
   | "auth"
@@ -36,7 +37,9 @@ export type AuditResource =
   | "reaction_analysis"
   | "practitioner_notes"
   | "payment"
-  | "user";
+  | "user"
+  | "booking_settings"
+  | "session_package";
 
 export type RateLimitScope =
   | "auth.login"

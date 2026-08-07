@@ -33,6 +33,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
       <ClientSessionsSection
         upcomingSessions={client.upcomingSessions}
         completedSessions={client.completedSessions}
+        clientTimezone={client.timezone}
       />
       <SessionNotesSection clientId={client.id} sessions={client.sessionNotes} />
       <ProgressTrackingSection clientId={client.id} checklist={client.checklist} />

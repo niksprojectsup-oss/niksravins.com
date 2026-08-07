@@ -1,13 +1,15 @@
 import { AdminStatusBadge } from "@/components/admin/AdminStatusBadge";
-import { formatAdminDateTime } from "@/lib/admin/format";
+import { formatAdminDateTimeWithClient } from "@/lib/admin/format";
 import type { ClientSessionNote } from "@/lib/admin/client-types";
 
 function SessionList({
   sessions,
   emptyMessage,
+  clientTimezone,
 }: {
   sessions: ClientSessionNote[];
   emptyMessage: string;
+  clientTimezone?: string;
 }) {
   if (sessions.length === 0) {
     return <p className="type-body">{emptyMessage}</p>;
@@ -23,7 +25,10 @@ function SessionList({
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <p className="type-body text-ink">
-                {session.sessionType} · {formatAdminDateTime(session.scheduledAt)}
+                {session.sessionType}
+                {session.sessionNumber ? ` · Session ${session.sessionNumber}` : ""}
+                {" · "}
+                {formatAdminDateTimeWithClient(session.scheduledAt, clientTimezone)}
               </p>
               {session.mainTopic ? (
                 <p className="type-caption mt-1">Topic: {session.mainTopic}</p>
@@ -43,9 +48,11 @@ function SessionList({
 export function ClientSessionsSection({
   upcomingSessions,
   completedSessions,
+  clientTimezone,
 }: {
   upcomingSessions: ClientSessionNote[];
   completedSessions: ClientSessionNote[];
+  clientTimezone?: string;
 }) {
   return (
     <section className="observed-card p-6 md:p-8">
@@ -58,6 +65,7 @@ export function ClientSessionsSection({
             <SessionList
               sessions={upcomingSessions}
               emptyMessage="No upcoming sessions scheduled."
+              clientTimezone={clientTimezone}
             />
           </div>
         </div>
@@ -68,6 +76,7 @@ export function ClientSessionsSection({
             <SessionList
               sessions={completedSessions}
               emptyMessage="No completed sessions yet."
+              clientTimezone={clientTimezone}
             />
           </div>
         </div>
