@@ -7,11 +7,9 @@ import {
 } from "@/lib/booking/booking-repository";
 import {
   AvailabilityError,
-  getAvailableSlots,
 } from "@/lib/booking/availability/availability-service";
 import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
-import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
 import { Prisma } from "@prisma/client";
 
 export type BookingFormState = {
@@ -65,11 +63,4 @@ export async function submitBookingFormAction(
   } catch (error) {
     return { error: mapBookingError(error) };
   }
-}
-
-export async function getAvailabilityAction(
-  serviceId: ServiceId,
-  displayTimezone: string,
-): Promise<AvailabilityDay[]> {
-  return getAvailableSlots(serviceId, displayTimezone);
 }
