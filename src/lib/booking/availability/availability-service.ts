@@ -46,6 +46,15 @@ export async function getAvailableSlots(
   const horizonEnd = new Date(now);
   horizonEnd.setUTCDate(horizonEnd.getUTCDate() + config.settings.horizonDays + 7);
 
+  if (process.env.NODE_ENV === "development") {
+    console.log("[availability] loading booked sessions", {
+      serviceId,
+      displayTimezone,
+      from: now.toISOString(),
+      to: horizonEnd.toISOString(),
+    });
+  }
+
   const bookedSessions = await loadBookedSessions(now, horizonEnd);
 
   return generateAvailableSlots({

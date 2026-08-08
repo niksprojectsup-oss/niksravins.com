@@ -5,16 +5,12 @@ import {
   createBooking,
   BookingPersistenceError,
 } from "@/lib/booking/booking-repository";
-import {
-  AvailabilityError,
-  getAvailableSlots,
-} from "@/lib/booking/availability/availability-service";
+import { AvailabilityError } from "@/lib/booking/availability/availability-service";
 import { sendBookingConfirmationEmails } from "@/lib/email/send-booking-emails";
 import { sendCreatePasswordEmail } from "@/lib/email/send-portal-setup-email";
 import { ensureClientPortalAccount } from "@/lib/auth/client-repository";
 import { parseBookingFormData } from "@/lib/booking/form-data";
 import { validateBookingRequest } from "@/lib/booking/validation";
-import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
 import { Prisma } from "@prisma/client";
 
 export type BookingFormState = {
@@ -92,9 +88,3 @@ export async function submitBookingFormAction(
   }
 }
 
-export async function getAvailabilityAction(
-  serviceId: ServiceId,
-  displayTimezone: string,
-): Promise<AvailabilityDay[]> {
-  return getAvailableSlots(serviceId, displayTimezone);
-}

@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { isClientAuthSessionActive } from "@/lib/auth/client-repository";
-import { isAdminSessionActive } from "@/lib/auth/admin-repository";
-import { getSessionFromRequest } from "@/lib/auth/session-token";
+import {
+  getMiddlewareSession,
+  isValidAdminSession,
+  isValidClientSession,
+} from "@/lib/auth/middleware-auth";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login"];
 const PUBLIC_CLIENT_PATHS = ["/client/login", "/client/set-password"];
@@ -27,27 +29,16 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    const session = await getSessionFromRequest(request);
+    const session = await getMiddlewareSession(request);
 
-    if (!session) {
+    if (!isValidAdminSession(session)) {
       const loginUrl = new URL("/admin/login", request.url);
       loginUrl.searchParams.set("next", pathname);
       return NextResponse.redirect(loginUrl);
     }
 
-    if (session.role !== "ADMIN") {
-      return NextResponse.redirect(new URL("/admin/login", request.url));
-    }
-
     if (!session.mfaVerified) {
       return NextResponse.redirect(new URL("/admin/login/mfa", request.url));
-    }
-
-    const adminSessionActive = await isAdminSessionActive(session.sessionId);
-    if (!adminSessionActive) {
-      const loginUrl = new URL("/admin/login", request.url);
-      loginUrl.searchParams.set("error", "Session expired. Please sign in again.");
-      return NextResponse.redirect(loginUrl);
     }
 
     return NextResponse.next();
@@ -58,18 +49,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
-    const session = await getSessionFromRequest(request);
+    const session = await getMiddlewareSession(request);
 
-    if (!session || session.role !== "CLIENT" || !session.clientId) {
+    if (!isValidClientSession(session)) {
       const loginUrl = new URL("/client/login", request.url);
       loginUrl.searchParams.set("next", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    const clientSessionActive = await isClientAuthSessionActive(session.sessionId);
-    if (!clientSessionActive) {
-      const loginUrl = new URL("/client/login", request.url);
-      loginUrl.searchParams.set("error", "Session expired. Please sign in again.");
       return NextResponse.redirect(loginUrl);
     }
 

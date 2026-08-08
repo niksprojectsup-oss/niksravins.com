@@ -31,7 +31,7 @@ export const DEFAULT_DAILY_BLOCKS: Omit<DailyTimeBlock, "id">[] = [
   { startTime: "19:00", endTime: "20:00", label: "Dinner break", active: true },
 ];
 
-export async function ensureAvailabilityDefaults(): Promise<void> {
+export async function seedAvailabilityDefaults(): Promise<void> {
   requireDatabase();
 
   await prisma.bookingSettings.upsert({
@@ -79,6 +79,39 @@ export async function ensureAvailabilityDefaults(): Promise<void> {
         label: block.label,
         active: block.active,
       },
+    });
+  }
+}
+
+/** Ensures rows exist for public reads without rewriting config on every request. */
+export async function ensureAvailabilityDefaults(): Promise<void> {
+  requireDatabase();
+
+  const settingsCount = await prisma.bookingSettings.count();
+  if (settingsCount === 0) {
+    await prisma.bookingSettings.create({
+      data: {
+        id: "default",
+        businessTimezone: "Europe/Riga",
+        minNoticeHours: 24,
+        bufferMinutes: 15,
+        horizonDays: 56,
+        slotStepMinutes: 15,
+      },
+    });
+  }
+
+  const weeklyCount = await prisma.weeklyAvailability.count();
+  if (weeklyCount === 0) {
+    await prisma.weeklyAvailability.createMany({
+      data: DEFAULT_WEEKLY_SCHEDULE,
+    });
+  }
+
+  const blockCount = await prisma.dailyTimeBlock.count();
+  if (blockCount === 0) {
+    await prisma.dailyTimeBlock.createMany({
+      data: DEFAULT_DAILY_BLOCKS,
     });
   }
 }
