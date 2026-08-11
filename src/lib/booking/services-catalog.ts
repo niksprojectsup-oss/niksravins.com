@@ -24,7 +24,7 @@ export const BOOKABLE_SERVICES: BookableService[] = [
     durationMinutes: 45,
     priceLabel: "€450 total",
     checkoutNote:
-      "You'll schedule your first session now. Your remaining sessions will be arranged directly with your practitioner.",
+      "Your first session is confirmed. Schedule your remaining 4 sessions through your Client Portal.",
     highlights: [
       "Deeper understanding of your patterns",
       "Working with underlying reactions",

@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { getEmailConfig } from "./config";
+import { logEmailResult } from "./logging";
 
 let resendClient: Resend | null = null;
 
@@ -37,21 +38,48 @@ export type SendEmailResult =
   | { ok: true; id?: string }
   | { ok: false; skipped?: boolean; reason?: string };
 
-export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult> {
-  const { from, isConfigured } = getEmailConfig();
+export async function sendEmail(
+  input: SendEmailInput,
+  meta?: { kind: string; context?: Record<string, string | undefined> },
+): Promise<SendEmailResult> {
+  const { from, isConfigured, missingVariables } = getEmailConfig();
+  const recipients = normalizeRecipients(input.to);
+  const primaryRecipient = recipients[0] ?? "unknown";
 
   if (!isConfigured || !from) {
-    console.warn("[email] Skipped send — RESEND_API_KEY or EMAIL_FROM is not configured.");
-    return { ok: false, skipped: true, reason: "not_configured" };
+    const result = {
+      ok: false as const,
+      skipped: true as const,
+      reason: `not_configured:${missingVariables.join(",")}`,
+    };
+    if (meta) {
+      logEmailResult({
+        kind: meta.kind,
+        recipient: primaryRecipient,
+        ok: false,
+        skipped: true,
+        reason: result.reason,
+        context: meta.context,
+      });
+    }
+    return result;
   }
 
   const client = getResendClient();
   if (!client) {
-    console.warn("[email] Skipped send — Resend client unavailable.");
-    return { ok: false, skipped: true, reason: "client_unavailable" };
+    const result = { ok: false as const, skipped: true as const, reason: "client_unavailable" };
+    if (meta) {
+      logEmailResult({
+        kind: meta.kind,
+        recipient: primaryRecipient,
+        ok: false,
+        skipped: true,
+        reason: result.reason,
+        context: meta.context,
+      });
+    }
+    return result;
   }
-
-  const recipients = normalizeRecipients(input.to);
 
   try {
     const result = await client.emails.send({
@@ -63,22 +91,41 @@ export async function sendEmail(input: SendEmailInput): Promise<SendEmailResult>
     });
 
     if (result.error) {
-      console.error("[email] Resend API error", {
-        recipients: recipients.map(maskEmailAddress),
-        subject: input.subject,
-        message: result.error.message,
-        name: result.error.name,
-      });
-      return { ok: false, reason: result.error.message };
+      const failure = { ok: false as const, reason: result.error.message };
+      if (meta) {
+        logEmailResult({
+          kind: meta.kind,
+          recipient: primaryRecipient,
+          ok: false,
+          reason: `${result.error.name}: ${result.error.message}`,
+          context: meta.context,
+        });
+      }
+      return failure;
     }
 
-    return { ok: true, id: result.data?.id };
+    const success = { ok: true as const, id: result.data?.id };
+    if (meta) {
+      logEmailResult({
+        kind: meta.kind,
+        recipient: primaryRecipient,
+        ok: true,
+        providerId: result.data?.id,
+        context: meta.context,
+      });
+    }
+    return success;
   } catch (error) {
-    console.error("[email] Unexpected send failure", {
-      recipients: recipients.map(maskEmailAddress),
-      subject: input.subject,
-      message: error instanceof Error ? error.message : "Unknown error",
-    });
-    return { ok: false, reason: error instanceof Error ? error.message : "unknown_error" };
+    const message = error instanceof Error ? error.message : "unknown_error";
+    if (meta) {
+      logEmailResult({
+        kind: meta.kind,
+        recipient: primaryRecipient,
+        ok: false,
+        reason: message,
+        context: meta.context,
+      });
+    }
+    return { ok: false, reason: message };
   }
 }

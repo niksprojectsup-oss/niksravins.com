@@ -104,6 +104,20 @@ export async function createBooking(
     let packageId: string | undefined;
 
     if (isPackage) {
+      const activePackage = await tx.sessionPackage.findFirst({
+        where: {
+          clientId: client.id,
+          serviceId: request.serviceId,
+          status: "ACTIVE",
+        },
+      });
+
+      if (activePackage) {
+        throw new BookingPersistenceError(
+          "You already have an active transformation package. Schedule remaining sessions in your Client Portal.",
+        );
+      }
+
       const sessionPackage = await tx.sessionPackage.create({
         data: {
           clientId: client.id,

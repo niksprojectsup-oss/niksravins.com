@@ -2,6 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin, requireClientAccess } from "@/lib/auth/guards";
+import { sendPortalSetupEmailForClient } from "@/lib/auth/client-repository";
 import {
   addSessionNote,
   archiveClientRecord,
@@ -182,6 +183,7 @@ export async function schedulePackageSessionAction(
   revalidatePath("/admin/calendar");
   revalidatePath("/admin/sessions");
   revalidatePath("/admin");
+  revalidatePath("/client/dashboard");
   return { success: true as const };
 }
 
@@ -214,4 +216,21 @@ export async function markSessionCompletedAction(
   revalidatePath("/admin/sessions");
   revalidatePath("/admin");
   return { success: true as const };
+}
+
+export async function resendPortalSetupEmailAction(clientId: string) {
+  await requireClientAccess(clientId);
+
+  const result = await sendPortalSetupEmailForClient(clientId);
+
+  if (!result.ok) {
+    if (result.skipped && result.reason === "password_already_set") {
+      return { error: "This client already has a portal password." };
+    }
+    return {
+      error: result.reason ?? "Unable to send portal setup email.",
+    };
+  }
+
+  return { success: true as const, providerId: result.providerId };
 }

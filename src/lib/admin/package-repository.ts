@@ -119,7 +119,12 @@ async function syncPackageProgress(
 export async function schedulePackageSession(
   packageId: string,
   scheduledAt: string,
-): Promise<void> {
+  options?: {
+    clientId?: string;
+    displayTimezone?: string;
+    slotId?: string;
+  },
+): Promise<{ sessionId: string; sessionNumber: number }> {
   requireDatabase();
 
   const when = new Date(scheduledAt);
@@ -134,12 +139,16 @@ export async function schedulePackageSession(
     throw new PackageOperationError("Package not found.");
   }
 
+  if (options?.clientId && pkgPreview.clientId !== options.clientId) {
+    throw new PackageOperationError("Package not found.");
+  }
+
   try {
     await validateBookableSlot({
       serviceId: pkgPreview.serviceId as "initial-aap-session" | "aap-transformation-package",
-      slotId: `slot-${when.getTime()}`,
+      slotId: options?.slotId ?? `slot-${when.getTime()}`,
       scheduledAt: when.toISOString(),
-      displayTimezone: "Europe/Riga",
+      displayTimezone: options?.displayTimezone ?? "Europe/Riga",
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -148,7 +157,7 @@ export async function schedulePackageSession(
     throw new PackageOperationError("This time is outside online availability.");
   }
 
-  await prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx) => {
     const pkg = await tx.sessionPackage.findUnique({
       where: { id: packageId },
       include: {
@@ -159,6 +168,10 @@ export async function schedulePackageSession(
     });
 
     if (!pkg) {
+      throw new PackageOperationError("Package not found.");
+    }
+
+    if (options?.clientId && pkg.clientId !== options.clientId) {
       throw new PackageOperationError("Package not found.");
     }
 
@@ -184,11 +197,18 @@ export async function schedulePackageSession(
       }
     }
 
+    const duplicateSlot = pkg.sessions.some(
+      (session) => session.scheduledAt.getTime() === when.getTime(),
+    );
+    if (duplicateSlot) {
+      throw new PackageOperationError("This time is already booked for your package.");
+    }
+
     const service = getServiceById(
       pkg.serviceId as "initial-aap-session" | "aap-transformation-package",
     );
 
-    await tx.session.create({
+    const session = await tx.session.create({
       data: {
         clientId: pkg.clientId,
         packageId: pkg.id,
@@ -199,6 +219,11 @@ export async function schedulePackageSession(
         status: "SCHEDULED",
       },
     });
+
+    return {
+      sessionId: session.id,
+      sessionNumber: nextNumber,
+    };
   });
 }
 

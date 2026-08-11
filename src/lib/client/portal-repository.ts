@@ -1,3 +1,4 @@
+import type { PackageSessionSlot } from "@/lib/admin/client-types";
 import {
   BEFORE_CHECKLIST_ITEMS,
   CURRENT_CHECKLIST_ITEMS,
@@ -21,6 +22,7 @@ export type PortalPackageSummary = {
   completedSessions: number;
   remainingSessions: number;
   status: string;
+  timeline: PackageSessionSlot[];
 };
 
 export type PortalDashboard = {
@@ -126,6 +128,7 @@ export async function getClientPortalDashboard(
       completedSessions: pkg.completedSessions,
       remainingSessions: pkg.remainingSessions,
       status: pkg.status,
+      timeline: pkg.timeline,
     })),
     progressSummary: {
       currentChecked: highlights.length,

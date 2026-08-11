@@ -19,7 +19,14 @@ export const clientPortalContent = {
     noPackages: "No active packages.",
     noProgress: "Progress tracking will appear here as your work continues.",
     bookNextSession: "Book next session",
+    bookPackageSession: "Book session",
+    awaitingPriorSession: "Book earlier sessions first",
     remainingSessions: "remaining",
     signOut: "Sign out",
+  },
+  packageBooking: {
+    title: "Book a package session",
+    confirm: "Confirm session",
+    confirming: "Booking…",
   },
 } as const;

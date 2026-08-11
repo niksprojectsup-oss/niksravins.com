@@ -51,6 +51,8 @@ export async function submitBookingFormAction(
   try {
     const booking = await createBooking(request);
 
+    console.info("[booking] saved", { bookingId: booking.id, clientId: booking.clientId });
+
     await sendBookingConfirmationEmails(booking);
 
     try {
@@ -59,17 +61,55 @@ export async function submitBookingFormAction(
         email: booking.client.email,
       });
 
-      if (portalAccount?.isNewAccount && portalAccount.setupToken) {
-        await sendCreatePasswordEmail({
+      console.info("[portal] provisioning result", {
+        bookingId: booking.id,
+        clientId: booking.clientId,
+        userId: portalAccount?.userId,
+        passwordAlreadySet: portalAccount?.passwordAlreadySet ?? null,
+        setupTokenCreated: Boolean(portalAccount?.setupToken),
+      });
+
+      if (portalAccount?.setupToken) {
+        const emailResult = await sendCreatePasswordEmail({
           firstName: booking.client.firstName,
           email: booking.client.email,
           setupToken: portalAccount.setupToken,
+          clientId: booking.clientId,
+        });
+
+        if (!emailResult.ok) {
+          console.warn("[portal] setup email failed after booking", {
+            bookingId: booking.id,
+            clientId: booking.clientId,
+            skipped: Boolean(emailResult.skipped),
+            reason: emailResult.reason,
+          });
+        }
+      } else if (portalAccount?.passwordAlreadySet) {
+        console.info("[portal] setup email skipped — password already set", {
+          bookingId: booking.id,
+          clientId: booking.clientId,
+          userId: portalAccount.userId,
+        });
+      } else if (portalAccount) {
+        console.warn("[portal] setup email skipped — no setup token returned", {
+          bookingId: booking.id,
+          clientId: booking.clientId,
+          userId: portalAccount.userId,
+          passwordAlreadySet: portalAccount.passwordAlreadySet,
+        });
+      } else {
+        console.warn("[portal] setup email skipped — provisioning returned null", {
+          bookingId: booking.id,
+          clientId: booking.clientId,
         });
       }
     } catch (error) {
-      console.error("[portal] Failed to provision client account after booking", {
+      console.error("[portal] provisioning failed after booking", {
         bookingId: booking.id,
-        message: error instanceof Error ? error.message : "Unknown error",
+        clientId: booking.clientId,
+        errorName: error instanceof Error ? error.name : "UnknownError",
+        errorMessage: error instanceof Error ? error.message : "Unknown error",
       });
     }
 
@@ -78,6 +118,7 @@ export async function submitBookingFormAction(
     revalidatePath("/admin/sessions");
     revalidatePath("/admin/calendar");
     revalidatePath("/admin/payments");
+    revalidatePath("/client/dashboard");
 
     return {
       success: true,

@@ -18,7 +18,15 @@ export default async function ClientPortalLayout({
           <Link href="/" className="font-display text-lg tracking-snug text-ink no-underline">
             {siteConfig.name}
           </Link>
-          <p className="type-caption text-ink-subtle">Client Portal</p>
+          <div className="flex items-center gap-6">
+            <Link
+              href="/client/dashboard"
+              className="type-caption text-ink-subtle no-underline hover:text-ink"
+            >
+              Dashboard
+            </Link>
+            <p className="type-caption text-ink-subtle">Client Portal</p>
+          </div>
         </div>
       </header>
       <main className="layout-container max-w-wide py-10 md:py-14">{children}</main>

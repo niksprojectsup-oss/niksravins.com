@@ -1,5 +1,6 @@
 import { createHash, randomBytes } from "node:crypto";
 import { isDatabaseConfigured, prisma, requireDatabase } from "@/lib/db/prisma";
+import { sendCreatePasswordEmail } from "@/lib/email/send-portal-setup-email";
 import { hashPassword, verifyPassword } from "./password";
 import type { AuthenticatedUser } from "./types";
 
@@ -126,9 +127,21 @@ export async function isClientAuthSessionActive(sessionId: string): Promise<bool
 
 export type EnsurePortalAccountResult = {
   userId: string;
-  isNewAccount: boolean;
   setupToken?: string;
+  passwordAlreadySet: boolean;
 };
+
+async function createPasswordSetupToken(userId: string): Promise<string> {
+  const setupToken = randomBytes(32).toString("hex");
+  await prisma.clientPasswordToken.create({
+    data: {
+      userId,
+      tokenHash: hashToken(setupToken),
+      expiresAt: new Date(Date.now() + PASSWORD_SETUP_TTL_MS),
+    },
+  });
+  return setupToken;
+}
 
 export async function ensureClientPortalAccount(input: {
   clientId: string;
@@ -137,6 +150,10 @@ export async function ensureClientPortalAccount(input: {
   requireDatabase();
 
   const normalizedEmail = input.email.trim().toLowerCase();
+
+  console.info("[portal] provisioning attempted", {
+    clientId: input.clientId,
+  });
 
   const existingByClient = await prisma.user.findFirst({
     where: { role: "CLIENT", clientId: input.clientId },
@@ -150,9 +167,26 @@ export async function ensureClientPortalAccount(input: {
       });
     }
 
+    if (existingByClient.passwordSetAt) {
+      console.info("[portal] linked existing account with password", {
+        clientId: input.clientId,
+        userId: existingByClient.id,
+      });
+      return {
+        userId: existingByClient.id,
+        passwordAlreadySet: true,
+      };
+    }
+
+    const setupToken = await createPasswordSetupToken(existingByClient.id);
+    console.info("[portal] password token created for existing account", {
+      clientId: input.clientId,
+      userId: existingByClient.id,
+    });
     return {
       userId: existingByClient.id,
-      isNewAccount: false,
+      setupToken,
+      passwordAlreadySet: false,
     };
   }
 
@@ -162,7 +196,7 @@ export async function ensureClientPortalAccount(input: {
 
   if (existingByEmail) {
     if (existingByEmail.role !== "CLIENT") {
-      console.error("[portal] Email already used by non-client account", {
+      console.error("[portal] email already used by non-client account", {
         clientId: input.clientId,
       });
       return null;
@@ -173,9 +207,26 @@ export async function ensureClientPortalAccount(input: {
       data: { clientId: input.clientId },
     });
 
+    if (existingByEmail.passwordSetAt) {
+      console.info("[portal] linked existing account by email", {
+        clientId: input.clientId,
+        userId: existingByEmail.id,
+      });
+      return {
+        userId: existingByEmail.id,
+        passwordAlreadySet: true,
+      };
+    }
+
+    const setupToken = await createPasswordSetupToken(existingByEmail.id);
+    console.info("[portal] password token created for linked account", {
+      clientId: input.clientId,
+      userId: existingByEmail.id,
+    });
     return {
       userId: existingByEmail.id,
-      isNewAccount: false,
+      setupToken,
+      passwordAlreadySet: false,
     };
   }
 
@@ -190,19 +241,20 @@ export async function ensureClientPortalAccount(input: {
     },
   });
 
-  const setupToken = randomBytes(32).toString("hex");
-  await prisma.clientPasswordToken.create({
-    data: {
-      userId: user.id,
-      tokenHash: hashToken(setupToken),
-      expiresAt: new Date(Date.now() + PASSWORD_SETUP_TTL_MS),
-    },
+  const setupToken = await createPasswordSetupToken(user.id);
+  console.info("[portal] account created", {
+    clientId: input.clientId,
+    userId: user.id,
+  });
+  console.info("[portal] password token created", {
+    clientId: input.clientId,
+    userId: user.id,
   });
 
   return {
     userId: user.id,
-    isNewAccount: true,
     setupToken,
+    passwordAlreadySet: false,
   };
 }
 
@@ -245,4 +297,88 @@ export async function consumePasswordSetupToken(input: {
     userId: record.user.id,
     email: record.user.email,
   };
+}
+
+export type PortalSetupEmailResult = {
+  ok: boolean;
+  skipped?: boolean;
+  reason?: string;
+  providerId?: string;
+};
+
+function mapEmailResult(result: import("@/lib/email/client").SendEmailResult): PortalSetupEmailResult {
+  if (result.ok) {
+    return { ok: true, providerId: result.id };
+  }
+  return {
+    ok: false,
+    skipped: result.skipped,
+    reason: result.reason,
+  };
+}
+
+/** Issue a fresh setup token and send the portal password email (admin/resend). */
+export async function sendPortalSetupEmailForClient(
+  clientId: string,
+): Promise<PortalSetupEmailResult> {
+  requireDatabase();
+
+  const client = await prisma.client.findUnique({
+    where: { id: clientId },
+    select: { firstName: true, email: true },
+  });
+
+  if (!client) {
+    return { ok: false, reason: "client_not_found" };
+  }
+
+  const normalizedEmail = client.email.trim().toLowerCase();
+  let user = await prisma.user.findFirst({
+    where: { role: "CLIENT", clientId },
+  });
+
+  if (!user) {
+    const provisioned = await ensureClientPortalAccount({
+      clientId,
+      email: normalizedEmail,
+    });
+
+    if (!provisioned?.setupToken) {
+      return {
+        ok: false,
+        skipped: true,
+        reason: provisioned?.passwordAlreadySet
+          ? "password_already_set"
+          : "provisioning_failed",
+      };
+    }
+
+    return mapEmailResult(
+      await sendCreatePasswordEmail({
+        firstName: client.firstName,
+        email: normalizedEmail,
+        setupToken: provisioned.setupToken,
+        clientId,
+      }),
+    );
+  }
+
+  if (user.passwordSetAt) {
+    return { ok: false, skipped: true, reason: "password_already_set" };
+  }
+
+  const setupToken = await createPasswordSetupToken(user.id);
+  console.info("[portal] resend setup token created", {
+    clientId,
+    userId: user.id,
+  });
+
+  return mapEmailResult(
+    await sendCreatePasswordEmail({
+      firstName: client.firstName,
+      email: normalizedEmail,
+      setupToken,
+      clientId,
+    }),
+  );
 }

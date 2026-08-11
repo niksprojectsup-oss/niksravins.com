@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminStatusBadge } from "@/components/admin/AdminStatusBadge";
+import { PortalSetupResendButton } from "@/components/admin/client/PortalSetupResendButton";
 import { formatAdminDate } from "@/lib/admin/format";
 import type { ClientWorkspace } from "@/lib/admin/client-types";
 
@@ -49,6 +50,7 @@ export function ClientOverview({ client }: { client: ClientWorkspace }) {
           </dd>
         </div>
       </dl>
+      <PortalSetupResendButton clientId={client.id} />
     </section>
   );
 }
