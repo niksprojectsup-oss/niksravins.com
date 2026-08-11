@@ -45,6 +45,45 @@ enum PackageStatus {
   CANCELLED
 }
 
+enum JournalVisibility {
+  PRIVATE
+  SHARED
+}
+
+enum TestimonialConsent {
+  PRIVATE
+  ANONYMOUS
+  NAMED
+}
+
+enum TestimonialStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum GoalStatus {
+  ACTIVE
+  IN_PROGRESS
+  COMPLETED
+}
+
+enum CheckInMood {
+  GREAT
+  GOOD
+  CALM
+  NEUTRAL
+  ANXIOUS
+  LOW
+  OVERWHELMED
+}
+
+enum AssessmentPhase {
+  BEFORE
+  AFTER
+  ONGOING
+}
+
 enum UserRole {
   ADMIN
   CLIENT
@@ -173,8 +212,17 @@ model Client {
   sessions         Session[]
   payments         Payment[]
   bookings         Booking[]
-  sessionPackages  SessionPackage[]
-  user             User?
+  sessionPackages       SessionPackage[]
+  user                  User?
+  journalEntries        ClientJournalEntry[]
+  checkIns              ClientCheckIn[]
+  selfAssessments       ClientSelfAssessment[]
+  goals                 ClientGoal[]
+  sessionReflections    SessionReflection[]
+  sessionPreparations   SessionPreparation[]
+  milestones            ClientMilestone[]
+  finalReflections      JourneyFinalReflection[]
+  testimonials          Testimonial[]
 
   @@index([status])
   @@index([lastName, firstName])
@@ -237,10 +285,12 @@ model Session {
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @updatedAt
 
-  client   Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  package  SessionPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
-  payments Payment[]
-  booking  Booking?
+  client        Client               @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  package       SessionPackage?      @relation(fields: [packageId], references: [id], onDelete: SetNull)
+  payments      Payment[]
+  booking       Booking?
+  reflection    SessionReflection?
+  preparation   SessionPreparation?
 
   @@index([clientId, scheduledAt])
   @@index([packageId, sessionNumber])
@@ -258,10 +308,157 @@ model SessionPackage {
   createdAt         DateTime      @default(now())
   updatedAt         DateTime      @updatedAt
 
-  client   Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
-  sessions Session[]
-  booking  Booking?
-  payment  Payment?
+  client            Client                  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  sessions          Session[]
+  booking           Booking?
+  payment           Payment?
+  finalReflection   JourneyFinalReflection?
+
+  @@index([clientId])
+  @@index([status])
+}
+
+model ClientJournalEntry {
+  id         String            @id @default(cuid())
+  clientId   String
+  content    String
+  prompt     String            @default("")
+  visibility JournalVisibility @default(PRIVATE)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, createdAt])
+  @@index([clientId, visibility])
+}
+
+model ClientCheckIn {
+  id           String      @id @default(cuid())
+  clientId     String
+  checkInDate  String
+  mood         CheckInMood
+  emotionTags  String[]
+  intensity    Int
+  notes        String      @default("")
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@unique([clientId, checkInDate])
+  @@index([clientId, checkInDate])
+}
+
+model ClientSelfAssessment {
+  id                String          @id @default(cuid())
+  clientId          String
+  phase             AssessmentPhase
+  clarity           Int
+  confidence        Int
+  connection        Int
+  movingForward     Int
+  emotionalBalance  Int
+  feelingStuck      Int
+  packageId         String?
+  createdAt         DateTime        @default(now())
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, createdAt])
+  @@index([clientId, phase])
+}
+
+model ClientGoal {
+  id          String     @id @default(cuid())
+  clientId    String
+  title       String
+  description String     @default("")
+  status      GoalStatus @default(ACTIVE)
+  createdAt   DateTime   @default(now())
+  completedAt DateTime?
+  updatedAt   DateTime   @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+}
+
+model SessionReflection {
+  id                       String   @id @default(cuid())
+  clientId                 String
+  sessionId                String   @unique
+  rating                   Int
+  valuablePart             String   @default("")
+  whatShifted              String   @default("")
+  takeaway                   String   @default("")
+  messageToPractitioner    String   @default("")
+  sharedWithPractitioner   Boolean  @default(false)
+  createdAt                DateTime @default(now())
+  updatedAt                DateTime @updatedAt
+
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+}
+
+model SessionPreparation {
+  id         String   @id @default(cuid())
+  clientId   String
+  sessionId  String   @unique
+  reflection String   @default("")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  client  Client  @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  session Session @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+}
+
+model ClientMilestone {
+  id           String   @id @default(cuid())
+  clientId     String
+  milestoneKey String
+  packageId    String?
+  achievedAt   DateTime @default(now())
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, milestoneKey])
+}
+
+model JourneyFinalReflection {
+  id             String   @id @default(cuid())
+  clientId       String
+  packageId      String   @unique
+  whatChanged    String   @default("")
+  mostValuable   String   @default("")
+  selfDiscovery  String   @default("")
+  takeForward    String   @default("")
+  recommendation String   @default("")
+  rating         Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  client  Client         @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  package SessionPackage @relation(fields: [packageId], references: [id], onDelete: Cascade)
+
+  @@index([clientId])
+}
+
+model Testimonial {
+  id        String             @id @default(cuid())
+  clientId  String
+  packageId String?            @unique
+  content   String             @default("")
+  consent   TestimonialConsent @default(PRIVATE)
+  status    TestimonialStatus  @default(PENDING)
+  createdAt DateTime           @default(now())
+  updatedAt DateTime           @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
 
   @@index([clientId])
   @@index([status])
