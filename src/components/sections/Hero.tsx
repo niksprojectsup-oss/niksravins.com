@@ -1,7 +1,14 @@
-import { hero } from "@/content/site";
+import type { PublicContent } from "@/content/i18n/types";
 import { Button } from "@/components/ui/Button";
+import { InternationalSessionNotice } from "@/components/i18n/InternationalSessionNotice";
 
-export function Hero() {
+type HeroProps = {
+  content: PublicContent;
+};
+
+export function Hero({ content }: HeroProps) {
+  const { hero, internationalNotice } = content;
+
   return (
     <section
       aria-labelledby="hero-heading"
@@ -14,6 +21,12 @@ export function Hero() {
           <h1 id="hero-heading" className="type-display max-w-content">
             {hero.headline}
           </h1>
+
+          <InternationalSessionNotice
+            line1={internationalNotice.line1}
+            line2={internationalNotice.line2}
+            className="max-w-prose"
+          />
 
           <div className="layout-stack-md max-w-prose pt-1 md:pt-4">
             {hero.explanation.map((paragraph) => (

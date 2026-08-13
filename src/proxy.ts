@@ -5,6 +5,7 @@ import {
   isValidAdminSession,
   isValidClientSession,
 } from "@/lib/auth/middleware-auth";
+import { REQUEST_PATHNAME_HEADER } from "@/lib/i18n/request-pathname";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login"];
 const PUBLIC_CLIENT_PATHS = ["/client/login", "/client/set-password"];
@@ -21,12 +22,23 @@ function isPublicClientPath(pathname: string): boolean {
   );
 }
 
+function continueWithPathname(request: NextRequest, pathname: string) {
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set(REQUEST_PATHNAME_HEADER, pathname);
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   if (pathname.startsWith("/admin")) {
     if (isPublicAdminPath(pathname)) {
-      return NextResponse.next();
+      return continueWithPathname(request, pathname);
     }
 
     const session = await getMiddlewareSession(request);
@@ -41,12 +53,12 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL("/admin/login/mfa", request.url));
     }
 
-    return NextResponse.next();
+    return continueWithPathname(request, pathname);
   }
 
   if (pathname.startsWith("/client")) {
     if (isPublicClientPath(pathname)) {
-      return NextResponse.next();
+      return continueWithPathname(request, pathname);
     }
 
     const session = await getMiddlewareSession(request);
@@ -57,12 +69,14 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    return NextResponse.next();
+    return continueWithPathname(request, pathname);
   }
 
-  return NextResponse.next();
+  return continueWithPathname(request, pathname);
 }
 
 export const config = {
-  matcher: ["/admin/:path*", "/client/:path*"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|.*\\..*).*)",
+  ],
 };

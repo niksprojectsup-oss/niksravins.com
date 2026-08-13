@@ -1,12 +1,18 @@
-import { trust } from "@/content/site";
+import type { PublicContent } from "@/content/i18n/types";
 import { Section } from "@/components/ui/Section";
 
-export function Trust() {
+type TrustProps = {
+  content: PublicContent;
+};
+
+export function Trust({ content }: TrustProps) {
+  const { trust, sectionLabels } = content;
+
   return (
     <Section size="md" aria-labelledby="trust-heading">
       <div className="mx-auto max-w-prose layout-stack-sm md:layout-stack-md">
         <h2 id="trust-heading" className="sr-only">
-          Why people come here
+          {sectionLabels.trustHeading}
         </h2>
         {trust.statements.map((statement, index) => (
           <p

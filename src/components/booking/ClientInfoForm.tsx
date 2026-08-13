@@ -1,6 +1,7 @@
 "use client";
 
-import { countries, timezones, bookingContent } from "@/content/booking";
+import type { BookingUiContent } from "@/content/i18n/types";
+import { countries, timezones } from "@/content/booking";
 import type { ClientDetails } from "@/lib/booking/types";
 import { Field, Input, Select, Textarea } from "@/components/ui/Field";
 import { BookingPanel } from "./BookingPanel";
@@ -9,9 +10,10 @@ type ClientInfoFormProps = {
   value: ClientDetails;
   onChange: (value: ClientDetails) => void;
   errors?: Partial<Record<keyof ClientDetails, string>>;
+  labels: BookingUiContent;
 };
 
-export function ClientInfoForm({ value, onChange, errors }: ClientInfoFormProps) {
+export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFormProps) {
   function updateField<K extends keyof ClientDetails>(
     field: K,
     fieldValue: ClientDetails[K],
@@ -21,8 +23,8 @@ export function ClientInfoForm({ value, onChange, errors }: ClientInfoFormProps)
 
   return (
     <BookingPanel
-      title={bookingContent.form.title}
-      description={bookingContent.form.description}
+      title={labels.form.title}
+      description={labels.form.description}
     >
       <form className="layout-stack-md max-w-prose" noValidate>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
@@ -109,14 +111,14 @@ export function ClientInfoForm({ value, onChange, errors }: ClientInfoFormProps)
         </div>
 
         <Field
-          label={bookingContent.form.sessionIntentionLabel}
+          label={labels.form.sessionIntentionLabel}
           id="sessionIntention"
           error={errors?.sessionIntention}
         >
           <Textarea
             id="sessionIntention"
             name="sessionIntention"
-            placeholder={bookingContent.form.sessionIntentionPlaceholder}
+            placeholder={labels.form.sessionIntentionPlaceholder}
             value={value.sessionIntention}
             onChange={(e) => updateField("sessionIntention", e.target.value)}
             required

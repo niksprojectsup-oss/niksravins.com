@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { CheckInForm } from "@/components/client/journey/CheckInForm";
 import { GoalsPanel } from "@/components/client/journey/GoalsPanel";
-import { JourneyTimeline } from "@/components/client/journey/JourneyTimeline";
+import { JourneyProgressBar } from "@/components/client/journey/JourneyProgressBar";
 import { NextSessionSection } from "@/components/client/journey/NextSessionSection";
+import { PortalCard, PortalGrid, PortalSectionTitle } from "@/components/client/journey/PortalShell";
 import { ProgressTable } from "@/components/client/journey/ProgressTable";
 import type { JourneyDashboardData } from "@/lib/journey/journey-repository";
 
@@ -15,72 +16,87 @@ export function TransformationDashboard({ data }: TransformationDashboardProps) 
     <div className="layout-stack-xl">
       <header className="layout-stack-sm">
         <p className="type-caption text-accent">Welcome back, {data.firstName}</p>
-        <h1 className="type-heading">Your transformation journey</h1>
-        <p className="type-body max-w-prose text-ink-subtle">
-          Your transformation journey is unfolding one step at a time.
+        <h1 className="type-heading">Your Transformation Journey</h1>
+        <p className="type-body max-w-2xl text-ink-subtle">
+          A personal space to reflect, prepare, and notice what&apos;s shifting between sessions.
         </p>
       </header>
 
       {data.activePackage ? (
-        <section className="layout-stack-md">
-          <h2 className="type-heading-sm">Your journey</h2>
-          <div className="observed-card p-6 md:p-8">
-            <p className="type-body text-ink">{data.activePackage.serviceTitle}</p>
-            <div className="mt-6">
-              <JourneyTimeline
-                timeline={data.activePackage.timeline}
-                packageId={data.activePackage.id}
-                totalSessions={data.activePackage.timeline.length}
-                timezone={data.timezone}
-              />
-            </div>
-          </div>
-        </section>
+        <PortalCard padding="lg">
+          <PortalSectionTitle title={data.activePackage.serviceTitle} />
+          <JourneyProgressBar
+            timeline={data.activePackage.timeline}
+            totalSessions={data.activePackage.timeline.length}
+          />
+        </PortalCard>
       ) : null}
 
-      {data.nextSession ? (
-        <NextSessionSection
-          session={data.nextSession}
-          preparation={data.preparation}
-          timezone={data.timezone}
-        />
-      ) : null}
+      <PortalGrid columns={data.nextSession ? 2 : 1}>
+        {data.nextSession ? (
+          <NextSessionSection
+            session={data.nextSession}
+            preparation={data.preparation}
+            timezone={data.timezone}
+          />
+        ) : null}
 
-      <section className="layout-stack-md">
-        <div className="flex items-center justify-between gap-4">
-          <h2 className="type-heading-sm">Daily check-in</h2>
-          <Link href="/client/check-in" className="type-accent-link">
-            Open check-in
-          </Link>
+        <PortalCard>
+          <PortalSectionTitle
+            title="How are you feeling today?"
+            action={
+              <Link href="/client/check-in" className="type-accent-link text-sm">
+                Full check-in
+              </Link>
+            }
+          />
+          <CheckInForm
+            timezone={data.timezone}
+            existing={data.todayCheckIn}
+            compact
+            inline
+          />
+        </PortalCard>
+      </PortalGrid>
+
+      <PortalGrid columns={2}>
+        <div className="layout-stack-md">
+          <PortalSectionTitle
+            title="What I'm working on"
+            action={
+              data.activeGoals.length > 0 ? (
+                <Link href="/client/progress" className="type-accent-link text-sm">
+                  View all
+                </Link>
+              ) : null
+            }
+          />
+          {data.activeGoals.length > 0 ? (
+            <GoalsPanel goals={data.activeGoals} showForm={false} compact />
+          ) : (
+            <PortalCard>
+              <p className="type-body text-ink-subtle">
+                What would you like to transform?{" "}
+                <Link href="/client/progress" className="type-accent-link">
+                  Set an intention
+                </Link>
+              </p>
+            </PortalCard>
+          )}
         </div>
-        <CheckInForm
-          timezone={data.timezone}
-          existing={data.todayCheckIn}
-          compact
-        />
-      </section>
 
-      {data.activeGoals.length > 0 ? (
-        <section className="layout-stack-md">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="type-heading-sm">What I&apos;m working on</h2>
-            <Link href="/client/progress" className="type-accent-link">
-              View all
-            </Link>
-          </div>
-          <GoalsPanel goals={data.activeGoals} showForm={false} />
-        </section>
-      ) : null}
-
-      <section className="layout-stack-md">
-        <div className="flex items-center justify-between gap-4">
-          <h2 className="type-heading-sm">Your progress</h2>
-          <Link href="/client/progress" className="type-accent-link">
-            See full progress
-          </Link>
+        <div className="layout-stack-md">
+          <PortalSectionTitle
+            title="Your progress"
+            action={
+              <Link href="/client/progress" className="type-accent-link text-sm">
+                See full progress
+              </Link>
+            }
+          />
+          <ProgressTable progress={data.progressPreview} compact />
         </div>
-        <ProgressTable progress={data.progressPreview} />
-      </section>
+      </PortalGrid>
     </div>
   );
 }

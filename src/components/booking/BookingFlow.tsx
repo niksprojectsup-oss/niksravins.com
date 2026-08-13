@@ -1,7 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { bookingContent } from "@/content/booking";
+import type { PublicContent } from "@/content/i18n/types";
+import { localizedPath } from "@/lib/i18n/paths";
 import { Button } from "@/components/ui/Button";
 import { getAvailabilityAction } from "@/lib/booking/availability-actions";
 import { getServiceById } from "@/lib/booking/services-catalog";
@@ -31,7 +32,8 @@ function detectBrowserTimezone(): string {
   }
 }
 
-export function BookingFlow() {
+export function BookingFlow({ content }: { content: PublicContent }) {
+  const labels = content.bookingUi;
   const [step, setStep] = useState<BookingStep>("session");
   const [serviceId, setServiceId] = useState<ServiceId | null>(null);
   const [slotId, setSlotId] = useState<string | null>(null);
@@ -148,19 +150,27 @@ export function BookingFlow() {
   if (step === "confirmed") {
     return (
       <div className="layout-container max-w-wide pb-section-lg">
-        <BookingConfirmation />
+        <BookingConfirmation
+          labels={labels}
+          homeHref={localizedPath(content.locale, "")}
+          internationalNotice={content.internationalNotice}
+        />
       </div>
     );
   }
 
   return (
     <div className="layout-container max-w-wide pb-section-lg">
-      <BookingHero />
+      <BookingHero content={content} />
       <BookingStepIndicator currentStep={step} />
 
       <div className="layout-stack-lg pt-10 md:pt-14">
         {step === "session" ? (
-          <SessionSelection selected={serviceId} onSelect={handleServiceSelect} />
+          <SessionSelection
+            selected={serviceId}
+            onSelect={handleServiceSelect}
+            labels={labels}
+          />
         ) : null}
 
         {step === "schedule" ? (
@@ -171,6 +181,8 @@ export function BookingFlow() {
             timezone={displayTimezone}
             loading={availabilityLoading}
             error={availabilityError}
+            isPackage={selectedService?.kind === "package"}
+            labels={labels}
           />
         ) : null}
 
@@ -179,6 +191,7 @@ export function BookingFlow() {
             value={clientDetails}
             onChange={handleClientDetailsChange}
             errors={formErrors}
+            labels={labels}
           />
         ) : null}
 
@@ -191,6 +204,7 @@ export function BookingFlow() {
               client={clientDetails}
               checkoutNote={selectedService?.checkoutNote}
               onSuccess={handleBookingSuccess}
+              labels={labels}
             />
           ) : (
             <div className="observed-card p-6 md:p-8">
@@ -211,7 +225,7 @@ export function BookingFlow() {
                 onClick={handleBack}
                 className="w-full sm:w-auto"
               >
-                {bookingContent.actions.back}
+                {labels.actions.back}
               </Button>
             ) : null}
 
@@ -221,7 +235,7 @@ export function BookingFlow() {
               disabled={!canContinue || (step === "schedule" && availabilityLoading)}
               className="w-full sm:w-auto"
             >
-              {bookingContent.actions.continue}
+              {labels.actions.continue}
             </Button>
           </div>
         ) : (
@@ -232,7 +246,7 @@ export function BookingFlow() {
               onClick={handleBack}
               className="w-full sm:w-auto"
             >
-              {bookingContent.actions.back}
+              {labels.actions.back}
             </Button>
           </div>
         )}

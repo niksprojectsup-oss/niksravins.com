@@ -1,12 +1,18 @@
-import { aap } from "@/content/site";
+import type { PublicContent } from "@/content/i18n/types";
 import { Section } from "@/components/ui/Section";
 
-export function AAPMethod() {
+type AAPMethodProps = {
+  content: PublicContent;
+};
+
+export function AAPMethod({ content }: AAPMethodProps) {
+  const { aap, sectionLabels } = content;
+
   return (
     <Section id="aap" size="lg" aria-labelledby="aap-heading">
       <div className="max-w-wide">
         <header className="layout-stack-sm layout-section-header max-w-prose md:layout-stack-md">
-          <p className="type-label">AAP</p>
+          <p className="type-label">{sectionLabels.aapLabel}</p>
           <h2 id="aap-heading" className="type-heading">
             {aap.title}
           </h2>

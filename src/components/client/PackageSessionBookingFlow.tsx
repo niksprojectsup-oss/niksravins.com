@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState, useTransition } from "react";
 import Link from "next/link";
 import { BookingCalendar } from "@/components/booking/BookingCalendar";
+import { enContent } from "@/content/i18n/en";
 import { Button } from "@/components/ui/Button";
 import { clientPortalContent } from "@/content/client-portal";
 import { getAvailabilityAction } from "@/lib/booking/availability-actions";
@@ -116,6 +117,8 @@ export function PackageSessionBookingFlow({
         timezone={displayTimezone}
         loading={availabilityLoading}
         error={availabilityError}
+        isPackage
+        labels={enContent.bookingUi}
       />
 
       {formError ? (

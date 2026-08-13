@@ -1,14 +1,20 @@
-import { testimonials } from "@/content/site";
+import type { PublicContent } from "@/content/i18n/types";
 import { Section } from "@/components/ui/Section";
 
-export function Testimonials() {
+type TestimonialsProps = {
+  content: PublicContent;
+};
+
+export function Testimonials({ content }: TestimonialsProps) {
+  const { testimonials, sectionLabels } = content;
+
   return (
     <Section size="lg" aria-labelledby="testimonials-heading">
       <div className="max-w-wide">
         <header className="layout-stack-sm layout-section-header max-w-prose md:layout-stack-md">
-          <p className="type-label">Observed changes</p>
+          <p className="type-label">{sectionLabels.testimonialsLabel}</p>
           <h2 id="testimonials-heading" className="type-heading">
-            What shifts in daily life
+            {sectionLabels.testimonialsHeading}
           </h2>
           <p className="type-body">{testimonials.intro}</p>
         </header>

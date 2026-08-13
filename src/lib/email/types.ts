@@ -9,9 +9,12 @@ export type BookingEmailPayload = {
   clientTimezone: string;
   serviceTitle: string;
   durationLabel: string;
+  durationMinutes: number;
   scheduledAt: string;
   isPackage: boolean;
   checkoutNote?: string;
+  meetingLink?: string | null;
+  calendarToken: string;
 };
 
 export type EmailMessage = {

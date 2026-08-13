@@ -1,4 +1,5 @@
 import { JournalPanel } from "@/components/client/journey/JournalPanel";
+import { PortalPageHeader } from "@/components/client/journey/PortalPageHeader";
 import { requireClient } from "@/lib/auth/client-guards";
 import { listJournalEntries } from "@/lib/journey/journey-repository";
 
@@ -8,12 +9,10 @@ export default async function ClientJournalPage() {
 
   return (
     <div className="layout-stack-xl">
-      <header className="layout-stack-sm">
-        <h1 className="type-heading">Journal</h1>
-        <p className="type-body text-ink-subtle">
-          A private space for reflection — you choose what to share.
-        </p>
-      </header>
+      <PortalPageHeader
+        title="Journal"
+        description="A private space for reflection — you choose what to share."
+      />
       <JournalPanel entries={entries} />
     </div>
   );

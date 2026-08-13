@@ -1,8 +1,8 @@
 import type { CheckInMoodKey } from "./constants";
-import { CHECK_IN_MOODS, EMOTION_TAGS } from "./constants";
+import { CHECK_IN_MOODS, EMOTION_TAGS, LEGACY_EMOTION_TAGS } from "./constants";
 
 const MOOD_KEYS = new Set<string>(CHECK_IN_MOODS.map((m) => m.key));
-const EMOTION_SET = new Set<string>(EMOTION_TAGS);
+const EMOTION_SET = new Set<string>([...EMOTION_TAGS, ...LEGACY_EMOTION_TAGS]);
 
 export function clampScore(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, Math.round(value)));

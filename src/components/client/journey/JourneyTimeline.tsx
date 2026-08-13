@@ -21,7 +21,7 @@ function slotAction(
     return { label: "Prepare for session", href: `/client/dashboard#next-session` };
   }
   if (isNextBookable) {
-    return { label: "Book", href: `/client/packages/${packageId}/book` };
+    return { label: "Book next session", href: `/client/packages/${packageId}/book` };
   }
   return { label: "Not yet scheduled" };
 }

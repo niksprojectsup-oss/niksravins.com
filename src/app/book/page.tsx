@@ -1,33 +1,19 @@
 import type { Metadata } from "next";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { BookingFlow } from "@/components/booking/BookingFlow";
+import { getPublicContent } from "@/content/i18n";
+import { PublicBookPage } from "@/components/public/PublicBookPage";
+import { buildPublicMetadata } from "@/lib/seo/metadata";
 
-export const metadata: Metadata = {
-  title: "Book a Session",
-  description:
-    "Book an online session with Niks Ravins. Initial AAP sessions and transformation packages focused on changing automatic emotional reactions.",
-};
+const content = getPublicContent("en");
+
+export const metadata: Metadata = buildPublicMetadata({
+  locale: "en",
+  page: "book",
+  title: content.seo.book.title,
+  description: content.seo.book.description,
+});
 
 export const dynamic = "force-dynamic";
 
 export default function BookPage() {
-  return (
-    <>
-      <a
-        href="#main-content"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-100 focus:rounded-md focus:bg-surface focus:px-4 focus:py-3 focus:text-ink focus:shadow-soft"
-      >
-        Skip to content
-      </a>
-
-      <Header />
-
-      <main id="main-content">
-        <BookingFlow />
-      </main>
-
-      <Footer />
-    </>
-  );
+  return <PublicBookPage content={content} locale="en" />;
 }

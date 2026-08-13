@@ -1,18 +1,26 @@
 export const CHECK_IN_MOODS = [
-  { key: "GREAT", label: "Great" },
-  { key: "GOOD", label: "Good" },
-  { key: "CALM", label: "Calm" },
-  { key: "NEUTRAL", label: "Neutral" },
-  { key: "ANXIOUS", label: "Anxious" },
-  { key: "LOW", label: "Low" },
-  { key: "OVERWHELMED", label: "Overwhelmed" },
+  { key: "GREAT", label: "Great", emoji: "✨" },
+  { key: "GOOD", label: "Good", emoji: "🙂" },
+  { key: "CALM", label: "Calm", emoji: "🌿" },
+  { key: "NEUTRAL", label: "Neutral", emoji: "😐" },
+  { key: "ANXIOUS", label: "Anxious", emoji: "😟" },
+  { key: "LOW", label: "Low", emoji: "🌧️" },
+  { key: "OVERWHELMED", label: "Overwhelmed", emoji: "🌊" },
 ] as const;
 
 export type CheckInMoodKey = (typeof CHECK_IN_MOODS)[number]["key"];
 
 export const EMOTION_TAGS = [
   "Calm",
+  "Clear",
+  "Energised",
+  "Emotional",
+  "Stuck",
   "Hopeful",
+] as const;
+
+/** Legacy tags still accepted when editing older check-ins */
+export const LEGACY_EMOTION_TAGS = [
   "Motivated",
   "Confused",
   "Anxious",
@@ -26,13 +34,12 @@ export const EMOTION_TAGS = [
 ] as const;
 
 export const JOURNAL_PROMPTS = [
-  { key: "noticing", label: "What am I noticing about myself?" },
-  { key: "different", label: "What feels different this week?" },
-  { key: "understanding", label: "What am I beginning to understand?" },
-  { key: "avoiding", label: "What am I avoiding?" },
-  { key: "proud", label: "What am I proud of?" },
-  { key: "need", label: "What do I need right now?" },
-  { key: "shifted", label: "What shifted recently?" },
+  { key: "mind", label: "What's on your mind today?" },
+  { key: "noticing", label: "What are you noticing today?" },
+  { key: "changed", label: "What has changed since your last session?" },
+  { key: "different", label: "What feels different?" },
+  { key: "struggling", label: "What are you struggling with?" },
+  { key: "proud", label: "What are you proud of?" },
   { key: "free", label: "Free reflection" },
 ] as const;
 

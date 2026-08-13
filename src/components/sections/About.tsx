@@ -1,8 +1,14 @@
 import Image from "next/image";
-import { about } from "@/content/site";
+import type { PublicContent } from "@/content/i18n/types";
 import { Section } from "@/components/ui/Section";
 
-export function About() {
+type AboutProps = {
+  content: PublicContent;
+};
+
+export function About({ content }: AboutProps) {
+  const { about, sectionLabels } = content;
+
   return (
     <Section id="about" size="lg" aria-labelledby="about-heading">
       <div className="grid gap-12 md:gap-16 lg:grid-cols-[minmax(0,16rem)_1fr] lg:gap-24 lg:items-start">
@@ -10,7 +16,7 @@ export function About() {
           <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg bg-surface-muted">
             <Image
               src="/images/niks.jpg"
-              alt="Portrait of Niks Ravins"
+              alt={sectionLabels.aboutImageAlt}
               fill
               sizes="(max-width: 1024px) 224px, 256px"
               className="object-cover"

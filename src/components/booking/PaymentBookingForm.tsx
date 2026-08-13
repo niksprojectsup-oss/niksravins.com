@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useEffect } from "react";
-import { bookingContent } from "@/content/booking";
+import type { BookingUiContent } from "@/content/i18n/types";
 import { Button } from "@/components/ui/Button";
 import { submitBookingFormAction, type BookingFormState } from "@/lib/booking/actions";
 import type { ClientDetails, ServiceId } from "@/lib/booking/types";
@@ -14,6 +14,7 @@ type PaymentBookingFormProps = {
   client: ClientDetails;
   checkoutNote?: string;
   onSuccess: () => void;
+  labels: BookingUiContent;
 };
 
 export function PaymentBookingForm({
@@ -23,6 +24,7 @@ export function PaymentBookingForm({
   client,
   checkoutNote,
   onSuccess,
+  labels,
 }: PaymentBookingFormProps) {
   const [state, formAction, pending] = useActionState<BookingFormState, FormData>(
     submitBookingFormAction,
@@ -37,8 +39,8 @@ export function PaymentBookingForm({
 
   return (
     <BookingPanel
-      title={bookingContent.payment.title}
-      description={bookingContent.payment.description}
+      title={labels.payment.title}
+      description={labels.payment.description}
     >
       <form action={formAction} className="layout-stack-md max-w-prose">
         {checkoutNote ? (
@@ -64,7 +66,7 @@ export function PaymentBookingForm({
             className="observed-card min-h-14 cursor-not-allowed p-5 text-left opacity-60"
           >
             <p className="type-caption text-ink-subtle">Stripe</p>
-            <p className="type-body mt-1">{bookingContent.payment.stripeLabel}</p>
+            <p className="type-body mt-1">{labels.payment.stripeLabel}</p>
           </button>
 
           <button
@@ -74,11 +76,11 @@ export function PaymentBookingForm({
             className="observed-card min-h-14 cursor-not-allowed p-5 text-left opacity-60"
           >
             <p className="type-caption text-ink-subtle">PayPal</p>
-            <p className="type-body mt-1">{bookingContent.payment.paypalLabel}</p>
+            <p className="type-body mt-1">{labels.payment.paypalLabel}</p>
           </button>
         </div>
 
-        <p className="type-caption">{bookingContent.payment.placeholderNote}</p>
+        <p className="type-caption">{labels.payment.placeholderNote}</p>
 
         {state.error ? (
           <p className="type-caption text-warm" role="alert">
@@ -87,7 +89,7 @@ export function PaymentBookingForm({
         ) : null}
 
         <Button type="submit" disabled={pending} className="w-full sm:w-auto">
-          {pending ? "Confirming…" : bookingContent.actions.confirmBooking}
+          {pending ? "Confirming…" : labels.actions.confirmBooking}
         </Button>
       </form>
     </BookingPanel>

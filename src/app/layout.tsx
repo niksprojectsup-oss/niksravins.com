@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
-import { siteConfig } from "@/content/site";
+import { getDocumentHtmlLangFromPathname } from "@/lib/i18n/document-lang";
+import { REQUEST_PATHNAME_HEADER } from "@/lib/i18n/request-pathname";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -17,29 +19,36 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "https://niksravins.com",
+  ),
   title: {
     default: "Niks Ravins",
     template: "%s · Niks Ravins",
   },
-  description: `${siteConfig.brandDescriptor}. Adaptive Association Processing for learned emotional associations — the links that keep automatic reactions running, even after you understand them.`,
+  description:
+    "Online deep transformation sessions with Niks Ravins using Adaptive Association Processing (AAP). Sessions conducted in English, available worldwide.",
   openGraph: {
-    title: "Niks Ravins",
-    description:
-      "You understand the reaction. It still happens. Adaptive Association Processing for learned emotional associations behind automatic reactions.",
-    type: "website",
-    locale: "en",
     siteName: "Niks Ravins",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get(REQUEST_PATHNAME_HEADER) ?? "/";
+  const htmlLang = getDocumentHtmlLangFromPathname(pathname);
+
   return (
     <html
-      lang="en"
+      lang={htmlLang}
       className={`${fraunces.variable} ${sourceSans.variable} h-full`}
     >
       <body className="min-h-full flex flex-col font-sans text-base leading-normal text-ink antialiased">

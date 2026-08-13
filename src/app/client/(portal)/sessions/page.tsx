@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
+import { PortalPageHeader } from "@/components/client/journey/PortalPageHeader";
 import { SessionsPanel } from "@/components/client/journey/SessionsPanel";
 import { requireClient } from "@/lib/auth/client-guards";
-import { listClientSessionsWithReflections } from "@/lib/journey/journey-repository";
+import { getJourneyPageData, listClientSessionsWithReflections } from "@/lib/journey/journey-repository";
 import { prisma } from "@/lib/db/prisma";
 
 type ClientSessionsPageProps = {
@@ -11,26 +12,28 @@ type ClientSessionsPageProps = {
 export default async function ClientSessionsPage({ searchParams }: ClientSessionsPageProps) {
   const session = await requireClient();
   const params = await searchParams;
-  const client = await prisma.client.findUnique({
-    where: { id: session.clientId! },
-    select: { timezone: true },
-  });
-  if (!client) notFound();
+  const [client, sessions, journey] = await Promise.all([
+    prisma.client.findUnique({
+      where: { id: session.clientId! },
+      select: { timezone: true },
+    }),
+    listClientSessionsWithReflections(session.clientId!),
+    getJourneyPageData(session.clientId!),
+  ]);
 
-  const sessions = await listClientSessionsWithReflections(session.clientId!);
+  if (!client) notFound();
 
   return (
     <div className="layout-stack-xl">
-      <header className="layout-stack-sm">
-        <h1 className="type-heading">Sessions</h1>
-        <p className="type-body text-ink-subtle">
-          Your session history and reflections.
-        </p>
-      </header>
+      <PortalPageHeader
+        title="Sessions"
+        description="Your session history, reflections, and next steps."
+      />
       <SessionsPanel
         sessions={sessions}
         timezone={client.timezone}
         highlightSessionId={params.session}
+        packageId={journey.activePackage?.id}
       />
     </div>
   );

@@ -1,5 +1,6 @@
-import { getServiceById, isPackageService } from "@/lib/booking/services-catalog";
+import { getServiceById, isPackageService, getServiceDurationMinutes } from "@/lib/booking/services-catalog";
 import type { BookingRecord } from "@/lib/booking/types";
+import { createBookingCalendarToken } from "@/lib/calendar/booking-calendar-token";
 import { ADMIN_NOTIFICATION_EMAIL } from "./config";
 import { sendEmail } from "./client";
 import { logEmailAttempt } from "./logging";
@@ -7,9 +8,19 @@ import { buildBookingAdminNotificationEmail } from "./templates/booking-admin-no
 import { buildBookingConfirmationEmail } from "./templates/booking-confirmation";
 import type { BookingEmailPayload } from "./types";
 
-function toEmailPayload(booking: BookingRecord): BookingEmailPayload | null {
+async function toEmailPayload(booking: BookingRecord): Promise<BookingEmailPayload | null> {
   const service = getServiceById(booking.serviceId);
   if (!service) return null;
+
+  const durationMinutes = getServiceDurationMinutes(booking.serviceId);
+  const meetingLink = process.env.SESSION_MEETING_URL?.trim() || null;
+  const calendarToken = await createBookingCalendarToken({
+    bookingId: booking.id,
+    scheduledAt: booking.scheduledAt,
+    serviceTitle: service.title,
+    durationMinutes,
+    clientTimezone: booking.client.timezone,
+  });
 
   return {
     bookingId: booking.id,
@@ -20,9 +31,12 @@ function toEmailPayload(booking: BookingRecord): BookingEmailPayload | null {
     clientTimezone: booking.client.timezone,
     serviceTitle: service.title,
     durationLabel: service.durationLabel ?? `${service.durationMinutes ?? 45} minutes`,
+    durationMinutes,
     scheduledAt: booking.scheduledAt,
     isPackage: isPackageService(booking.serviceId),
     checkoutNote: service.checkoutNote,
+    meetingLink,
+    calendarToken,
   };
 }
 
@@ -33,7 +47,7 @@ function toEmailPayload(booking: BookingRecord): BookingEmailPayload | null {
 export async function sendBookingConfirmationEmails(
   booking: BookingRecord,
 ): Promise<void> {
-  const payload = toEmailPayload(booking);
+  const payload = await toEmailPayload(booking);
   if (!payload) {
     console.error("[email] Skipped booking emails — unknown service", {
       bookingId: booking.id,

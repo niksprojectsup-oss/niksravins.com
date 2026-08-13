@@ -5,13 +5,15 @@ import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Field";
 import { saveGoalAction } from "@/lib/journey/journey-actions";
 import type { JourneyGoal } from "@/lib/journey/journey-repository";
+import { cn } from "@/lib/utils";
 
 type GoalsPanelProps = {
   goals: JourneyGoal[];
   showForm?: boolean;
+  compact?: boolean;
 };
 
-export function GoalsPanel({ goals, showForm = true }: GoalsPanelProps) {
+export function GoalsPanel({ goals, showForm = true, compact = false }: GoalsPanelProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [message, setMessage] = useState<string | null>(null);
@@ -77,29 +79,35 @@ export function GoalsPanel({ goals, showForm = true }: GoalsPanelProps) {
       ) : null}
 
       <section>
-        <h2 className="type-heading-sm">What I&apos;m working on</h2>
+        {!compact ? <h2 className="type-heading-sm">What I&apos;m working on</h2> : null}
         {activeGoals.length === 0 ? (
-          <p className="type-body mt-4 text-ink-subtle">
-            What would you like to transform?
-          </p>
+          !compact ? (
+            <p className="type-body mt-4 text-ink-subtle">
+              What would you like to transform?
+            </p>
+          ) : null
         ) : (
-          <ul className="mt-4 layout-stack-md">
+          <ul className={cn("layout-stack-md", !compact && "mt-4")}>
             {activeGoals.map((goal) => (
-              <li key={goal.id} className="observed-card p-6">
+              <li key={goal.id} className={compact ? "rounded-xl border border-border-subtle p-4" : "observed-card p-6"}>
                 <p className="type-body text-ink">{goal.title}</p>
                 {goal.description ? (
                   <p className="type-body mt-2 text-ink-subtle">{goal.description}</p>
                 ) : null}
-                <p className="type-caption mt-3 capitalize">{goal.status.toLowerCase().replace("_", " ")}</p>
-                <Button
-                  type="button"
-                  variant="secondary"
-                  className="mt-4"
-                  onClick={() => markComplete(goal)}
-                  disabled={isPending}
-                >
-                  Mark completed
-                </Button>
+                {!compact ? (
+                  <>
+                    <p className="type-caption mt-3 capitalize">{goal.status.toLowerCase().replace("_", " ")}</p>
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      className="mt-4"
+                      onClick={() => markComplete(goal)}
+                      disabled={isPending}
+                    >
+                      Mark completed
+                    </Button>
+                  </>
+                ) : null}
               </li>
             ))}
           </ul>

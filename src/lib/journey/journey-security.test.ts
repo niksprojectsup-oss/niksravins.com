@@ -82,9 +82,10 @@ describe("validation", () => {
   });
 
   it("sanitizes emotion tags", () => {
-    assert.deepEqual(sanitizeEmotionTags(["Calm", "Calm", "Fake", " Anxious "]), [
+    assert.deepEqual(sanitizeEmotionTags(["Calm", "Calm", "Clear", " Fake ", "Hopeful"]), [
       "Calm",
-      "Anxious",
+      "Clear",
+      "Hopeful",
     ]);
   });
 });

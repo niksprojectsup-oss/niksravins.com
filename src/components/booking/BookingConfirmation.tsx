@@ -1,8 +1,19 @@
-import { bookingContent } from "@/content/booking";
+import type { BookingUiContent } from "@/content/i18n/types";
+import { InternationalSessionNotice } from "@/components/i18n/InternationalSessionNotice";
 import { Button } from "@/components/ui/Button";
 
-export function BookingConfirmation() {
-  const { title, message, closing } = bookingContent.confirmation;
+type BookingConfirmationProps = {
+  labels: BookingUiContent;
+  homeHref: string;
+  internationalNotice: { line1: string; line2: string };
+};
+
+export function BookingConfirmation({
+  labels,
+  homeHref,
+  internationalNotice,
+}: BookingConfirmationProps) {
+  const { title, message, closing, sessionLanguageNote } = labels.confirmation;
 
   return (
     <section
@@ -13,10 +24,16 @@ export function BookingConfirmation() {
         {title}
       </h2>
       <p className="type-lead">{message}</p>
+      <InternationalSessionNotice
+        line1={internationalNotice.line1}
+        line2={internationalNotice.line2}
+        variant="prominent"
+      />
+      <p className="type-body">{sessionLanguageNote}</p>
       <p className="type-body">{closing}</p>
       <div className="pt-4">
-        <Button href="/" variant="secondary">
-          Return home
+        <Button href={homeHref} variant="secondary">
+          {labels.actions.returnHome}
         </Button>
       </div>
     </section>

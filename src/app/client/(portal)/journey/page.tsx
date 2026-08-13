@@ -1,15 +1,22 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FinalJourneyForms } from "@/components/client/journey/FinalJourneyForms";
+import { JourneyCompletionSummary } from "@/components/client/journey/JourneyCompletionSummary";
+import { JourneyProgressBar } from "@/components/client/journey/JourneyProgressBar";
 import { JourneyTimeline } from "@/components/client/journey/JourneyTimeline";
 import { MilestoneTimeline } from "@/components/client/journey/MilestoneTimeline";
+import { PortalCard, PortalGrid } from "@/components/client/journey/PortalShell";
+import { PortalPageHeader } from "@/components/client/journey/PortalPageHeader";
 import { requireClient } from "@/lib/auth/client-guards";
-import { getJourneyPageData } from "@/lib/journey/journey-repository";
+import { getJourneyPageData, getJourneyProgress } from "@/lib/journey/journey-repository";
 import { prisma } from "@/lib/db/prisma";
 
 export default async function ClientJourneyPage() {
   const session = await requireClient();
-  const journey = await getJourneyPageData(session.clientId!);
+  const [journey, progress] = await Promise.all([
+    getJourneyPageData(session.clientId!),
+    getJourneyProgress(session.clientId!),
+  ]);
   const client = await prisma.client.findUnique({
     where: { id: session.clientId! },
     select: { timezone: true },
@@ -24,19 +31,24 @@ export default async function ClientJourneyPage() {
 
   return (
     <div className="layout-stack-xl">
-      <header className="layout-stack-sm">
-        <h1 className="type-heading">My journey</h1>
-        <p className="type-body text-ink-subtle">
-          Sessions, milestones, and the arc of your transformation.
-        </p>
-      </header>
+      <PortalPageHeader
+        title="My journey"
+        description="Sessions, milestones, and the arc of your transformation."
+      />
 
       {journey.activePackage ? (
         <>
-          <section className="layout-stack-md">
-            <h2 className="type-heading-sm">{journey.activePackage.serviceTitle}</h2>
-            <div className="observed-card p-6 md:p-8">
-              <p className="type-caption">
+          <PortalCard padding="lg">
+            <JourneyProgressBar
+              timeline={journey.activePackage.timeline}
+              totalSessions={journey.activePackage.totalSessions}
+            />
+          </PortalCard>
+
+          <PortalGrid columns={2}>
+            <PortalCard padding="lg">
+              <h2 className="type-heading-sm">{journey.activePackage.serviceTitle}</h2>
+              <p className="type-caption mt-2">
                 {journey.activePackage.completedSessions} completed ·{" "}
                 {journey.activePackage.remainingSessions} remaining
               </p>
@@ -48,29 +60,37 @@ export default async function ClientJourneyPage() {
                   timezone={timezone}
                 />
               </div>
-            </div>
-          </section>
+            </PortalCard>
 
-          <section className="layout-stack-md">
-            <h2 className="type-heading-sm">Milestones</h2>
-            <div className="observed-card p-6 md:p-8">
-              <MilestoneTimeline milestones={journey.milestones} />
-            </div>
-          </section>
+            <PortalCard padding="lg">
+              <h2 className="type-heading-sm">Milestones</h2>
+              <div className="mt-6">
+                <MilestoneTimeline milestones={journey.milestones} />
+              </div>
+            </PortalCard>
+          </PortalGrid>
 
           {session5Complete ? (
-            <FinalJourneyForms packageId={journey.activePackage.id} />
+            <>
+              <JourneyCompletionSummary
+                progress={progress}
+                milestones={journey.milestones}
+                completedSessions={journey.activePackage.completedSessions}
+                totalSessions={journey.activePackage.totalSessions}
+              />
+              <FinalJourneyForms packageId={journey.activePackage.id} />
+            </>
           ) : null}
         </>
       ) : (
-        <div className="observed-card p-6 md:p-8">
+        <PortalCard>
           <p className="type-body text-ink-subtle">
             Your journey timeline will appear when you begin a session package.
           </p>
           <Link href="/book" className="type-accent-link mt-4 inline-block">
             Book your first session
           </Link>
-        </div>
+        </PortalCard>
       )}
     </div>
   );

@@ -10,12 +10,17 @@ export const bookingContent = {
   },
   calendar: {
     title: "Choose a time",
+    packageTitle: "Choose your first session",
+    packageDescription:
+      "Book your first session now. Sessions 2–5 can be scheduled later, one at a time, from your Client Portal.",
     description:
       "Select an available online session. You'll only see times when Niks is available for online work.",
     loading: "Loading available times…",
     noAvailability:
       "No online sessions are available in the next booking window. Please check back soon.",
     noSlots: "No available times on this date.",
+    showMoreTimes: "Show more times",
+    showFewerTimes: "Show fewer times",
   },
   form: {
     title: "Your details",
