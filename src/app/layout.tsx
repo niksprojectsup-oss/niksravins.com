@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { getDocumentHtmlLangFromPathname } from "@/lib/i18n/document-lang";
 import { REQUEST_PATHNAME_HEADER } from "@/lib/i18n/request-pathname";
+import { getAppBaseUrl } from "@/lib/url";
 import "./globals.css";
 
 const fraunces = Fraunces({
@@ -19,9 +20,7 @@ const sourceSans = Source_Sans_3({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") ?? "https://niksravins.com",
-  ),
+  metadataBase: new URL(getAppBaseUrl()),
   title: {
     default: "Niks Ravins",
     template: "%s · Niks Ravins",

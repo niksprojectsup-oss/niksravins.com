@@ -9,5 +9,9 @@ export function getAppBaseUrl(): string {
     return `https://${vercelUrl.replace(/\/$/, "")}`;
   }
 
+  if (process.env.NODE_ENV === "production") {
+    return "https://niksravins.com";
+  }
+
   return "http://localhost:3000";
 }
