@@ -194,6 +194,10 @@ export const itContent: PublicContent = {
       noSlots: "Nessun orario disponibile in questa data.",
       showMoreTimes: "Mostra più orari",
       showFewerTimes: "Mostra meno orari",
+      courseStartTitle: "Scegli la data di inizio",
+      courseStartDescription:
+        "Seleziona quando desideri iniziare il tuo corso o programma.",
+      courseStartLabel: "Data di inizio del corso",
     },
     form: {
       title: "I tuoi dati",
@@ -205,11 +209,31 @@ export const itContent: PublicContent = {
     },
     payment: {
       title: "Pagamento",
-      description:
-        "L'elaborazione dei pagamenti sarà disponibile a breve. L'orario selezionato verrà riservato una volta confermato.",
+      description: "Completa la prenotazione in modo sicuro con carta.",
       stripeLabel: "Paga con carta",
-      paypalLabel: "Paga con PayPal",
-      placeholderNote: "Integrazione pagamenti in arrivo.",
+    },
+    paymentSuccess: {
+      title: "Pagamento confermato",
+      errorTitle: "Impossibile verificare il pagamento",
+      message:
+        "Grazie — il tuo pagamento è stato ricevuto con successo. La tua prenotazione è confermata e riceverai un'e-mail di conferma a breve.",
+      packageMessage:
+        "Il tuo percorso di trasformazione è confermato. Riceverai un'e-mail con i dettagli della prenotazione e l'accesso al Client Portal.",
+      courseMessage:
+        "Il tuo corso è confermato. Riceverai un'e-mail con i dettagli della prenotazione a breve.",
+      closing:
+        "Se l'e-mail di conferma non arriva entro pochi minuti, controlla la cartella spam. Non vedo l'ora di incontrarti.",
+      sessionLanguageNote:
+        "La tua sessione si svolgerà in inglese. Le sessioni online sono disponibili in tutto il mondo.",
+      missingSessionId:
+        "Non siamo riusciti a verificare il pagamento perché non è stato fornito un riferimento al checkout.",
+      invalidSession:
+        "Non abbiamo trovato una sessione di checkout valida. Se hai completato il pagamento, controlla la tua e-mail o contattaci.",
+      notPaid:
+        "Il pagamento non è ancora stato completato. Se ti è stato addebitato un importo, contattaci con i dettagli del pagamento.",
+      error:
+        "Non siamo riusciti a verificare il pagamento in questo momento. Riprova tra poco o controlla la tua e-mail per una conferma.",
+      tryAgain: "Torna alla prenotazione",
     },
     confirmation: {
       title: "La tua sessione è confermata.",

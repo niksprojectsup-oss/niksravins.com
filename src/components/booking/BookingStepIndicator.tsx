@@ -4,34 +4,38 @@ import { cn } from "@/lib/utils";
 const STEP_LABELS: Record<Exclude<BookingStep, "confirmed">, string> = {
   session: "Session",
   schedule: "Time",
+  "start-date": "Start date",
   details: "Details",
   payment: "Payment",
 };
 
 type BookingStepIndicatorProps = {
   currentStep: BookingStep;
+  requiresStartDate?: boolean;
 };
 
-const VISIBLE_STEPS: Exclude<BookingStep, "confirmed">[] = [
-  "session",
-  "schedule",
-  "details",
-  "payment",
-];
+function buildVisibleSteps(requiresStartDate: boolean): Exclude<BookingStep, "confirmed">[] {
+  if (requiresStartDate) {
+    return ["session", "start-date", "details", "payment"];
+  }
+  return ["session", "schedule", "details", "payment"];
+}
 
 export function BookingStepIndicator({
   currentStep,
+  requiresStartDate = false,
 }: BookingStepIndicatorProps) {
   if (currentStep === "confirmed") return null;
 
-  const currentIndex = VISIBLE_STEPS.indexOf(currentStep);
+  const visibleSteps = buildVisibleSteps(requiresStartDate);
+  const currentIndex = visibleSteps.indexOf(currentStep);
 
   return (
     <nav aria-label="Booking progress" className="border-b border-border-subtle pb-6">
       <ol className="flex flex-wrap gap-x-6 gap-y-2">
-        {VISIBLE_STEPS.map((step, index) => {
+        {visibleSteps.map((step, index) => {
           const isActive = step === currentStep;
-          const isComplete = index < currentIndex;
+          const isComplete = currentIndex >= 0 && index < currentIndex;
 
           return (
             <li key={step}>

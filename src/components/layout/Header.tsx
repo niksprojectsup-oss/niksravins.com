@@ -13,6 +13,9 @@ type HeaderProps = {
   locale: Locale;
 };
 
+const navLinkClass =
+  "type-caption text-ink-subtle no-underline transition-colors duration-300 hover:text-ink";
+
 export function Header({ content, locale }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -41,24 +44,20 @@ export function Header({ content, locale }: HeaderProps) {
           : "bg-transparent",
       )}
     >
-      <div className="layout-container flex min-h-[4.5rem] items-center justify-between py-4">
+      <div className="layout-container flex min-h-[4.5rem] items-center justify-between gap-4 py-4 lg:gap-6">
         <Link
           href={homePath}
-          className="font-display text-lg tracking-snug text-ink no-underline hover:text-accent"
+          className="shrink-0 font-display text-lg tracking-snug text-ink no-underline hover:text-accent"
         >
           {content.site.name}
         </Link>
 
         <nav
           aria-label="Primary"
-          className="hidden items-center gap-8 lg:flex"
+          className="hidden min-w-0 flex-1 items-center justify-center gap-6 xl:gap-8 lg:flex"
         >
           {content.navigation.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="type-caption text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
-            >
+            <Link key={item.href} href={item.href} className={navLinkClass}>
               {item.label}
             </Link>
           ))}
@@ -68,70 +67,75 @@ export function Header({ content, locale }: HeaderProps) {
           >
             {content.header.book}
           </Link>
-          <Link
-            href="/client/login"
-            className="type-caption text-ink-subtle no-underline transition-colors duration-300 hover:text-ink"
-          >
-            {content.header.clientPortal}
-          </Link>
-          <LanguageSwitcher label={content.languageSwitcherLabel} />
         </nav>
 
-        <button
-          type="button"
-          className="flex h-11 w-11 items-center justify-center text-ink lg:hidden"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-nav"
-          aria-label={menuOpen ? "Close menu" : "Open menu"}
-          onClick={() => setMenuOpen((open) => !open)}
-        >
-          <svg
-            width="18"
-            height="14"
-            viewBox="0 0 18 14"
-            fill="none"
-            aria-hidden
-            className="text-current"
+        <div className="hidden shrink-0 items-center gap-3 lg:flex">
+          <LanguageSwitcher label={content.languageSwitcherLabel} />
+          <Link href="/client/login" className={navLinkClass}>
+            {content.header.clientPortal}
+          </Link>
+        </div>
+
+        <div className="flex shrink-0 items-center gap-2 lg:hidden">
+          <Link href="/client/login" className={navLinkClass}>
+            {content.header.clientPortal}
+          </Link>
+          <button
+            type="button"
+            className="flex h-11 w-11 items-center justify-center text-ink"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-nav"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            onClick={() => setMenuOpen((open) => !open)}
           >
-            {menuOpen ? (
-              <>
-                <path
-                  d="M2 2L16 12"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M16 2L2 12"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-              </>
-            ) : (
-              <>
-                <path
-                  d="M0 1H18"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M0 7H18"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-                <path
-                  d="M0 13H18"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-              </>
-            )}
-          </svg>
-        </button>
+            <svg
+              width="18"
+              height="14"
+              viewBox="0 0 18 14"
+              fill="none"
+              aria-hidden
+              className="text-current"
+            >
+              {menuOpen ? (
+                <>
+                  <path
+                    d="M2 2L16 12"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M16 2L2 12"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    strokeLinecap="round"
+                  />
+                </>
+              ) : (
+                <>
+                  <path
+                    d="M0 1H18"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M0 7H18"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M0 13H18"
+                    stroke="currentColor"
+                    strokeWidth="1.25"
+                    strokeLinecap="round"
+                  />
+                </>
+              )}
+            </svg>
+          </button>
+        </div>
       </div>
 
       <nav
@@ -154,22 +158,13 @@ export function Header({ content, locale }: HeaderProps) {
               </Link>
             </li>
           ))}
-          <li className="pt-4">
-            <Link
-              href={content.site.bookingUrl}
-              className="inline-flex min-h-12 items-center text-accent no-underline"
-              onClick={() => setMenuOpen(false)}
-            >
-              {content.header.bookSession}
-            </Link>
-          </li>
           <li>
             <Link
-              href="/client/login"
-              className="block py-4 font-display text-2xl text-ink no-underline"
+              href={content.site.bookingUrl}
+              className="block py-4 font-display text-2xl text-accent no-underline"
               onClick={() => setMenuOpen(false)}
             >
-              {content.header.clientPortal}
+              {content.header.book}
             </Link>
           </li>
           <li className="pt-6">

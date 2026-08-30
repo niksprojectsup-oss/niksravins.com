@@ -2,12 +2,13 @@ import { validateBookableSlot } from "@/lib/booking/availability/availability-se
 import { initializeClientWorkspace } from "@/lib/admin/client-workspace";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import {
-  getServiceById,
-  getServicePriceCents,
-  isPackageService,
-  PACKAGE_TOTAL_SESSIONS,
-} from "@/lib/booking/services-catalog";
+  getActiveOfferById,
+  getOfferPriceCents,
+  isCourseOffer,
+  isPackageOffer,
+} from "@/lib/booking/offer-repository";
 import type { BookingRecord, BookingRequest } from "@/lib/booking/types";
+import { DEFAULT_PACKAGE_SESSIONS } from "@/lib/booking/types";
 
 export class BookingPersistenceError extends Error {
   constructor(message: string) {
@@ -45,26 +46,49 @@ function mergeClientFields(
   };
 }
 
+function parseCourseStartDate(value?: string | null): Date | null {
+  if (!value?.trim()) return null;
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return null;
+  return date;
+}
+
 export async function createBooking(
   request: BookingRequest,
 ): Promise<BookingRecord> {
   requireDatabase();
 
-  const service = getServiceById(request.serviceId);
+  const service = await getActiveOfferById(request.serviceId);
   if (!service) {
     throw new BookingPersistenceError("Selected service is not available.");
   }
 
   const normalizedEmail = request.client.email.trim().toLowerCase();
+  const isPackage = isPackageOffer(service);
+  const isCourse = isCourseOffer(service);
+  const courseStartDate = parseCourseStartDate(request.courseStartDate);
   const scheduledAt = new Date(request.scheduledAt);
-  const isPackage = isPackageService(request.serviceId);
 
-  await validateBookableSlot({
-    serviceId: request.serviceId,
-    slotId: request.slotId,
-    scheduledAt: request.scheduledAt,
-    displayTimezone: request.client.timezone,
-  });
+  if (isCourse) {
+    if (!courseStartDate) {
+      throw new BookingPersistenceError("Please select a course start date.");
+    }
+    if (courseStartDate.getTime() <= Date.now()) {
+      throw new BookingPersistenceError("Please select a future start date.");
+    }
+  } else {
+    await validateBookableSlot({
+      serviceId: request.serviceId,
+      slotId: request.slotId,
+      scheduledAt: request.scheduledAt,
+      displayTimezone: request.client.timezone,
+    });
+  }
+
+  const amountCents = await getOfferPriceCents(request.serviceId);
+  if (amountCents === null) {
+    throw new BookingPersistenceError("Selected service is not available.");
+  }
 
   const result = await prisma.$transaction(async (tx) => {
     let client = await tx.client.findUnique({
@@ -80,13 +104,17 @@ export async function createBooking(
           phone: normalizePhone(request.client.phone),
           country: request.client.country,
           timezone: request.client.timezone,
-          firstSessionDate: scheduledAt,
+          firstSessionDate: isCourse && courseStartDate ? courseStartDate : scheduledAt,
         },
       });
 
       await initializeClientWorkspace(tx, client.id);
     } else {
-      const merged = mergeClientFields(client, request.client, scheduledAt);
+      const merged = mergeClientFields(
+        client,
+        request.client,
+        isCourse && courseStartDate ? courseStartDate : scheduledAt,
+      );
 
       client = await tx.client.update({
         where: { id: client.id },
@@ -122,7 +150,7 @@ export async function createBooking(
         data: {
           clientId: client.id,
           serviceId: request.serviceId,
-          totalSessions: PACKAGE_TOTAL_SESSIONS,
+          totalSessions: service.packageSessions ?? DEFAULT_PACKAGE_SESSIONS,
           completedSessions: 0,
         },
       });
@@ -134,7 +162,7 @@ export async function createBooking(
         clientId: client.id,
         packageId,
         sessionNumber: isPackage ? 1 : null,
-        scheduledAt,
+        scheduledAt: isCourse && courseStartDate ? courseStartDate : scheduledAt,
         sessionType: service.title,
         serviceId: request.serviceId,
         status: "SCHEDULED",
@@ -150,6 +178,7 @@ export async function createBooking(
         serviceId: request.serviceId,
         slotId: request.slotId,
         sessionIntention: request.client.sessionIntention.trim(),
+        courseStartDate: isCourse ? courseStartDate : null,
         status: "CONFIRMED",
       },
     });
@@ -159,8 +188,10 @@ export async function createBooking(
         clientId: client.id,
         sessionId: isPackage ? null : session.id,
         packageId,
-        amountCents: getServicePriceCents(request.serviceId),
+        amountCents,
+        currency: service.currency,
         status: "PENDING",
+        provider: "stripe",
       },
     });
 
@@ -173,9 +204,11 @@ export async function createBooking(
     serviceId: request.serviceId,
     slotId: request.slotId,
     scheduledAt: request.scheduledAt,
+    courseStartDate: request.courseStartDate ?? null,
     client: request.client,
     status: "confirmed",
     paymentStatus: "pending",
+    paymentProvider: "stripe",
     createdAt: result.booking.createdAt.toISOString(),
     updatedAt: result.booking.updatedAt.toISOString(),
   };

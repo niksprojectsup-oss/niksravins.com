@@ -194,6 +194,9 @@ export const zhContent: PublicContent = {
       noSlots: "此日期没有可用时间。",
       showMoreTimes: "显示更多时间",
       showFewerTimes: "显示更少时间",
+      courseStartTitle: "选择开始日期",
+      courseStartDescription: "请选择您希望课程或项目开始的日期。",
+      courseStartLabel: "课程开始日期",
     },
     form: {
       title: "你的信息",
@@ -205,11 +208,31 @@ export const zhContent: PublicContent = {
     },
     payment: {
       title: "付款",
-      description:
-        "付款处理功能即将上线。确认后，你选择的时段将被保留。",
+      description: "请使用银行卡安全完成预约。",
       stripeLabel: "银行卡支付",
-      paypalLabel: "PayPal 支付",
-      placeholderNote: "支付集成即将推出。",
+    },
+    paymentSuccess: {
+      title: "付款已确认",
+      errorTitle: "无法验证付款",
+      message:
+        "谢谢 — 我们已成功收到您的付款。您的预约已确认，您将很快收到确认邮件。",
+      packageMessage:
+        "您的深度转化套餐已确认。您将收到包含预约详情和 Client Portal 访问方式的邮件。",
+      courseMessage:
+        "您的课程已确认。您将很快收到包含预约详情的邮件。",
+      closing:
+        "如果确认邮件在几分钟内未送达，请检查垃圾邮件文件夹。期待与您见面。",
+      sessionLanguageNote:
+        "咨询将以英语进行。在线咨询面向全球客户开放。",
+      missingSessionId:
+        "由于未提供结账参考信息，我们无法验证您的付款。",
+      invalidSession:
+        "我们找不到有效的结账会话。如果您已完成付款，请检查邮件或联系我们。",
+      notPaid:
+        "您的付款尚未完成。如果您已被扣款，请携带付款详情联系我们。",
+      error:
+        "我们目前无法验证您的付款。请稍后重试或查看邮件中的确认信息。",
+      tryAgain: "返回预约",
     },
     confirmation: {
       title: "你的咨询已确认。",

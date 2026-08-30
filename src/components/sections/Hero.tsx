@@ -16,31 +16,34 @@ export function Hero({ content }: HeroProps) {
     >
       <div className="layout-container">
         <div className="layout-stack-lg max-w-wide">
-          <p className="type-label">{hero.name}</p>
-
           <h1 id="hero-heading" className="type-display max-w-content">
             {hero.headline}
           </h1>
 
-          <InternationalSessionNotice
-            line1={internationalNotice.line1}
-            line2={internationalNotice.line2}
-            className="max-w-prose"
-          />
-
-          <div className="layout-stack-md max-w-prose pt-1 md:pt-4">
-            {hero.explanation.map((paragraph) => (
-              <p key={paragraph.slice(0, 32)} className="type-editorial">
-                {paragraph}
-              </p>
-            ))}
-          </div>
-
-          <div className="flex flex-col gap-4 pt-5 md:gap-5 md:pt-8 sm:flex-row sm:items-center">
-            <Button href={hero.primaryCta.href}>{hero.primaryCta.label}</Button>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Button href={hero.primaryCta.href} variant="booking">
+              {hero.primaryCta.label}
+            </Button>
             <Button href={hero.secondaryCta.href} variant="secondary">
               {hero.secondaryCta.label}
             </Button>
+          </div>
+
+          <InternationalSessionNotice
+            line1={internationalNotice.line1}
+            line2={internationalNotice.line2}
+            className="max-w-prose text-ink-faint"
+          />
+
+          <div className="grid grid-cols-1 gap-5 pt-2 md:grid-cols-2 md:gap-6 md:pt-4 lg:grid-cols-3 lg:pt-6">
+            {hero.explanation.map((paragraph) => (
+              <article
+                key={paragraph.slice(0, 32)}
+                className="observed-card flex h-full flex-col p-5 md:p-6"
+              >
+                <p className="type-body leading-relaxed text-ink-muted">{paragraph}</p>
+              </article>
+            ))}
           </div>
         </div>
       </div>

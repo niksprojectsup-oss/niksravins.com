@@ -60,7 +60,7 @@ function buildPackageTimeline(
   });
 }
 
-export function mapSessionPackageRecord(pkg: {
+export async function mapSessionPackageRecord(pkg: {
   id: string;
   serviceId: string;
   totalSessions: number;
@@ -73,11 +73,9 @@ export function mapSessionPackageRecord(pkg: {
     scheduledAt: Date;
     status: string;
   }[];
-}): ClientPackageRecord {
-  const serviceTitle =
-    getServiceById(
-      pkg.serviceId as "initial-aap-session" | "aap-transformation-package",
-    )?.title ?? pkg.serviceId;
+}): Promise<ClientPackageRecord> {
+  const service = await getServiceById(pkg.serviceId);
+  const serviceTitle = service?.title ?? pkg.serviceId;
 
   const remainingSessions = pkg.totalSessions - pkg.completedSessions;
 
@@ -204,9 +202,7 @@ export async function schedulePackageSession(
       throw new PackageOperationError("This time is already booked for your package.");
     }
 
-    const service = getServiceById(
-      pkg.serviceId as "initial-aap-session" | "aap-transformation-package",
-    );
+    const service = await getServiceById(pkg.serviceId);
 
     const session = await tx.session.create({
       data: {
@@ -270,5 +266,5 @@ export async function listClientPackages(
     orderBy: { createdAt: "desc" },
   });
 
-  return packages.map(mapSessionPackageRecord);
+  return Promise.all(packages.map(mapSessionPackageRecord));
 }

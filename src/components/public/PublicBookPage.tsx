@@ -1,5 +1,6 @@
 import type { PublicContent } from "@/content/i18n/types";
 import type { Locale } from "@/lib/i18n/config";
+import type { BookableService } from "@/lib/booking/types";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { BookingFlow } from "@/components/booking/BookingFlow";
@@ -10,9 +11,10 @@ import { buildBookJsonLd } from "@/lib/seo/json-ld";
 type PublicBookPageProps = {
   content: PublicContent;
   locale: Locale;
+  offers: BookableService[];
 };
 
-export function PublicBookPage({ content, locale }: PublicBookPageProps) {
+export function PublicBookPage({ content, locale, offers }: PublicBookPageProps) {
   return (
     <>
       <JsonLd data={buildBookJsonLd(content)} />
@@ -34,7 +36,7 @@ export function PublicBookPage({ content, locale }: PublicBookPageProps) {
             className="mt-6 max-w-prose"
           />
         </div>
-        <BookingFlow content={content} />
+        <BookingFlow content={content} offers={offers} />
       </main>
 
       <Footer content={content} locale={locale} />

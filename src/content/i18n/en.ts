@@ -42,7 +42,7 @@ export const enContent: PublicContent = {
   ],
   hero: {
     name: "Niks Ravins",
-    headline: "You understand the reaction. It still happens.",
+    headline: "You understand the reaction But It still happens",
     explanation: [
       "Automatic emotional reactions can continue because the nervous system still links them to specific past experiences.",
       "Most people who come here already understand their patterns. Talking explained them. It did not change the reaction.",
@@ -194,6 +194,10 @@ export const enContent: PublicContent = {
       noSlots: "No available times on this date.",
       showMoreTimes: "Show more times",
       showFewerTimes: "Show fewer times",
+      courseStartTitle: "Choose your start date",
+      courseStartDescription:
+        "Select when you would like your course or program to begin.",
+      courseStartLabel: "Course start date",
     },
     form: {
       title: "Your details",
@@ -205,11 +209,31 @@ export const enContent: PublicContent = {
     },
     payment: {
       title: "Payment",
-      description:
-        "Payment processing will be available shortly. Your selected time will be held once confirmed.",
+      description: "Complete your booking securely with card payment.",
       stripeLabel: "Pay with card",
-      paypalLabel: "Pay with PayPal",
-      placeholderNote: "Payment integration coming soon.",
+    },
+    paymentSuccess: {
+      title: "Payment confirmed",
+      errorTitle: "Payment could not be verified",
+      message:
+        "Thank you — your payment has been successfully received. Your booking is confirmed and you'll receive a confirmation email shortly.",
+      packageMessage:
+        "Your transformation package is confirmed. You'll receive an email with your booking details and access to your Client Portal.",
+      courseMessage:
+        "Your course is confirmed. You'll receive an email with your booking details shortly.",
+      closing:
+        "If the confirmation email does not arrive within a few minutes, check your spam folder. I look forward to meeting you.",
+      sessionLanguageNote:
+        "Your session will be conducted in English. Online sessions are available worldwide.",
+      missingSessionId:
+        "We could not verify your payment because no checkout reference was provided.",
+      invalidSession:
+        "We could not find a valid checkout session. If you completed payment, please check your email or contact us.",
+      notPaid:
+        "Your payment has not been completed yet. If you were charged, please contact us with your payment details.",
+      error:
+        "We could not verify your payment right now. Please try again shortly or check your email for confirmation.",
+      tryAgain: "Return to booking",
     },
     confirmation: {
       title: "Your session is confirmed.",

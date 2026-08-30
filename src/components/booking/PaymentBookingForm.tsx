@@ -1,19 +1,19 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useState } from "react";
 import type { BookingUiContent } from "@/content/i18n/types";
 import { Button } from "@/components/ui/Button";
-import { submitBookingFormAction, type BookingFormState } from "@/lib/booking/actions";
-import type { ClientDetails, ServiceId } from "@/lib/booking/types";
+import type { ClientDetails } from "@/lib/booking/types";
 import { BookingPanel } from "./BookingPanel";
 
 type PaymentBookingFormProps = {
-  serviceId: ServiceId;
+  serviceId: string;
   slotId: string;
   scheduledAt: string;
+  courseStartDate?: string | null;
   client: ClientDetails;
   checkoutNote?: string;
-  onSuccess: () => void;
+  locale: string;
   labels: BookingUiContent;
 };
 
@@ -21,77 +21,78 @@ export function PaymentBookingForm({
   serviceId,
   slotId,
   scheduledAt,
+  courseStartDate,
   client,
   checkoutNote,
-  onSuccess,
+  locale,
   labels,
 }: PaymentBookingFormProps) {
-  const [state, formAction, pending] = useActionState<BookingFormState, FormData>(
-    submitBookingFormAction,
-    {},
-  );
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
 
-  useEffect(() => {
-    if (state.success) {
-      onSuccess();
+  async function handleStripeCheckout() {
+    setPending(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/stripe/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          serviceId,
+          slotId,
+          scheduledAt,
+          courseStartDate: courseStartDate ?? "",
+          firstName: client.firstName,
+          lastName: client.lastName,
+          email: client.email,
+          phone: client.phone ?? "",
+          country: client.country,
+          timezone: client.timezone,
+          sessionIntention: client.sessionIntention,
+          locale,
+        }),
+      });
+
+      const data = (await response.json()) as { url?: string; error?: string };
+      if (!response.ok || !data.url) {
+        setError(data.error ?? "Unable to start checkout. Please try again.");
+        setPending(false);
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch {
+      setError("Unable to start checkout. Please try again.");
+      setPending(false);
     }
-  }, [state.success, onSuccess]);
+  }
 
   return (
     <BookingPanel
       title={labels.payment.title}
       description={labels.payment.description}
     >
-      <form action={formAction} className="layout-stack-md max-w-prose">
+      <div className="layout-stack-md max-w-prose">
         {checkoutNote ? (
           <p className="type-body text-ink-muted">{checkoutNote}</p>
         ) : null}
 
-        <input type="hidden" name="serviceId" value={serviceId} />
-        <input type="hidden" name="slotId" value={slotId} />
-        <input type="hidden" name="scheduledAt" value={scheduledAt} />
-        <input type="hidden" name="firstName" value={client.firstName} />
-        <input type="hidden" name="lastName" value={client.lastName} />
-        <input type="hidden" name="email" value={client.email} />
-        <input type="hidden" name="phone" value={client.phone ?? ""} />
-        <input type="hidden" name="country" value={client.country} />
-        <input type="hidden" name="timezone" value={client.timezone} />
-        <input type="hidden" name="sessionIntention" value={client.sessionIntention} />
-
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <button
-            type="button"
-            disabled
-            aria-disabled
-            className="observed-card min-h-14 cursor-not-allowed p-5 text-left opacity-60"
-          >
-            <p className="type-caption text-ink-subtle">Stripe</p>
-            <p className="type-body mt-1">{labels.payment.stripeLabel}</p>
-          </button>
-
-          <button
-            type="button"
-            disabled
-            aria-disabled
-            className="observed-card min-h-14 cursor-not-allowed p-5 text-left opacity-60"
-          >
-            <p className="type-caption text-ink-subtle">PayPal</p>
-            <p className="type-body mt-1">{labels.payment.paypalLabel}</p>
-          </button>
-        </div>
-
-        <p className="type-caption">{labels.payment.placeholderNote}</p>
-
-        {state.error ? (
+        {error ? (
           <p className="type-caption text-warm" role="alert">
-            {state.error}
+            {error}
           </p>
         ) : null}
 
-        <Button type="submit" disabled={pending} className="w-full sm:w-auto">
-          {pending ? "Confirming…" : labels.actions.confirmBooking}
+        <Button
+          type="button"
+          onClick={handleStripeCheckout}
+          disabled={pending}
+          className="w-full sm:w-auto"
+        >
+          {pending ? "Redirecting…" : labels.payment.stripeLabel}
         </Button>
-      </form>
+      </div>
     </BookingPanel>
   );
 }

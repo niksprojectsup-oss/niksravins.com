@@ -178,7 +178,7 @@ function mapChecklist(items: { itemKey: string; checked: boolean; type: Checklis
   return { before, current };
 }
 
-function mapBookings(
+async function mapBookings(
   bookings: {
     id: string;
     serviceId: string;
@@ -187,18 +187,21 @@ function mapBookings(
     createdAt: Date;
     session: { scheduledAt: Date; sessionType: string };
   }[],
-): ClientBookingRecord[] {
-  return bookings.map((booking) => ({
-    id: booking.id,
-    serviceId: booking.serviceId,
-    serviceTitle:
-      getServiceById(booking.serviceId as "initial-aap-session" | "aap-transformation-package")
-        ?.title ?? booking.session.sessionType,
-    scheduledAt: booking.session.scheduledAt.toISOString(),
-    status: booking.status.toLowerCase(),
-    sessionIntention: booking.sessionIntention,
-    createdAt: booking.createdAt.toISOString(),
-  }));
+): Promise<ClientBookingRecord[]> {
+  return Promise.all(
+    bookings.map(async (booking) => {
+      const service = await getServiceById(booking.serviceId);
+      return {
+        id: booking.id,
+        serviceId: booking.serviceId,
+        serviceTitle: service?.title ?? booking.session.sessionType,
+        scheduledAt: booking.session.scheduledAt.toISOString(),
+        status: booking.status.toLowerCase(),
+        sessionIntention: booking.sessionIntention,
+        createdAt: booking.createdAt.toISOString(),
+      };
+    }),
+  );
 }
 
 function buildTimeline(input: {
@@ -297,7 +300,7 @@ async function getClientWorkspaceFromDb(id: string): Promise<ClientWorkspace | n
   }));
 
   const { upcoming, completed } = partitionSessions(sessionNotes);
-  const bookings = mapBookings(client.bookings);
+  const bookings = await mapBookings(client.bookings);
   const packages = await listClientPackages(client.id);
 
   return {

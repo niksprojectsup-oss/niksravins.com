@@ -113,7 +113,9 @@ export async function getClientPortalDashboard(
     (item) => currentState[item.key],
   ).map((item) => item.label);
 
-  const packages = client.sessionPackages.map(mapSessionPackageRecord);
+  const packages = await Promise.all(
+    client.sessionPackages.map(mapSessionPackageRecord),
+  );
 
   return {
     firstName: client.firstName,

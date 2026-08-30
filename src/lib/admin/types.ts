@@ -45,7 +45,7 @@ export interface AdminPayment {
   amountCents: number;
   currency: string;
   status: AdminPaymentRecordStatus;
-  provider?: "stripe" | "paypal";
+  provider?: "stripe";
   createdAt: string;
 }
 

@@ -194,6 +194,9 @@ export const jaContent: PublicContent = {
       noSlots: "この日付には利用可能な時間がありません。",
       showMoreTimes: "さらに時間を表示",
       showFewerTimes: "表示を減らす",
+      courseStartTitle: "開始日を選択",
+      courseStartDescription: "コースまたはプログラムの開始日を選んでください。",
+      courseStartLabel: "コース開始日",
     },
     form: {
       title: "ご連絡先",
@@ -205,11 +208,31 @@ export const jaContent: PublicContent = {
     },
     payment: {
       title: "お支払い",
-      description:
-        "決済機能は近日中に利用可能になります。確認後、選択した時間が確保されます。",
+      description: "カード決済で安全に予約を完了してください。",
       stripeLabel: "カードで支払う",
-      paypalLabel: "PayPalで支払う",
-      placeholderNote: "決済連携は近日公開予定です。",
+    },
+    paymentSuccess: {
+      title: "お支払いが確認されました",
+      errorTitle: "お支払いを確認できませんでした",
+      message:
+        "ありがとうございます — お支払いが正常に完了しました。ご予約は確定しており、まもなく確認メールをお送りします。",
+      packageMessage:
+        "変容プログラムのご予約が確定しました。予約詳細と Client Portal へのアクセス方法を記載したメールをお送りします。",
+      courseMessage:
+        "コースのご予約が確定しました。まもなく予約詳細を記載したメールをお送りします。",
+      closing:
+        "確認メールが数分以内に届かない場合は、迷惑メールフォルダをご確認ください。お会いできることを楽しみにしています。",
+      sessionLanguageNote:
+        "セッションは英語で行われます。オンラインセッションは世界中で利用できます。",
+      missingSessionId:
+        "チェックアウト参照が提供されていないため、お支払いを確認できませんでした。",
+      invalidSession:
+        "有効なチェックアウトセッションが見つかりませんでした。お支払い済みの場合は、メールをご確認いただくかご連絡ください。",
+      notPaid:
+        "お支払いはまだ完了していません。請求されている場合は、お支払い情報とともにご連絡ください。",
+      error:
+        "現在、お支払いを確認できませんでした。しばらくしてから再度お試しいただくか、確認メールをご確認ください。",
+      tryAgain: "予約に戻る",
     },
     confirmation: {
       title: "セッションが確定しました。",

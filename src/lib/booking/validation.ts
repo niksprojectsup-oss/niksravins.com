@@ -1,29 +1,45 @@
 import type { BookingRequest } from "./types";
 import { validateClientDetails } from "./client-details";
-import { getServiceById } from "./services-catalog";
+import { getActiveOfferById, isCourseOffer } from "./offer-repository";
 
-export function validateBookingRequest(
+export async function validateBookingRequest(
   request: BookingRequest,
-): string | null {
-  if (!request.serviceId || !getServiceById(request.serviceId)) {
+): Promise<string | null> {
+  const service = await getActiveOfferById(request.serviceId);
+  if (!service) {
     return "Please select a valid session type.";
   }
 
-  if (!request.slotId?.trim()) {
-    return "Please select a time slot.";
-  }
+  const isCourse = isCourseOffer(service);
 
-  if (!request.scheduledAt?.trim()) {
-    return "Please select a scheduled time.";
-  }
+  if (isCourse) {
+    if (!request.courseStartDate?.trim()) {
+      return "Please select a course start date.";
+    }
+    const startDate = new Date(request.courseStartDate);
+    if (Number.isNaN(startDate.getTime())) {
+      return "The selected start date is invalid.";
+    }
+    if (startDate.getTime() <= Date.now()) {
+      return "Please select a future start date.";
+    }
+  } else {
+    if (!request.slotId?.trim()) {
+      return "Please select a time slot.";
+    }
 
-  const scheduledAt = new Date(request.scheduledAt);
-  if (Number.isNaN(scheduledAt.getTime())) {
-    return "The selected time is invalid.";
-  }
+    if (!request.scheduledAt?.trim()) {
+      return "Please select a scheduled time.";
+    }
 
-  if (scheduledAt.getTime() <= Date.now()) {
-    return "Please select a future time slot.";
+    const scheduledAt = new Date(request.scheduledAt);
+    if (Number.isNaN(scheduledAt.getTime())) {
+      return "The selected time is invalid.";
+    }
+
+    if (scheduledAt.getTime() <= Date.now()) {
+      return "Please select a future time slot.";
+    }
   }
 
   const clientErrors = validateClientDetails(request.client);

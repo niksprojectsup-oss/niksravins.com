@@ -16,6 +16,11 @@
   --nr-ink-subtle: #7a756d;
   --nr-ink-faint: #a39d94;
 
+  /* ── Color: booking CTA (refined green) ───────────────── */
+  --nr-booking: #3d6b52;
+  --nr-booking-strong: #315744;
+  --nr-booking-soft: #e7f0eb;
+
   /* ── Color: accent (sage — calm, grounded, not clinical) ── */
   --nr-accent: #4f6b62;
   --nr-accent-strong: #3d554d;

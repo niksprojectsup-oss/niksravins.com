@@ -32,11 +32,8 @@ export const bookingContent = {
   },
   payment: {
     title: "Payment",
-    description:
-      "Payment processing will be available shortly. Your selected time will be held once confirmed.",
+    description: "Complete your booking securely with card payment.",
     stripeLabel: "Pay with card",
-    paypalLabel: "Pay with PayPal",
-    placeholderNote: "Payment integration coming soon.",
   },
   confirmation: {
     title: "Your session is confirmed.",

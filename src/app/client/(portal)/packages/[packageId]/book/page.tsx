@@ -18,9 +18,7 @@ export default async function ClientPackageBookPage({ params }: PageProps) {
     redirect("/client/dashboard");
   }
 
-  const service = getServiceById(
-    pkg.serviceId as "initial-aap-session" | "aap-transformation-package",
-  );
+  const service = await getServiceById(pkg.serviceId);
 
   if (!service) {
     notFound();

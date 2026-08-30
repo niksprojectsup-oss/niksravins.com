@@ -464,6 +464,38 @@ model Testimonial {
   @@index([status])
 }
 
+enum OfferType {
+  SINGLE_SESSION
+  PACKAGE
+  COURSE
+}
+
+model BookableOffer {
+  id                String    @id
+  slug              String    @unique
+  title             String
+  description       String    @db.Text
+  detail            String    @default("") @db.Text
+  offerType         OfferType
+  priceCents        Int
+  currency          String    @default("EUR")
+  durationMinutes   Int       @default(45)
+  durationLabel     String?
+  priceLabel        String?
+  checkoutNote      String?   @db.Text
+  highlights        String[]  @default([])
+  bonuses           String[]  @default([])
+  packageSessions   Int?
+  requiresStartDate Boolean   @default(false)
+  active            Boolean   @default(true)
+  published         Boolean   @default(true)
+  sortOrder         Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([active, published, sortOrder])
+}
+
 model Booking {
   id               String        @id @default(cuid())
   clientId         String
@@ -472,6 +504,7 @@ model Booking {
   serviceId        String
   slotId           String
   sessionIntention String        @default("")
+  courseStartDate  DateTime?
   status           BookingStatus @default(CONFIRMED)
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
@@ -493,6 +526,7 @@ model Payment {
   currency    String        @default("EUR")
   status      PaymentStatus @default(PENDING)
   provider    String?
+  stripeCheckoutSessionId String? @unique
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 

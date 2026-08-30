@@ -4,6 +4,10 @@ import { getPublicContent } from "@/content/i18n";
 import { PublicBookPage } from "@/components/public/PublicBookPage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
+import {
+  ensureDefaultOffersSeeded,
+  getBookableServices,
+} from "@/lib/booking/services-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -36,6 +40,8 @@ export default async function LocaleBookPage({ params }: LocaleBookPageProps) {
   }
 
   const content = getPublicContent(locale);
+  await ensureDefaultOffersSeeded();
+  const offers = await getBookableServices();
 
-  return <PublicBookPage content={content} locale={locale} />;
+  return <PublicBookPage content={content} locale={locale} offers={offers} />;
 }

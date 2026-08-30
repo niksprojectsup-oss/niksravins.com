@@ -1,6 +1,6 @@
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
-import type { AvailabilityDay, ServiceId } from "@/lib/booking/types";
+import type { AvailabilityDay } from "@/lib/booking/types";
 import {
   findSlotInAvailability,
   generateAvailableSlots,
@@ -27,16 +27,18 @@ async function loadBookedSessions(from: Date, to: Date) {
     },
   });
 
-  return sessions.map((session) => ({
-    scheduledAt: session.scheduledAt,
-    durationMinutes: getServiceDurationMinutes(
-      (session.serviceId ?? "initial-aap-session") as ServiceId,
-    ),
-  }));
+  return Promise.all(
+    sessions.map(async (session) => ({
+      scheduledAt: session.scheduledAt,
+      durationMinutes: await getServiceDurationMinutes(
+        session.serviceId ?? "initial-aap-session",
+      ),
+    })),
+  );
 }
 
 export async function getAvailableSlots(
-  serviceId: ServiceId,
+  serviceId: string,
   displayTimezone: string,
 ): Promise<AvailabilityDay[]> {
   requireDatabase();
@@ -56,18 +58,20 @@ export async function getAvailableSlots(
   }
 
   const bookedSessions = await loadBookedSessions(now, horizonEnd);
+  const durationMinutes = await getServiceDurationMinutes(serviceId);
 
   return generateAvailableSlots({
     config,
     serviceId,
     displayTimezone,
     bookedSessions,
+    durationMinutes,
     now,
   });
 }
 
 export async function validateBookableSlot(input: {
-  serviceId: ServiceId;
+  serviceId: string;
   slotId: string;
   scheduledAt: string;
   displayTimezone?: string;

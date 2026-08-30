@@ -194,6 +194,10 @@ export const frContent: PublicContent = {
       noSlots: "Aucun créneau disponible à cette date.",
       showMoreTimes: "Afficher plus de créneaux",
       showFewerTimes: "Afficher moins de créneaux",
+      courseStartTitle: "Choisir la date de début",
+      courseStartDescription:
+        "Sélectionnez la date à laquelle vous souhaitez commencer votre cours ou programme.",
+      courseStartLabel: "Date de début du cours",
     },
     form: {
       title: "Vos coordonnées",
@@ -205,11 +209,31 @@ export const frContent: PublicContent = {
     },
     payment: {
       title: "Paiement",
-      description:
-        "Le traitement des paiements sera disponible prochainement. Votre créneau sélectionné sera réservé une fois confirmé.",
+      description: "Finalisez votre réservation en toute sécurité par carte bancaire.",
       stripeLabel: "Payer par carte",
-      paypalLabel: "Payer avec PayPal",
-      placeholderNote: "Intégration du paiement bientôt disponible.",
+    },
+    paymentSuccess: {
+      title: "Paiement confirmé",
+      errorTitle: "Impossible de vérifier le paiement",
+      message:
+        "Merci — votre paiement a bien été reçu. Votre réservation est confirmée et vous recevrez un e-mail de confirmation sous peu.",
+      packageMessage:
+        "Votre parcours de transformation est confirmé. Vous recevrez un e-mail avec les détails de votre réservation et l'accès à votre Client Portal.",
+      courseMessage:
+        "Votre cours est confirmé. Vous recevrez un e-mail avec les détails de votre réservation sous peu.",
+      closing:
+        "Si l'e-mail de confirmation n'arrive pas dans quelques minutes, vérifiez votre dossier spam. J'ai hâte de vous rencontrer.",
+      sessionLanguageNote:
+        "Votre séance se déroulera en anglais. Les séances en ligne sont disponibles dans le monde entier.",
+      missingSessionId:
+        "Nous n'avons pas pu vérifier votre paiement car aucune référence de checkout n'a été fournie.",
+      invalidSession:
+        "Nous n'avons pas trouvé de session de checkout valide. Si vous avez payé, vérifiez votre e-mail ou contactez-nous.",
+      notPaid:
+        "Votre paiement n'a pas encore été finalisé. Si vous avez été débité, contactez-nous avec vos informations de paiement.",
+      error:
+        "Nous n'avons pas pu vérifier votre paiement pour le moment. Réessayez sous peu ou vérifiez votre e-mail pour une confirmation.",
+      tryAgain: "Retour à la réservation",
     },
     confirmation: {
       title: "Votre séance est confirmée.",

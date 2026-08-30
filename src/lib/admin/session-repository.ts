@@ -1,5 +1,4 @@
 import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
-import type { ServiceId } from "@/lib/booking/types";
 import { formatAdminDateTime } from "@/lib/admin/format";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import type { AdminPayment, AdminSession, CalendarSlot, DashboardStats } from "@/lib/admin/types";
@@ -44,7 +43,7 @@ export async function listAdminSessions(): Promise<AdminSession[]> {
     clientId: session.clientId,
     clientName: `${session.client.firstName} ${session.client.lastName}`,
     scheduledAt: session.scheduledAt.toISOString(),
-    serviceId: (session.serviceId ?? "initial-aap-session") as ServiceId,
+    serviceId: session.serviceId ?? "initial-aap-session",
     serviceTitle: session.sessionType,
     status: mapSessionStatus(session.status),
     notes: session.mainTopic || session.notes,
@@ -98,26 +97,28 @@ export async function getAdminCalendarSlots(monthKey: string): Promise<CalendarS
     orderBy: { scheduledAt: "asc" },
   });
 
-  return sessions.map((session) => {
-    const startTime = session.scheduledAt;
-    const duration = getServiceDurationMinutes(
-      (session.serviceId ?? "initial-aap-session") as ServiceId,
-    );
-    const endTime = new Date(startTime);
-    endTime.setMinutes(endTime.getMinutes() + duration);
+  return Promise.all(
+    sessions.map(async (session) => {
+      const startTime = session.scheduledAt;
+      const duration = await getServiceDurationMinutes(
+        session.serviceId ?? "initial-aap-session",
+      );
+      const endTime = new Date(startTime);
+      endTime.setMinutes(endTime.getMinutes() + duration);
 
-    return {
-      id: session.id,
-      date: startTime.toISOString().slice(0, 10),
-      startTime: startTime.toISOString(),
-      endTime: endTime.toISOString(),
-      kind: "booked" as const,
-      sessionId: session.id,
-      clientName: `${session.client.firstName} ${session.client.lastName}`,
-      serviceTitle: session.sessionType,
-      status: mapSessionStatus(session.status),
-    };
-  });
+      return {
+        id: session.id,
+        date: startTime.toISOString().slice(0, 10),
+        startTime: startTime.toISOString(),
+        endTime: endTime.toISOString(),
+        kind: "booked" as const,
+        sessionId: session.id,
+        clientName: `${session.client.firstName} ${session.client.lastName}`,
+        serviceTitle: session.sessionType,
+        status: mapSessionStatus(session.status),
+      };
+    }),
+  );
 }
 
 export async function getDashboardStats(): Promise<DashboardStats> {
@@ -190,7 +191,7 @@ export async function getUpcomingSessions(limit = 4): Promise<AdminSession[]> {
     clientId: session.clientId,
     clientName: `${session.client.firstName} ${session.client.lastName}`,
     scheduledAt: session.scheduledAt.toISOString(),
-    serviceId: (session.serviceId ?? "initial-aap-session") as ServiceId,
+    serviceId: session.serviceId ?? "initial-aap-session",
     serviceTitle: session.sessionType,
     status: mapSessionStatus(session.status),
     notes: session.mainTopic || session.notes,
@@ -217,7 +218,7 @@ export async function getSessionsForDay(datePrefix: string): Promise<AdminSessio
     clientId: session.clientId,
     clientName: `${session.client.firstName} ${session.client.lastName}`,
     scheduledAt: session.scheduledAt.toISOString(),
-    serviceId: (session.serviceId ?? "initial-aap-session") as ServiceId,
+    serviceId: session.serviceId ?? "initial-aap-session",
     serviceTitle: session.sessionType,
     status: mapSessionStatus(session.status),
     notes: session.mainTopic || session.notes,

@@ -4,6 +4,8 @@ import { cn } from "@/lib/utils";
 const variants = {
   primary:
     "bg-ink text-surface hover:bg-accent-strong focus-visible:outline-ink",
+  booking:
+    "bg-booking text-surface hover:bg-booking-strong focus-visible:outline-booking",
   secondary:
     "border border-border-strong bg-transparent text-ink hover:border-accent hover:text-accent",
   ghost: "text-ink-muted hover:text-accent underline-offset-4 hover:underline",
@@ -26,20 +28,25 @@ export function Button({
   className,
   children,
   href,
+  onClick,
   ...buttonProps
 }: ButtonProps) {
   const classes = cn(baseStyles, variants[variant], className);
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link
+        href={href}
+        className={classes}
+        onClick={onClick as React.MouseEventHandler<HTMLAnchorElement> | undefined}
+      >
         {children}
       </Link>
     );
   }
 
   return (
-    <button type="button" className={classes} {...buttonProps}>
+    <button type="button" className={classes} onClick={onClick} {...buttonProps}>
       {children}
     </button>
   );

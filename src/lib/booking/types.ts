@@ -1,11 +1,14 @@
-/** Booking domain types — shared across client UI, API routes, and future admin. */
+/** Booking domain types — shared across client UI, API routes, and admin. */
 
-export type ServiceId = "initial-aap-session" | "aap-transformation-package";
+export type ServiceId = string;
 
-export type ServiceKind = "single-session" | "package";
+export type ServiceKind = "single-session" | "package" | "course";
+
+export type OfferTypeName = "SINGLE_SESSION" | "PACKAGE" | "COURSE";
 
 export interface BookableService {
   id: ServiceId;
+  slug: string;
   title: string;
   description: string;
   detail?: string;
@@ -13,21 +16,27 @@ export interface BookableService {
   bonuses?: string[];
   checkoutNote?: string;
   kind: ServiceKind;
+  offerType: OfferTypeName;
   durationLabel?: string;
   durationMinutes?: number;
   priceLabel?: string;
+  priceCents: number;
+  currency: string;
+  packageSessions?: number;
+  requiresStartDate: boolean;
 }
 
 export type BookingStep =
   | "session"
   | "schedule"
+  | "start-date"
   | "details"
   | "payment"
   | "confirmed";
 
 export type BookingStatus = "pending" | "confirmed" | "cancelled";
 export type PaymentStatus = "pending" | "paid" | "failed" | "refunded";
-export type PaymentProvider = "stripe" | "paypal";
+export type PaymentProvider = "stripe";
 
 export interface TimeSlot {
   id: string;
@@ -59,6 +68,7 @@ export interface BookingDraft {
   serviceId: ServiceId | null;
   slotId: string | null;
   scheduledAt: string | null;
+  courseStartDate: string | null;
   client: ClientDetails | null;
 }
 
@@ -66,6 +76,7 @@ export interface BookingRequest {
   serviceId: ServiceId;
   slotId: string;
   scheduledAt: string;
+  courseStartDate?: string | null;
   client: ClientDetails;
 }
 
@@ -95,10 +106,9 @@ export interface BookingService {
   listBookingsByClient(clientId: string): Promise<BookingRecord[]>;
 }
 
-/** Future: Stripe + PayPal integration. */
+/** Stripe checkout integration. */
 export interface PaymentService {
   createStripeCheckout(bookingId: string): Promise<{ checkoutUrl: string }>;
-  createPayPalOrder(bookingId: string): Promise<{ orderId: string }>;
 }
 
 /** Future: admin dashboard + client profiles. */
@@ -112,6 +122,7 @@ export interface AdminService {
 export const BOOKING_STEPS: BookingStep[] = [
   "session",
   "schedule",
+  "start-date",
   "details",
   "payment",
   "confirmed",
@@ -119,3 +130,11 @@ export const BOOKING_STEPS: BookingStep[] = [
 
 /** @deprecated Use BookableService catalog — kept for migration compatibility. */
 export type SessionType = ServiceId;
+
+/** Legacy stable IDs for existing records. */
+export const LEGACY_SERVICE_IDS = {
+  INITIAL_SESSION: "initial-aap-session",
+  TRANSFORMATION_PACKAGE: "aap-transformation-package",
+} as const;
+
+export const DEFAULT_PACKAGE_SESSIONS = 5;

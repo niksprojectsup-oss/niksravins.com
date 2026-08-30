@@ -24,6 +24,9 @@ export type BookingUiContent = {
     packageTitle: string;
     packageDescription: string;
     description: string;
+    courseStartTitle: string;
+    courseStartDescription: string;
+    courseStartLabel: string;
     loading: string;
     noAvailability: string;
     noSlots: string;
@@ -40,8 +43,20 @@ export type BookingUiContent = {
     title: string;
     description: string;
     stripeLabel: string;
-    paypalLabel: string;
-    placeholderNote: string;
+  };
+  paymentSuccess: {
+    title: string;
+    errorTitle: string;
+    message: string;
+    packageMessage: string;
+    courseMessage: string;
+    closing: string;
+    sessionLanguageNote: string;
+    missingSessionId: string;
+    invalidSession: string;
+    notPaid: string;
+    error: string;
+    tryAgain: string;
   };
   confirmation: {
     title: string;

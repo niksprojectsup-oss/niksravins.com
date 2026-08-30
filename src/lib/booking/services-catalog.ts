@@ -1,64 +1,50 @@
-import type { BookableService, ServiceId } from "./types";
+import type { BookableService } from "./types";
+import {
+  getActiveOfferById,
+  getOfferById,
+  getOfferPriceCents,
+  isPackageOffer,
+  listPublishedOffers,
+  seedDefaultOffers,
+} from "./offer-repository";
+import { DEFAULT_PACKAGE_SESSIONS, LEGACY_SERVICE_IDS } from "./types";
 
-/** Paid services catalog. Extend this array to add future offerings. */
-export const BOOKABLE_SERVICES: BookableService[] = [
-  {
-    id: "initial-aap-session",
-    title: "45-minute Initial Session",
-    description:
-      "Your first step in the process. Together we explore your patterns and automatic reactions, understand what is maintaining them, and determine the most effective way forward for you.",
-    kind: "single-session",
-    durationLabel: "45 minutes",
-    durationMinutes: 45,
-    priceLabel: "€90",
-  },
-  {
-    id: "aap-transformation-package",
-    title: "5 × 45-minute Deep Transformation Package",
-    description:
-      "A structured transformation process — not five separate appointments, but one connected journey designed to create meaningful, lasting change.",
-    detail:
-      "Meaningful change usually requires more than a single conversation. Working across multiple sessions allows us to go deeper, track what shifts, and build momentum rather than starting from scratch each time.",
-    kind: "package",
-    durationLabel: "5 sessions · 45 minutes each",
-    durationMinutes: 45,
-    priceLabel: "€450 total",
-    checkoutNote:
-      "Your first session is confirmed. Schedule your remaining 4 sessions through your Client Portal.",
-    highlights: [
-      "Deeper understanding of your patterns",
-      "Working with underlying reactions",
-      "Tracking progress over time",
-      "Building lasting change",
-      "Consistency and momentum",
-    ],
-    bonuses: [
-      "Personal Reaction Map",
-      "Between-session reflection prompts",
-      "Priority scheduling",
-    ],
-  },
-];
+export { LEGACY_SERVICE_IDS, DEFAULT_PACKAGE_SESSIONS as PACKAGE_TOTAL_SESSIONS };
 
-export const PACKAGE_TOTAL_SESSIONS = 5;
-
-export function getServiceById(id: ServiceId): BookableService | undefined {
-  return BOOKABLE_SERVICES.find((service) => service.id === id);
+/** @deprecated Use listPublishedOffers() — loads from database. */
+export async function getBookableServices(): Promise<BookableService[]> {
+  return listPublishedOffers();
 }
 
-export function getServiceDurationMinutes(id: ServiceId): number {
-  return getServiceById(id)?.durationMinutes ?? 45;
+export async function getServiceById(id: string): Promise<BookableService | undefined> {
+  const offer = await getOfferById(id);
+  return offer ?? undefined;
 }
 
-export const SERVICE_PRICES_CENTS: Record<ServiceId, number> = {
-  "initial-aap-session": 9000,
-  "aap-transformation-package": 45000,
-};
-
-export function getServicePriceCents(id: ServiceId): number {
-  return SERVICE_PRICES_CENTS[id];
+export async function getActiveServiceById(
+  id: string,
+): Promise<BookableService | undefined> {
+  const offer = await getActiveOfferById(id);
+  return offer ?? undefined;
 }
 
-export function isPackageService(id: ServiceId): boolean {
-  return getServiceById(id)?.kind === "package";
+export async function getServiceDurationMinutes(id: string): Promise<number> {
+  const service = await getOfferById(id);
+  return service?.durationMinutes ?? 45;
+}
+
+export async function getServicePriceCents(id: string): Promise<number> {
+  const price = await getOfferPriceCents(id);
+  if (price === null) {
+    throw new Error(`Offer not found or unavailable: ${id}`);
+  }
+  return price;
+}
+
+export function isPackageService(service: BookableService): boolean {
+  return isPackageOffer(service);
+}
+
+export async function ensureDefaultOffersSeeded(): Promise<void> {
+  await seedDefaultOffers();
 }

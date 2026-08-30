@@ -9,10 +9,10 @@ import { buildBookingConfirmationEmail } from "./templates/booking-confirmation"
 import type { BookingEmailPayload } from "./types";
 
 async function toEmailPayload(booking: BookingRecord): Promise<BookingEmailPayload | null> {
-  const service = getServiceById(booking.serviceId);
+  const service = await getServiceById(booking.serviceId);
   if (!service) return null;
 
-  const durationMinutes = getServiceDurationMinutes(booking.serviceId);
+  const durationMinutes = await getServiceDurationMinutes(booking.serviceId);
   const meetingLink = process.env.SESSION_MEETING_URL?.trim() || null;
   const calendarToken = await createBookingCalendarToken({
     bookingId: booking.id,
@@ -33,7 +33,7 @@ async function toEmailPayload(booking: BookingRecord): Promise<BookingEmailPaylo
     durationLabel: service.durationLabel ?? `${service.durationMinutes ?? 45} minutes`,
     durationMinutes,
     scheduledAt: booking.scheduledAt,
-    isPackage: isPackageService(booking.serviceId),
+    isPackage: isPackageService(service),
     checkoutNote: service.checkoutNote,
     meetingLink,
     calendarToken,

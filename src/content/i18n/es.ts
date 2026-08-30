@@ -194,6 +194,10 @@ export const esContent: PublicContent = {
       noSlots: "No hay horarios disponibles en esta fecha.",
       showMoreTimes: "Mostrar más horarios",
       showFewerTimes: "Mostrar menos horarios",
+      courseStartTitle: "Elige tu fecha de inicio",
+      courseStartDescription:
+        "Selecciona cuándo te gustaría comenzar tu curso o programa.",
+      courseStartLabel: "Fecha de inicio del curso",
     },
     form: {
       title: "Tus datos",
@@ -205,11 +209,31 @@ export const esContent: PublicContent = {
     },
     payment: {
       title: "Pago",
-      description:
-        "El procesamiento de pagos estará disponible en breve. Tu horario seleccionado se reservará una vez confirmado.",
+      description: "Completa tu reserva de forma segura con tarjeta.",
       stripeLabel: "Pagar con tarjeta",
-      paypalLabel: "Pagar con PayPal",
-      placeholderNote: "Integración de pagos próximamente.",
+    },
+    paymentSuccess: {
+      title: "Pago confirmado",
+      errorTitle: "No se pudo verificar el pago",
+      message:
+        "Gracias — hemos recibido tu pago correctamente. Tu reserva está confirmada y recibirás un correo de confirmación en breve.",
+      packageMessage:
+        "Tu paquete de transformación está confirmado. Recibirás un correo con los detalles de tu reserva y acceso a tu Client Portal.",
+      courseMessage:
+        "Tu curso está confirmado. Recibirás un correo con los detalles de tu reserva en breve.",
+      closing:
+        "Si el correo de confirmación no llega en unos minutos, revisa tu carpeta de spam. Espero conocerte pronto.",
+      sessionLanguageNote:
+        "Tu sesión se realizará en inglés. Las sesiones en línea están disponibles en todo el mundo.",
+      missingSessionId:
+        "No pudimos verificar tu pago porque no se proporcionó una referencia de checkout.",
+      invalidSession:
+        "No encontramos una sesión de checkout válida. Si completaste el pago, revisa tu correo o contáctanos.",
+      notPaid:
+        "Tu pago aún no se ha completado. Si se te cobró, contáctanos con los detalles del pago.",
+      error:
+        "No pudimos verificar tu pago en este momento. Inténtalo de nuevo en breve o revisa tu correo para una confirmación.",
+      tryAgain: "Volver a reservar",
     },
     confirmation: {
       title: "Tu sesión está confirmada.",

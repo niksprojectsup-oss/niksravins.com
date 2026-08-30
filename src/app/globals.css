@@ -20,6 +20,10 @@
   --color-accent-soft: var(--nr-accent-soft);
   --color-accent-muted: var(--nr-accent-muted);
 
+  --color-booking: var(--nr-booking);
+  --color-booking-strong: var(--nr-booking-strong);
+  --color-booking-soft: var(--nr-booking-soft);
+
   --color-warm: var(--nr-warm);
   --color-warm-soft: var(--nr-warm-soft);
 

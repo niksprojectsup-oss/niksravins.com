@@ -3,6 +3,7 @@ export const adminNav = [
   { label: "Calendar", href: "/admin/calendar" },
   { label: "Clients", href: "/admin/clients" },
   { label: "Sessions", href: "/admin/sessions" },
+  { label: "Packages", href: "/admin/packages" },
   { label: "Payments", href: "/admin/payments" },
   { label: "Settings", href: "/admin/settings" },
 ] as const;
@@ -27,6 +28,10 @@ export const adminPages = {
   payments: {
     title: "Payments",
     description: "Payment tracking and reconciliation.",
+  },
+  packages: {
+    title: "Packages",
+    description: "Manage bookable offers displayed on the public booking page.",
   },
   settings: {
     title: "Settings",

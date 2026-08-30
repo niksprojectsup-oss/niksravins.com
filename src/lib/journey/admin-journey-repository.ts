@@ -107,7 +107,7 @@ export async function getAdminTransformationOverview(
   let milestones: AdminTransformationOverview["milestones"] = [];
 
   if (activePackage) {
-    const mapped = mapSessionPackageRecord(activePackage);
+    const mapped = await mapSessionPackageRecord(activePackage);
     packageSummary = {
       id: mapped.id,
       serviceTitle: mapped.serviceTitle,

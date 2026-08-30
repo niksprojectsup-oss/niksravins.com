@@ -323,7 +323,7 @@ export async function getJourneyDashboard(
 
   let activePackage: JourneyDashboardData["activePackage"] = null;
   if (activePackageRecord) {
-    const mapped = mapSessionPackageRecord(activePackageRecord);
+    const mapped = await mapSessionPackageRecord(activePackageRecord);
     activePackage = {
       id: mapped.id,
       serviceTitle: mapped.serviceTitle,
@@ -341,10 +341,10 @@ export async function getJourneyDashboard(
   let nextSession: JourneyNextSession | null = null;
   if (nextSessionDb) {
     const serviceTitle = nextSessionDb.package
-      ? mapSessionPackageRecord({
+      ? (await mapSessionPackageRecord({
           ...nextSessionDb.package,
           sessions: [],
-        }).serviceTitle
+        })).serviceTitle
       : nextSessionDb.sessionType;
 
     nextSession = {
@@ -692,7 +692,7 @@ export async function getJourneyPageData(clientId: string) {
     prisma.clientMilestone.findMany({ where: { clientId } }),
   ]);
 
-  const mapped = mapSessionPackageRecord(activePackageRecord);
+  const mapped = await mapSessionPackageRecord(activePackageRecord);
   return {
     activePackage: {
       id: mapped.id,

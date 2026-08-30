@@ -1,16 +1,16 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { PublicContent } from "@/content/i18n/types";
 import { localizedPath } from "@/lib/i18n/paths";
 import { Button } from "@/components/ui/Button";
 import { getAvailabilityAction } from "@/lib/booking/availability-actions";
-import { getServiceById } from "@/lib/booking/services-catalog";
 import { emptyClientDetails, validateClientDetails } from "@/lib/booking/client-details";
-import type { AvailabilityDay, BookingStep, ServiceId } from "@/lib/booking/types";
+import type { AvailabilityDay, BookableService, BookingStep } from "@/lib/booking/types";
 import { BookingCalendar } from "./BookingCalendar";
 import { BookingConfirmation } from "./BookingConfirmation";
 import { BookingHero } from "./BookingHero";
+import { BookingStartDateForm } from "./BookingStartDateForm";
 import { BookingStepIndicator } from "./BookingStepIndicator";
 import { ClientInfoForm } from "./ClientInfoForm";
 import { PaymentBookingForm } from "./PaymentBookingForm";
@@ -19,6 +19,7 @@ import { SessionSelection } from "./SessionSelection";
 const STEP_ORDER: BookingStep[] = [
   "session",
   "schedule",
+  "start-date",
   "details",
   "payment",
   "confirmed",
@@ -32,12 +33,19 @@ function detectBrowserTimezone(): string {
   }
 }
 
-export function BookingFlow({ content }: { content: PublicContent }) {
+type BookingFlowProps = {
+  content: PublicContent;
+  offers: BookableService[];
+};
+
+export function BookingFlow({ content, offers }: BookingFlowProps) {
   const labels = content.bookingUi;
   const [step, setStep] = useState<BookingStep>("session");
-  const [serviceId, setServiceId] = useState<ServiceId | null>(null);
+  const [serviceId, setServiceId] = useState<string | null>(null);
   const [slotId, setSlotId] = useState<string | null>(null);
   const [scheduledAt, setScheduledAt] = useState<string | null>(null);
+  const [courseStartDate, setCourseStartDate] = useState<string | null>(null);
+  const [startDateError, setStartDateError] = useState<string | null>(null);
   const [clientDetails, setClientDetails] = useState(emptyClientDetails);
   const [displayTimezone, setDisplayTimezone] = useState("Europe/Riga");
   const [availability, setAvailability] = useState<AvailabilityDay[]>([]);
@@ -47,7 +55,12 @@ export function BookingFlow({ content }: { content: PublicContent }) {
     Partial<Record<keyof typeof clientDetails, string>>
   >({});
 
-  const selectedService = serviceId ? getServiceById(serviceId) : null;
+  const selectedService = useMemo(
+    () => offers.find((offer) => offer.id === serviceId) ?? null,
+    [offers, serviceId],
+  );
+
+  const requiresStartDate = selectedService?.requiresStartDate ?? false;
 
   useEffect(() => {
     const detected = detectBrowserTimezone();
@@ -60,7 +73,7 @@ export function BookingFlow({ content }: { content: PublicContent }) {
   }, []);
 
   useEffect(() => {
-    if (!serviceId || step !== "schedule") return;
+    if (!serviceId || step !== "schedule" || requiresStartDate) return;
 
     let cancelled = false;
     setAvailabilityLoading(true);
@@ -83,20 +96,29 @@ export function BookingFlow({ content }: { content: PublicContent }) {
     return () => {
       cancelled = true;
     };
-  }, [serviceId, displayTimezone, step]);
+  }, [serviceId, displayTimezone, step, requiresStartDate]);
 
   const goToStep = useCallback((nextStep: BookingStep) => {
     setStep(nextStep);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const handleBookingSuccess = useCallback(() => {
-    goToStep("confirmed");
-  }, [goToStep]);
-
   function handleNext() {
     if (step === "session" && serviceId) {
-      goToStep("schedule");
+      goToStep(requiresStartDate ? "start-date" : "schedule");
+      return;
+    }
+
+    if (step === "start-date" && courseStartDate) {
+      const start = new Date(`${courseStartDate}T09:00:00.000Z`);
+      if (Number.isNaN(start.getTime()) || start.getTime() <= Date.now()) {
+        setStartDateError("Please select a future start date.");
+        return;
+      }
+      setStartDateError(null);
+      setSlotId(`course-start:${courseStartDate}`);
+      setScheduledAt(start.toISOString());
+      goToStep("details");
       return;
     }
 
@@ -118,10 +140,12 @@ export function BookingFlow({ content }: { content: PublicContent }) {
     if (index > 0) goToStep(STEP_ORDER[index - 1]);
   }
 
-  function handleServiceSelect(nextServiceId: ServiceId) {
+  function handleServiceSelect(nextServiceId: string) {
     setServiceId(nextServiceId);
     setSlotId(null);
     setScheduledAt(null);
+    setCourseStartDate(null);
+    setStartDateError(null);
   }
 
   function handleSlotSelect(nextSlotId: string, nextScheduledAt: string) {
@@ -138,6 +162,7 @@ export function BookingFlow({ content }: { content: PublicContent }) {
 
   const canContinue =
     (step === "session" && serviceId !== null) ||
+    (step === "start-date" && courseStartDate !== null) ||
     (step === "schedule" && slotId !== null && scheduledAt !== null) ||
     step === "details";
 
@@ -162,14 +187,24 @@ export function BookingFlow({ content }: { content: PublicContent }) {
   return (
     <div className="layout-container max-w-wide pb-section-lg">
       <BookingHero content={content} />
-      <BookingStepIndicator currentStep={step} />
+      <BookingStepIndicator currentStep={step} requiresStartDate={requiresStartDate} />
 
       <div className="layout-stack-lg pt-10 md:pt-14">
         {step === "session" ? (
           <SessionSelection
+            offers={offers}
             selected={serviceId}
             onSelect={handleServiceSelect}
             labels={labels}
+          />
+        ) : null}
+
+        {step === "start-date" ? (
+          <BookingStartDateForm
+            value={courseStartDate}
+            onChange={setCourseStartDate}
+            labels={labels}
+            error={startDateError}
           />
         ) : null}
 
@@ -201,9 +236,10 @@ export function BookingFlow({ content }: { content: PublicContent }) {
               serviceId={serviceId}
               slotId={slotId}
               scheduledAt={scheduledAt}
+              courseStartDate={courseStartDate}
               client={clientDetails}
               checkoutNote={selectedService?.checkoutNote}
-              onSuccess={handleBookingSuccess}
+              locale={content.locale}
               labels={labels}
             />
           ) : (

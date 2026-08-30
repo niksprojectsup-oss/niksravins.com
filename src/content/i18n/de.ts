@@ -194,6 +194,10 @@ export const deContent: PublicContent = {
       noSlots: "An diesem Datum sind keine Zeiten verfügbar.",
       showMoreTimes: "Mehr Zeiten anzeigen",
       showFewerTimes: "Weniger Zeiten anzeigen",
+      courseStartTitle: "Startdatum wählen",
+      courseStartDescription:
+        "Wählen Sie, wann Ihr Kurs oder Programm beginnen soll.",
+      courseStartLabel: "Kursstartdatum",
     },
     form: {
       title: "Ihre Angaben",
@@ -205,11 +209,31 @@ export const deContent: PublicContent = {
     },
     payment: {
       title: "Zahlung",
-      description:
-        "Die Zahlungsabwicklung wird in Kürze verfügbar sein. Ihre gewählte Zeit wird nach Bestätigung reserviert.",
+      description: "Schließen Sie Ihre Buchung sicher per Kartenzahlung ab.",
       stripeLabel: "Mit Karte bezahlen",
-      paypalLabel: "Mit PayPal bezahlen",
-      placeholderNote: "Zahlungsintegration folgt in Kürze.",
+    },
+    paymentSuccess: {
+      title: "Zahlung bestätigt",
+      errorTitle: "Zahlung konnte nicht verifiziert werden",
+      message:
+        "Vielen Dank — Ihre Zahlung wurde erfolgreich empfangen. Ihre Buchung ist bestätigt und Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+      packageMessage:
+        "Ihr Transformationspaket ist bestätigt. Sie erhalten eine E-Mail mit Ihren Buchungsdetails und Zugang zu Ihrem Client Portal.",
+      courseMessage:
+        "Ihr Kurs ist bestätigt. Sie erhalten in Kürze eine E-Mail mit Ihren Buchungsdetails.",
+      closing:
+        "Wenn die Bestätigungs-E-Mail nicht innerhalb weniger Minuten ankommt, prüfen Sie Ihren Spam-Ordner. Ich freue mich darauf, Sie kennenzulernen.",
+      sessionLanguageNote:
+        "Ihre Sitzung wird auf Englisch durchgeführt. Online-Sitzungen sind weltweit verfügbar.",
+      missingSessionId:
+        "Wir konnten Ihre Zahlung nicht verifizieren, da keine Checkout-Referenz angegeben wurde.",
+      invalidSession:
+        "Wir konnten keine gültige Checkout-Sitzung finden. Wenn Sie bezahlt haben, prüfen Sie bitte Ihre E-Mail oder kontaktieren Sie uns.",
+      notPaid:
+        "Ihre Zahlung wurde noch nicht abgeschlossen. Wenn Ihnen etwas berechnet wurde, kontaktieren Sie uns bitte mit Ihren Zahlungsdetails.",
+      error:
+        "Wir konnten Ihre Zahlung derzeit nicht verifizieren. Bitte versuchen Sie es in Kürze erneut oder prüfen Sie Ihre E-Mail auf eine Bestätigung.",
+      tryAgain: "Zurück zur Buchung",
     },
     confirmation: {
       title: "Ihre Sitzung ist bestätigt.",

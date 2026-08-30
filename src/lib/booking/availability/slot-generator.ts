@@ -1,4 +1,3 @@
-import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
 import type { AvailabilityDay, ServiceId, TimeSlot } from "@/lib/booking/types";
 import {
   addDaysToDateKey,
@@ -75,11 +74,11 @@ export function generateAvailableSlots(input: {
   serviceId: ServiceId;
   displayTimezone: string;
   bookedSessions: BookedSession[];
+  durationMinutes: number;
   now?: Date;
 }): AvailabilityDay[] {
-  const { config, serviceId, displayTimezone, bookedSessions } = input;
+  const { config, serviceId, displayTimezone, bookedSessions, durationMinutes } = input;
   const now = input.now ?? new Date();
-  const durationMinutes = getServiceDurationMinutes(serviceId);
   const {
     businessTimezone,
     minNoticeHours,
