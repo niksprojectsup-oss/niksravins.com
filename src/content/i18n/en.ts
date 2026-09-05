@@ -180,6 +180,8 @@ export const enContent: PublicContent = {
     services: {
       title: "Select a service",
       description: "All offerings are paid sessions conducted online.",
+      choose: "Choose",
+      selected: "Selected",
     },
     calendar: {
       title: "Choose a time",

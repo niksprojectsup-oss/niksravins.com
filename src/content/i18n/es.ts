@@ -180,6 +180,8 @@ export const esContent: PublicContent = {
     services: {
       title: "Seleccionar un servicio",
       description: "Todas las opciones son sesiones de pago realizadas en línea.",
+      choose: "Elegir",
+      selected: "Seleccionado",
     },
     calendar: {
       title: "Elegir un horario",

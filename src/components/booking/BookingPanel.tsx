@@ -16,7 +16,7 @@ export function BookingPanel({
   return (
     <section className={cn("layout-stack-md", className)}>
       <header className="layout-stack-sm max-w-prose">
-        <h2 className="type-heading-sm">{title}</h2>
+        <h2 className="type-heading-sm scroll-mt-24 focus:outline-none">{title}</h2>
         {description ? <p className="type-body">{description}</p> : null}
       </header>
       {children}
@@ -33,6 +33,8 @@ type SessionCardProps = {
   duration?: string;
   priceLabel?: string;
   selected: boolean;
+  chooseLabel: string;
+  selectedLabel: string;
   onSelect: () => void;
 };
 
@@ -51,6 +53,28 @@ function ServiceList({ items }: { items: string[] }) {
   );
 }
 
+function SelectedIndicator({ label }: { label: string }) {
+  return (
+    <div className="flex items-center gap-2 type-caption font-medium text-booking">
+      <span
+        aria-hidden
+        className="inline-flex h-5 w-5 items-center justify-center rounded-full border-2 border-booking bg-booking text-surface"
+      >
+        <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+          <path
+            d="M1 4L3.5 6.5L9 1"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
+      <span>{label}</span>
+    </div>
+  );
+}
+
 export function SessionCard({
   title,
   description,
@@ -60,19 +84,27 @@ export function SessionCard({
   duration,
   priceLabel,
   selected,
+  chooseLabel,
+  selectedLabel,
   onSelect,
 }: SessionCardProps) {
   return (
-    <button
-      type="button"
-      onClick={onSelect}
-      aria-pressed={selected}
+    <article
       className={cn(
-        "observed-card w-full p-7 text-left transition-colors duration-300 md:p-8",
-        selected && "border-accent bg-accent-soft/40",
+        "observed-card flex h-full flex-col p-6 transition-colors duration-300 md:p-7",
+        selected
+          ? "border-2 border-booking bg-booking-soft/50 ring-1 ring-booking/15"
+          : "border border-border-subtle",
       )}
+      aria-current={selected ? "true" : undefined}
     >
-      <div className="layout-stack-sm">
+      {selected ? (
+        <div className="mb-4">
+          <SelectedIndicator label={selectedLabel} />
+        </div>
+      ) : null}
+
+      <div className="layout-stack-sm flex-1">
         <h3 className="type-heading-sm">{title}</h3>
         <p className="type-body">{description}</p>
         {detail ? <p className="type-body text-ink-muted">{detail}</p> : null}
@@ -96,6 +128,22 @@ export function SessionCard({
           </div>
         ) : null}
       </div>
-    </button>
+
+      <div className="pt-6">
+        <button
+          type="button"
+          onClick={onSelect}
+          aria-pressed={selected}
+          className={cn(
+            "inline-flex min-h-12 w-full items-center justify-center rounded-md px-7 text-sm font-medium tracking-wide transition-colors duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-3",
+            selected
+              ? "bg-booking text-surface hover:bg-booking-strong focus-visible:outline-booking"
+              : "border border-border-strong bg-transparent text-ink hover:border-accent hover:text-accent focus-visible:outline-accent",
+          )}
+        >
+          {selected ? selectedLabel : chooseLabel}
+        </button>
+      </div>
+    </article>
   );
 }

@@ -18,7 +18,7 @@ export type PublicSeoContent = {
 
 export type BookingUiContent = {
   hero: { title: string; subtitle: string };
-  services: { title: string; description: string };
+  services: { title: string; description: string; choose: string; selected: string };
   calendar: {
     title: string;
     packageTitle: string;

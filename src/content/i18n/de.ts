@@ -180,6 +180,8 @@ export const deContent: PublicContent = {
     services: {
       title: "Leistung auswählen",
       description: "Alle Angebote sind kostenpflichtige Sitzungen, die online stattfinden.",
+      choose: "Auswählen",
+      selected: "Ausgewählt",
     },
     calendar: {
       title: "Zeit wählen",

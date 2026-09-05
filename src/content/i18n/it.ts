@@ -180,6 +180,8 @@ export const itContent: PublicContent = {
     services: {
       title: "Seleziona un servizio",
       description: "Tutte le offerte sono sessioni a pagamento svolte online.",
+      choose: "Scegli",
+      selected: "Selezionato",
     },
     calendar: {
       title: "Scegli un orario",

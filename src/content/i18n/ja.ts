@@ -180,6 +180,8 @@ export const jaContent: PublicContent = {
     services: {
       title: "サービスを選択",
       description: "すべてのサービスは、オンラインで行う有料セッションです。",
+      choose: "選択",
+      selected: "選択済み",
     },
     calendar: {
       title: "日時を選択",

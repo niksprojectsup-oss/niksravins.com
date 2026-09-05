@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { PublicContent } from "@/content/i18n/types";
 import { localizedPath } from "@/lib/i18n/paths";
 import { Button } from "@/components/ui/Button";
@@ -55,6 +55,8 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
     Partial<Record<keyof typeof clientDetails, string>>
   >({});
 
+  const stepContentRef = useRef<HTMLDivElement>(null);
+
   const selectedService = useMemo(
     () => offers.find((offer) => offer.id === serviceId) ?? null,
     [offers, serviceId],
@@ -98,10 +100,30 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
     };
   }, [serviceId, displayTimezone, step, requiresStartDate]);
 
+  const isInitialStepRender = useRef(true);
+
   const goToStep = useCallback((nextStep: BookingStep) => {
     setStep(nextStep);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
+  useLayoutEffect(() => {
+    if (step === "confirmed") return;
+
+    if (isInitialStepRender.current) {
+      isInitialStepRender.current = false;
+      return;
+    }
+
+    const container = stepContentRef.current;
+    if (!container) return;
+
+    const heading = container.querySelector("h2");
+    if (!(heading instanceof HTMLElement)) return;
+
+    heading.tabIndex = -1;
+    heading.focus({ preventScroll: true });
+    heading.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, [step]);
 
   function handleNext() {
     if (step === "session" && serviceId) {
@@ -185,94 +207,98 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
   }
 
   return (
-    <div className="layout-container max-w-wide pb-section-lg">
+    <div className="layout-container max-w-wide pb-28 md:pb-section-lg">
       <BookingHero content={content} />
       <BookingStepIndicator currentStep={step} requiresStartDate={requiresStartDate} />
 
       <div className="layout-stack-lg pt-10 md:pt-14">
-        {step === "session" ? (
-          <SessionSelection
-            offers={offers}
-            selected={serviceId}
-            onSelect={handleServiceSelect}
-            labels={labels}
-          />
-        ) : null}
-
-        {step === "start-date" ? (
-          <BookingStartDateForm
-            value={courseStartDate}
-            onChange={setCourseStartDate}
-            labels={labels}
-            error={startDateError}
-          />
-        ) : null}
-
-        {step === "schedule" ? (
-          <BookingCalendar
-            availability={availability}
-            selectedSlotId={slotId}
-            onSelectSlot={handleSlotSelect}
-            timezone={displayTimezone}
-            loading={availabilityLoading}
-            error={availabilityError}
-            isPackage={selectedService?.kind === "package"}
-            labels={labels}
-          />
-        ) : null}
-
-        {step === "details" ? (
-          <ClientInfoForm
-            value={clientDetails}
-            onChange={handleClientDetailsChange}
-            errors={formErrors}
-            labels={labels}
-          />
-        ) : null}
-
-        {step === "payment" ? (
-          canSubmitPayment ? (
-            <PaymentBookingForm
-              serviceId={serviceId}
-              slotId={slotId}
-              scheduledAt={scheduledAt}
-              courseStartDate={courseStartDate}
-              client={clientDetails}
-              checkoutNote={selectedService?.checkoutNote}
-              locale={content.locale}
+        <div ref={stepContentRef} key={step} className="layout-stack-lg">
+          {step === "session" ? (
+            <SessionSelection
+              offers={offers}
+              selected={serviceId}
+              onSelect={handleServiceSelect}
               labels={labels}
             />
-          ) : (
-            <div className="observed-card p-6 md:p-8">
-              <p className="type-body text-warm" role="alert">
-                Your booking details are incomplete. Go back and fill in all required
-                fields before confirming.
-              </p>
-            </div>
-          )
-        ) : null}
+          ) : null}
+
+          {step === "start-date" ? (
+            <BookingStartDateForm
+              value={courseStartDate}
+              onChange={setCourseStartDate}
+              labels={labels}
+              error={startDateError}
+            />
+          ) : null}
+
+          {step === "schedule" ? (
+            <BookingCalendar
+              availability={availability}
+              selectedSlotId={slotId}
+              onSelectSlot={handleSlotSelect}
+              timezone={displayTimezone}
+              loading={availabilityLoading}
+              error={availabilityError}
+              isPackage={selectedService?.kind === "package"}
+              labels={labels}
+            />
+          ) : null}
+
+          {step === "details" ? (
+            <ClientInfoForm
+              value={clientDetails}
+              onChange={handleClientDetailsChange}
+              errors={formErrors}
+              labels={labels}
+            />
+          ) : null}
+
+          {step === "payment" ? (
+            canSubmitPayment ? (
+              <PaymentBookingForm
+                serviceId={serviceId}
+                slotId={slotId}
+                scheduledAt={scheduledAt}
+                courseStartDate={courseStartDate}
+                client={clientDetails}
+                checkoutNote={selectedService?.checkoutNote}
+                locale={content.locale}
+                labels={labels}
+              />
+            ) : (
+              <div className="observed-card p-6 md:p-8">
+                <p className="type-body text-warm" role="alert">
+                  Your booking details are incomplete. Go back and fill in all required
+                  fields before confirming.
+                </p>
+              </div>
+            )
+          ) : null}
+        </div>
 
         {step !== "payment" ? (
-          <div className="flex flex-col gap-4 border-t border-border-subtle pt-8 sm:flex-row sm:items-center">
-            {step !== "session" ? (
+          <div className="sticky bottom-0 z-10 -mx-[var(--nr-gutter)] border-t border-border-subtle bg-canvas/95 px-[var(--nr-gutter)] py-4 backdrop-blur-sm md:static md:mx-0 md:border-t-0 md:bg-transparent md:px-0 md:py-0 md:backdrop-blur-none">
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:border-t md:border-border-subtle md:pt-8">
+              {step !== "session" ? (
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleBack}
+                  className="w-full sm:w-auto"
+                >
+                  {labels.actions.back}
+                </Button>
+              ) : null}
+
               <Button
                 type="button"
-                variant="secondary"
-                onClick={handleBack}
+                onClick={handleNext}
+                disabled={!canContinue || (step === "schedule" && availabilityLoading)}
                 className="w-full sm:w-auto"
               >
-                {labels.actions.back}
+                {labels.actions.continue}
               </Button>
-            ) : null}
-
-            <Button
-              type="button"
-              onClick={handleNext}
-              disabled={!canContinue || (step === "schedule" && availabilityLoading)}
-              className="w-full sm:w-auto"
-            >
-              {labels.actions.continue}
-            </Button>
+            </div>
           </div>
         ) : (
           <div className="border-t border-border-subtle pt-8">

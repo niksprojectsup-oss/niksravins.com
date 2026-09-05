@@ -180,6 +180,8 @@ export const zhContent: PublicContent = {
     services: {
       title: "选择服务",
       description: "所有项目均为在线付费咨询。",
+      choose: "选择",
+      selected: "已选择",
     },
     calendar: {
       title: "选择时间",
