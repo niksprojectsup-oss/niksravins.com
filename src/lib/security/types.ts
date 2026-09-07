@@ -30,7 +30,9 @@ export type AuditAction =
   | "data.delete"
   | "availability.update"
   | "offer.create"
-  | "offer.update";
+  | "offer.update"
+  | "store_product.create"
+  | "store_product.update";
 
 export type AuditResource =
   | "auth"
@@ -42,7 +44,8 @@ export type AuditResource =
   | "user"
   | "booking_settings"
   | "bookable_offer"
-  | "session_package";
+  | "session_package"
+  | "store_product";
 
 export type RateLimitScope =
   | "auth.login"

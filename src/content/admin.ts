@@ -4,6 +4,7 @@ export const adminNav = [
   { label: "Clients", href: "/admin/clients" },
   { label: "Sessions", href: "/admin/sessions" },
   { label: "Packages", href: "/admin/packages" },
+  { label: "Store", href: "/admin/store" },
   { label: "Payments", href: "/admin/payments" },
   { label: "Settings", href: "/admin/settings" },
 ] as const;
@@ -32,6 +33,10 @@ export const adminPages = {
   packages: {
     title: "Packages",
     description: "Manage bookable offers displayed on the public booking page.",
+  },
+  store: {
+    title: "Store",
+    description: "Manage digital products available in the client portal store.",
   },
   settings: {
     title: "Settings",

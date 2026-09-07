@@ -223,6 +223,7 @@ model Client {
   milestones            ClientMilestone[]
   finalReflections      JourneyFinalReflection[]
   testimonials          Testimonial[]
+  purchases               Purchase[]
 
   @@index([status])
   @@index([lastName, firstName])
@@ -533,9 +534,72 @@ model Payment {
   client  Client          @relation(fields: [clientId], references: [id], onDelete: Cascade)
   session Session?        @relation(fields: [sessionId], references: [id], onDelete: SetNull)
   package SessionPackage? @relation(fields: [packageId], references: [id], onDelete: SetNull)
+  purchase Purchase?
 
   @@index([clientId])
   @@index([sessionId])
+}
+
+enum StoreProductType {
+  SESSION
+  VIDEO
+  MEDITATION
+  COURSE
+}
+
+enum StoreProductStatus {
+  DRAFT
+  PUBLISHED
+}
+
+enum PurchaseStatus {
+  PENDING
+  PAID
+  REFUNDED
+  CANCELLED
+}
+
+model StoreProduct {
+  id                     String             @id @default(cuid())
+  slug                   String             @unique
+  title                  String
+  description            String             @db.Text
+  productType            StoreProductType
+  priceCents             Int
+  currency               String             @default("EUR")
+  status                 StoreProductStatus @default(DRAFT)
+  sortOrder              Int                @default(0)
+  thumbnailUrl           String?
+  contentKey             String?
+  contentMimeType        String?
+  contentDurationSeconds Int?
+  bookableOfferId        String?
+  licenseNotice          String?            @db.Text
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  purchases Purchase[]
+
+  @@index([status, sortOrder])
+}
+
+model Purchase {
+  id        String         @id @default(cuid())
+  clientId  String
+  productId String
+  paymentId String?        @unique
+  status    PurchaseStatus @default(PENDING)
+  purchasedAt DateTime?
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+
+  client  Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  product StoreProduct @relation(fields: [productId], references: [id], onDelete: Restrict)
+  payment Payment?     @relation(fields: [paymentId], references: [id], onDelete: SetNull)
+
+  @@index([clientId, status])
+  @@index([productId])
+  @@index([clientId, productId])
 }
 
 model BookingSettings {

@@ -86,6 +86,7 @@ export async function POST(request: Request) {
         },
       ],
       metadata: {
+        checkoutType: "booking",
         serviceId: bookingRequest.serviceId,
         slotId: isCourse ? `course-start:${bookingRequest.courseStartDate}` : bookingRequest.slotId,
         scheduledAt: isCourse

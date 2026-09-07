@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# private store content (videos, audio)
+/storage/private-content/*
+!/storage/private-content/.gitkeep

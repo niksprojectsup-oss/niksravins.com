@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
+import { getStripe } from "@/lib/stripe";
 import { createBooking } from "@/lib/booking/booking-repository";
 import { completeBookingSideEffects } from "@/lib/booking/complete-booking-side-effects";
-import { getStripe } from "@/lib/stripe";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
+import { resolveCheckoutType } from "@/lib/store/types";
+import { handleStoreCheckoutCompleted } from "@/lib/store/webhook-handler";
 
 export async function POST(request: Request) {
   const secret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
@@ -32,6 +34,11 @@ export async function POST(request: Request) {
     const metadata = session.metadata ?? {};
 
     requireDatabase();
+
+    const checkoutType = resolveCheckoutType(metadata);
+    if (checkoutType === "store") {
+      return handleStoreCheckoutCompleted(session);
+    }
 
     const existing = await prisma.payment.findUnique({
       where: { stripeCheckoutSessionId: checkoutSessionId },

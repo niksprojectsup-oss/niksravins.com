@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { clientPortalContent } from "@/content/client-portal";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
@@ -11,6 +12,8 @@ const NAV_ITEMS = [
   { href: "/client/journal", label: "Journal" },
   { href: "/client/progress", label: "Progress" },
   { href: "/client/sessions", label: "Sessions" },
+  { href: "/client/store", label: clientPortalContent.store.title },
+  { href: "/client/purchases", label: clientPortalContent.store.myPurchases },
   { href: "/client/account", label: "Account" },
 ] as const;
 
