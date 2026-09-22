@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPublicContent } from "@/content/i18n";
 import { PublicHomePage } from "@/components/public/PublicHomePage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
+import { getPublicHomeContent, getPublicHomeMetadata } from "@/lib/cms/public-content";
+
+export const dynamic = "force-dynamic";
 
 type LocaleHomePageProps = {
   params: Promise<{ locale: string }>;
@@ -16,16 +18,16 @@ export async function generateMetadata({
   const locale = parseLocaleParam(localeParam);
   if (!locale) return {};
 
-  const content = getPublicContent(locale);
+  const content = await getPublicHomeMetadata(locale);
   return {
     ...buildPublicMetadata({
       locale,
       page: "",
-      title: content.seo.home.title,
-      description: content.seo.home.description,
+      title: content.title,
+      description: content.description,
     }),
     title: {
-      absolute: content.seo.home.title,
+      absolute: content.title,
     },
   };
 }
@@ -38,7 +40,7 @@ export default async function LocaleHomePage({ params }: LocaleHomePageProps) {
     notFound();
   }
 
-  const content = getPublicContent(locale);
+  const { content, cmsHtmlFields } = await getPublicHomeContent(locale);
 
-  return <PublicHomePage content={content} locale={locale} />;
+  return <PublicHomePage content={content} locale={locale} cmsHtmlFields={cmsHtmlFields} />;
 }

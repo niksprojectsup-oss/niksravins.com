@@ -32,7 +32,9 @@ export type AuditAction =
   | "offer.create"
   | "offer.update"
   | "store_product.create"
-  | "store_product.update";
+  | "store_product.update"
+  | "cms.content.save"
+  | "cms.content.publish";
 
 export type AuditResource =
   | "auth"
@@ -45,7 +47,8 @@ export type AuditResource =
   | "booking_settings"
   | "bookable_offer"
   | "session_package"
-  | "store_product";
+  | "store_product"
+  | "cms_page";
 
 export type RateLimitScope =
   | "auth.login"

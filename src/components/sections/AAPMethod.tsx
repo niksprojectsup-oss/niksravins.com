@@ -1,11 +1,19 @@
+import { flattenCmsParagraphField } from "@/content/cms/tiptap-blocks";
 import type { PublicContent } from "@/content/i18n/types";
+import {
+  CMS_PUBLISHED_BLOCK_CLASS,
+  CMS_PUBLISHED_INLINE_CLASS,
+  CmsPublishedFieldText,
+} from "@/components/cms/CmsPublishedFieldText";
 import { Section } from "@/components/ui/Section";
+import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 
 type AAPMethodProps = {
   content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
 };
 
-export function AAPMethod({ content }: AAPMethodProps) {
+export function AAPMethod({ content, cmsHtmlFields = {} }: AAPMethodProps) {
   const { aap, sectionLabels } = content;
 
   return (
@@ -14,9 +22,19 @@ export function AAPMethod({ content }: AAPMethodProps) {
         <header className="layout-stack-sm layout-section-header max-w-prose md:layout-stack-md">
           <p className="type-label">{sectionLabels.aapLabel}</p>
           <h2 id="aap-heading" className="type-heading">
-            {aap.title}
+            <CmsPublishedFieldText
+              html={cmsHtmlFields["aap.title"]}
+              fallback={aap.title}
+              className={CMS_PUBLISHED_INLINE_CLASS}
+            />
           </h2>
-          <p className="type-editorial">{aap.intro}</p>
+          <div className="type-editorial">
+            <CmsPublishedFieldText
+              html={cmsHtmlFields["aap.intro"]}
+              fallback={flattenCmsParagraphField(aap.intro)}
+              className={CMS_PUBLISHED_BLOCK_CLASS}
+            />
+          </div>
         </header>
 
         <ol className="layout-stack-md max-w-prose list-none md:layout-stack-lg">
@@ -29,8 +47,20 @@ export function AAPMethod({ content }: AAPMethodProps) {
                 <span className="type-label text-ink-faint" aria-hidden>
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3 className="type-heading-sm">{point.title}</h3>
-                <p className="type-body">{point.description}</p>
+                <h3 className="type-heading-sm">
+                  <CmsPublishedFieldText
+                    html={cmsHtmlFields[`aap.points.${index}.title`]}
+                    fallback={point.title}
+                    className={CMS_PUBLISHED_INLINE_CLASS}
+                  />
+                </h3>
+                <div className="type-body">
+                  <CmsPublishedFieldText
+                    html={cmsHtmlFields[`aap.points.${index}.description`]}
+                    fallback={flattenCmsParagraphField(point.description)}
+                    className={CMS_PUBLISHED_BLOCK_CLASS}
+                  />
+                </div>
               </div>
             </li>
           ))}

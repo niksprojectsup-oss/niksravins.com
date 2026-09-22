@@ -1,5 +1,6 @@
 export const adminNav = [
   { label: "Dashboard", href: "/admin" },
+  { label: "Content", href: "/admin/content" },
   { label: "Calendar", href: "/admin/calendar" },
   { label: "Clients", href: "/admin/clients" },
   { label: "Sessions", href: "/admin/sessions" },
@@ -13,6 +14,10 @@ export const adminPages = {
   dashboard: {
     title: "Dashboard",
     description: "Overview of sessions, clients, and revenue.",
+  },
+  content: {
+    title: "Content",
+    description: "Edit website pages, sections, and localized copy.",
   },
   calendar: {
     title: "Calendar",

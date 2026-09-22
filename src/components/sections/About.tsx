@@ -1,12 +1,20 @@
 import Image from "next/image";
+import { flattenCmsParagraphField } from "@/content/cms/tiptap-blocks";
 import type { PublicContent } from "@/content/i18n/types";
+import {
+  CMS_PUBLISHED_BLOCK_CLASS,
+  CMS_PUBLISHED_INLINE_CLASS,
+  CmsPublishedFieldText,
+} from "@/components/cms/CmsPublishedFieldText";
 import { Section } from "@/components/ui/Section";
+import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 
 type AboutProps = {
   content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
 };
 
-export function About({ content }: AboutProps) {
+export function About({ content, cmsHtmlFields = {} }: AboutProps) {
   const { about, sectionLabels } = content;
 
   return (
@@ -26,14 +34,25 @@ export function About({ content }: AboutProps) {
 
         <div className="layout-stack-sm max-w-prose md:layout-stack-md lg:max-w-none lg:layout-stack-lg">
           <h2 id="about-heading" className="type-heading">
-            {about.title}
+            <CmsPublishedFieldText
+              html={cmsHtmlFields["about.title"]}
+              fallback={about.title}
+              className={CMS_PUBLISHED_INLINE_CLASS}
+            />
           </h2>
 
           <div className="layout-stack-sm md:layout-stack-md">
-            {about.story.map((paragraph) => (
-              <p key={paragraph.slice(0, 32)} className="type-body">
-                {paragraph}
-              </p>
+            {about.story.map((paragraph, index) => (
+              <div
+                key={flattenCmsParagraphField(paragraph).slice(0, 32)}
+                className="type-body"
+              >
+                <CmsPublishedFieldText
+                  html={cmsHtmlFields[`about.story.${index}`]}
+                  fallback={flattenCmsParagraphField(paragraph)}
+                  className={CMS_PUBLISHED_BLOCK_CLASS}
+                />
+              </div>
             ))}
           </div>
         </div>

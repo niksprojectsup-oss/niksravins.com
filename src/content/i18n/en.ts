@@ -1,11 +1,5 @@
 import type { PublicContent } from "./types";
 
-const internationalFaq = {
-  question: "What language are sessions conducted in?",
-  answer:
-    "Sessions are conducted in English. International clients are welcome, and online sessions are available worldwide.",
-};
-
 export const enContent: PublicContent = {
   locale: "en",
   translationStatus: "published",
@@ -42,55 +36,67 @@ export const enContent: PublicContent = {
   ],
   hero: {
     name: "Niks Ravins",
-    headline: "You understand the reaction But It still happens",
+    headline: "You understand the reaction. It still happens.",
     explanation: [
-      "Automatic emotional reactions can continue because the nervous system still links them to specific past experiences.",
-      "Most people who come here already understand their patterns. Talking explained them. It did not change the reaction.",
-      "Sessions focus on identifying and changing those learned emotional associations.",
+      "You can know you are safe, enough, allowed to say no, or free to be yourself — and still react as if none of that were true.",
+      "The question underneath is often not only why you react, but what you learned you had to be in order to be loved, chosen, accepted, safe, or enough.",
+      "That answer can become an internal rule. And the rule can keep organizing the reaction long after you consciously know better.",
     ],
     primaryCta: { label: "Book a Session", href: "/book" },
-    secondaryCta: { label: "How AAP Works", href: "#aap" },
+    secondaryCta: { label: "Explore the Work", href: "#aap" },
   },
   trust: {
     statements: [
-      "People don't come because they don't understand themselves.",
-      "Most already do.",
-      "They come because understanding alone didn't change the reaction.",
-      "This work focuses on changing the reaction itself.",
+      "You can understand why you react — and still keep reacting.",
+      "Jealousy, control, anxiety, withdrawal, people-pleasing, over-functioning, difficulty saying no, fear of rejection, the need to prove yourself, losing yourself in relationships — these can look like separate problems.",
+      "Often they are branches of the same trunk: an internal rule about who you learned you had to be in order to stay connected, safe, or valued.",
+      "This work is for people who are already self-aware — and notice that understanding alone has not necessarily changed how the reaction feels when it arrives.",
     ],
   },
   about: {
-    title: "Why this work exists",
+    title: "The trunk and the branches",
     story: [
-      "For years, I watched the same thing repeat across clients: clear insight, unchanged reaction. They could describe the pattern perfectly. The anxiety still arrived. The shutdown still came. The anger still moved faster than thought.",
-      "AAP grew from that observation — and from my own experience of reactions that understanding alone could not reach. Not from a theory I wanted to prove, but from a question that would not leave: if someone already knows why they react, what exactly still needs to change?",
-      "The answer, as I came to see it, is the association itself — the learned link between a past experience and a present response. This work exists to reach that link directly, through a structured session framework built from extensive practical work and continuous observation of how automatic emotional reactions shift.",
+      [
+        "One way of understanding the pattern is with a simple image.",
+        "The trunk is the internal rule — for example: I have to be easy to love.",
+        "The branches are how it shows up: difficulty saying no, over-adapting, fear of conflict, monitoring someone's mood, suppressing your needs, feeling guilty when you choose yourself.",
+        "We can spend years working on the branches. The work often becomes more useful when we look at the trunk — because when the underlying rule begins to shift, the branches can begin to change as well.",
+      ],
+      [
+        "Identity Re-coding is what this work is about: discovering the internal rules you learned to live by — and exploring what becomes possible when they no longer have to organize who you are.",
+        "This is not positive thinking, forced affirmations, or one more explanation of your pattern. This work isn't about becoming someone else. It is about living with less need to organize yourself around old rules about who you had to be.",
+      ],
+      "I work with people who already understand a lot about themselves — and still notice the same automatic reaction arriving. For years I watched clear insight paired with unchanged reaction. That gap is where this work lives: not in more understanding, but in meeting the internal rule in experience — emotionally, relationally, in the body.",
     ],
   },
   aap: {
-    title: "How AAP works",
-    intro:
-      "Adaptive Association Processing is not something you study. It is something that happens in the room — quietly, precisely, at the pace your system allows.",
+    title: "How the work happens in session",
+    intro: [
+      "Adaptive Association Processing (AAP) is the structured therapeutic process I use within psychotherapy to work with the learned associations and lived experience that can keep an old internal rule active in the present.",
+      "Identity Re-coding is what the work is about. AAP is how it happens in the room.",
+    ],
     points: [
+      {
+        title: "What \"association\" means here",
+        description: [
+          "An association is the learned link between an experience and a present reaction.",
+          "For example: you may learn that expressing needs risks losing connection. The association — my needs create danger — can keep operating even when you rationally know you are safe. So you learned to be the one who adapts. AAP works directly with that link, not just the story about it.",
+        ],
+      },
       {
         title: "What happens in a session",
         description:
-          "We locate a specific reaction — the one that still arrives automatically — and trace it to the emotional association that keeps it running. The session stays focused on that link. There is no performance, no rush to insight.",
+          "We locate one specific automatic reaction and work with the association and lived experience connected to it. Sessions are structured and focused. You are not asked to perform or produce insight. The work is experiential — it happens through what you can actually feel and stay with, not through talking about the pattern indefinitely.",
       },
       {
-        title: "Why the same reaction returns",
+        title: "Why the past may matter — without reliving it",
         description:
-          "A reaction repeats when the nervous system still treats a present moment as connected to a past one. The association was learned. It can be difficult to override through understanding alone because it operates before thought.",
-      },
-      {
-        title: "How one memory reaches into the present",
-        description:
-          "An emotional association does not require conscious recall. A tone, a look, a situation can activate the same response the original experience produced — even when the person knows, rationally, that the past is not the present.",
+          "The past can be relevant because associations are learned in experience. We may briefly activate the emotional memory connected to your reaction — enough to access what keeps it active today. The aim is not to revisit childhood repeatedly, but to work with what is maintaining the response now.",
       },
       {
         title: "What may change",
         description:
-          "When an association shifts, the reaction that followed it may soften or stop arriving altogether. This is not a promise. It is what clients often describe: not a new understanding, but a different response in daily life.",
+          "When an association shifts and an internal rule loosens, the reaction that followed it may soften or become less necessary. This is not a promise. Clients often describe not a new person, but a different experience in daily life — less organized around the old rule, more able to stay connected to themselves without paying for it in guilt, control, or self-abandonment.",
       },
     ],
   },
@@ -119,49 +125,44 @@ export const enContent: PublicContent = {
     headingLabel: "Questions",
     heading: "What people ask",
     items: [
-      internationalFaq,
+      {
+        question: "What is Identity Re-coding?",
+        answer:
+          "Identity Re-coding is the name I use for the broader direction of this work: discovering the internal rules you learned to live by — who you learned you had to be in order to be loved, chosen, accepted, safe, or enough — and exploring what becomes possible when those rules no longer have to organize your reactions. It is conceptual language for the work, not a medical or neuroscience claim.",
+      },
+      {
+        question: "What is AAP — and how is it different?",
+        answer:
+          "Adaptive Association Processing (AAP) is the structured therapeutic process I use within psychotherapy. It works with the learned association and lived experience that can keep an old internal rule active. Identity Re-coding describes what the work is about; AAP is how it happens in the room. They are not separate products or competing methods.",
+      },
       {
         question: "What happens during a session?",
         answer:
-          "We identify a specific automatic reaction and work with the emotional association connected to it. Sessions are structured and focused. You are not asked to perform or produce insight — the work happens at the level of the association itself.",
+          "We identify a specific automatic reaction and work with the association and lived experience connected to it. Sessions are structured, calm, and focused. You are not asked to perform or produce insight — the work happens through direct experience of the pattern, at the pace you can stay with.",
       },
       {
-        question: "Will I have to relive my past?",
+        question: "What if I already understand my patterns?",
+        answer:
+          "That is often the starting point. Many people here can explain their patterns clearly — and still notice the same reaction arriving. This work addresses the gap between knowing and experiencing differently: not another explanation, but working with what keeps the pattern alive in the present.",
+      },
+      {
+        question: "What is the difference between the initial session and the package?",
         answer: [
-          "Not in the way most people imagine.",
-          "The goal is not to relive painful experiences or stay in difficult emotions.",
-          "During the session, we briefly activate the specific emotional memory or learned association connected to your automatic reaction. This gives the nervous system access to the pattern that is still maintaining that response today.",
-          "From there, the focus shifts to changing how the nervous system responds. The aim is not to repeatedly revisit the past, but to allow the reaction connected to that memory to change.",
-          "Most clients are surprised by how little time is spent talking about the past compared with the amount of time spent creating change.",
+          "The 45-minute Initial Session is your first step: we explore your patterns, understand what is maintaining them, and determine the most effective way forward.",
+          "The 5 × 45-minute Deep Transformation Package is a connected process — one journey across sessions to go deeper and track what shifts. You book the first session at checkout; remaining sessions are scheduled through your Client Portal.",
         ],
       },
       {
-        question: "Is AAP psychotherapy?",
-        answer:
-          "Yes. AAP is a structured session framework used within psychotherapy. It is not coaching, and it is not a standalone technique applied outside a therapeutic relationship.",
-      },
-      {
-        question: "How many sessions do people usually have?",
-        answer:
-          "It varies. Some people work on a single pattern over several sessions. Others continue longer. There is no prescribed course length — we work until the reaction you came for has shifted enough to matter in your daily life.",
-      },
-      {
-        question: "Can this help if I've already tried therapy?",
-        answer:
-          "Often, yes — especially if previous therapy helped you understand your patterns but the automatic reactions remained. AAP addresses a different layer: not the story about the reaction, but the association that produces it.",
-      },
-      {
-        question: "What if I am in crisis?",
-        answer:
-          "This practice is not equipped for emergency care. If you are in immediate danger or experiencing a mental health crisis, please contact your local emergency services or a crisis helpline in your area.",
+        question: "Are sessions online and conducted in English?",
+        answer: "Yes. All sessions are conducted online, in English, with clients worldwide.",
       },
     ],
   },
   finalCta: {
     lines: [
-      "If you've understood yourself for years",
-      "but your reactions still feel automatic,",
-      "perhaps it isn't understanding that's missing.",
+      "You may already understand the pattern.",
+      "The more interesting question may be what you learned you had to be —",
+      "and whether that rule still needs to organize your life.",
     ],
     button: { label: "Book a Session", href: "/book" },
   },
@@ -255,9 +256,9 @@ export const enContent: PublicContent = {
   },
   seo: {
     home: {
-      title: "Niks Ravins | Deep Transformation & Adaptive Association Processing",
+      title: "Niks Ravins | Identity Re-coding & Adaptive Association Processing",
       description:
-        "Online deep transformation sessions with Niks Ravins using Adaptive Association Processing (AAP). Work with emotional patterns, relationships and personal transformation. Sessions conducted in English, available worldwide.",
+        "Psychotherapy for self-aware adults whose automatic reactions continue despite understanding. Work with internal rules and learned associations. Online sessions in English, worldwide.",
     },
     book: {
       title: "Book a Session",

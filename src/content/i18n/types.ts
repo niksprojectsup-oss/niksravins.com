@@ -1,3 +1,4 @@
+import type { CmsParagraphField } from "@/content/cms/types";
 import type { Locale } from "@/lib/i18n/config";
 
 export type FaqItem = {
@@ -113,12 +114,12 @@ export type PublicContent = {
   };
   about: {
     title: string;
-    story: readonly string[];
+    story: readonly CmsParagraphField[];
   };
   aap: {
     title: string;
-    intro: string;
-    points: ReadonlyArray<{ title: string; description: string }>;
+    intro: CmsParagraphField;
+    points: ReadonlyArray<{ title: string; description: CmsParagraphField }>;
   };
   testimonials: {
     intro: string;

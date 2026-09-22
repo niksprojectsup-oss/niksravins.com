@@ -1,11 +1,17 @@
 import type { PublicContent } from "@/content/i18n/types";
+import {
+  CMS_PUBLISHED_BLOCK_CLASS,
+  CmsPublishedFieldText,
+} from "@/components/cms/CmsPublishedFieldText";
 import { Section } from "@/components/ui/Section";
+import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 
 type TrustProps = {
   content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
 };
 
-export function Trust({ content }: TrustProps) {
+export function Trust({ content, cmsHtmlFields = {} }: TrustProps) {
   const { trust, sectionLabels } = content;
 
   return (
@@ -15,7 +21,7 @@ export function Trust({ content }: TrustProps) {
           {sectionLabels.trustHeading}
         </h2>
         {trust.statements.map((statement, index) => (
-          <p
+          <div
             key={statement}
             className={
               index === trust.statements.length - 1
@@ -23,8 +29,12 @@ export function Trust({ content }: TrustProps) {
                 : "type-editorial"
             }
           >
-            {statement}
-          </p>
+            <CmsPublishedFieldText
+              html={cmsHtmlFields[`trust.statements.${index}`]}
+              fallback={statement}
+              className={CMS_PUBLISHED_BLOCK_CLASS}
+            />
+          </div>
         ))}
       </div>
     </Section>
