@@ -140,6 +140,53 @@ describe("cms homepage published content", () => {
     assert.match(html, /CMS/);
   });
 
+  it("renders rich text marks and image nodes to HTML for public pages", () => {
+    const document = createEmptyTiptapDocument("");
+    document.content = [
+      {
+        type: "paragraph",
+        content: [
+          {
+            type: "text",
+            text: "Styled",
+            marks: [
+              {
+                type: "textStyle",
+                attrs: {
+                  fontSize: "24px",
+                  fontFamily: "Georgia, serif",
+                  color: "#dc2626",
+                  lineHeight: "1.5",
+                },
+              },
+              { type: "underline" },
+            ],
+          },
+        ],
+      },
+      {
+        type: "image",
+        attrs: {
+          src: "/cms-uploads/example.jpg",
+          alt: "Example",
+          title: "Example title",
+          width: 320,
+          height: 180,
+        },
+      },
+    ];
+
+    const html = tiptapJsonToHtml(document);
+    assert.match(html, /font-size:\s*24px/i);
+    assert.match(html, /font-family:\s*Georgia/i);
+    assert.match(html, /color:\s*#dc2626/i);
+    assert.match(html, /line-height:\s*1\.5/i);
+    assert.match(html, /<u[^>]*>Styled<\/u>/);
+    assert.match(html, /<img[^>]+src="\/cms-uploads\/example\.jpg"[^>]*alt="Example"/);
+    assert.match(html, /width="320"/);
+    assert.match(html, /height="180"/);
+  });
+
   it("applies published SEO fields as plain text while body fields stay in cmsFields", () => {
     const cmsFields = {
       "hero.headline": createEmptyTiptapDocument("CMS homepage headline"),

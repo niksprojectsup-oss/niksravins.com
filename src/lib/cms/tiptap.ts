@@ -1,10 +1,13 @@
 import Placeholder from "@tiptap/extension-placeholder";
 import TextAlign from "@tiptap/extension-text-align";
+import { TextStyleKit } from "@tiptap/extension-text-style/text-style-kit";
+import Image from "@tiptap/extension-image";
 import StarterKit from "@tiptap/starter-kit";
 import type { Extensions } from "@tiptap/core";
+import { ParagraphSpacing } from "@/lib/cms/tiptap-paragraph-spacing";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 
-export function getCmsEditorExtensions(placeholder?: string): Extensions {
+function getCmsCoreExtensions(): Extensions {
   return [
     StarterKit.configure({
       heading: { levels: [1, 2, 3] },
@@ -18,16 +21,39 @@ export function getCmsEditorExtensions(placeholder?: string): Extensions {
         },
       },
     }),
+    TextStyleKit.configure({
+      backgroundColor: false,
+    }),
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
+    ParagraphSpacing,
+    Image.configure({
+      inline: false,
+      allowBase64: false,
+      HTMLAttributes: {
+        class: "cms-editor-image",
+      },
+      resize: {
+        enabled: true,
+        minWidth: 80,
+        minHeight: 80,
+        alwaysPreserveAspectRatio: true,
+      },
+    }),
+  ];
+}
+
+export function getCmsEditorExtensions(placeholder?: string): Extensions {
+  return [
+    ...getCmsCoreExtensions(),
     Placeholder.configure({
       placeholder: placeholder ?? "Start writing…",
     }),
   ];
 }
 
-export const CMS_TIPTAP_EXTENSIONS = getCmsEditorExtensions();
+export const CMS_TIPTAP_EXTENSIONS = getCmsCoreExtensions();
 
 export function createEmptyTiptapDocument(text = ""): CmsTiptapJson {
   if (!text.trim()) {

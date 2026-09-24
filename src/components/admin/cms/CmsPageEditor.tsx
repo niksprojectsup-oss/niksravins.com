@@ -51,6 +51,7 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
   const [fields, setFields] = useState<Record<string, CmsTiptapJson>>(() =>
     buildCmsEditorFieldMap(initialContent),
   );
+  const [editorSyncVersion, setEditorSyncVersion] = useState(0);
   const editorRefs = useRef<Record<string, CmsRichTextEditorHandle | null>>({});
 
   useEffect(() => {
@@ -59,6 +60,7 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
     }
 
     setFields(buildCmsEditorFieldMap(initialContent));
+    setEditorSyncVersion((current) => current + 1);
     // Sync only when server content or locale changes, not when isDirty flips after save.
   }, [initialContent, locale]);
 
@@ -282,6 +284,7 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
                     label={field.label}
                     placeholder={field.placeholder}
                     value={fields[field.key] ?? createEmptyTiptapDocument()}
+                    syncVersion={editorSyncVersion}
                     onChange={(value) => updateField(field.key, value)}
                   />
                 ))}
