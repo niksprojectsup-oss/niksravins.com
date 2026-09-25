@@ -3,7 +3,7 @@ import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { AdminStatusBadge } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
 import { adminPages } from "@/content/admin";
-import { CMS_LOCALE_LABELS } from "@/lib/cms/definitions";
+import { ADMIN_EDITABLE_CMS_PAGE_SLUGS, CMS_LOCALE_LABELS } from "@/lib/cms/definitions";
 import { listCmsPages } from "@/lib/cms/repository";
 import { seedCmsPages } from "@/lib/cms/seed";
 import type { CmsPageSummary } from "@/lib/cms/types";
@@ -16,7 +16,9 @@ function pageStatusVariant(
 
 export default async function AdminContentPage() {
   await seedCmsPages();
-  const pages = await listCmsPages();
+  const pages = (await listCmsPages()).filter((page) =>
+    ADMIN_EDITABLE_CMS_PAGE_SLUGS.includes(page.slug as (typeof ADMIN_EDITABLE_CMS_PAGE_SLUGS)[number]),
+  );
 
   return (
     <div className="layout-stack-lg max-w-wide">

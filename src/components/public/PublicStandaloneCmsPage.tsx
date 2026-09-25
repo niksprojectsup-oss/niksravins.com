@@ -1,11 +1,6 @@
-import type { ReactNode } from "react";
 import { getPublicContent } from "@/content/i18n";
 import type { PublicContent } from "@/content/i18n/types";
 import { CmsPublishedBody } from "@/components/cms/CmsPublishedBody";
-import { About } from "@/components/sections/About";
-import { AAPMethod } from "@/components/sections/AAPMethod";
-import { FAQ } from "@/components/sections/FAQ";
-import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Section } from "@/components/ui/Section";
@@ -19,16 +14,12 @@ type PublicStandaloneCmsPageProps = {
   locale?: CmsLocale;
 };
 
-function getFallbackPublicContent(locale: CmsLocale): PublicContent {
-  if (locale === "en") {
-    return getPublicContent("en");
-  }
-
+function getFallbackPublicContent(): PublicContent {
   return getPublicContent("en");
 }
 
-function getPublicLocale(locale: CmsLocale): Locale {
-  return locale === "en" ? DEFAULT_LOCALE : DEFAULT_LOCALE;
+function getPublicLocale(): Locale {
+  return DEFAULT_LOCALE;
 }
 
 function LegalFallback({ content }: { content: PublicContent }) {
@@ -51,27 +42,16 @@ function LegalFallback({ content }: { content: PublicContent }) {
   );
 }
 
-function renderFallback(slug: StandaloneCmsPageSlug, content: PublicContent): ReactNode {
-  switch (slug) {
-    case "aap":
-      return <AAPMethod content={content} />;
-    case "about":
-      return <About content={content} />;
-    case "faq":
-      return <FAQ content={content} />;
-    case "contact":
-      return <FinalCTA content={content} />;
-    case "legal":
-      return <LegalFallback content={content} />;
-  }
-}
-
 export async function PublicStandaloneCmsPage({
   slug,
   locale = "en",
 }: PublicStandaloneCmsPageProps) {
-  const fallbackContent = getFallbackPublicContent(locale);
-  const publicLocale = getPublicLocale(locale);
+  if (slug !== "legal") {
+    throw new Error(`Unsupported standalone CMS page slug: ${slug}`);
+  }
+
+  const fallbackContent = getFallbackPublicContent();
+  const publicLocale = getPublicLocale();
   const published = await getPublishedCmsPageContent(slug, locale);
   const publishedBody = published?.fields.body;
 
@@ -86,7 +66,7 @@ export async function PublicStandaloneCmsPage({
             </div>
           </Section>
         ) : (
-          renderFallback(slug, fallbackContent)
+          <LegalFallback content={fallbackContent} />
         )}
       </main>
       <Footer content={fallbackContent} locale={publicLocale} />

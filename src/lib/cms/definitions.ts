@@ -211,6 +211,21 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
   },
 ] as const;
 
+/** Standalone CMS pages kept in DB but no longer publicly editable or rendered. */
+export const DEPRECATED_PUBLIC_CMS_PAGE_SLUGS = ["about", "aap", "faq", "contact"] as const;
+
+export type DeprecatedPublicCmsPageSlug = (typeof DEPRECATED_PUBLIC_CMS_PAGE_SLUGS)[number];
+
+export const ADMIN_EDITABLE_CMS_PAGE_SLUGS = ["home", "legal"] as const;
+
+export function isDeprecatedPublicCmsPageSlug(slug: string): slug is DeprecatedPublicCmsPageSlug {
+  return DEPRECATED_PUBLIC_CMS_PAGE_SLUGS.includes(slug as DeprecatedPublicCmsPageSlug);
+}
+
+export function isAdminEditableCmsPageSlug(slug: string): boolean {
+  return ADMIN_EDITABLE_CMS_PAGE_SLUGS.includes(slug as (typeof ADMIN_EDITABLE_CMS_PAGE_SLUGS)[number]);
+}
+
 export function getCmsPageDefinition(slug: string): CmsPageDefinition | undefined {
   return CMS_PAGE_DEFINITIONS.find((page) => page.slug === slug);
 }

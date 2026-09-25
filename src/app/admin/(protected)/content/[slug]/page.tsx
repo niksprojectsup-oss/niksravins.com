@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { CmsPageEditor } from "@/components/admin/cms/CmsPageEditor";
 import { assertCmsLocale, getAdminPageContent } from "@/lib/cms/repository";
-import { getCmsPageDefinition } from "@/lib/cms/definitions";
+import { getCmsPageDefinition, isAdminEditableCmsPageSlug } from "@/lib/cms/definitions";
 import { seedCmsPages } from "@/lib/cms/seed";
 
 type AdminContentEditorPageProps = {
@@ -16,7 +16,7 @@ export default async function AdminContentEditorPage({
   const { slug } = await params;
   const query = await searchParams;
 
-  if (!getCmsPageDefinition(slug)) {
+  if (!getCmsPageDefinition(slug) || !isAdminEditableCmsPageSlug(slug)) {
     notFound();
   }
 

@@ -7,7 +7,7 @@
     "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "tsx --test src/lib/journey/journey-security.test.ts src/lib/calendar/session-event.test.ts src/lib/i18n/paths.test.ts src/lib/store/store-access.test.ts src/lib/store/content/local-provider.test.ts src/lib/cms/cms.test.ts src/lib/cms/import/import-cms-content.test.ts src/lib/cms/published-page-content.test.ts src/lib/cms/draft-save.test.ts src/lib/cms/editor-sync.test.ts src/lib/cms/image-storage/validation.test.ts src/lib/cms/image-storage/provider-factory.test.ts src/lib/cms/image-storage/local-provider.test.ts",
+    "test": "tsx --test src/lib/journey/journey-security.test.ts src/lib/calendar/session-event.test.ts src/lib/i18n/paths.test.ts src/content/i18n/index.test.ts src/lib/store/store-access.test.ts src/lib/store/content/local-provider.test.ts src/lib/cms/cms.test.ts src/lib/cms/import/import-cms-content.test.ts src/lib/cms/published-page-content.test.ts src/lib/cms/draft-save.test.ts src/lib/cms/editor-sync.test.ts src/lib/cms/image-storage/validation.test.ts src/lib/cms/image-storage/provider-factory.test.ts src/lib/cms/image-storage/local-provider.test.ts",
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:seed": "tsx prisma/seed.ts",

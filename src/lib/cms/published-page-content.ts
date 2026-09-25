@@ -9,7 +9,7 @@ import { normalizeCmsTiptapJson, tiptapJsonToPlainText } from "@/lib/cms/tiptap"
 import type { CmsTiptapJson } from "@/lib/cms/types";
 import { requireDatabase } from "@/lib/db/prisma";
 
-export const STANDALONE_CMS_PAGE_SLUGS = ["aap", "about", "faq", "contact", "legal"] as const;
+export const STANDALONE_CMS_PAGE_SLUGS = ["legal"] as const;
 
 export type StandaloneCmsPageSlug = (typeof STANDALONE_CMS_PAGE_SLUGS)[number];
 

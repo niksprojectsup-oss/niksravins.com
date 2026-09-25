@@ -19,6 +19,14 @@ const CONTENT_BY_LOCALE: Record<Locale, PublicContent> = {
   zh: zhContent,
 };
 
+function localizeHomeSectionHref(href: string, homePath: string): string {
+  if (href.startsWith("#")) {
+    return `${homePath}${href}`;
+  }
+
+  return href;
+}
+
 function localizePaths(content: PublicContent, locale: Locale): PublicContent {
   const bookPath = localizedPath(locale, "book");
   const homePath = localizedPath(locale, "");
@@ -29,6 +37,10 @@ function localizePaths(content: PublicContent, locale: Locale): PublicContent {
       ...content.site,
       bookingUrl: bookPath,
     },
+    navigation: content.navigation.map((item) => ({
+      ...item,
+      href: localizeHomeSectionHref(item.href, homePath),
+    })),
     hero: {
       ...content.hero,
       primaryCta: { ...content.hero.primaryCta, href: bookPath },
