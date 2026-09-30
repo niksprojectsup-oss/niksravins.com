@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100mm" height="50mm" viewBox="0 0 100 50">
+  <rect x="0" y="0" width="100" height="50" fill="none" stroke="#111111"/>
+  <g transform="translate(6,6)">
+    <circle cx="16" cy="16" r="10" fill="#111111"/>
+    <ellipse cx="46" cy="16" rx="12" ry="7" fill="none" stroke="#111111"/>
+    <line x1="66" y1="8" x2="88" y2="8" stroke="#111111"/>
+    <polyline points="66,18 76,26 88,18" fill="none" stroke="#111111"/>
+    <polygon points="70,28 86,28 78,38" fill="#111111"/>
+    <path d="M8,36 C18,28 30,28 40,36" fill="none" stroke="#111111"/>
+  </g>
+</svg>

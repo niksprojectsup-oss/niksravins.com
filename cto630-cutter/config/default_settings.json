@@ -1,0 +1,33 @@
+{
+  "serial": {
+    "port": "",
+    "baud_rate": 9600,
+    "data_bits": 8,
+    "parity": "N",
+    "stop_bits": 1,
+    "flow_control": "none"
+  },
+  "plotter": {
+    "width_mm": 640,
+    "length_mm": 20000,
+    "units_per_mm": 40,
+    "x_sign": 1,
+    "y_sign": 1,
+    "emit_initialize": true,
+    "speed_command": "",
+    "force_command": "",
+    "speed": 50,
+    "force": 100
+  },
+  "vinyl": {
+    "width_mm": 600,
+    "length_mm": 1000
+  },
+  "geometry": {
+    "flatten_tolerance_mm": 0.1,
+    "join_tolerance_mm": 0.05
+  },
+  "test_cut_size_mm": 20,
+  "units": "mm",
+  "output_filename": "output/test_job.hpgl"
+}

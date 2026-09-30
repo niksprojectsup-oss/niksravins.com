@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="30mm" height="30mm" viewBox="0 0 30 30">
+  <rect x="0" y="0" width="10" height="5" transform="matrix(1,0,0,2,5,3)" fill="black"/>
+</svg>
