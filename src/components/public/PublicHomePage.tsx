@@ -7,6 +7,7 @@ import { About } from "@/components/sections/About";
 import { AAPMethod } from "@/components/sections/AAPMethod";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
+import { ChangeJourneySection } from "@/components/sections/ChangeJourneySection";
 import { Hero } from "@/components/sections/Hero";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Trust } from "@/components/sections/Trust";
@@ -26,6 +27,7 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
       <Header content={content} locale={locale} />
       <main>
         <Hero content={content} cmsHtmlFields={cmsHtmlFields} />
+        <ChangeJourneySection content={content} cmsHtmlFields={cmsHtmlFields} />
         <Trust content={content} cmsHtmlFields={cmsHtmlFields} />
         <About content={content} cmsHtmlFields={cmsHtmlFields} />
         <AAPMethod content={content} cmsHtmlFields={cmsHtmlFields} />

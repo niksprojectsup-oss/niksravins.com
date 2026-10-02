@@ -21,6 +21,7 @@ import {
 export type CmsImportContent = Pick<
   PublicContent,
   | "hero"
+  | "changeJourney"
   | "trust"
   | "about"
   | "aap"
@@ -51,16 +52,20 @@ function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTipt
   switch (fieldKey) {
     case "hero.headline":
       return plainStringToTiptapDocument(content.hero.headline);
-    case "hero.explanation.0":
-      return plainStringToTiptapDocument(content.hero.explanation[0] ?? "");
-    case "hero.explanation.1":
-      return plainStringToTiptapDocument(content.hero.explanation[1] ?? "");
-    case "hero.explanation.2":
-      return plainStringToTiptapDocument(content.hero.explanation[2] ?? "");
     case "hero.primaryCta.label":
       return plainStringToTiptapDocument(content.hero.primaryCta.label);
     case "hero.secondaryCta.label":
       return plainStringToTiptapDocument(content.hero.secondaryCta.label);
+    case "changeJourney.heading":
+      return plainStringToTiptapDocument(content.changeJourney.heading);
+    case "changeJourney.steps.0":
+      return plainStringToTiptapDocument(content.changeJourney.steps[0] ?? "");
+    case "changeJourney.steps.1":
+      return plainStringToTiptapDocument(content.changeJourney.steps[1] ?? "");
+    case "changeJourney.steps.2":
+      return plainStringToTiptapDocument(content.changeJourney.steps[2] ?? "");
+    case "changeJourney.steps.3":
+      return plainStringToTiptapDocument(content.changeJourney.steps[3] ?? "");
     case "trust.statements.0":
       return plainStringToTiptapDocument(content.trust.statements[0] ?? "");
     case "trust.statements.1":

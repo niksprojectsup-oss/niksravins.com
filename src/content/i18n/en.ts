@@ -37,13 +37,17 @@ export const enContent: PublicContent = {
   hero: {
     name: "Niks Ravins",
     headline: "You understand the reaction. It still happens.",
-    explanation: [
-      "You can know you are safe, enough, allowed to say no, or free to be yourself — and still react as if none of that were true.",
-      "The question underneath is often not only why you react, but what you learned you had to be in order to be loved, chosen, accepted, safe, or enough.",
-      "That answer can become an internal rule. And the rule can keep organizing the reaction long after you consciously know better.",
-    ],
     primaryCta: { label: "Book a Session", href: "/book" },
     secondaryCta: { label: "Explore the Work", href: "#aap" },
+  },
+  changeJourney: {
+    heading: "YOU WANT SOMETHING TO CHANGE",
+    steps: [
+      "Maybe it's your relationship. Maybe it's your work. Maybe it's how you feel about yourself. Maybe you simply know you want more from life.",
+      "You understand what isn't working.",
+      "You may even understand what is holding you back.",
+      "But knowing something doesn't always make it change.",
+    ],
   },
   trust: {
     statements: [

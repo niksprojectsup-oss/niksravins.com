@@ -1,6 +1,5 @@
 import type { PublicContent } from "@/content/i18n/types";
 import {
-  CMS_PUBLISHED_BLOCK_CLASS,
   CMS_PUBLISHED_INLINE_CLASS,
   CmsPublishedFieldText,
 } from "@/components/cms/CmsPublishedFieldText";
@@ -53,23 +52,6 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
             line2={internationalNotice.line2}
             className="max-w-prose text-ink-faint"
           />
-
-          <div className="grid grid-cols-1 gap-5 pt-2 md:grid-cols-2 md:gap-6 md:pt-4 lg:grid-cols-3 lg:pt-6">
-            {hero.explanation.map((paragraph, index) => (
-              <article
-                key={paragraph.slice(0, 32)}
-                className="observed-card flex h-full flex-col p-5 md:p-6"
-              >
-                <div className="type-body leading-relaxed text-ink-muted">
-                  <CmsPublishedFieldText
-                    html={cmsHtmlFields[`hero.explanation.${index}`]}
-                    fallback={paragraph}
-                    className={CMS_PUBLISHED_BLOCK_CLASS}
-                  />
-                </div>
-              </article>
-            ))}
-          </div>
         </div>
       </div>
     </section>

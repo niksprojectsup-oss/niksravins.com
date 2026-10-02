@@ -43,13 +43,17 @@ export const itContent: PublicContent = {
   hero: {
     name: "Niks Ravins",
     headline: "Capisci la reazione. Eppure accade lo stesso.",
-    explanation: [
-      "Le reazioni emotive automatiche possono continuare perché il sistema nervoso le collega ancora a esperienze passate specifiche.",
-      "La maggior parte di chi viene qui comprende già i propri schemi. Parlarne li ha spiegati. Non ha cambiato la reazione.",
-      "Le sessioni si concentrano sull'identificare e modificare quelle associazioni emotive apprese.",
-    ],
     primaryCta: { label: "Prenota una sessione", href: "/book" },
     secondaryCta: { label: "Come funziona l'AAP", href: "#aap" },
+  },
+  changeJourney: {
+    heading: "VUOI CHE QUALCOSA CAMBI",
+    steps: [
+      "Forse la tua relazione. Forse il lavoro. Forse come ti senti riguardo a te stesso. O forse sai semplicemente di volere di più dalla vita.",
+      "Capisci cosa non funziona.",
+      "Forse capisci persino cosa ti trattiene.",
+      "Ma sapere qualcosa non sempre lo fa cambiare.",
+    ],
   },
   trust: {
     statements: [

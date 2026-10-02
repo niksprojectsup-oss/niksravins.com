@@ -43,13 +43,17 @@ export const frContent: PublicContent = {
   hero: {
     name: "Niks Ravins",
     headline: "Vous comprenez la réaction. Elle se produit quand même.",
-    explanation: [
-      "Les réactions émotionnelles automatiques peuvent persister parce que le système nerveux les relie encore à des expériences passées précises.",
-      "La plupart des personnes qui viennent ici comprennent déjà leurs schémas. En parler les a expliqués. Cela n'a pas changé la réaction.",
-      "Les séances visent à identifier et à modifier ces associations émotionnelles apprises.",
-    ],
     primaryCta: { label: "Réserver une séance", href: "/book" },
     secondaryCta: { label: "Comment fonctionne l'AAP", href: "#aap" },
+  },
+  changeJourney: {
+    heading: "VOUS VOULEZ QUE QUELQUE CHOSE CHANGE",
+    steps: [
+      "Peut-être votre relation. Peut-être votre travail. Peut-être la façon dont vous vous percevez. Ou vous savez simplement que vous voulez plus de vie.",
+      "Vous comprenez ce qui ne fonctionne pas.",
+      "Vous comprenez peut-être même ce qui vous retient.",
+      "Mais savoir ne change pas toujours les choses.",
+    ],
   },
   trust: {
     statements: [
