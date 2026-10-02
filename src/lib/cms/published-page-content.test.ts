@@ -95,14 +95,14 @@ describe("cms published page content", () => {
 describe("cms published field html", () => {
   it("resolves block and inline html for a published field", () => {
     const fields = {
-      "hero.explanation.0": createEmptyTiptapDocument("Automatic emotional reactions can continue"),
+      "changeJourney.steps.0": createEmptyTiptapDocument("Maybe it's your relationship"),
     };
 
-    const blockHtml = getPublishedCmsFieldHtml(fields, "hero.explanation.0", "block");
-    const inlineHtml = getPublishedCmsFieldHtml(fields, "hero.explanation.0", "inline");
+    const blockHtml = getPublishedCmsFieldHtml(fields, "changeJourney.steps.0", "block");
+    const inlineHtml = getPublishedCmsFieldHtml(fields, "changeJourney.steps.0", "inline");
 
-    assert.match(blockHtml ?? "", /Automatic emotional reactions/);
-    assert.match(inlineHtml ?? "", /Automatic emotional reactions/);
+    assert.match(blockHtml ?? "", /Maybe it's your relationship/);
+    assert.match(inlineHtml ?? "", /Maybe it's your relationship/);
     assert.doesNotMatch(inlineHtml ?? "", /^<p>/);
   });
 
@@ -113,12 +113,12 @@ describe("cms published field html", () => {
   it("builds a homepage html field map from published CMS documents", () => {
     const htmlFields = buildPublishedCmsHtmlFields({
       "hero.headline": createEmptyTiptapDocument("CMS homepage headline"),
-      "hero.explanation.0": createEmptyTiptapDocument("Automatic emotional reactions can continue"),
+      "changeJourney.steps.0": createEmptyTiptapDocument("Maybe it's your relationship"),
     });
 
     assert.match(htmlFields["hero.headline"] ?? "", /CMS homepage headline/);
-    assert.match(htmlFields["hero.explanation.0"] ?? "", /Automatic emotional reactions/);
-    assert.match(htmlFields["hero.explanation.0"] ?? "", /^<p>/);
+    assert.match(htmlFields["changeJourney.steps.0"] ?? "", /Maybe it's your relationship/);
+    assert.doesNotMatch(htmlFields["changeJourney.steps.0"] ?? "", /^<p>/);
     assert.equal(htmlFields["about.title"], undefined);
   });
 });

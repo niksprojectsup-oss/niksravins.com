@@ -40,32 +40,46 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         sortOrder: 0,
         fields: [
           { key: "hero.headline", label: "Headline", placeholder: "Main headline" },
-          {
-            key: "hero.explanation.0",
-            label: "Explanation card 1",
-            placeholder: "First supporting paragraph",
-            kind: "paragraphs",
-          },
-          {
-            key: "hero.explanation.1",
-            label: "Explanation card 2",
-            placeholder: "Second supporting paragraph",
-            kind: "paragraphs",
-          },
-          {
-            key: "hero.explanation.2",
-            label: "Explanation card 3",
-            placeholder: "Third supporting paragraph",
-            kind: "paragraphs",
-          },
           { key: "hero.primaryCta.label", label: "Primary button label" },
           { key: "hero.secondaryCta.label", label: "Secondary button label" },
         ],
       },
       {
+        key: "changeJourney",
+        title: "Change journey",
+        sortOrder: 1,
+        fields: [
+          {
+            key: "changeJourney.heading",
+            label: "Section heading",
+            placeholder: "YOU WANT SOMETHING TO CHANGE",
+          },
+          {
+            key: "changeJourney.steps.0",
+            label: "Step box 1",
+            placeholder: "First step — what you want to change",
+          },
+          {
+            key: "changeJourney.steps.1",
+            label: "Step box 2",
+            placeholder: "Second step — what isn't working",
+          },
+          {
+            key: "changeJourney.steps.2",
+            label: "Step box 3",
+            placeholder: "Third step — what holds you back",
+          },
+          {
+            key: "changeJourney.steps.3",
+            label: "Step box 4",
+            placeholder: "Fourth step — knowing vs changing",
+          },
+        ],
+      },
+      {
         key: "trust",
         title: "Trust",
-        sortOrder: 1,
+        sortOrder: 2,
         fields: [
           { key: "trust.statements.0", label: "Statement 1", kind: "paragraphs" },
           { key: "trust.statements.1", label: "Statement 2", kind: "paragraphs" },
@@ -76,7 +90,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "about",
         title: "About",
-        sortOrder: 2,
+        sortOrder: 3,
         fields: [
           { key: "about.title", label: "Section title" },
           { key: "about.story.0", label: "Story paragraph 1", kind: "paragraphs" },
@@ -87,7 +101,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "aap",
         title: "AAP",
-        sortOrder: 3,
+        sortOrder: 4,
         fields: [
           { key: "aap.title", label: "Section title" },
           { key: "aap.intro", label: "Introduction", kind: "paragraphs" },
@@ -104,7 +118,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "faq",
         title: "FAQ",
-        sortOrder: 4,
+        sortOrder: 5,
         fields: [
           { key: "faq.headingLabel", label: "Heading label" },
           { key: "faq.heading", label: "Heading" },
@@ -125,7 +139,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "final-cta",
         title: "Final CTA",
-        sortOrder: 5,
+        sortOrder: 6,
         fields: [
           { key: "finalCta.lines.0", label: "Line 1", kind: "paragraphs" },
           { key: "finalCta.lines.1", label: "Line 2", kind: "paragraphs" },
@@ -136,7 +150,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "seo",
         title: "SEO",
-        sortOrder: 6,
+        sortOrder: 7,
         fields: [
           { key: "seo.home.title", label: "Page title" },
           { key: "seo.home.description", label: "Meta description", kind: "paragraphs" },
