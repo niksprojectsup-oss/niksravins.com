@@ -1,21 +1,19 @@
 import type { Metadata } from "next";
+<<<<<<< ours
 import { headers } from "next/headers";
 import { Fraunces, Source_Sans_3 } from "next/font/google";
 import { getDocumentHtmlLangFromPathname } from "@/lib/i18n/document-lang";
 import { REQUEST_PATHNAME_HEADER } from "@/lib/i18n/request-pathname";
 import { getAppBaseUrl } from "@/lib/url";
+=======
+import { Fraunces } from "next/font/google";
+import { siteConfig } from "@/content/site";
+>>>>>>> theirs
 import "./globals.css";
 
 const fraunces = Fraunces({
   variable: "--font-family-display",
   subsets: ["latin"],
-  display: "swap",
-});
-
-const sourceSans = Source_Sans_3({
-  variable: "--font-family-sans",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
   display: "swap",
 });
 
@@ -47,8 +45,13 @@ export default async function RootLayout({
 
   return (
     <html
+<<<<<<< ours
       lang={htmlLang}
       className={`${fraunces.variable} ${sourceSans.variable} h-full`}
+=======
+      lang="en"
+      className={`${fraunces.variable} h-full`}
+>>>>>>> theirs
     >
       <body className="min-h-full flex flex-col font-sans text-base leading-normal text-ink antialiased">
         {children}

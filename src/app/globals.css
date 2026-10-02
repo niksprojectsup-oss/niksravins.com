@@ -97,6 +97,7 @@
   }
 
   html {
+    --font-family-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
     text-size-adjust: 100%;
