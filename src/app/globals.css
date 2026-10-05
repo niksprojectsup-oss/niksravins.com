@@ -493,7 +493,7 @@
 /* Scoped to the single “You want something to change” section. */
 
 .want-change {
-  padding-block: clamp(2.25rem, 4vw, 3.5rem);
+  padding-block: 1.25rem;
   overflow-x: clip;
   background: transparent;
 }

@@ -18,7 +18,7 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="pt-8 pb-10 md:pt-20 md:pb-20 lg:pt-24 lg:pb-32"
+      className="pt-8 pb-10 md:pt-20 md:pb-20 lg:pt-24 lg:pb-5"
     >
       <div className="layout-container">
         <div className="layout-stack-lg max-w-wide">
@@ -50,7 +50,7 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
           <InternationalSessionNotice
             line1={internationalNotice.line1}
             line2={internationalNotice.line2}
-            className="max-w-prose text-ink-faint"
+            className="-mt-1 max-w-prose text-ink-faint"
           />
         </div>
       </div>
