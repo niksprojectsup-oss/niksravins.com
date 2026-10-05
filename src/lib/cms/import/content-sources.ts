@@ -90,12 +90,30 @@ const JOURNEY_STEP_DOCUMENTS = [
 ] as const;
 
 const ALIGNMENT_ITEMS = [
-  { title: "Your relationship.", body: "Your relationship" },
-  { title: "Your work.", body: "Your work" },
-  { title: "Your confidence.", body: "Your confidence" },
-  { title: "Your relationship with yourself.", body: "Your relationship with yourself" },
-  { title: "Your dreams.", body: "Your dreams" },
-  { title: "Your life.", body: "Your life" },
+  {
+    title: "Your relationship.",
+    body: "You want to feel more connected, safe, loved or free in your relationship — but something keeps getting in the way.",
+  },
+  {
+    title: "Your work.",
+    body: "You hate your job. You want something different. You know you’re capable of more and deserve better, but something keeps you where you are.",
+  },
+  {
+    title: "Your confidence.",
+    body: "You want to speak up, be seen, trust yourself and take up space without constantly questioning yourself.",
+  },
+  {
+    title: "Your relationship with yourself.",
+    body: "You’re tired of doubting yourself, feeling like you’re not enough or constantly needing to prove your worth.",
+  },
+  {
+    title: "Your dreams.",
+    body: "There are things you want to create, experience or achieve — but you keep holding yourself back, postponing or staying in what feels familiar.",
+  },
+  {
+    title: "Your life.",
+    body: "You feel stuck, disconnected or like something is missing. You know you want more, but you haven’t found the way forward yet.",
+  },
 ] as const;
 
 function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTiptapJson | null {
