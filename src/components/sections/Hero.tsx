@@ -18,7 +18,7 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="pt-8 pb-10 md:pt-20 md:pb-20 lg:pt-24 lg:pb-32"
+      className="pt-8 pb-10 md:pt-20 md:pb-20 lg:pt-24 lg:pb-[22px]"
     >
       <div className="layout-container">
         <div className="layout-stack-lg max-w-wide">
