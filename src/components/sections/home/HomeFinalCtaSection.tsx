@@ -1,4 +1,3 @@
-import type { PublicContent } from "@/content/i18n/types";
 import {
   CMS_PUBLISHED_BLOCK_CLASS,
   CMS_PUBLISHED_INLINE_CLASS,
@@ -7,14 +6,9 @@ import {
 import { Button } from "@/components/ui/Button";
 import { InternationalSessionNotice } from "@/components/i18n/InternationalSessionNotice";
 import { Section } from "@/components/ui/Section";
-import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
+import type { HomeSectionProps } from "./shared";
 
-type FinalCTAProps = {
-  content: PublicContent;
-  cmsHtmlFields?: CmsHtmlFields;
-};
-
-export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
+export function HomeFinalCtaSection({ content, cmsHtmlFields = {} }: HomeSectionProps) {
   const { finalCta, site, internationalNotice, sectionLabels } = content;
 
   return (
@@ -24,7 +18,7 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
       aria-labelledby="contact-heading"
       className="home-band home-close !pb-16 md:!pb-24 lg:!pb-32"
     >
-      <div className="max-w-prose layout-stack-md md:layout-stack-lg">
+      <div className="home-copy layout-stack-md md:layout-stack-lg">
         <h2 id="contact-heading" className="sr-only">
           {sectionLabels.contactHeading}
         </h2>

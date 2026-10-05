@@ -1,19 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import type { PublicContent } from "@/content/i18n/types";
 import {
   CMS_PUBLISHED_BLOCK_CLASS,
   CMS_PUBLISHED_INLINE_CLASS,
   CmsPublishedFieldText,
 } from "@/components/cms/CmsPublishedFieldText";
 import { Section } from "@/components/ui/Section";
-import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
-
-type FAQProps = {
-  content: PublicContent;
-  cmsHtmlFields?: CmsHtmlFields;
-};
+import type { HomeSectionProps } from "./shared";
 
 function FaqAnswer({
   index,
@@ -22,9 +16,9 @@ function FaqAnswer({
 }: {
   index: number;
   answer: string | string[];
-  cmsHtmlFields: CmsHtmlFields;
+  cmsHtmlFields: HomeSectionProps["cmsHtmlFields"];
 }) {
-  const html = cmsHtmlFields[`faq.items.${index}.answer`];
+  const html = cmsHtmlFields?.[`faq.items.${index}.answer`];
 
   if (html) {
     return (
@@ -49,7 +43,7 @@ function FaqAnswer({
   return <p>{answer}</p>;
 }
 
-export function FAQ({ content, cmsHtmlFields = {} }: FAQProps) {
+export function HomeFaqSection({ content, cmsHtmlFields = {} }: HomeSectionProps) {
   const { faq } = content;
   const [openIndex, setOpenIndex] = useState<number | null>(null);
 

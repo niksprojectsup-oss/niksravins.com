@@ -29,8 +29,8 @@ export const enContent: PublicContent = {
     aboutImageAlt: "Portrait of Niks Ravins",
   },
   navigation: [
-    { label: "About", href: "#about" },
-    { label: "AAP", href: "#aap" },
+    { label: "Change", href: "#about" },
+    { label: "The work", href: "#aap" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ],
@@ -44,6 +44,82 @@ export const enContent: PublicContent = {
     ],
     primaryCta: { label: "Book a Session", href: "/book" },
     secondaryCta: { label: "Explore the Work", href: "#aap" },
+  },
+  narrative: {
+    desire: {
+      heading: "You want something to change.",
+      paragraphs: [
+        "You can understand why you react — and still keep reacting.",
+        "This work is for people who are already self-aware — and notice that understanding alone has not necessarily changed how the reaction feels when it arrives.",
+      ],
+    },
+    change: {
+      heading: "What do you want to change?",
+      items: [
+        "Your relationship",
+        "Your work",
+        "Your confidence",
+        "Your relationship with yourself",
+        "Your dreams",
+        "Your life",
+      ],
+    },
+    identity: {
+      heading: "Change at the level of identity.",
+      paragraphs: [
+        "Identity Re-coding is what this work is about: discovering the internal rules you learned to live by — and exploring what becomes possible when they no longer have to organize who you are.",
+        "This is not positive thinking, forced affirmations, or one more explanation of your pattern. This work isn't about becoming someone else. It is about living with less need to organize yourself around old rules about who you had to be.",
+      ],
+      shifts: [
+        {
+          from: "I have to be easy to love.",
+          to: "I can be loved without making myself easy.",
+        },
+        {
+          from: "My needs create danger.",
+          to: "My needs can exist without costing connection.",
+        },
+        {
+          from: "I have to be the one who adapts.",
+          to: "I can stay connected to myself without self-abandonment.",
+        },
+        {
+          from: "I have to prove I am enough.",
+          to: "Enough is no longer something I have to earn.",
+        },
+        {
+          from: "Saying no risks losing connection.",
+          to: "I can choose myself without paying for it in guilt.",
+        },
+        {
+          from: "I have to monitor the mood to stay safe.",
+          to: "I can be present without controlling the outcome.",
+        },
+        {
+          from: "Conflict means I will be left.",
+          to: "Disagreement does not have to mean disconnection.",
+        },
+        {
+          from: "I have to become someone else to be chosen.",
+          to: "This work isn't about becoming someone else.",
+        },
+      ],
+    },
+    process: {
+      heading: "How the work happens.",
+    },
+    possible: {
+      heading: "What could become possible?",
+    },
+    experiences: {
+      heading: "Real experiences. Real change.",
+      items: [
+        "[CLIENT TESTIMONIAL]",
+        "[CLIENT TESTIMONIAL]",
+        "[CLIENT TESTIMONIAL]",
+        "[CLIENT TESTIMONIAL]",
+      ],
+    },
   },
   trust: {
     statements: [

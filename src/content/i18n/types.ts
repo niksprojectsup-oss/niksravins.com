@@ -6,6 +6,37 @@ export type FaqItem = {
   answer: string | string[];
 };
 
+export type BeliefShift = {
+  from: string;
+  to: string;
+};
+
+export type HomeNarrative = {
+  desire: {
+    heading: string;
+    paragraphs: readonly string[];
+  };
+  change: {
+    heading: string;
+    items: readonly string[];
+  };
+  identity: {
+    heading: string;
+    paragraphs: readonly string[];
+    shifts: readonly BeliefShift[];
+  };
+  process: {
+    heading: string;
+  };
+  possible: {
+    heading: string;
+  };
+  experiences: {
+    heading: string;
+    items: readonly string[];
+  };
+};
+
 export type PublicSeoContent = {
   home: {
     title: string;
@@ -109,6 +140,7 @@ export type PublicContent = {
     primaryCta: { label: string; href: string };
     secondaryCta: { label: string; href: string };
   };
+  narrative?: HomeNarrative;
   trust: {
     statements: readonly string[];
   };
