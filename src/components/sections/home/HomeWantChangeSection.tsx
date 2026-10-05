@@ -25,36 +25,36 @@ const STEP_FALLBACKS: readonly ReactNode[] = [
 const ARROW_ART = {
   mobile: {
     "12": {
-      viewBox: "0 0 92 58",
-      shaft: "M12 10 C 30 6, 38 24, 52 30 C 66 36, 72 34, 80 48",
-      head: "M66 36 L 82 50 L 64 54",
+      viewBox: "0 0 64 40",
+      shaft: "M8 10 C 22 6, 36 14, 48 28",
+      head: "M36 20 L 50 30 L 34 32",
     },
     "23": {
-      viewBox: "0 0 92 58",
-      shaft: "M80 10 C 62 6, 54 24, 40 30 C 26 36, 20 34, 12 48",
-      head: "M26 36 L 10 50 L 28 54",
+      viewBox: "0 0 64 40",
+      shaft: "M56 10 C 42 6, 28 14, 16 28",
+      head: "M28 20 L 14 30 L 30 32",
     },
     "34": {
-      viewBox: "0 0 92 58",
-      shaft: "M14 12 C 28 8, 44 22, 56 30 C 68 38, 74 36, 80 50",
-      head: "M66 38 L 82 52 L 64 56",
+      viewBox: "0 0 64 40",
+      shaft: "M10 8 C 24 6, 40 16, 50 30",
+      head: "M38 20 L 52 32 L 36 32",
     },
   },
   desktop: {
     "12": {
-      viewBox: "0 0 140 80",
-      shaft: "M36 46 C 58 12, 92 6, 114 32 C 128 48, 126 64, 116 72",
-      head: "M104 58 L 118 74 L 100 76",
+      viewBox: "0 0 160 72",
+      shaft: "M4 30 C 36 4, 96 0, 128 22 C 146 36, 150 54, 134 64",
+      head: "M116 48 L 138 66 L 112 62",
     },
     "23": {
-      viewBox: "0 0 180 90",
-      shaft: "M166 14 C 128 6, 78 22, 42 50 C 24 64, 16 74, 12 80",
-      head: "M28 64 L 10 82 L 32 84",
+      viewBox: "0 0 200 88",
+      shaft: "M188 10 C 148 2, 78 18, 40 46 C 20 62, 12 76, 18 80",
+      head: "M6 64 L 16 84 L 36 66",
     },
     "34": {
-      viewBox: "0 0 140 80",
-      shaft: "M10 18 C 36 6, 72 16, 102 40 C 120 54, 126 66, 118 74",
-      head: "M104 58 L 120 76 L 98 76",
+      viewBox: "0 0 160 72",
+      shaft: "M6 18 C 34 2, 96 6, 128 28 C 146 42, 150 56, 134 64",
+      head: "M116 48 L 138 66 L 112 60",
     },
   },
 } as const;
@@ -64,24 +64,21 @@ type ArrowPlacement = keyof typeof ARROW_ART;
 
 function ChangeArrow({ link, placement }: { link: ArrowLink; placement: ArrowPlacement }) {
   const art = ARROW_ART[placement][link];
-  const [, , width, height] = art.viewBox.split(" ");
 
   return (
     <svg
       className={`want-change-arrow want-change-arrow-${placement}`}
       data-link={link}
       viewBox={art.viewBox}
-      width={width}
-      height={height}
       preserveAspectRatio="xMidYMid meet"
       fill="none"
       aria-hidden="true"
     >
-      <path d={art.shaft} stroke={ARROW} strokeWidth="1.85" strokeLinecap="round" />
+      <path d={art.shaft} stroke={ARROW} strokeWidth="2.15" strokeLinecap="round" />
       <path
         d={art.head}
         stroke={ARROW}
-        strokeWidth="1.85"
+        strokeWidth="2.15"
         strokeLinecap="round"
         strokeLinejoin="round"
       />
@@ -91,7 +88,7 @@ function ChangeArrow({ link, placement }: { link: ArrowLink; placement: ArrowPla
 
 function ChangeBridge({ link }: { link: ArrowLink }) {
   return (
-    <div className="want-change-bridge" data-link={link}>
+    <div className="want-change-bridge" data-link={link} aria-hidden="true">
       <ChangeArrow link={link} placement="mobile" />
       <ChangeArrow link={link} placement="desktop" />
     </div>
@@ -116,19 +113,18 @@ export function HomeWantChangeSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: 
         <div className="want-change-path">
           {STEP_FALLBACKS.map((_, index) => {
             const number = String(index + 1).padStart(2, "0");
-            const link = `${index + 1}${index + 2}` as ArrowLink;
 
             return (
-              <div key={number} className="want-change-step">
-                <article className="want-change-stage" data-stage={number}>
-                  <span className="want-change-num">{number}</span>
-                  <span className="want-change-rule" aria-hidden="true" />
-                  <StepBody index={index} html={cmsHtmlFields[`journey.change.${index}`]} />
-                </article>
-                {index < STEP_FALLBACKS.length - 1 ? <ChangeBridge link={link} /> : null}
-              </div>
+              <article key={number} className="want-change-stage" data-stage={number}>
+                <span className="want-change-num">{number}</span>
+                <span className="want-change-rule" aria-hidden="true" />
+                <StepBody index={index} html={cmsHtmlFields[`journey.change.${index}`]} />
+              </article>
             );
           })}
+          <ChangeBridge link="12" />
+          <ChangeBridge link="23" />
+          <ChangeBridge link="34" />
         </div>
       </div>
     </Section>
