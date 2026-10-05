@@ -43,13 +43,17 @@ export const zhContent: PublicContent = {
   hero: {
     name: "Niks Ravins",
     headline: "你明白这种反应。它仍然会发生。",
-    explanation: [
-      "自动情绪反应之所以持续，是因为神经系统仍将它们与特定的过往经历联系在一起。",
-      "大多数来到这里的人，早已理解自己的模式。谈话解释了它们，却没有改变反应。",
-      "咨询聚焦于识别并改变那些习得的情感关联。",
-    ],
     primaryCta: { label: "预约咨询", href: "/book" },
     secondaryCta: { label: "AAP 如何运作", href: "#aap" },
+  },
+  changeJourney: {
+    heading: "你希望有所改变",
+    steps: [
+      "也许是你的关系。也许是工作。也许是你如何看待自己。也许你只是知道，你想要从生活中得到更多。",
+      "你明白什么行不通。",
+      "你甚至可能明白是什么在阻碍你。",
+      "但知道，并不总是意味着改变。",
+    ],
   },
   trust: {
     statements: [

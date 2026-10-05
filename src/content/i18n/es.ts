@@ -43,13 +43,17 @@ export const esContent: PublicContent = {
   hero: {
     name: "Niks Ravins",
     headline: "Entiendes la reacción. Aun así, ocurre.",
-    explanation: [
-      "Las reacciones emocionales automáticas pueden continuar porque el sistema nervioso aún las vincula a experiencias pasadas concretas.",
-      "La mayoría de quienes vienen aquí ya comprenden sus patrones. Hablar los explicó. No cambió la reacción.",
-      "Las sesiones se centran en identificar y modificar esas asociaciones emocionales aprendidas.",
-    ],
     primaryCta: { label: "Reservar una sesión", href: "/book" },
     secondaryCta: { label: "Cómo funciona AAP", href: "#aap" },
+  },
+  changeJourney: {
+    heading: "QUIERES QUE ALGO CAMBIE",
+    steps: [
+      "Quizá sea tu relación. Quizá tu trabajo. Quizá cómo te sientes contigo mismo. O simplemente sabes que quieres más de la vida.",
+      "Entiendes lo que no funciona.",
+      "Incluso puedes entender qué te frena.",
+      "Pero saber algo no siempre lo hace cambiar.",
+    ],
   },
   trust: {
     statements: [

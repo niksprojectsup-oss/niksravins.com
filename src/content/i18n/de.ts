@@ -43,13 +43,17 @@ export const deContent: PublicContent = {
   hero: {
     name: "Niks Ravins",
     headline: "Sie verstehen die Reaktion. Sie tritt trotzdem auf.",
-    explanation: [
-      "Automatische emotionale Reaktionen können anhalten, weil das Nervensystem sie noch mit bestimmten vergangenen Erfahrungen verknüpft.",
-      "Die meisten Menschen, die hierher kommen, verstehen ihre Muster bereits. Reden hat sie erklärt. Es hat die Reaktion nicht verändert.",
-      "In den Sitzungen geht es darum, diese gelernten emotionalen Verknüpfungen zu erkennen und zu verändern.",
-    ],
     primaryCta: { label: "Sitzung buchen", href: "/book" },
     secondaryCta: { label: "So funktioniert AAP", href: "#aap" },
+  },
+  changeJourney: {
+    heading: "SIE WOLLEN, DASS SICH ETWAS ÄNDERT",
+    steps: [
+      "Vielleicht ist es Ihre Beziehung. Vielleicht Ihre Arbeit. Vielleicht, wie Sie über sich selbst denken. Vielleicht spüren Sie einfach, dass Sie mehr vom Leben wollen.",
+      "Sie verstehen, was nicht funktioniert.",
+      "Vielleicht verstehen Sie sogar, was Sie zurückhält.",
+      "Aber zu wissen, dass etwas so ist, macht es nicht immer anders.",
+    ],
   },
   trust: {
     statements: [

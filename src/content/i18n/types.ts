@@ -105,9 +105,12 @@ export type PublicContent = {
   hero: {
     name: string;
     headline: string;
-    explanation: readonly string[];
     primaryCta: { label: string; href: string };
     secondaryCta: { label: string; href: string };
+  };
+  changeJourney: {
+    heading: string;
+    steps: readonly string[];
   };
   trust: {
     statements: readonly string[];
