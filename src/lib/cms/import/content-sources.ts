@@ -16,6 +16,7 @@ import {
   tiptapHeadingNode,
   tiptapLinkParagraph,
   tiptapParagraphNode,
+  tiptapText,
 } from "@/lib/cms/import/tiptap-builders";
 
 export type CmsImportContent = Pick<
@@ -47,20 +48,63 @@ function toParagraphFieldDocument(value: CmsParagraphField): CmsTiptapJson {
   return paragraphFieldToTiptapDocument(value);
 }
 
+function journeyStepDocument(
+  parts: ReadonlyArray<{ text: string; bold?: boolean }>,
+): CmsTiptapJson {
+  return tiptapDocumentFromBlocks([
+    {
+      type: "paragraph",
+      attrs: { textAlign: null },
+      content: parts.map((part) => tiptapText(part.text, part.bold ? [{ type: "bold" }] : undefined)),
+    },
+  ]);
+}
+
+const JOURNEY_STEP_DOCUMENTS = [
+  journeyStepDocument([
+    { text: "Maybe it’s your " },
+    { text: "relationship", bold: true },
+    { text: ". Maybe it’s your " },
+    { text: "work", bold: true },
+    { text: ". Maybe it’s how you feel about " },
+    { text: "yourself", bold: true },
+    { text: ". Maybe you simply know you want " },
+    { text: "more from life", bold: true },
+    { text: "." },
+  ]),
+  journeyStepDocument([
+    { text: "You understand what " },
+    { text: "isn’t", bold: true },
+    { text: " working." },
+  ]),
+  journeyStepDocument([
+    { text: "You may even understand what is " },
+    { text: "holding you back", bold: true },
+    { text: "." },
+  ]),
+  journeyStepDocument([
+    { text: "But knowing something " },
+    { text: "doesn’t always make it change", bold: true },
+    { text: "." },
+  ]),
+] as const;
+
 function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTiptapJson | null {
   switch (fieldKey) {
     case "hero.headline":
       return plainStringToTiptapDocument(content.hero.headline);
-    case "hero.explanation.0":
-      return plainStringToTiptapDocument(content.hero.explanation[0] ?? "");
-    case "hero.explanation.1":
-      return plainStringToTiptapDocument(content.hero.explanation[1] ?? "");
-    case "hero.explanation.2":
-      return plainStringToTiptapDocument(content.hero.explanation[2] ?? "");
     case "hero.primaryCta.label":
       return plainStringToTiptapDocument(content.hero.primaryCta.label);
     case "hero.secondaryCta.label":
       return plainStringToTiptapDocument(content.hero.secondaryCta.label);
+    case "journey.change.0":
+      return JOURNEY_STEP_DOCUMENTS[0];
+    case "journey.change.1":
+      return JOURNEY_STEP_DOCUMENTS[1];
+    case "journey.change.2":
+      return JOURNEY_STEP_DOCUMENTS[2];
+    case "journey.change.3":
+      return JOURNEY_STEP_DOCUMENTS[3];
     case "trust.statements.0":
       return plainStringToTiptapDocument(content.trust.statements[0] ?? "");
     case "trust.statements.1":
