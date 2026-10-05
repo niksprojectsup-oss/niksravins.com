@@ -71,6 +71,25 @@ export function createEmptyTiptapDocument(text = ""): CmsTiptapJson {
   };
 }
 
+export function getCmsImageSrcFromDocument(value: CmsTiptapJson | null | undefined): string | undefined {
+  if (!value) return undefined;
+
+  const visit = (node: CmsTiptapJson): string | undefined => {
+    if (node.type === "image" && typeof node.attrs?.src === "string" && node.attrs.src.trim()) {
+      return node.attrs.src;
+    }
+
+    for (const child of node.content ?? []) {
+      const found = visit(child);
+      if (found) return found;
+    }
+
+    return undefined;
+  };
+
+  return visit(value);
+}
+
 export function tiptapJsonToPlainText(value: CmsTiptapJson | null | undefined): string {
   if (!value) return "";
 

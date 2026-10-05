@@ -89,6 +89,15 @@ const JOURNEY_STEP_DOCUMENTS = [
   ]),
 ] as const;
 
+const ALIGNMENT_ITEMS = [
+  { title: "Your relationship.", body: "Your relationship" },
+  { title: "Your work.", body: "Your work" },
+  { title: "Your confidence.", body: "Your confidence" },
+  { title: "Your relationship with yourself.", body: "Your relationship with yourself" },
+  { title: "Your dreams.", body: "Your dreams" },
+  { title: "Your life.", body: "Your life" },
+] as const;
+
 function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTiptapJson | null {
   switch (fieldKey) {
     case "hero.headline":
@@ -105,6 +114,30 @@ function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTipt
       return JOURNEY_STEP_DOCUMENTS[2];
     case "journey.change.3":
       return JOURNEY_STEP_DOCUMENTS[3];
+    case "alignment.0.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[0].title);
+    case "alignment.0.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[0].body);
+    case "alignment.1.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[1].title);
+    case "alignment.1.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[1].body);
+    case "alignment.2.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[2].title);
+    case "alignment.2.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[2].body);
+    case "alignment.3.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[3].title);
+    case "alignment.3.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[3].body);
+    case "alignment.4.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[4].title);
+    case "alignment.4.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[4].body);
+    case "alignment.5.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[5].title);
+    case "alignment.5.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[5].body);
     case "trust.statements.0":
       return plainStringToTiptapDocument(content.trust.statements[0] ?? "");
     case "trust.statements.1":
