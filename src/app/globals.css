@@ -639,18 +639,24 @@
 
 /* Scoped to the “What feels out of alignment?” section. */
 
-.alignment {
-  padding-block: clamp(2.25rem, 4vw, 3.5rem);
+.home-alignment {
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
   overflow-x: clip;
   background: transparent;
 }
 
-.alignment-inner {
-  max-width: 64rem;
+.home-alignment .layout-container,
+.home-alignment-container {
+  max-width: min(86rem, 100%);
+}
+
+.home-alignment-inner {
+  width: 100%;
+  max-width: none;
   margin-inline: auto;
 }
 
-.alignment-heading {
+.home-alignment-heading {
   margin: 0 auto;
   max-width: 22em;
   text-align: center;
@@ -664,14 +670,14 @@
   color: var(--nr-ink);
 }
 
-.alignment-grid {
+.home-alignment-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 1.15rem;
-  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  gap: 1.25rem;
+  margin-top: clamp(1.75rem, 3.2vw, 2.75rem);
 }
 
-.alignment-item {
+.home-alignment-item {
   min-width: 0;
   margin: 0;
   background: transparent;
@@ -679,35 +685,41 @@
   box-shadow: none;
 }
 
-.alignment-media {
+.home-alignment-media {
   position: relative;
   overflow: hidden;
+  width: 100%;
+  min-height: 22rem;
   aspect-ratio: 4 / 5;
   border-radius: 16px;
   background: #ddd6c8;
 }
 
-.alignment-media img {
+.home-alignment-media img {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-.alignment-panel {
+.home-alignment-panel {
   position: absolute;
-  left: 0.75rem;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  display: grid;
-  grid-template-columns: 2.15rem 1px minmax(0, 1fr);
-  column-gap: 0.7rem;
-  align-items: start;
-  padding: 0.85rem 0.9rem;
-  border-radius: 12px;
-  background: rgb(255 255 255 / 50%);
+  left: auto;
+  right: 7%;
+  bottom: 12%;
+  width: 83%;
+  max-width: 83%;
+  display: block;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border: 0;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
 }
 
-.alignment-num {
+.home-alignment-num {
+  display: block;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
   font-size: 1.65rem;
   font-weight: 450;
@@ -715,66 +727,91 @@
   line-height: 1;
   letter-spacing: 0.01em;
   color: #b8a06a;
-  padding-top: 0.08rem;
 }
 
-.alignment-rule {
+.home-alignment-rule {
   display: block;
-  width: 1px;
-  height: 100%;
-  min-height: 100%;
-  align-self: stretch;
-  justify-self: center;
+  width: 100%;
+  height: 1px;
+  margin-top: 0.55rem;
+  margin-bottom: 0.75rem;
   background: #b8a06a;
 }
 
-.alignment-copy {
-  min-width: 0;
-}
-
-.alignment-item-title,
-.alignment-item-body {
+.home-alignment-item-title,
+.home-alignment-item-body {
   margin: 0;
 }
 
-.alignment-item-title-text,
-.alignment-item-body-text {
+.home-alignment-item-title-text,
+.home-alignment-item-body-text {
   display: block;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
   color: #2b2b27;
 }
 
-.alignment-item-title-text {
-  font-size: 1.0625rem;
+.home-alignment-item-title-text {
+  font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.28;
-  letter-spacing: -0.012em;
+  letter-spacing: -0.014em;
 }
 
-.alignment-item-body-text {
-  margin-top: 0.28rem;
-  font-size: 0.95rem;
+.home-alignment-item-body-text {
+  margin-top: 0.45rem;
+  font-size: 0.98rem;
   font-weight: 450;
-  line-height: 1.38;
+  line-height: 1.42;
   letter-spacing: -0.01em;
 }
 
-.alignment-item-body-text p {
+.home-alignment-item-body-text p {
   margin: 0;
   font: inherit;
   color: inherit;
 }
 
 @media (max-width: 640px) {
-  .alignment-heading {
+  .home-alignment-heading {
     font-size: 1.16rem;
     letter-spacing: 0.042em;
+  }
+
+  .home-alignment-panel {
+    right: 6%;
+    bottom: 10%;
+    width: 84%;
+    max-width: 84%;
+    padding: 1.2rem 1.25rem 1.3rem;
   }
 }
 
 @media (min-width: 800px) {
-  .alignment-grid {
+  .home-alignment-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.35rem 1.25rem;
+    gap: 1.6rem 1.45rem;
+  }
+
+  .home-alignment-panel {
+    right: 7%;
+    bottom: 13%;
+    width: 82%;
+    max-width: 82%;
+    padding: 1.5rem 1.55rem 1.6rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-alignment-media {
+    min-height: 26rem;
+  }
+
+  .home-alignment-item-title-text {
+    font-size: 1.2rem;
+  }
+
+  .home-alignment-item-body-text {
+    font-size: 1.02rem;
+    line-height: 1.45;
   }
 }
