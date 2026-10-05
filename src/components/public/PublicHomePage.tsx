@@ -8,6 +8,7 @@ import { AAPMethod } from "@/components/sections/AAPMethod";
 import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
+import { HomeAlignmentSection } from "@/components/sections/home/HomeAlignmentSection";
 import { HomeWantChangeSection } from "@/components/sections/home/HomeWantChangeSection";
 import { Testimonials } from "@/components/sections/Testimonials";
 import { Trust } from "@/components/sections/Trust";
@@ -28,6 +29,7 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
       <main>
         <Hero content={content} cmsHtmlFields={cmsHtmlFields} />
         <HomeWantChangeSection cmsHtmlFields={cmsHtmlFields} />
+        <HomeAlignmentSection cmsHtmlFields={cmsHtmlFields} />
         <Trust content={content} cmsHtmlFields={cmsHtmlFields} />
         <About content={content} cmsHtmlFields={cmsHtmlFields} />
         <AAPMethod content={content} cmsHtmlFields={cmsHtmlFields} />

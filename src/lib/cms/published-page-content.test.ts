@@ -114,12 +114,14 @@ describe("cms published field html", () => {
     const htmlFields = buildPublishedCmsHtmlFields({
       "hero.headline": createEmptyTiptapDocument("CMS homepage headline"),
       "journey.change.0": createEmptyTiptapDocument("Maybe it is your relationship."),
+      "alignment.0.title": createEmptyTiptapDocument("Your relationship."),
       "hero.explanation.0": createEmptyTiptapDocument("Automatic emotional reactions can continue"),
     });
 
     assert.match(htmlFields["hero.headline"] ?? "", /CMS homepage headline/);
     assert.match(htmlFields["journey.change.0"] ?? "", /Maybe it is your relationship/);
     assert.match(htmlFields["journey.change.0"] ?? "", /^<p>/);
+    assert.match(htmlFields["alignment.0.title"] ?? "", /Your relationship/);
     assert.equal(htmlFields["hero.explanation.0"], undefined);
     assert.equal(htmlFields["about.title"], undefined);
   });

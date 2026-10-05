@@ -11,7 +11,7 @@ export type CmsFieldDefinition = {
   label: string;
   placeholder?: string;
   /** Hint for editor placeholder and merge behavior. */
-  kind?: "plain" | "paragraphs" | "faq-answer";
+  kind?: "plain" | "paragraphs" | "faq-answer" | "image";
 };
 
 export type CmsSectionDefinition = {
@@ -76,9 +76,34 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         ],
       },
       {
+        key: "alignment",
+        title: "Alignment",
+        sortOrder: 2,
+        fields: [
+          { key: "alignment.0.image", label: "Alignment 01 image", kind: "image" },
+          { key: "alignment.0.title", label: "Alignment 01 title" },
+          { key: "alignment.0.body", label: "Alignment 01 body", kind: "paragraphs" },
+          { key: "alignment.1.image", label: "Alignment 02 image", kind: "image" },
+          { key: "alignment.1.title", label: "Alignment 02 title" },
+          { key: "alignment.1.body", label: "Alignment 02 body", kind: "paragraphs" },
+          { key: "alignment.2.image", label: "Alignment 03 image", kind: "image" },
+          { key: "alignment.2.title", label: "Alignment 03 title" },
+          { key: "alignment.2.body", label: "Alignment 03 body", kind: "paragraphs" },
+          { key: "alignment.3.image", label: "Alignment 04 image", kind: "image" },
+          { key: "alignment.3.title", label: "Alignment 04 title" },
+          { key: "alignment.3.body", label: "Alignment 04 body", kind: "paragraphs" },
+          { key: "alignment.4.image", label: "Alignment 05 image", kind: "image" },
+          { key: "alignment.4.title", label: "Alignment 05 title" },
+          { key: "alignment.4.body", label: "Alignment 05 body", kind: "paragraphs" },
+          { key: "alignment.5.image", label: "Alignment 06 image", kind: "image" },
+          { key: "alignment.5.title", label: "Alignment 06 title" },
+          { key: "alignment.5.body", label: "Alignment 06 body", kind: "paragraphs" },
+        ],
+      },
+      {
         key: "trust",
         title: "Trust",
-        sortOrder: 2,
+        sortOrder: 3,
         fields: [
           { key: "trust.statements.0", label: "Statement 1", kind: "paragraphs" },
           { key: "trust.statements.1", label: "Statement 2", kind: "paragraphs" },
@@ -89,7 +114,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "about",
         title: "About",
-        sortOrder: 3,
+        sortOrder: 4,
         fields: [
           { key: "about.title", label: "Section title" },
           { key: "about.story.0", label: "Story paragraph 1", kind: "paragraphs" },
@@ -100,7 +125,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "aap",
         title: "AAP",
-        sortOrder: 4,
+        sortOrder: 5,
         fields: [
           { key: "aap.title", label: "Section title" },
           { key: "aap.intro", label: "Introduction", kind: "paragraphs" },
@@ -117,7 +142,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "faq",
         title: "FAQ",
-        sortOrder: 5,
+        sortOrder: 6,
         fields: [
           { key: "faq.headingLabel", label: "Heading label" },
           { key: "faq.heading", label: "Heading" },
@@ -138,7 +163,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "final-cta",
         title: "Final CTA",
-        sortOrder: 6,
+        sortOrder: 7,
         fields: [
           { key: "finalCta.lines.0", label: "Line 1", kind: "paragraphs" },
           { key: "finalCta.lines.1", label: "Line 2", kind: "paragraphs" },
@@ -149,7 +174,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "seo",
         title: "SEO",
-        sortOrder: 7,
+        sortOrder: 8,
         fields: [
           { key: "seo.home.title", label: "Page title" },
           { key: "seo.home.description", label: "Meta description", kind: "paragraphs" },
