@@ -294,6 +294,15 @@ function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTipt
         "Together we look at",
         "what may be underneath it.",
       ]);
+    case "roots.intro":
+      return plainStringToTiptapDocument(
+        "We work with the beliefs and emotional associations underneath it — the ones that can shape your choices, behaviour, relationships and the way you experience yourself.",
+      );
+    case "roots.headline":
+      return linesToTiptapDocument([
+        "When the inner foundation changes,",
+        "the way you move through life can change with it.",
+      ]);
     case "trust.statements.0":
       return plainStringToTiptapDocument(content.trust.statements[0] ?? "");
     case "trust.statements.1":

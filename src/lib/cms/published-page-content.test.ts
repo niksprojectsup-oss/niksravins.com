@@ -198,6 +198,22 @@ describe("cms published field html", () => {
     assert.match(htmlFields["identityShifts.closing"] ?? "", /choices you make/);
   });
 
+  it("includes published roots copy in the homepage html field map", () => {
+    const htmlFields = buildPublishedCmsHtmlFields({
+      "roots.intro": createEmptyTiptapDocument(
+        "We work with the beliefs and emotional associations underneath it.",
+      ),
+      "roots.headline": createEmptyTiptapDocument(
+        "When the inner foundation changes, the way you move through life can change with it.",
+      ),
+    });
+
+    assert.match(htmlFields["roots.intro"] ?? "", /^<p>/);
+    assert.match(htmlFields["roots.intro"] ?? "", /beliefs and emotional associations/);
+    assert.match(htmlFields["roots.headline"] ?? "", /When the inner foundation changes/);
+    assert.doesNotMatch(htmlFields["roots.headline"] ?? "", /^<p>/);
+  });
+
   it("keeps a published image field when the document has no text", () => {
     const fields = buildPublishedCmsPageFields({
       page: { status: "PUBLISHED" },

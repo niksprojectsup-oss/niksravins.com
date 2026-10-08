@@ -89,6 +89,17 @@ describe("cms import content mapping", () => {
     assert.match(tiptapJsonToPlainText(identityFrom.draftJson), /I’m not good enough/);
     assert.match(tiptapJsonToPlainText(identityTo.draftJson), /I am enough/);
     assert.match(tiptapJsonToPlainText(identityClosing.draftJson), /the life you don’t allow yourself to have/);
+    const rootsIntro = values.find((entry) => entry.fieldKey === "roots.intro");
+    const rootsHeadline = values.find((entry) => entry.fieldKey === "roots.headline");
+    assert.ok(rootsIntro);
+    assert.ok(rootsHeadline);
+    assert.match(tiptapJsonToPlainText(rootsIntro.draftJson), /beliefs and emotional associations underneath it/);
+    assert.match(tiptapJsonToPlainText(rootsHeadline.draftJson), /When the inner foundation changes/);
+    assert.match(tiptapJsonToPlainText(rootsHeadline.draftJson), /the way you move through life can change with it/);
+    assert.equal(
+      values.find((entry) => entry.fieldKey === "roots.image"),
+      undefined,
+    );
   });
 
   it("maps standalone AAP body from existing public copy", () => {

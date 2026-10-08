@@ -150,9 +150,19 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         ],
       },
       {
+        key: "roots",
+        title: "Roots",
+        sortOrder: 6,
+        fields: [
+          { key: "roots.image", label: "Roots image", kind: "image" },
+          { key: "roots.intro", label: "Roots intro", kind: "paragraphs" },
+          { key: "roots.headline", label: "Roots headline" },
+        ],
+      },
+      {
         key: "trust",
         title: "Trust",
-        sortOrder: 6,
+        sortOrder: 7,
         fields: [
           { key: "trust.statements.0", label: "Statement 1", kind: "paragraphs" },
           { key: "trust.statements.1", label: "Statement 2", kind: "paragraphs" },
@@ -163,7 +173,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "about",
         title: "About",
-        sortOrder: 7,
+        sortOrder: 8,
         fields: [
           { key: "about.title", label: "Section title" },
           { key: "about.story.0", label: "Story paragraph 1", kind: "paragraphs" },
@@ -174,7 +184,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "aap",
         title: "AAP",
-        sortOrder: 8,
+        sortOrder: 9,
         fields: [
           { key: "aap.title", label: "Section title" },
           { key: "aap.intro", label: "Introduction", kind: "paragraphs" },
@@ -191,7 +201,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "faq",
         title: "FAQ",
-        sortOrder: 9,
+        sortOrder: 10,
         fields: [
           { key: "faq.headingLabel", label: "Heading label" },
           { key: "faq.heading", label: "Heading" },
@@ -212,7 +222,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "final-cta",
         title: "Final CTA",
-        sortOrder: 10,
+        sortOrder: 11,
         fields: [
           { key: "finalCta.lines.0", label: "Line 1", kind: "paragraphs" },
           { key: "finalCta.lines.1", label: "Line 2", kind: "paragraphs" },
@@ -223,7 +233,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "seo",
         title: "SEO",
-        sortOrder: 11,
+        sortOrder: 12,
         fields: [
           { key: "seo.home.title", label: "Page title" },
           { key: "seo.home.description", label: "Meta description", kind: "paragraphs" },
