@@ -125,6 +125,49 @@ describe("cms published field html", () => {
     assert.match(htmlFields["alignment.0.title"] ?? "", /Your relationship/);
     assert.equal(htmlFields["hero.explanation.0"], undefined);
     assert.equal(htmlFields["about.title"], undefined);
+    assert.equal(htmlFields["foundation.intro"], undefined);
+  });
+
+  it("includes published foundation copy with bold emphasis", () => {
+    const htmlFields = buildPublishedCmsHtmlFields({
+      "foundation.intro": {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              { type: "text", text: "I work with the " },
+              {
+                type: "text",
+                text: "deeper emotional connections",
+                marks: [{ type: "bold" }],
+              },
+            ],
+          },
+        ],
+      },
+      "foundation.headline": {
+        type: "doc",
+        content: [
+          {
+            type: "paragraph",
+            content: [
+              { type: "text", text: "Change the inner foundation." },
+              { type: "hardBreak" },
+              {
+                type: "text",
+                text: "Create space for a different life.",
+                marks: [{ type: "bold" }],
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    assert.match(htmlFields["foundation.intro"] ?? "", /<strong[^>]*>deeper emotional connections<\/strong>/);
+    assert.match(htmlFields["foundation.headline"] ?? "", /<strong[^>]*>Create space for a different life\.<\/strong>/);
+    assert.doesNotMatch(htmlFields["foundation.headline"] ?? "", /^<p>/);
   });
 
   it("keeps a published image field when the document has no text", () => {

@@ -927,3 +927,129 @@
     max-width: 46rem;
   }
 }
+
+/* Scoped to the “Change the inner foundation.” section. */
+
+.home-foundation {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-foundation .layout-container,
+.home-foundation-container {
+  max-width: min(84rem, 100%);
+}
+
+.home-foundation-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.25rem, 4vw, 3.25rem);
+  align-items: center;
+}
+
+.home-foundation-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.75rem, 3vw, 2.85rem);
+  min-width: 0;
+  max-width: 40rem;
+}
+
+.home-foundation-intro {
+  max-width: 36rem;
+}
+
+.home-foundation-intro,
+.home-foundation-headline {
+  margin: 0;
+}
+
+.home-foundation-intro-text,
+.home-foundation-headline-text {
+  display: block;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-foundation-intro-text {
+  margin: 0;
+  font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.014em;
+}
+
+.home-foundation-intro-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-foundation-intro-text strong {
+  font-weight: 600;
+  color: #1c1b19;
+}
+
+.home-foundation-headline-text {
+  font-size: clamp(1.9rem, 0.45rem + 2.55vw, 3.15rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--nr-ink);
+}
+
+.home-foundation-headline-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-foundation-headline-text strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+.home-foundation-media {
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #ddd6c8;
+}
+
+.home-foundation-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .home-foundation {
+    padding-block: clamp(3.25rem, 10vw, 4.5rem);
+  }
+
+  .home-foundation-headline-text {
+    font-size: clamp(2.15rem, 8vw, 2.75rem);
+  }
+}
+
+@media (min-width: 800px) {
+  .home-foundation-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, min(22rem, 32%));
+    column-gap: clamp(2.75rem, 4.5vw, 5.25rem);
+    align-items: center;
+  }
+
+  .home-foundation-media {
+    max-width: none;
+    justify-self: end;
+    width: 100%;
+  }
+
+  .home-foundation-copy {
+    max-width: none;
+  }
+}

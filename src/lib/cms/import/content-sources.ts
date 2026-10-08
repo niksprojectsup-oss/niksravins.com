@@ -110,6 +110,32 @@ const JOURNEY_STEP_DOCUMENTS = [
   ]),
 ] as const;
 
+const FOUNDATION_INTRO_DOCUMENT = journeyStepDocument([
+  { text: "I work with the " },
+  { text: "deeper emotional connections", bold: true },
+  { text: " and " },
+  { text: "beliefs", bold: true },
+  { text: " that shape how you " },
+  { text: "experience yourself", bold: true },
+  { text: ", what you believe " },
+  { text: "you deserve", bold: true },
+  { text: ", and what feels " },
+  { text: "possible for you", bold: true },
+  { text: "." },
+]);
+
+const FOUNDATION_HEADLINE_DOCUMENT = tiptapDocumentFromBlocks([
+  {
+    type: "paragraph",
+    attrs: { textAlign: null },
+    content: [
+      tiptapText("Change the inner foundation."),
+      { type: "hardBreak" },
+      tiptapText("Create space for a different life.", [{ type: "bold" }]),
+    ],
+  },
+]);
+
 const ALIGNMENT_ITEMS = [
   {
     title: "Your relationship.",
@@ -145,6 +171,10 @@ function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTipt
       return plainStringToTiptapDocument(content.hero.primaryCta.label);
     case "hero.secondaryCta.label":
       return plainStringToTiptapDocument(content.hero.secondaryCta.label);
+    case "foundation.intro":
+      return FOUNDATION_INTRO_DOCUMENT;
+    case "foundation.headline":
+      return FOUNDATION_HEADLINE_DOCUMENT;
     case "journey.change.0":
       return JOURNEY_STEP_DOCUMENTS[0];
     case "journey.change.1":

@@ -60,6 +60,20 @@ describe("cms import content mapping", () => {
       values.find((entry) => entry.fieldKey === "underneath.image"),
       undefined,
     );
+    const foundationIntro = values.find((entry) => entry.fieldKey === "foundation.intro");
+    const foundationHeadline = values.find((entry) => entry.fieldKey === "foundation.headline");
+    assert.ok(foundationIntro);
+    assert.ok(foundationHeadline);
+    assert.match(tiptapJsonToPlainText(foundationIntro.draftJson), /deeper emotional connections/);
+    assert.match(tiptapJsonToPlainText(foundationIntro.draftJson), /possible for you/);
+    assert.match(tiptapJsonToPlainText(foundationHeadline.draftJson), /Change the inner foundation/);
+    assert.match(tiptapJsonToPlainText(foundationHeadline.draftJson), /Create space for a different life/);
+    assert.match(JSON.stringify(foundationIntro.draftJson), /"type":"bold"/);
+    assert.match(JSON.stringify(foundationHeadline.draftJson), /"type":"bold"/);
+    assert.equal(
+      values.find((entry) => entry.fieldKey === "foundation.image"),
+      undefined,
+    );
   });
 
   it("maps standalone AAP body from existing public copy", () => {

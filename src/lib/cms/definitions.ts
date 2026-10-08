@@ -45,9 +45,19 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         ],
       },
       {
+        key: "foundation",
+        title: "Foundation",
+        sortOrder: 1,
+        fields: [
+          { key: "foundation.image", label: "Foundation image", kind: "image" },
+          { key: "foundation.intro", label: "Foundation intro", kind: "paragraphs" },
+          { key: "foundation.headline", label: "Foundation headline" },
+        ],
+      },
+      {
         key: "journey",
         title: "Journey",
-        sortOrder: 1,
+        sortOrder: 2,
         fields: [
           {
             key: "journey.change.0",
@@ -78,7 +88,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "alignment",
         title: "Alignment",
-        sortOrder: 2,
+        sortOrder: 3,
         fields: [
           { key: "alignment.0.image", label: "Alignment 01 image", kind: "image" },
           { key: "alignment.0.title", label: "Alignment 01 title" },
@@ -103,7 +113,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "underneath",
         title: "Underneath",
-        sortOrder: 3,
+        sortOrder: 4,
         fields: [
           { key: "underneath.image", label: "Underneath image", kind: "image" },
           { key: "underneath.intro", label: "Underneath intro", kind: "paragraphs" },
@@ -113,7 +123,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "trust",
         title: "Trust",
-        sortOrder: 4,
+        sortOrder: 5,
         fields: [
           { key: "trust.statements.0", label: "Statement 1", kind: "paragraphs" },
           { key: "trust.statements.1", label: "Statement 2", kind: "paragraphs" },
@@ -124,7 +134,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "about",
         title: "About",
-        sortOrder: 5,
+        sortOrder: 6,
         fields: [
           { key: "about.title", label: "Section title" },
           { key: "about.story.0", label: "Story paragraph 1", kind: "paragraphs" },
@@ -135,7 +145,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "aap",
         title: "AAP",
-        sortOrder: 6,
+        sortOrder: 7,
         fields: [
           { key: "aap.title", label: "Section title" },
           { key: "aap.intro", label: "Introduction", kind: "paragraphs" },
@@ -152,7 +162,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "faq",
         title: "FAQ",
-        sortOrder: 7,
+        sortOrder: 8,
         fields: [
           { key: "faq.headingLabel", label: "Heading label" },
           { key: "faq.heading", label: "Heading" },
@@ -173,7 +183,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "final-cta",
         title: "Final CTA",
-        sortOrder: 8,
+        sortOrder: 9,
         fields: [
           { key: "finalCta.lines.0", label: "Line 1", kind: "paragraphs" },
           { key: "finalCta.lines.1", label: "Line 2", kind: "paragraphs" },
@@ -184,7 +194,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "seo",
         title: "SEO",
-        sortOrder: 9,
+        sortOrder: 10,
         fields: [
           { key: "seo.home.title", label: "Page title" },
           { key: "seo.home.description", label: "Meta description", kind: "paragraphs" },
