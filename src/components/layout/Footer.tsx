@@ -2,6 +2,7 @@ import Link from "next/link";
 import type { PublicContent } from "@/content/i18n/types";
 import type { Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/i18n/paths";
+import { BackToTopButton } from "@/components/layout/BackToTopButton";
 import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 
 type FooterProps = {
@@ -69,6 +70,7 @@ export function Footer({ content, locale }: FooterProps) {
           . {content.footer.rights}
         </p>
       </div>
+      <BackToTopButton label={content.footer.backToTop} />
     </footer>
   );
 }

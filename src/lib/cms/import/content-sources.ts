@@ -163,7 +163,84 @@ const ALIGNMENT_ITEMS = [
   },
 ] as const;
 
+const IDENTITY_SHIFT_ROWS = [
+  {
+    from: "I’m not good enough.",
+    explanation:
+      "You may constantly prove yourself, compare yourself to others or hold back from opportunities, relationships and experiences you actually want.",
+    to: "I am enough.",
+  },
+  {
+    from: "I don’t deserve better.",
+    explanation:
+      "You may stay in a job, relationship or situation that no longer feels right — even when you know you want more.",
+    to: "I deserve better.",
+  },
+  {
+    from: "It’s safer to stay where I am.",
+    explanation:
+      "You may keep choosing what is familiar instead of taking the risk of moving towards what you really want.",
+    to: "I can choose differently.",
+  },
+  {
+    from: "I can’t trust people.",
+    explanation:
+      "You may struggle to open up, receive support or fully let someone close — even when you deeply want connection.",
+    to: "I can trust.",
+  },
+  {
+    from: "I have to do everything myself.",
+    explanation:
+      "You may find it difficult to receive, relax or let someone else take care of things. Even when you want more ease, softness and space, you keep taking control and carrying everything yourself.",
+    to: "I can trust and allow.",
+  },
+  {
+    from: "I’m too much.",
+    explanation:
+      "You may make yourself smaller, hide your needs or hold back parts of yourself to avoid rejection.",
+    to: "I am allowed to be fully myself.",
+  },
+] as const;
+
+function getIdentityShiftFieldValue(fieldKey: string): CmsTiptapJson | null {
+  switch (fieldKey) {
+    case "identityShifts.heading":
+      return plainStringToTiptapDocument("Change at the level of identity");
+    case "identityShifts.intro":
+      return plainStringToTiptapDocument(
+        "Sometimes what holds you back isn’t the situation itself, but what you believe about who you are and what is safe, possible or deserved for you.",
+      );
+    case "identityShifts.closingLead":
+      return plainStringToTiptapDocument(
+        "These beliefs don’t always sound like thoughts in your head.",
+      );
+    case "identityShifts.closing":
+      return plainStringToTiptapDocument(
+        "Sometimes they show up as the choices you make, the relationships you stay in, the things you avoid, or the life you don’t allow yourself to have.",
+      );
+    default:
+      break;
+  }
+
+  const rowMatch = /^identityShifts\.rows\.(\d+)\.(from|explanation|to)$/.exec(fieldKey);
+  if (!rowMatch) {
+    return null;
+  }
+
+  const row = IDENTITY_SHIFT_ROWS[Number(rowMatch[1])];
+  const part = rowMatch[2] as "from" | "explanation" | "to";
+  if (!row) {
+    return null;
+  }
+
+  return plainStringToTiptapDocument(row[part]);
+}
+
 function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTiptapJson | null {
+  if (fieldKey.startsWith("identityShifts.")) {
+    return getIdentityShiftFieldValue(fieldKey);
+  }
+
   switch (fieldKey) {
     case "hero.headline":
       return plainStringToTiptapDocument(content.hero.headline);

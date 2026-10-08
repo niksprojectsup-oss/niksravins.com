@@ -10,6 +10,7 @@ import { Hero } from "@/components/sections/Hero";
 import { HomeAlignmentSection } from "@/components/sections/home/HomeAlignmentSection";
 import { HomeFaqSection } from "@/components/sections/home/HomeFaqSection";
 import { HomeFoundationSection } from "@/components/sections/home/HomeFoundationSection";
+import { HomeIdentityShiftsSection } from "@/components/sections/home/HomeIdentityShiftsSection";
 import { HomeUnderneathSection } from "@/components/sections/home/HomeUnderneathSection";
 import { HomeWantChangeSection } from "@/components/sections/home/HomeWantChangeSection";
 import { Testimonials } from "@/components/sections/Testimonials";
@@ -34,6 +35,7 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
         <HomeWantChangeSection cmsHtmlFields={cmsHtmlFields} />
         <HomeAlignmentSection cmsHtmlFields={cmsHtmlFields} />
         <HomeUnderneathSection cmsHtmlFields={cmsHtmlFields} />
+        <HomeIdentityShiftsSection cmsHtmlFields={cmsHtmlFields} />
         <Trust content={content} cmsHtmlFields={cmsHtmlFields} />
         <About content={content} cmsHtmlFields={cmsHtmlFields} />
         <AAPMethod content={content} cmsHtmlFields={cmsHtmlFields} />

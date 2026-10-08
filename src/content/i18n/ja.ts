@@ -266,6 +266,7 @@ export const jaContent: PublicContent = {
   },
   footer: {
     rights: "無断転載を禁じます。",
+    backToTop: "ページ上部へ",
   },
   languageSwitcherLabel: "言語を選択",
 };

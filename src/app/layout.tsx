@@ -35,7 +35,7 @@ export default async function RootLayout({
       lang={htmlLang}
       className={`${fraunces.variable} h-full`}
     >
-      <body className="min-h-full flex flex-col font-sans text-ink antialiased">
+      <body id="top" className="min-h-full flex flex-col font-sans text-ink antialiased">
         {children}
       </body>
     </html>

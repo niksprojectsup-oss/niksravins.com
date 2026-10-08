@@ -267,6 +267,7 @@ export const itContent: PublicContent = {
   },
   footer: {
     rights: "Tutti i diritti riservati.",
+    backToTop: "Torna su",
   },
   languageSwitcherLabel: "Scegli la lingua",
 };

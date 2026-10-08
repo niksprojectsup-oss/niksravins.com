@@ -170,6 +170,34 @@ describe("cms published field html", () => {
     assert.doesNotMatch(htmlFields["foundation.headline"] ?? "", /^<p>/);
   });
 
+  it("includes published identity shift copy in the homepage html field map", () => {
+    const htmlFields = buildPublishedCmsHtmlFields({
+      "identityShifts.heading": createEmptyTiptapDocument("Change at the level of identity"),
+      "identityShifts.intro": createEmptyTiptapDocument(
+        "Sometimes what holds you back isn’t the situation itself.",
+      ),
+      "identityShifts.rows.0.from": createEmptyTiptapDocument("I’m not good enough."),
+      "identityShifts.rows.0.explanation": createEmptyTiptapDocument(
+        "You may constantly prove yourself.",
+      ),
+      "identityShifts.rows.0.to": createEmptyTiptapDocument("I am enough."),
+      "identityShifts.closingLead": createEmptyTiptapDocument(
+        "These beliefs don’t always sound like thoughts in your head.",
+      ),
+      "identityShifts.closing": createEmptyTiptapDocument(
+        "Sometimes they show up as the choices you make.",
+      ),
+    });
+
+    assert.match(htmlFields["identityShifts.heading"] ?? "", /Change at the level of identity/);
+    assert.doesNotMatch(htmlFields["identityShifts.heading"] ?? "", /^<p>/);
+    assert.match(htmlFields["identityShifts.intro"] ?? "", /^<p>/);
+    assert.match(htmlFields["identityShifts.rows.0.from"] ?? "", /I’m not good enough/);
+    assert.match(htmlFields["identityShifts.rows.0.explanation"] ?? "", /^<p>/);
+    assert.match(htmlFields["identityShifts.rows.0.to"] ?? "", /I am enough/);
+    assert.match(htmlFields["identityShifts.closing"] ?? "", /choices you make/);
+  });
+
   it("keeps a published image field when the document has no text", () => {
     const fields = buildPublishedCmsPageFields({
       page: { status: "PUBLISHED" },

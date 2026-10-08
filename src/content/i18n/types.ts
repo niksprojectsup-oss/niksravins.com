@@ -143,6 +143,7 @@ export type PublicContent = {
   seo: PublicSeoContent;
   footer: {
     rights: string;
+    backToTop: string;
   };
   languageSwitcherLabel: string;
 };

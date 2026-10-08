@@ -1,6 +1,5 @@
 import type { PublicContent } from "@/content/i18n/types";
 import {
-  CMS_PUBLISHED_BLOCK_CLASS,
   CMS_PUBLISHED_INLINE_CLASS,
   CmsPublishedFieldText,
 } from "@/components/cms/CmsPublishedFieldText";
@@ -29,25 +28,13 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
           {sectionLabels.contactHeading}
         </h2>
 
-        <div className="layout-stack-sm">
-          {finalCta.lines.map((line, index) => (
-            <div key={line} className="type-heading-sm text-ink">
-              <CmsPublishedFieldText
-                html={cmsHtmlFields[`finalCta.lines.${index}`]}
-                fallback={line}
-                className={CMS_PUBLISHED_BLOCK_CLASS}
-              />
-            </div>
-          ))}
-        </div>
-
         <InternationalSessionNotice
           line1={internationalNotice.line1}
           line2={internationalNotice.line2}
         />
 
         <div className="flex flex-col gap-5 pt-2 md:gap-6 md:pt-4 sm:flex-row sm:items-center">
-          <Button href={finalCta.button.href}>
+          <Button href={finalCta.button.href} variant="booking">
             <CmsPublishedFieldText
               html={cmsHtmlFields["finalCta.button.label"]}
               fallback={finalCta.button.label}

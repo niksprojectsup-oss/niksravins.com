@@ -267,6 +267,7 @@ export const deContent: PublicContent = {
   },
   footer: {
     rights: "Alle Rechte vorbehalten.",
+    backToTop: "Nach oben",
   },
   languageSwitcherLabel: "Sprache wählen",
 };

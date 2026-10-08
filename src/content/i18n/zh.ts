@@ -266,6 +266,7 @@ export const zhContent: PublicContent = {
   },
   footer: {
     rights: "保留所有权利。",
+    backToTop: "回到顶部",
   },
   languageSwitcherLabel: "选择语言",
 };

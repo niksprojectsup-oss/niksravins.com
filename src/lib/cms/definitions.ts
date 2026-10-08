@@ -121,9 +121,38 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         ],
       },
       {
+        key: "identity-shifts",
+        title: "Identity shifts",
+        sortOrder: 5,
+        fields: [
+          { key: "identityShifts.heading", label: "Heading" },
+          { key: "identityShifts.intro", label: "Intro", kind: "paragraphs" },
+          { key: "identityShifts.rows.0.from", label: "Row 1 belief" },
+          { key: "identityShifts.rows.0.explanation", label: "Row 1 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.0.to", label: "Row 1 new belief" },
+          { key: "identityShifts.rows.1.from", label: "Row 2 belief" },
+          { key: "identityShifts.rows.1.explanation", label: "Row 2 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.1.to", label: "Row 2 new belief" },
+          { key: "identityShifts.rows.2.from", label: "Row 3 belief" },
+          { key: "identityShifts.rows.2.explanation", label: "Row 3 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.2.to", label: "Row 3 new belief" },
+          { key: "identityShifts.rows.3.from", label: "Row 4 belief" },
+          { key: "identityShifts.rows.3.explanation", label: "Row 4 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.3.to", label: "Row 4 new belief" },
+          { key: "identityShifts.rows.4.from", label: "Row 5 belief" },
+          { key: "identityShifts.rows.4.explanation", label: "Row 5 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.4.to", label: "Row 5 new belief" },
+          { key: "identityShifts.rows.5.from", label: "Row 6 belief" },
+          { key: "identityShifts.rows.5.explanation", label: "Row 6 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.5.to", label: "Row 6 new belief" },
+          { key: "identityShifts.closingLead", label: "Closing lead" },
+          { key: "identityShifts.closing", label: "Closing copy", kind: "paragraphs" },
+        ],
+      },
+      {
         key: "trust",
         title: "Trust",
-        sortOrder: 5,
+        sortOrder: 6,
         fields: [
           { key: "trust.statements.0", label: "Statement 1", kind: "paragraphs" },
           { key: "trust.statements.1", label: "Statement 2", kind: "paragraphs" },
@@ -134,7 +163,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "about",
         title: "About",
-        sortOrder: 6,
+        sortOrder: 7,
         fields: [
           { key: "about.title", label: "Section title" },
           { key: "about.story.0", label: "Story paragraph 1", kind: "paragraphs" },
@@ -145,7 +174,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "aap",
         title: "AAP",
-        sortOrder: 7,
+        sortOrder: 8,
         fields: [
           { key: "aap.title", label: "Section title" },
           { key: "aap.intro", label: "Introduction", kind: "paragraphs" },
@@ -162,7 +191,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "faq",
         title: "FAQ",
-        sortOrder: 8,
+        sortOrder: 9,
         fields: [
           { key: "faq.headingLabel", label: "Heading label" },
           { key: "faq.heading", label: "Heading" },
@@ -183,7 +212,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "final-cta",
         title: "Final CTA",
-        sortOrder: 9,
+        sortOrder: 10,
         fields: [
           { key: "finalCta.lines.0", label: "Line 1", kind: "paragraphs" },
           { key: "finalCta.lines.1", label: "Line 2", kind: "paragraphs" },
@@ -194,7 +223,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "seo",
         title: "SEO",
-        sortOrder: 10,
+        sortOrder: 11,
         fields: [
           { key: "seo.home.title", label: "Page title" },
           { key: "seo.home.description", label: "Meta description", kind: "paragraphs" },

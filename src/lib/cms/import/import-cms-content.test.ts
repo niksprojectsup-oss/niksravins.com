@@ -74,6 +74,21 @@ describe("cms import content mapping", () => {
       values.find((entry) => entry.fieldKey === "foundation.image"),
       undefined,
     );
+    const identityHeading = values.find((entry) => entry.fieldKey === "identityShifts.heading");
+    const identityIntro = values.find((entry) => entry.fieldKey === "identityShifts.intro");
+    const identityFrom = values.find((entry) => entry.fieldKey === "identityShifts.rows.0.from");
+    const identityTo = values.find((entry) => entry.fieldKey === "identityShifts.rows.0.to");
+    const identityClosing = values.find((entry) => entry.fieldKey === "identityShifts.closing");
+    assert.ok(identityHeading);
+    assert.ok(identityIntro);
+    assert.ok(identityFrom);
+    assert.ok(identityTo);
+    assert.ok(identityClosing);
+    assert.match(tiptapJsonToPlainText(identityHeading.draftJson), /Change at the level of identity/);
+    assert.match(tiptapJsonToPlainText(identityIntro.draftJson), /what you believe about who you are/);
+    assert.match(tiptapJsonToPlainText(identityFrom.draftJson), /I’m not good enough/);
+    assert.match(tiptapJsonToPlainText(identityTo.draftJson), /I am enough/);
+    assert.match(tiptapJsonToPlainText(identityClosing.draftJson), /the life you don’t allow yourself to have/);
   });
 
   it("maps standalone AAP body from existing public copy", () => {

@@ -268,6 +268,7 @@ export const enContent: PublicContent = {
   },
   footer: {
     rights: "All rights reserved.",
+    backToTop: "Back to top",
   },
   languageSwitcherLabel: "Choose language",
 };
