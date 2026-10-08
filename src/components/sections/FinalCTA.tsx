@@ -21,9 +21,9 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
       id="contact"
       size="lg"
       aria-labelledby="contact-heading"
-      className="!pb-10 md:!pb-20 lg:!pb-32"
+      className="!pt-5 !pb-6 md:!pt-5 md:!pb-8 lg:!pt-5 lg:!pb-10"
     >
-      <div className="max-w-prose layout-stack-md md:layout-stack-lg">
+      <div className="max-w-prose">
         <h2 id="contact-heading" className="sr-only">
           {sectionLabels.contactHeading}
         </h2>
@@ -33,7 +33,7 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
           line2={internationalNotice.line2}
         />
 
-        <div className="flex flex-col gap-5 pt-2 md:gap-6 md:pt-4 sm:flex-row sm:items-center">
+        <div className="mt-5 flex flex-col gap-5 md:mt-6 md:gap-6 sm:flex-row sm:items-center">
           <Button href={finalCta.button.href} variant="booking">
             <CmsPublishedFieldText
               html={cmsHtmlFields["finalCta.button.label"]}

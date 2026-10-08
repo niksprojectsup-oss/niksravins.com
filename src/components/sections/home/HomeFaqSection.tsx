@@ -44,7 +44,7 @@ export function HomeFaqSection({ content, cmsHtmlFields = {} }: HomeSectionProps
   const { faq } = content;
 
   return (
-    <Section id="faq" size="lg" aria-labelledby="faq-heading" className="home-band">
+    <Section id="faq" size="lg" aria-labelledby="faq-heading" className="home-band home-faq-section">
       <header className="home-copy home-section-intro">
         <p className="type-label">
           <CmsPublishedFieldText

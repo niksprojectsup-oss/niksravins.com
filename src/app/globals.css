@@ -1071,6 +1071,10 @@
   padding-block: clamp(4.25rem, 8vw, 7.75rem);
 }
 
+.home-faq-section {
+  padding-bottom: 0;
+}
+
 .home-copy {
   max-width: 40rem;
 }
@@ -1473,5 +1477,9 @@
 @media (min-width: 1280px) {
   .home-band {
     padding-block: 8rem;
+  }
+
+  .home-faq-section {
+    padding-bottom: 0;
   }
 }

@@ -30,30 +30,28 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
             />
           </h1>
 
-          <div>
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-              <Button href={hero.primaryCta.href} variant="booking">
-                <CmsPublishedFieldText
-                  html={cmsHtmlFields["hero.primaryCta.label"]}
-                  fallback={hero.primaryCta.label}
-                  className={CMS_PUBLISHED_INLINE_CLASS}
-                />
-              </Button>
-              <Button href={hero.secondaryCta.href} variant="secondary">
-                <CmsPublishedFieldText
-                  html={cmsHtmlFields["hero.secondaryCta.label"]}
-                  fallback={hero.secondaryCta.label}
-                  className={CMS_PUBLISHED_INLINE_CLASS}
-                />
-              </Button>
-            </div>
-
-            <InternationalSessionNotice
-              line1={internationalNotice.line1}
-              line2={internationalNotice.line2}
-              className="mt-[22px] max-w-prose text-ink-faint"
-            />
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+            <Button href={hero.primaryCta.href} variant="booking">
+              <CmsPublishedFieldText
+                html={cmsHtmlFields["hero.primaryCta.label"]}
+                fallback={hero.primaryCta.label}
+                className={CMS_PUBLISHED_INLINE_CLASS}
+              />
+            </Button>
+            <Button href={hero.secondaryCta.href} variant="secondary">
+              <CmsPublishedFieldText
+                html={cmsHtmlFields["hero.secondaryCta.label"]}
+                fallback={hero.secondaryCta.label}
+                className={CMS_PUBLISHED_INLINE_CLASS}
+              />
+            </Button>
           </div>
+
+          <InternationalSessionNotice
+            line1={internationalNotice.line1}
+            line2={internationalNotice.line2}
+            className="mt-4 max-w-prose text-ink-faint"
+          />
         </div>
       </div>
     </section>
