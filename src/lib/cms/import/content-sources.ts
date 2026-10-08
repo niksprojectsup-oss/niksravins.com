@@ -207,17 +207,19 @@ function getIdentityShiftFieldValue(fieldKey: string): CmsTiptapJson | null {
     case "identityShifts.heading":
       return plainStringToTiptapDocument("Change at the level of identity");
     case "identityShifts.intro":
-      return plainStringToTiptapDocument(
-        "Sometimes what holds you back isn’t the situation itself, but what you believe about who you are and what is safe, possible or deserved for you.",
-      );
+      return linesToTiptapDocument([
+        "Sometimes what holds you back isn’t the situation itself,",
+        "but what you believe about who you are and what is safe, possible or deserved for you.",
+      ]);
     case "identityShifts.closingLead":
       return plainStringToTiptapDocument(
         "These beliefs don’t always sound like thoughts in your head.",
       );
     case "identityShifts.closing":
-      return plainStringToTiptapDocument(
-        "Sometimes they show up as the choices you make, the relationships you stay in, the things you avoid, or the life you don’t allow yourself to have.",
-      );
+      return linesToTiptapDocument([
+        "Sometimes they show up as the choices you make, the relationships you stay in,",
+        "the things you avoid, or the life you don’t allow yourself to have.",
+      ]);
     default:
       break;
   }

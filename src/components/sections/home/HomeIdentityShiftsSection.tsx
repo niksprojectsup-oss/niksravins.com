@@ -5,12 +5,12 @@ import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 const HEADING_FALLBACK = "Change at the level of identity";
 
 const INTRO_FALLBACK =
-  "Sometimes what holds you back isn’t the situation itself, but what you believe about who you are and what is safe, possible or deserved for you.";
+  "Sometimes what holds you back isn’t the situation itself,\nbut what you believe about who you are and what is safe, possible or deserved for you.";
 
 const CLOSING_LEAD_FALLBACK = "These beliefs don’t always sound like thoughts in your head.";
 
 const CLOSING_FALLBACK =
-  "Sometimes they show up as the choices you make, the relationships you stay in, the things you avoid, or the life you don’t allow yourself to have.";
+  "Sometimes they show up as the choices you make, the relationships you stay in,\nthe things you avoid, or the life you don’t allow yourself to have.";
 
 const ROWS = [
   {
