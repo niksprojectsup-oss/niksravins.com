@@ -5,7 +5,11 @@ import {
   isCmsLocale,
 } from "@/lib/cms/definitions";
 import { getCmsPageRecordBySlug } from "@/lib/cms/repository";
-import { normalizeCmsTiptapJson, tiptapJsonToPlainText } from "@/lib/cms/tiptap";
+import {
+  getCmsImageSrcFromDocument,
+  normalizeCmsTiptapJson,
+  tiptapJsonToPlainText,
+} from "@/lib/cms/tiptap";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 import { requireDatabase } from "@/lib/db/prisma";
 
@@ -31,7 +35,9 @@ export type CmsPublishedPageContent = {
 
 function hasPublishedTiptapContent(value: unknown): value is CmsTiptapJson {
   const normalized = normalizeCmsTiptapJson(value);
-  return Boolean(normalized && tiptapJsonToPlainText(normalized).trim());
+  if (!normalized) return false;
+  if (tiptapJsonToPlainText(normalized).trim()) return true;
+  return Boolean(getCmsImageSrcFromDocument(normalized));
 }
 
 export function buildPublishedCmsPageFields(input: {

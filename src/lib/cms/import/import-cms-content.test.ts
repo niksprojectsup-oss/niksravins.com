@@ -50,6 +50,16 @@ describe("cms import content mapping", () => {
     const alignmentTitle = values.find((entry) => entry.fieldKey === "alignment.0.title");
     assert.ok(alignmentTitle);
     assert.match(tiptapJsonToPlainText(alignmentTitle.draftJson), /Your relationship/);
+    const underneathIntro = values.find((entry) => entry.fieldKey === "underneath.intro");
+    const underneathHeadline = values.find((entry) => entry.fieldKey === "underneath.headline");
+    assert.ok(underneathIntro);
+    assert.ok(underneathHeadline);
+    assert.match(tiptapJsonToPlainText(underneathIntro.draftJson), /Bring what is troubling you/);
+    assert.match(tiptapJsonToPlainText(underneathHeadline.draftJson), /what may be underneath it/);
+    assert.equal(
+      values.find((entry) => entry.fieldKey === "underneath.image"),
+      undefined,
+    );
   });
 
   it("maps standalone AAP body from existing public copy", () => {

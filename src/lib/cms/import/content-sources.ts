@@ -48,6 +48,27 @@ function toParagraphFieldDocument(value: CmsParagraphField): CmsTiptapJson {
   return paragraphFieldToTiptapDocument(value);
 }
 
+function linesToTiptapDocument(lines: readonly string[]): CmsTiptapJson {
+  const content: CmsTiptapJson[] = [];
+
+  lines.forEach((line, index) => {
+    if (index > 0) {
+      content.push({ type: "hardBreak" });
+    }
+    if (line) {
+      content.push(tiptapText(line));
+    }
+  });
+
+  return tiptapDocumentFromBlocks([
+    {
+      type: "paragraph",
+      attrs: { textAlign: null },
+      content,
+    },
+  ]);
+}
+
 function journeyStepDocument(
   parts: ReadonlyArray<{ text: string; bold?: boolean }>,
 ): CmsTiptapJson {
@@ -156,6 +177,16 @@ function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTipt
       return plainStringToTiptapDocument(ALIGNMENT_ITEMS[5].title);
     case "alignment.5.body":
       return plainStringToTiptapDocument(ALIGNMENT_ITEMS[5].body);
+    case "underneath.intro":
+      return linesToTiptapDocument([
+        "Bring what is troubling you.",
+        "What is holding you back. What you want to change.",
+      ]);
+    case "underneath.headline":
+      return linesToTiptapDocument([
+        "Together we look at",
+        "what may be underneath it.",
+      ]);
     case "trust.statements.0":
       return plainStringToTiptapDocument(content.trust.statements[0] ?? "");
     case "trust.statements.1":

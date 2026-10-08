@@ -815,3 +815,115 @@
     line-height: 1.45;
   }
 }
+
+/* Scoped to the “Together we look at what may be underneath it.” section. */
+
+.home-underneath {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-underneath .layout-container,
+.home-underneath-container {
+  max-width: min(84rem, 100%);
+}
+
+.home-underneath-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.25rem, 4vw, 3.25rem);
+  align-items: center;
+}
+
+.home-underneath-media {
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #ddd6c8;
+}
+
+.home-underneath-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-underneath-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.75rem, 3vw, 2.85rem);
+  min-width: 0;
+  max-width: 34rem;
+}
+
+.home-underneath-intro,
+.home-underneath-headline {
+  margin: 0;
+}
+
+.home-underneath-intro-text,
+.home-underneath-headline-text {
+  display: block;
+  white-space: pre-line;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-underneath-intro-text {
+  font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.014em;
+}
+
+.home-underneath-intro-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  white-space: pre-line;
+}
+
+.home-underneath-headline-text {
+  font-size: clamp(1.95rem, 0.4rem + 3.15vw, 3.45rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--nr-ink);
+}
+
+.home-underneath-headline-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  white-space: pre-line;
+}
+
+@media (max-width: 640px) {
+  .home-underneath {
+    padding-block: clamp(3.25rem, 10vw, 4.5rem);
+  }
+
+  .home-underneath-headline-text {
+    font-size: clamp(2.15rem, 8vw, 2.75rem);
+  }
+}
+
+@media (min-width: 800px) {
+  .home-underneath-grid {
+    grid-template-columns: minmax(12rem, min(22rem, 34%)) minmax(0, 1fr);
+    column-gap: clamp(2.75rem, 4.5vw, 5.5rem);
+    align-items: center;
+  }
+
+  .home-underneath-media {
+    max-width: none;
+  }
+
+  .home-underneath-copy {
+    max-width: 46rem;
+  }
+}

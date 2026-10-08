@@ -6,6 +6,7 @@ import {
   getPublishedCmsFieldHtml,
 } from "@/lib/cms/published-field-html";
 import { buildPublishedCmsPageFields } from "@/lib/cms/published-page-content";
+import { tiptapImageDocument } from "@/lib/cms/import/tiptap-builders";
 import { createEmptyTiptapDocument, tiptapJsonToPlainText } from "@/lib/cms/tiptap";
 import { tiptapJsonToHtml } from "@/lib/cms/tiptap-server";
 import type { CmsTiptapJson } from "@/lib/cms/types";
@@ -124,6 +125,29 @@ describe("cms published field html", () => {
     assert.match(htmlFields["alignment.0.title"] ?? "", /Your relationship/);
     assert.equal(htmlFields["hero.explanation.0"], undefined);
     assert.equal(htmlFields["about.title"], undefined);
+  });
+
+  it("keeps a published image field when the document has no text", () => {
+    const fields = buildPublishedCmsPageFields({
+      page: { status: "PUBLISHED" },
+      items: [
+        {
+          id: "1",
+          sectionId: "s1",
+          locale: "en",
+          fieldKey: "underneath.image",
+          draftJson: tiptapImageDocument("/cms-uploads/underneath.jpg"),
+          publishedJson: tiptapImageDocument("/cms-uploads/underneath.jpg"),
+          plainText: "",
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      ],
+      locale: "en",
+      fieldKeys: ["underneath.image"],
+    });
+
+    assert.equal(fields["underneath.image"]?.content?.[0]?.attrs?.src, "/cms-uploads/underneath.jpg");
   });
 });
 
