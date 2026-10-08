@@ -3,8 +3,6 @@ import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 import type { Locale } from "@/lib/i18n/config";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { About } from "@/components/sections/About";
-import { AAPMethod } from "@/components/sections/AAPMethod";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
 import { HomeAlignmentSection } from "@/components/sections/home/HomeAlignmentSection";
@@ -14,8 +12,6 @@ import { HomeIdentityShiftsSection } from "@/components/sections/home/HomeIdenti
 import { HomeRootsSection } from "@/components/sections/home/HomeRootsSection";
 import { HomeUnderneathSection } from "@/components/sections/home/HomeUnderneathSection";
 import { HomeWantChangeSection } from "@/components/sections/home/HomeWantChangeSection";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { Trust } from "@/components/sections/Trust";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildHomeJsonLd } from "@/lib/seo/json-ld";
 
@@ -38,10 +34,6 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
         <HomeUnderneathSection cmsHtmlFields={cmsHtmlFields} />
         <HomeIdentityShiftsSection cmsHtmlFields={cmsHtmlFields} />
         <HomeRootsSection cmsHtmlFields={cmsHtmlFields} />
-        <Trust content={content} cmsHtmlFields={cmsHtmlFields} />
-        <About content={content} cmsHtmlFields={cmsHtmlFields} />
-        <AAPMethod content={content} cmsHtmlFields={cmsHtmlFields} />
-        <Testimonials content={content} />
         <HomeFaqSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <FinalCTA content={content} cmsHtmlFields={cmsHtmlFields} />
       </main>
