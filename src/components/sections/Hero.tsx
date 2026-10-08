@@ -50,7 +50,7 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
           <InternationalSessionNotice
             line1={internationalNotice.line1}
             line2={internationalNotice.line2}
-            className="-mt-1 max-w-prose text-ink-faint"
+            className="mt-4 max-w-prose text-ink-faint"
           />
         </div>
       </div>

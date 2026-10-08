@@ -5,10 +5,10 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { About } from "@/components/sections/About";
 import { AAPMethod } from "@/components/sections/AAPMethod";
-import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
 import { HomeAlignmentSection } from "@/components/sections/home/HomeAlignmentSection";
+import { HomeFaqSection } from "@/components/sections/home/HomeFaqSection";
 import { HomeFoundationSection } from "@/components/sections/home/HomeFoundationSection";
 import { HomeUnderneathSection } from "@/components/sections/home/HomeUnderneathSection";
 import { HomeWantChangeSection } from "@/components/sections/home/HomeWantChangeSection";
@@ -38,7 +38,7 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
         <About content={content} cmsHtmlFields={cmsHtmlFields} />
         <AAPMethod content={content} cmsHtmlFields={cmsHtmlFields} />
         <Testimonials content={content} />
-        <FAQ content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeFaqSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <FinalCTA content={content} cmsHtmlFields={cmsHtmlFields} />
       </main>
       <Footer content={content} locale={locale} />
