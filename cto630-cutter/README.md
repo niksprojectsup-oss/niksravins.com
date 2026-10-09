@@ -2,7 +2,7 @@
 
 Darbvirsmas programma vinila uzlīmju griešanai ar Creation PCUT **CTO630**. Tā ielādē SVG, parāda dizainu uz vinila lapas, ļauj mainīt izmēru milimetros, pozīciju un rotāciju, un nosūta kontūras ploterim kā HP-GL komandas.
 
-Pēc noklusējuma ieslēgts **simulators**. Kamēr ierīču sarakstā ir Simulator un tu pats neatver COM portu, uz reālu ploteri netiek sūtīts neviens baits.
+Pēc noklusējuma ieslēgts **simulators** un rūtiņa **Dry run**. Kamēr Dry run ir ieslēgts, CUT un TEST CUT neatver COM portu un uz reālu ploteri netiek sūtīts neviens baits.
 
 Fizisks grieziens ar šo versiju **nav pārbaudīts**. Simulators un testi pārbauda SVG, ģeometriju un HP-GL tekstu, nevis nazi uz vinila.
 
@@ -69,6 +69,17 @@ Ierīču saraksta pirmā rinda ir **Simulator**. Tas ir drošais režīms bez ka
 - Progress iet pa kontūrām: `Path N / M`.
 
 Pirms īsta grieziena atver šo failu un pārliecinies, ka tajā ir tikai `IN`, `PU`, `PD` un `PA`, ja vien JSON konfigurācijā apzināti neesi ielicis pārbaudītu ātruma vai spiediena komandu.
+
+## Dry run
+
+Plotera panelī, virs pogām TEST CUT un CUT, ir rūtiņa **Dry run**. Pēc noklusējuma tā ir ieslēgta. Šis režīms netiek saglabāts `settings.json` un nemaina `units_per_mm`, asu zīmes, ātrumu, spiedienu, `IN` vai STOP.
+
+- Nospied **TEST CUT** vai **CUT**.
+- Atveras logs ar ģenerēto HP-GL tekstu.
+- Tajā ir rinda `Bytes sent to a physical port: 0` un `COM port opened: no`.
+- Simulators joprojām ieraksta `output/test_job.hpgl`.
+- Ja ierīču sarakstā ir COM ports, **Connect** to neatver, kamēr Dry run ir ieslēgts.
+- Lai sūtītu uz ploteri, noņem Dry run, izvēlies COM portu un nospied Connect.
 
 ## SVG, izmērs un pozīcija
 

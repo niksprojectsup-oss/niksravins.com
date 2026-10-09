@@ -36,7 +36,7 @@ from plotter.serial_transport import list_serial_ports
 from plotter.simulator import SimulatorDriver
 from ui.canvas import PreviewCanvas
 from ui.settings_dialog import SettingsDialog
-from ui.widgets import CutProgressDialog, SectionLabel, StatusLabel
+from ui.widgets import CutProgressDialog, DryRunDialog, SectionLabel, StatusLabel
 
 logger = logging.getLogger(__name__)
 
@@ -47,6 +47,9 @@ STOP_LV = (
     "Datu sūtīšana ir apturēta.\n\n"
     "CTO630 nav pārbaudītas STOP komandas, tāpēc programma vairs nesūta datus. "
     "Ja nazis vēl kustas, nospied PAUSE uz plotera. RESET iztīra plotera buferi."
+)
+DRY_RUN_BLOCK_LV = (
+    "Dry run ir ieslēgts. COM ports netika atvērts. Uz fizisku portu nosūtīti 0 baiti."
 )
 
 STYLESHEET = """
@@ -236,6 +239,15 @@ class MainWindow(QMainWindow):
         plotter_form.addRow("Test cut mm", self.test_size)
         side_layout.addLayout(plotter_form)
 
+        self.dry_run_box = QCheckBox("Dry run")
+        self.dry_run_box.setChecked(True)
+        self.dry_run_box.setToolTip(
+            "Show the generated HP-GL and send nothing. "
+            "CUT and TEST CUT cannot open a COM port while this is checked."
+        )
+        self.dry_run_box.toggled.connect(self._on_dry_run_toggled)
+        side_layout.addWidget(self.dry_run_box)
+
         self.test_button = QPushButton("TEST CUT")
         self.test_button.setObjectName("testButton")
         self.cut_button = QPushButton("CUT")
@@ -389,6 +401,10 @@ class MainWindow(QMainWindow):
             self.log("Disconnected")
             return
         device = self.device_combo.currentText() or "Simulator"
+        if self.dry_run_box.isChecked() and device != "Simulator":
+            self.log("Dry run: COM port was not opened. Bytes sent to a physical port: 0")
+            QMessageBox.warning(self, "Dry run", DRY_RUN_BLOCK_LV)
+            return
         self.log(f"Connecting {device}")
         self._pull_runtime_settings()
         try:
@@ -452,23 +468,35 @@ class MainWindow(QMainWindow):
         self._start_job(job.prepared.polylines)
 
     def _start_job(self, paths) -> None:
-        if self.driver is None:
-            QMessageBox.warning(self, "Kļūda", NOT_CONNECTED_LV)
-            return
+        dry_run = self.dry_run_box.isChecked()
+        if dry_run:
+            # Simulator only. Do not use a connected hardware driver and do not
+            # construct CTO630Driver, so this job cannot open a COM port.
+            driver = SimulatorDriver(self.settings)
+            driver.connect()
+        else:
+            if self.driver is None:
+                QMessageBox.warning(self, "Kļūda", NOT_CONNECTED_LV)
+                return
+            driver = self.driver
         self._busy = True
         self.cut_button.setEnabled(False)
         self.test_button.setEnabled(False)
         dialog = CutProgressDialog(self)
-        worker = _CutWorker(self.driver, paths)
+        worker = _CutWorker(driver, paths)
         self._worker = worker
 
         def finish_ok(result: CutResult) -> None:
             dialog.accept()
             self._log_result(result, stopped=False)
+            if dry_run:
+                self._show_dry_run(result)
 
         def finish_stopped(result: CutResult) -> None:
             dialog.accept()
             self._log_result(result, stopped=True)
+            if dry_run:
+                self._show_dry_run(result)
             QMessageBox.information(self, "STOP", STOP_LV)
 
         def finish_failed(message: str) -> None:
@@ -477,6 +505,11 @@ class MainWindow(QMainWindow):
             QMessageBox.critical(self, "Kļūda", message)
 
         def cleanup() -> None:
+            if dry_run:
+                try:
+                    driver.disconnect()
+                except Exception:
+                    logger.exception("dry-run simulator disconnect failed")
             self._busy = False
             self.cut_button.setEnabled(True)
             self.test_button.setEnabled(True)
@@ -486,8 +519,10 @@ class MainWindow(QMainWindow):
         worker.halted.connect(finish_stopped)
         worker.failed.connect(finish_failed)
         worker.finished.connect(cleanup)
-        dialog.stop_requested.connect(self.driver.stop)
+        dialog.stop_requested.connect(driver.stop)
         self.log("Job started")
+        if dry_run:
+            self.log("Dry run: COM port will not be opened")
         self._log_speed_force()
         worker.start()
         dialog.exec()
@@ -504,6 +539,8 @@ class MainWindow(QMainWindow):
         return box.clickedButton() is cut_button
 
     def _ensure_ready(self) -> bool:
+        if self.dry_run_box.isChecked():
+            return True
         device = self.device_combo.currentText() or "Simulator"
         if device == "Simulator" and not self._connected:
             self.log("Connecting Simulator")
@@ -528,8 +565,29 @@ class MainWindow(QMainWindow):
     def _make_driver(self, device: str):
         if device == "Simulator":
             return SimulatorDriver(self.settings)
+        if self.dry_run_box.isChecked():
+            raise RuntimeError("Dry run cannot open a COM port")
         self.settings.serial.port = device
         return CTO630Driver(self.settings)
+
+    def _on_dry_run_toggled(self, checked: bool) -> None:
+        if not checked or self._busy:
+            return
+        if self._connected and not isinstance(self.driver, SimulatorDriver):
+            self._set_disconnected()
+            self.log("Dry run: COM disconnected. No command bytes were sent.")
+
+    def _show_dry_run(self, result: CutResult) -> None:
+        self.log("Bytes sent to a physical port: 0")
+        self.log("COM port opened: no")
+        dialog = DryRunDialog(
+            result.hpgl,
+            bytes_sent_to_port=0,
+            com_port_opened=False,
+            output_path=result.output_path,
+            parent=self,
+        )
+        dialog.exec()
 
     def _make_job(self) -> Job:
         if self.design is None:
