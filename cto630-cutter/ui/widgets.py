@@ -90,6 +90,7 @@ class DryRunDialog(QDialog):
         self.port_label = QLabel(f"COM port opened: {opened}")
         self.bytes_label.setStyleSheet("font-weight: 600;")
         self.port_label.setStyleSheet("font-weight: 600;")
+        self.confirm_label = QLabel("The cutter has not confirmed the job.")
         self.command_view = QPlainTextEdit()
         self.command_view.setReadOnly(True)
         self.command_view.setPlainText(hpgl)
@@ -97,6 +98,7 @@ class DryRunDialog(QDialog):
         layout.addWidget(title)
         layout.addWidget(self.bytes_label)
         layout.addWidget(self.port_label)
+        layout.addWidget(self.confirm_label)
         if output_path:
             self.file_label = QLabel(f"Simulator file: {output_path}")
             layout.addWidget(self.file_label)

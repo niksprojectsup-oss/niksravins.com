@@ -53,8 +53,8 @@ class CTO630Driver(PlotterDriver):
         self.transport.close()
         self.transport.reset_abort()
 
-    def _write(self, data: str) -> None:
-        self.transport.write(data)
+    def _write(self, data: str):
+        return self.transport.write(data)
 
     def _abort_transport(self) -> None:
         self.transport.abort()

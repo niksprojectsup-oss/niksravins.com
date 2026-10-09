@@ -30,7 +30,7 @@ from config.settings import Settings, load_settings, save_settings
 from core.document import Design, load_design
 from core.job import Job, validate_test_cut
 from core.svg_loader import NO_CONTOURS, SVG_ERROR, RasterNotSupportedError, SvgLoadError
-from plotter.base import CONNECT_FAILED_LV, CutResult, PlotterNotConnected
+from plotter.base import CONNECT_FAILED_LV, CutResult, JobStatus, PlotterConnectionError, PlotterNotConnected
 from plotter.cto630 import CTO630Driver
 from plotter.serial_transport import list_serial_ports
 from plotter.simulator import SimulatorDriver
@@ -127,10 +127,12 @@ class _CutWorker(QThread):
             logger.exception("cut failed")
             self.failed.emit(SEND_FAILED_LV)
             return
-        if result.stopped:
+        if result.stopped and result.status != JobStatus.FAILED:
             self.halted.emit(result)
-        else:
+        elif result.status == JobStatus.SENT:
             self.succeeded.emit(result)
+        else:
+            self.failed.emit(result.report())
 
 
 class MainWindow(QMainWindow):
@@ -410,13 +412,13 @@ class MainWindow(QMainWindow):
         try:
             driver = self._make_driver(device)
             driver.connect()
+        except PlotterConnectionError as exc:
+            logger.exception("connect failed")
+            self._show_connect_failure(exc)
+            return
         except Exception:
             logger.exception("connect failed")
-            self.driver = None
-            self._connected = False
-            self.status.set_connected(False)
-            self.connect_button.setText("Connect")
-            QMessageBox.critical(self, "Kļūda", CONNECT_FAILED_LV)
+            self._show_connect_failure(None)
             return
         self.driver = driver
         self._connected = True
@@ -727,8 +729,19 @@ class MainWindow(QMainWindow):
             "were not sent (no verified CTO630 opcode)"
         )
 
+    def _show_connect_failure(self, exc: PlotterConnectionError | None) -> None:
+        self.driver = None
+        self._connected = False
+        self.status.set_connected(False)
+        self.connect_button.setText("Connect")
+        message = CONNECT_FAILED_LV
+        if exc is not None and str(exc).strip() != CONNECT_FAILED_LV.strip():
+            message = str(exc)
+        QMessageBox.critical(self, "Kļūda", message)
+
     def _log_result(self, result: CutResult, *, stopped: bool) -> None:
-        self.log("Job stopped" if stopped else "Job finished")
+        del stopped
+        self.log(result.report())
         self.log(f"Commands: {result.command_count}")
         if result.bbox_mm is not None:
             minx, miny, maxx, maxy = result.bbox_mm

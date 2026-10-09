@@ -34,8 +34,77 @@ class PlotterNotConnected(Exception):
         super().__init__("Plotteris nav pieslēgts. Izvēlies Simulator vai pieslēdz COM portu.")
 
 
+class JobStatus:
+    """Program-side send status. There is no plotter acknowledgement."""
+
+    SENT = "SENT"
+    FAILED = "FAILED"
+    INCOMPLETE = "INCOMPLETE"
+
+
 class PlotterStopped(Exception):
     """Raised when STOP aborts a write. No hardware opcode was sent."""
+
+    def __init__(self, intended: int = 0, accepted: int = 0) -> None:
+        self.intended = int(intended)
+        self.accepted = int(accepted)
+        super().__init__("stopped")
+
+
+class SerialWriteError(Exception):
+    """A serial write did not fully accept the buffer, or flush failed.
+
+    ``intended`` and ``accepted`` are byte counts from the Python serial layer.
+    ``status`` is FAILED or INCOMPLETE, never SENT.
+    """
+
+    def __init__(
+        self,
+        intended: int,
+        accepted: int,
+        error: str,
+        *,
+        status: str,
+        short_write: bool = False,
+    ) -> None:
+        self.intended = int(intended)
+        self.accepted = int(accepted)
+        self.error = str(error)
+        self.short_write = bool(short_write)
+        if status not in (JobStatus.FAILED, JobStatus.INCOMPLETE):
+            status = JobStatus.FAILED
+        self.status = status
+        super().__init__(
+            format_status_report(
+                self.status,
+                intended_bytes=self.intended,
+                accepted_bytes=self.accepted,
+                error=self.error,
+                to_serial=True,
+            )
+        )
+
+
+def format_status_report(
+    status: str,
+    *,
+    intended_bytes: int,
+    accepted_bytes: int,
+    error: str | None,
+    to_serial: bool,
+) -> str:
+    """User-visible status. Failures list intended bytes, accepted bytes, and the error."""
+    lines = [status]
+    if to_serial or status != JobStatus.SENT:
+        lines.append(f"Intended bytes: {int(intended_bytes)}")
+        lines.append(f"Bytes accepted by the Python serial layer: {int(accepted_bytes)}")
+    if status == JobStatus.SENT:
+        if not to_serial:
+            lines.append("No bytes were sent to a physical port.")
+        lines.append("The cutter has not confirmed the job.")
+    else:
+        lines.append(f"Error: {error or ''}")
+    return "\n".join(lines)
 
 
 @dataclass
@@ -47,6 +116,21 @@ class CutResult:
     stopped: bool = False
     paths_sent: int = 0
     path_count: int = 0
+    status: str = JobStatus.SENT
+    intended_bytes: int = 0
+    accepted_bytes: int = 0
+    error: str | None = None
+    to_serial: bool = False
+    short_write: bool = False
+
+    def report(self) -> str:
+        return format_status_report(
+            self.status,
+            intended_bytes=self.intended_bytes,
+            accepted_bytes=self.accepted_bytes,
+            error=self.error,
+            to_serial=self.to_serial,
+        )
 
 
 def polyline_bounds(paths: Sequence[Sequence[Point]]) -> tuple[float, float, float, float] | None:
@@ -73,6 +157,12 @@ class PlotterDriver(ABC):
         self.settings = settings
         self.connected = False
         self._stop = False
+        self._tx_intended = 0
+        self._tx_accepted = 0
+        self._tx_error: str | None = None
+        self._tx_status = JobStatus.SENT
+        self._tx_serial = False
+        self._tx_short = False
 
     def connect(self) -> None:
         self._connect()
@@ -83,16 +173,22 @@ class PlotterDriver(ABC):
         self._disconnect()
         self.connected = False
 
-    def send(self, data: str) -> None:
+    def send(self, data: str):
         if self._stop:
             raise PlotterStopped()
-        self._write(data)
+        return self._write(data)
 
     def cut(self, paths: Sequence[Sequence[Point]], on_progress: ProgressCallback | None = None) -> CutResult:
         if not self.connected:
             raise PlotterNotConnected()
         self._stop = False
         self._clear_abort()
+        self._tx_intended = 0
+        self._tx_accepted = 0
+        self._tx_error = None
+        self._tx_status = JobStatus.SENT
+        self._tx_serial = False
+        self._tx_short = False
         usable = [list(path) for path in paths if _usable(path)]
         sent: list[str] = []
         sent_paths: list[list[Point]] = []
@@ -149,12 +245,35 @@ class PlotterDriver(ABC):
         if not text:
             return True
         try:
-            self.send(text)
-        except PlotterStopped:
+            outcome = self.send(text)
+        except PlotterStopped as exc:
             self._stop = True
+            self._note_stopped_write(exc)
             return False
+        except SerialWriteError as exc:
+            self._note_serial_error(exc)
+            return False
+        if outcome is not None:
+            self._tx_serial = True
+            self._tx_intended += int(outcome.intended)
+            self._tx_accepted += int(outcome.accepted)
         sent.append(text)
         return True
+
+    def _note_serial_error(self, exc: SerialWriteError) -> None:
+        self._tx_serial = True
+        self._tx_intended += exc.intended
+        self._tx_accepted += exc.accepted
+        self._tx_error = exc.error
+        self._tx_status = exc.status
+        self._tx_short = self._tx_short or exc.short_write
+
+    def _note_stopped_write(self, exc: PlotterStopped) -> None:
+        if exc.intended or exc.accepted:
+            self._tx_serial = True
+            self._tx_intended += exc.intended
+            self._tx_accepted += exc.accepted
+            self._tx_short = self._tx_short or exc.accepted < exc.intended
 
     def _generator(self) -> HPGLGenerator:
         plotter = self.settings.plotter
@@ -177,6 +296,11 @@ class PlotterDriver(ABC):
 
     def _result(self, sent: list[str], paths: list[list[Point]], *, stopped: bool, path_count: int) -> CutResult:
         hpgl = "".join(sent)
+        status = self._tx_status
+        error = self._tx_error
+        if stopped and status == JobStatus.SENT:
+            status = JobStatus.INCOMPLETE
+            error = "stopped by the user; no STOP opcode was sent"
         return CutResult(
             hpgl=hpgl,
             command_count=hpgl.count(";"),
@@ -185,6 +309,12 @@ class PlotterDriver(ABC):
             stopped=stopped,
             paths_sent=len(paths),
             path_count=path_count,
+            status=status,
+            intended_bytes=self._tx_intended,
+            accepted_bytes=self._tx_accepted,
+            error=error,
+            to_serial=self._tx_serial,
+            short_write=self._tx_short,
         )
 
     def _after_cut(self, result: CutResult) -> None:

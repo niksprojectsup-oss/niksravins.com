@@ -159,6 +159,14 @@ Rokasgrāmatā nav drošas, pārbaudītas STOP komandas, ko drīkstētu sūtīt 
 
 Tas, kas jau ir operētājsistēmas vai plotera buferī, var turpināt griezt. Lai apturētu galvu, nospied **PAUSE** uz plotera. **RESET** notīra iekārtas buferi un no jauna inicializē sākumpunktu. Programma šīs pogas nospiest nevar.
 
+## Sūtīšanas statuss
+
+Šajā protokolā ploteris darbu neapstiprina. Ja Python seriālais slānis pieņem visus baitus un `flush` neizdod kļūdu, statuss ir **SENT**. Tas nav COMPLETED un nav fiziski pabeigts grieziens. Žurnāls pasaka, ka griezējs darbu nav apstiprinājis.
+
+Ja `write` atgriež mazāk baitu nekā nosūtīts, iestājas taimauts, ports nav atvērts, vai `flush` neizdodas vai uzkaras, statuss ir **FAILED** vai **INCOMPLETE**. Žurnālā ir trīs atsevišķi fakti: paredzētais baitu skaits, baiti, ko pieņēma Python seriālais slānis, un kļūdas teksts.
+
+Nezināma `flow_control` vērtība pieslēgšanos aptur ar kļūdu. Tā netiek klusējot uzskatīta par režīmu bez plūsmas vadības. Ja plūsmas vadība ir ieslēgta un līnija bloķējas, `flush` tiek ierobežots laikā un darbs netiek atzīmēts kā SENT.
+
 ## Kas ir pārbaudīts HP-GL un kas vēl ir TODO
 
 PCUT sērijas rokasgrāmata (modeļi CT630, CT760, CT900, CT1080, CT1200) saka, ka plotera valoda ir **HP-GL un DM-PL ar automātisku atpazīšanu**, savienojums ir RS-232 vai USB 1.0 kā COM ports, vārda garums ir 8 biti, un CT630 maksimālais griešanas platums ir 640 mm, garums 20 000 mm. Ātrums un naža spiediens tiek mainīti uz paneļa. Sākumpunktu uzstāda operators. Šī programma CTO630 uztver kā šīs sērijas iekārtu. Ja uz korpusa ir cits pilnais modeļa kods, pirms griešanas salīdzini platumu.
