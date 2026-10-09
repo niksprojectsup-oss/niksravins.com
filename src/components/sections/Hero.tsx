@@ -38,12 +38,6 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
                 className={CMS_PUBLISHED_INLINE_CLASS}
               />
             </Button>
-            <Button href={hero.secondaryCta.href} variant="secondary">
-              {hero.secondaryCta.label}
-            </Button>
-            <Button href={hero.tertiaryCta.href} variant="ghost">
-              {hero.tertiaryCta.label}
-            </Button>
           </div>
 
           <InternationalSessionNotice

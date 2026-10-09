@@ -35,6 +35,8 @@ export const zhContent: PublicContent = {
     aboutImageAlt: "Niks Ravins 肖像",
   },
   navigation: [
+    { label: "Explore options", href: "#want-change" },
+    { label: "Identity Shifts", href: "#identity-shifts" },
     { label: "FAQ", href: "#faq" },
     { label: "联系", href: "#contact" },
   ],

@@ -6,23 +6,24 @@ describe("public content navigation", () => {
   it("localizes homepage section links for English", () => {
     const content = getPublicContent("en");
 
-    assert.equal(content.navigation[0]?.href, "/#faq");
-    assert.equal(content.navigation[1]?.href, "/#contact");
-    assert.equal(content.hero.secondaryCta.href, "/#want-change");
-    assert.equal(content.hero.tertiaryCta.href, "/#identity-shifts");
-    assert.equal(content.hero.secondaryCta.label, "Explore options");
-    assert.equal(content.hero.tertiaryCta.label, "Identity Shifts");
+    assert.equal(content.navigation[0]?.href, "/#want-change");
+    assert.equal(content.navigation[1]?.href, "/#identity-shifts");
+    assert.equal(content.navigation[2]?.href, "/#faq");
+    assert.equal(content.navigation[3]?.href, "/#contact");
+    assert.equal(content.navigation[0]?.label, "Explore options");
+    assert.equal(content.navigation[1]?.label, "Identity Shifts");
     assert.ok(content.navigation.every((item) => !item.href.includes("#about") && !item.href.includes("#aap")));
   });
 
   it("localizes homepage section links for non-English locales", () => {
     const content = getPublicContent("de");
 
-    assert.equal(content.navigation[0]?.href, "/de#faq");
-    assert.equal(content.navigation[1]?.href, "/de#contact");
-    assert.equal(content.hero.secondaryCta.href, "/de#want-change");
-    assert.equal(content.hero.tertiaryCta.href, "/de#identity-shifts");
-    assert.equal(content.hero.tertiaryCta.label, "Identity Shifts");
+    assert.equal(content.navigation[0]?.href, "/de#want-change");
+    assert.equal(content.navigation[1]?.href, "/de#identity-shifts");
+    assert.equal(content.navigation[2]?.href, "/de#faq");
+    assert.equal(content.navigation[3]?.href, "/de#contact");
+    assert.equal(content.navigation[0]?.label, "Explore options");
+    assert.equal(content.navigation[1]?.label, "Identity Shifts");
     assert.ok(content.navigation.every((item) => !item.href.includes("#about") && !item.href.includes("#aap")));
   });
 });

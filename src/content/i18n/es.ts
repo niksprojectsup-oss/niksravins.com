@@ -35,6 +35,8 @@ export const esContent: PublicContent = {
     aboutImageAlt: "Retrato de Niks Ravins",
   },
   navigation: [
+    { label: "Explore options", href: "#want-change" },
+    { label: "Identity Shifts", href: "#identity-shifts" },
     { label: "FAQ", href: "#faq" },
     { label: "Contacto", href: "#contact" },
   ],

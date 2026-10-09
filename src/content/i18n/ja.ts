@@ -35,6 +35,8 @@ export const jaContent: PublicContent = {
     aboutImageAlt: "Niks Ravinsのポートレート",
   },
   navigation: [
+    { label: "Explore options", href: "#want-change" },
+    { label: "Identity Shifts", href: "#identity-shifts" },
     { label: "よくある質問", href: "#faq" },
     { label: "お問い合わせ", href: "#contact" },
   ],
