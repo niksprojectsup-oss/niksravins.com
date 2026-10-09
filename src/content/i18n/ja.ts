@@ -35,8 +35,6 @@ export const jaContent: PublicContent = {
     aboutImageAlt: "Niks Ravinsのポートレート",
   },
   navigation: [
-    { label: "プロフィール", href: "#about" },
-    { label: "AAP", href: "#aap" },
     { label: "よくある質問", href: "#faq" },
     { label: "お問い合わせ", href: "#contact" },
   ],
@@ -49,7 +47,8 @@ export const jaContent: PublicContent = {
       "セッションでは、その学習された感情的結びつきを特定し、変えていくことに焦点を当てます。",
     ],
     primaryCta: { label: "セッションを予約", href: "/book" },
-    secondaryCta: { label: "AAPの仕組み", href: "#aap" },
+    secondaryCta: { label: "AAPの仕組み", href: "#want-change" },
+    tertiaryCta: { label: "Identity Shifts", href: "#identity-shifts" },
   },
   trust: {
     statements: [

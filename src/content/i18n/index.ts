@@ -44,7 +44,14 @@ function localizePaths(content: PublicContent, locale: Locale): PublicContent {
     hero: {
       ...content.hero,
       primaryCta: { ...content.hero.primaryCta, href: bookPath },
-      secondaryCta: { ...content.hero.secondaryCta, href: `${homePath}#aap` },
+      secondaryCta: {
+        ...content.hero.secondaryCta,
+        href: localizeHomeSectionHref(content.hero.secondaryCta.href, homePath),
+      },
+      tertiaryCta: {
+        ...content.hero.tertiaryCta,
+        href: localizeHomeSectionHref(content.hero.tertiaryCta.href, homePath),
+      },
     },
     finalCta: {
       ...content.finalCta,

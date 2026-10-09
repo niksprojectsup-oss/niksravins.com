@@ -35,8 +35,6 @@ export const deContent: PublicContent = {
     aboutImageAlt: "Porträt von Niks Ravins",
   },
   navigation: [
-    { label: "Über mich", href: "#about" },
-    { label: "AAP", href: "#aap" },
     { label: "FAQ", href: "#faq" },
     { label: "Kontakt", href: "#contact" },
   ],
@@ -49,7 +47,8 @@ export const deContent: PublicContent = {
       "In den Sitzungen geht es darum, diese gelernten emotionalen Verknüpfungen zu erkennen und zu verändern.",
     ],
     primaryCta: { label: "Sitzung buchen", href: "/book" },
-    secondaryCta: { label: "So funktioniert AAP", href: "#aap" },
+    secondaryCta: { label: "So funktioniert AAP", href: "#want-change" },
+    tertiaryCta: { label: "Identity Shifts", href: "#identity-shifts" },
   },
   trust: {
     statements: [

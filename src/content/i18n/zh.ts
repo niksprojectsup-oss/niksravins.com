@@ -35,8 +35,6 @@ export const zhContent: PublicContent = {
     aboutImageAlt: "Niks Ravins 肖像",
   },
   navigation: [
-    { label: "关于", href: "#about" },
-    { label: "AAP", href: "#aap" },
     { label: "FAQ", href: "#faq" },
     { label: "联系", href: "#contact" },
   ],
@@ -49,7 +47,8 @@ export const zhContent: PublicContent = {
       "咨询聚焦于识别并改变那些习得的情感关联。",
     ],
     primaryCta: { label: "预约咨询", href: "/book" },
-    secondaryCta: { label: "AAP 如何运作", href: "#aap" },
+    secondaryCta: { label: "AAP 如何运作", href: "#want-change" },
+    tertiaryCta: { label: "Identity Shifts", href: "#identity-shifts" },
   },
   trust: {
     statements: [

@@ -39,11 +39,10 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
               />
             </Button>
             <Button href={hero.secondaryCta.href} variant="secondary">
-              <CmsPublishedFieldText
-                html={cmsHtmlFields["hero.secondaryCta.label"]}
-                fallback={hero.secondaryCta.label}
-                className={CMS_PUBLISHED_INLINE_CLASS}
-              />
+              {hero.secondaryCta.label}
+            </Button>
+            <Button href={hero.tertiaryCta.href} variant="ghost">
+              {hero.tertiaryCta.label}
             </Button>
           </div>
 

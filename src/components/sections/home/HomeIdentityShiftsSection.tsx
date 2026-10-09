@@ -58,6 +58,7 @@ export function HomeIdentityShiftsSection({
 }) {
   return (
     <Section
+      id="identity-shifts"
       aria-labelledby="identity-shifts-heading"
       className="home-identity overflow-x-clip bg-transparent"
       containerClassName="home-identity-container"

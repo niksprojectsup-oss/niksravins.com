@@ -30,7 +30,7 @@ function StepBody({ index, html }: { index: number; html?: string }) {
 
 export function HomeWantChangeSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: CmsHtmlFields }) {
   return (
-    <Section aria-labelledby="want-change-heading" className="want-change">
+    <Section id="want-change" aria-labelledby="want-change-heading" className="want-change">
       <div className="want-change-inner">
         <h2 id="want-change-heading" className="want-change-title">
           You want something to change.

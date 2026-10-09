@@ -108,6 +108,7 @@ export type PublicContent = {
     explanation: readonly string[];
     primaryCta: { label: string; href: string };
     secondaryCta: { label: string; href: string };
+    tertiaryCta: { label: string; href: string };
   };
   trust: {
     statements: readonly string[];

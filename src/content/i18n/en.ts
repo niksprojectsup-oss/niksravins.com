@@ -29,8 +29,6 @@ export const enContent: PublicContent = {
     aboutImageAlt: "Portrait of Niks Ravins",
   },
   navigation: [
-    { label: "About", href: "#about" },
-    { label: "AAP", href: "#aap" },
     { label: "FAQ", href: "#faq" },
     { label: "Contact", href: "#contact" },
   ],
@@ -43,7 +41,8 @@ export const enContent: PublicContent = {
       "That answer can become an internal rule. And the rule can keep organizing the reaction long after you consciously know better.",
     ],
     primaryCta: { label: "Book a Session", href: "/book" },
-    secondaryCta: { label: "Explore the Work", href: "#aap" },
+    secondaryCta: { label: "Explore options", href: "#want-change" },
+    tertiaryCta: { label: "Identity Shifts", href: "#identity-shifts" },
   },
   trust: {
     statements: [
