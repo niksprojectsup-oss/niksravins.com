@@ -240,8 +240,13 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
                 Last published {new Date(publishedAt).toLocaleString()}
               </p>
             ) : null}
-            <p className="type-caption mt-3 text-ink-faint">
-              Preview route can render draft content for admins in a future step.
+            <p className="type-caption mt-3">
+              <Link
+                href={`/admin/content/${initialContent.slug}/preview?locale=${locale}`}
+                className="type-accent-link"
+              >
+                Preview {CMS_LOCALE_LABELS[locale]} draft
+              </Link>
             </p>
           </div>
         </aside>

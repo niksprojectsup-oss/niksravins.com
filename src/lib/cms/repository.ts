@@ -5,7 +5,7 @@ import {
   getCmsPageDefinition,
   isCmsLocale,
 } from "@/lib/cms/definitions";
-import { tiptapJsonToPlainText, normalizeCmsTiptapJson } from "@/lib/cms/tiptap";
+import { hasCmsTiptapContent, normalizeCmsTiptapJson, tiptapJsonToPlainText } from "@/lib/cms/tiptap";
 import type {
   CmsPageContent,
   CmsPageStatus,
@@ -299,14 +299,18 @@ export async function getPreviewPageContent(
 ): Promise<CmsPublishedFieldMap> {
   requireDatabase();
   const adminContent = await getAdminPageContent(pageSlug, locale);
-  if (!adminContent) return {};
+  if (!adminContent || adminContent.locale !== locale) return {};
 
   const fields: CmsPublishedFieldMap = {};
   for (const section of adminContent.sections) {
     for (const field of section.fields) {
-      const source = field.draftJson ?? field.publishedJson;
-      const plainText = source ? tiptapJsonToPlainText(source) : field.plainText;
-      if (plainText) {
+      const source = hasCmsTiptapContent(field.draftJson)
+        ? field.draftJson
+        : hasCmsTiptapContent(field.publishedJson)
+          ? field.publishedJson
+          : null;
+      const plainText = source ? tiptapJsonToPlainText(source) : null;
+      if (plainText?.trim()) {
         fields[field.fieldKey] = plainText;
       }
     }

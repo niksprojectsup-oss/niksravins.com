@@ -90,6 +90,13 @@ export function getCmsImageSrcFromDocument(value: CmsTiptapJson | null | undefin
   return visit(value);
 }
 
+export function hasCmsTiptapContent(value: unknown): value is CmsTiptapJson {
+  const normalized = normalizeCmsTiptapJson(value);
+  if (!normalized) return false;
+  if (tiptapJsonToPlainText(normalized).trim()) return true;
+  return Boolean(getCmsImageSrcFromDocument(normalized));
+}
+
 export function tiptapJsonToPlainText(value: CmsTiptapJson | null | undefined): string {
   if (!value) return "";
 

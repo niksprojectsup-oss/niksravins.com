@@ -5,11 +5,7 @@ import {
   isCmsLocale,
 } from "@/lib/cms/definitions";
 import { getCmsPageRecordBySlug } from "@/lib/cms/repository";
-import {
-  getCmsImageSrcFromDocument,
-  normalizeCmsTiptapJson,
-  tiptapJsonToPlainText,
-} from "@/lib/cms/tiptap";
+import { hasCmsTiptapContent, normalizeCmsTiptapJson } from "@/lib/cms/tiptap";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 import { requireDatabase } from "@/lib/db/prisma";
 
@@ -33,13 +29,6 @@ export type CmsPublishedPageContent = {
   fields: Record<string, CmsTiptapJson>;
 };
 
-function hasPublishedTiptapContent(value: unknown): value is CmsTiptapJson {
-  const normalized = normalizeCmsTiptapJson(value);
-  if (!normalized) return false;
-  if (tiptapJsonToPlainText(normalized).trim()) return true;
-  return Boolean(getCmsImageSrcFromDocument(normalized));
-}
-
 export function buildPublishedCmsPageFields(input: {
   page: Pick<CmsPage, "status">;
   items: CmsContentItem[];
@@ -56,7 +45,7 @@ export function buildPublishedCmsPageFields(input: {
     const item = input.items.find(
       (entry) => entry.locale === input.locale && entry.fieldKey === fieldKey,
     );
-    if (!item?.publishedJson || !hasPublishedTiptapContent(item.publishedJson)) {
+    if (!item?.publishedJson || !hasCmsTiptapContent(item.publishedJson)) {
       continue;
     }
 
