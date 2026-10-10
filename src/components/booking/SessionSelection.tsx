@@ -34,6 +34,7 @@ export function SessionSelection({
             selected={selected === service.id}
             chooseLabel={labels.services.choose}
             selectedLabel={labels.services.selected}
+            includedBonusesLabel={labels.services.includedBonuses}
             onSelect={() => onSelect(service.id)}
           />
         ))}

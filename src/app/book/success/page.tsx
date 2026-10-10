@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getPublicContent } from "@/content/i18n";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicPaymentSuccessPage } from "@/components/public/PublicPaymentSuccessPage";
 import { verifyCheckoutSession } from "@/lib/stripe/verify-checkout-session";
 
@@ -10,7 +10,7 @@ type BookSuccessPageProps = {
 };
 
 export async function generateMetadata(): Promise<Metadata> {
-  const content = getPublicContent("en");
+  const content = await getResolvedPublicContent("en");
   return {
     title: content.bookingUi.paymentSuccess.title,
     robots: { index: false, follow: false },
@@ -19,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function BookSuccessPage({ searchParams }: BookSuccessPageProps) {
   const params = await searchParams;
-  const content = getPublicContent("en");
+  const content = await getResolvedPublicContent("en");
   const state = await verifyCheckoutSession(params.session_id);
 
   return (

@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useTransition } from "react";
 import type { JSONContent } from "@tiptap/react";
 import Link from "next/link";
+import { CmsAlignmentSectionEditor } from "@/components/admin/cms/CmsAlignmentSectionEditor";
 import {
   CmsRichTextEditor,
   type CmsRichTextEditorHandle,
@@ -239,8 +240,13 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
                 Last published {new Date(publishedAt).toLocaleString()}
               </p>
             ) : null}
-            <p className="type-caption mt-3 text-ink-faint">
-              Preview route can render draft content for admins in a future step.
+            <p className="type-caption mt-3">
+              <Link
+                href={`/admin/content/${initialContent.slug}/preview?locale=${locale}`}
+                className="type-accent-link"
+              >
+                Preview {CMS_LOCALE_LABELS[locale]} draft
+              </Link>
             </p>
           </div>
         </aside>
@@ -274,20 +280,32 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
                 <h2 id={`cms-section-${section.key}-heading`} className="sr-only">
                   {section.title}
                 </h2>
-                {section.fields.map((field) => (
-                  <CmsRichTextEditor
-                    key={`${locale}-${field.key}`}
-                    ref={(instance) => {
-                      editorRefs.current[field.key] = instance;
-                    }}
-                    id={`${initialContent.slug}-${field.key}`}
-                    label={field.label}
-                    placeholder={field.placeholder}
-                    value={fields[field.key] ?? createEmptyTiptapDocument()}
+                {section.key === "alignment" ? (
+                  <CmsAlignmentSectionEditor
+                    pageSlug={initialContent.slug}
+                    locale={locale}
+                    fields={fields}
+                    sectionFields={section.fields}
+                    editorRefs={editorRefs}
                     syncVersion={editorSyncVersion}
-                    onChange={(value) => updateField(field.key, value)}
+                    onFieldChange={updateField}
                   />
-                ))}
+                ) : (
+                  section.fields.map((field) => (
+                    <CmsRichTextEditor
+                      key={`${locale}-${field.key}`}
+                      ref={(instance) => {
+                        editorRefs.current[field.key] = instance;
+                      }}
+                      id={`${initialContent.slug}-${field.key}`}
+                      label={field.label}
+                      placeholder={field.placeholder}
+                      value={fields[field.key] ?? createEmptyTiptapDocument()}
+                      syncVersion={editorSyncVersion}
+                      onChange={(value) => updateField(field.key, value)}
+                    />
+                  ))
+                )}
               </section>
             );
           })}

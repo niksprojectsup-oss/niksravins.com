@@ -489,3 +489,997 @@
     }
   }
 }
+
+/* Scoped to the single “You want something to change” section. */
+
+.want-change {
+  padding-block: 1.25rem;
+  overflow-x: clip;
+  background: transparent;
+}
+
+.want-change-inner {
+  max-width: 56rem;
+  margin-inline: auto;
+}
+
+.want-change-title {
+  margin: 0 auto;
+  max-width: 22em;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: clamp(1.28rem, 0.85vw + 1rem, 1.95rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: 0.055em;
+  color: var(--nr-ink);
+}
+
+.want-change-path {
+  display: flex;
+  flex-direction: column;
+  gap: 1.65rem;
+  margin-top: clamp(1.6rem, 3vw, 2.4rem);
+  min-width: 0;
+}
+
+.want-change-stage {
+  display: grid;
+  grid-template-columns: 2.35rem 1px minmax(0, 1fr);
+  column-gap: 0.8rem;
+  align-items: stretch;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.want-change-num {
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 450;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #b8a06a;
+  padding-top: 0.12rem;
+}
+
+.want-change-rule {
+  display: block;
+  width: 1px;
+  height: 100%;
+  min-height: 100%;
+  align-self: stretch;
+  justify-self: center;
+  background: #b8a06a;
+}
+
+.want-change-text {
+  display: block;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: 1.0625rem;
+  font-weight: 450;
+  line-height: 1.42;
+  letter-spacing: -0.012em;
+  color: #2b2b27;
+}
+
+.want-change-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.want-change-text strong {
+  font-weight: 600;
+  color: #1c1b19;
+}
+
+@media (max-width: 640px) {
+  .want-change-title {
+    font-size: 1.16rem;
+    letter-spacing: 0.042em;
+  }
+}
+
+@media (min-width: 800px) {
+  .want-change-inner {
+    max-width: 56rem;
+  }
+
+  .want-change-path {
+    display: grid;
+    width: min(100%, 56rem);
+    margin-inline: auto;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: 4.5rem;
+    row-gap: 2.75rem;
+    align-items: start;
+    justify-items: stretch;
+    margin-top: 2.4rem;
+  }
+
+  .want-change-stage {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    justify-self: stretch;
+    align-self: start;
+  }
+
+  .want-change-stage[data-stage="01"] {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .want-change-stage[data-stage="02"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .want-change-stage[data-stage="03"] {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .want-change-stage[data-stage="04"] {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+
+/* Scoped to the “What feels out of alignment?” section. */
+
+.home-alignment {
+  padding-block: clamp(2.5rem, 5vw, 4.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-alignment .layout-container,
+.home-alignment-container {
+  max-width: min(86rem, 100%);
+}
+
+.home-alignment-inner {
+  width: 100%;
+  max-width: none;
+  margin-inline: auto;
+}
+
+.home-alignment-heading {
+  margin: 0 auto;
+  max-width: 22em;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: clamp(1.28rem, 0.85vw + 1rem, 1.95rem);
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: 0.055em;
+  color: var(--nr-ink);
+}
+
+.home-alignment-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1.25rem;
+  margin-top: clamp(1.75rem, 3.2vw, 2.75rem);
+}
+
+.home-alignment-item {
+  min-width: 0;
+  margin: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.home-alignment-media {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  min-height: 22rem;
+  aspect-ratio: 4 / 5;
+  border-radius: 16px;
+  background: #ddd6c8;
+}
+
+.home-alignment-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-alignment-panel {
+  position: absolute;
+  left: auto;
+  right: 7%;
+  bottom: 12%;
+  width: 83%;
+  max-width: 83%;
+  display: block;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border: 0;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: none;
+}
+
+.home-alignment-num {
+  display: block;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: 1.65rem;
+  font-weight: 450;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  color: #b8a06a;
+}
+
+.home-alignment-rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 0.55rem;
+  margin-bottom: 0.75rem;
+  background: #b8a06a;
+}
+
+.home-alignment-item-title,
+.home-alignment-item-body {
+  margin: 0;
+}
+
+.home-alignment-item-title-text,
+.home-alignment-item-body-text {
+  display: block;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-alignment-item-title-text {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: -0.014em;
+}
+
+.home-alignment-item-body-text {
+  margin-top: 0.45rem;
+  font-size: 0.98rem;
+  font-weight: 450;
+  line-height: 1.42;
+  letter-spacing: -0.01em;
+}
+
+.home-alignment-item-body-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+@media (max-width: 640px) {
+  .home-alignment-heading {
+    font-size: 1.16rem;
+    letter-spacing: 0.042em;
+  }
+
+  .home-alignment-panel {
+    right: 6%;
+    bottom: 10%;
+    width: 84%;
+    max-width: 84%;
+    padding: 1.2rem 1.25rem 1.3rem;
+  }
+}
+
+@media (min-width: 800px) {
+  .home-alignment-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.6rem 1.45rem;
+  }
+
+  .home-alignment-panel {
+    right: 7%;
+    bottom: 13%;
+    width: 82%;
+    max-width: 82%;
+    padding: 1.5rem 1.55rem 1.6rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .home-alignment-media {
+    min-height: 26rem;
+  }
+
+  .home-alignment-item-title-text {
+    font-size: 1.2rem;
+  }
+
+  .home-alignment-item-body-text {
+    font-size: 1.02rem;
+    line-height: 1.45;
+  }
+}
+
+/* Scoped to the “Together we look at what may be underneath it.” section. */
+
+.home-underneath {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-underneath .layout-container,
+.home-underneath-container {
+  max-width: min(84rem, 100%);
+}
+
+.home-underneath-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.25rem, 4vw, 3.25rem);
+  align-items: center;
+}
+
+.home-underneath-media {
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #ddd6c8;
+}
+
+.home-underneath-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-underneath-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.75rem, 3vw, 2.85rem);
+  min-width: 0;
+  max-width: 34rem;
+}
+
+.home-underneath-intro,
+.home-underneath-headline {
+  margin: 0;
+}
+
+.home-underneath-intro-text,
+.home-underneath-headline-text {
+  display: block;
+  white-space: pre-line;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-underneath-intro-text {
+  font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.014em;
+}
+
+.home-underneath-intro-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  white-space: pre-line;
+}
+
+.home-underneath-headline-text {
+  font-size: clamp(1.95rem, 0.4rem + 3.15vw, 3.45rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--nr-ink);
+}
+
+.home-underneath-headline-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  white-space: pre-line;
+}
+
+@media (max-width: 640px) {
+  .home-underneath {
+    padding-block: clamp(3.25rem, 10vw, 4.5rem);
+  }
+
+  .home-underneath-headline-text {
+    font-size: clamp(2.15rem, 8vw, 2.75rem);
+  }
+}
+
+@media (min-width: 800px) {
+  .home-underneath-grid {
+    grid-template-columns: minmax(12rem, min(22rem, 34%)) minmax(0, 1fr);
+    column-gap: clamp(2.75rem, 4.5vw, 5.5rem);
+    align-items: center;
+  }
+
+  .home-underneath-media {
+    max-width: none;
+  }
+
+  .home-underneath-copy {
+    max-width: 46rem;
+  }
+}
+
+/* Scoped to the “Change the inner foundation.” section. */
+
+.home-foundation {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-foundation .layout-container,
+.home-foundation-container {
+  max-width: min(84rem, 100%);
+}
+
+.home-foundation-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.25rem, 4vw, 3.25rem);
+  align-items: center;
+}
+
+.home-foundation-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.75rem, 3vw, 2.85rem);
+  min-width: 0;
+  max-width: 40rem;
+}
+
+.home-foundation-intro {
+  max-width: 36rem;
+}
+
+.home-foundation-intro,
+.home-foundation-headline {
+  margin: 0;
+}
+
+.home-foundation-intro-text,
+.home-foundation-headline-text {
+  display: block;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-foundation-intro-text {
+  margin: 0;
+  font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.014em;
+}
+
+.home-foundation-intro-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-foundation-intro-text strong {
+  font-weight: 600;
+  color: #1c1b19;
+}
+
+.home-foundation-headline-text {
+  font-size: clamp(1.9rem, 0.45rem + 2.55vw, 3.15rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  color: var(--nr-ink);
+}
+
+.home-foundation-headline-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-foundation-headline-text strong {
+  font-weight: 600;
+  color: inherit;
+}
+
+.home-foundation-media {
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #ddd6c8;
+}
+
+.home-foundation-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 640px) {
+  .home-foundation {
+    padding-block: clamp(3.25rem, 10vw, 4.5rem);
+  }
+
+  .home-foundation-headline-text {
+    font-size: clamp(2.15rem, 8vw, 2.75rem);
+  }
+}
+
+@media (min-width: 800px) {
+  .home-foundation-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(12rem, min(22rem, 32%));
+    column-gap: clamp(2.75rem, 4.5vw, 5.25rem);
+    align-items: center;
+  }
+
+  .home-foundation-media {
+    max-width: none;
+    justify-self: end;
+    width: 100%;
+  }
+
+  .home-foundation-copy {
+    max-width: none;
+  }
+}
+
+/* FAQ accordion restored from 272be12. */
+
+.type-home-title {
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: clamp(2.35rem, 4.6vw + 0.4rem, 4.35rem);
+  line-height: 1.06;
+  letter-spacing: -0.034em;
+  font-weight: 500;
+  color: var(--nr-ink);
+  text-wrap: balance;
+  max-width: 16ch;
+}
+
+.home-band {
+  padding-block: clamp(4.25rem, 8vw, 7.75rem);
+}
+
+.home-faq-section {
+  padding-bottom: 0;
+}
+
+.home-copy {
+  max-width: 40rem;
+}
+
+.home-section-intro {
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.home-prose > * + * {
+  margin-top: 1.25rem;
+}
+
+.home-prose {
+  margin-top: 1.75rem;
+}
+
+.home-faq {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+  border-bottom: 1px solid var(--nr-border);
+}
+
+.home-faq-trigger {
+  display: flex;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding-block: 1.35rem;
+  text-align: left;
+  background: transparent;
+  border-top: 1px solid var(--nr-border);
+  border-right: 0;
+  border-bottom: 0;
+  border-left: 0;
+  color: inherit;
+  cursor: pointer;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: clamp(1.35rem, 1.2vw + 0.75rem, 2rem);
+  font-weight: inherit;
+  line-height: 1.25;
+  letter-spacing: -0.022em;
+  list-style: none;
+}
+
+.home-faq-summary {
+  width: 100%;
+  cursor: pointer;
+  list-style: none;
+}
+
+.home-faq-summary::-webkit-details-marker {
+  display: none;
+}
+
+.home-faq-summary::marker,
+.home-faq-question::marker {
+  content: none;
+}
+
+.home-faq-question {
+  display: contents;
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.home-faq-trigger > span:first-child,
+.home-faq-question > span:first-child {
+  min-width: 0;
+}
+
+.home-faq-mark {
+  flex: none;
+  width: 1.5rem;
+  font-family: var(--font-family-sans), "Source Sans 3", sans-serif;
+  font-size: 1.65rem;
+  font-weight: 300;
+  line-height: 1;
+  text-align: center;
+  color: var(--nr-ink);
+}
+
+.home-faq-mark::before {
+  content: "+";
+}
+
+.home-faq-row[open] .home-faq-mark::before {
+  content: "−";
+}
+
+.home-faq-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.home-faq-row:not([open]) > .home-faq-panel {
+  display: none;
+}
+
+.home-faq-panel[data-open="true"],
+.home-faq-row[open] > .home-faq-panel {
+  display: grid;
+  grid-template-rows: 1fr;
+}
+
+.home-faq-panel-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.home-faq-answer {
+  max-width: 42rem;
+  padding-bottom: 1.5rem;
+}
+
+.home-identity {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-identity .layout-container,
+.home-identity-container {
+  max-width: min(84rem, 100%);
+}
+
+.home-identity-intro,
+.home-identity-close {
+  max-width: 46rem;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.home-identity-intro {
+  margin-bottom: clamp(2.5rem, 5vw, 4.25rem);
+}
+
+.home-identity-heading {
+  margin: 0 auto 1.25rem;
+  max-width: 16ch;
+}
+
+.home-identity-heading-text,
+.home-identity-lede-text,
+.home-identity-belief-text,
+.home-identity-body-text,
+.home-identity-close-lead-text,
+.home-identity-close-copy-text {
+  display: block;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-identity-heading-text {
+  font-size: clamp(2.45rem, 0.5rem + 3.8vw, 4.35rem);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.034em;
+  color: var(--nr-ink);
+  text-wrap: balance;
+}
+
+.home-identity-lede {
+  margin: 0 auto;
+  max-width: 46rem;
+}
+
+.home-identity-lede-text,
+.home-identity-close-copy-text {
+  font-size: clamp(1.12rem, 0.35vw + 1rem, 1.38rem);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.014em;
+  white-space: pre-line;
+}
+
+.home-identity-list {
+  border-top: 1px solid var(--nr-border);
+  border-bottom: 1px solid var(--nr-border);
+}
+
+.home-identity-row {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.9fr) auto minmax(14rem, 1.6fr) auto minmax(10rem, 0.95fr);
+  align-items: center;
+  column-gap: clamp(0.75rem, 2vw, 1.75rem);
+  padding-block: 1.65rem;
+}
+
+.home-identity-row + .home-identity-row {
+  border-top: 1px solid var(--nr-border);
+}
+
+.home-identity-from,
+.home-identity-body,
+.home-identity-to,
+.home-identity-arrow {
+  min-width: 0;
+  margin: 0;
+}
+
+.home-identity-body {
+  text-align: center;
+}
+
+.home-identity-belief-text {
+  font-size: clamp(1.38rem, 0.55vw + 1.12rem, 1.9rem);
+  font-weight: 450;
+  font-style: italic;
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  color: var(--nr-ink);
+}
+
+.home-identity-body-text {
+  font-size: clamp(0.9rem, 0.12vw + 0.86rem, 1rem);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.006em;
+  color: #2b2b27;
+}
+
+.home-identity-arrow {
+  justify-self: center;
+  align-self: center;
+  color: var(--nr-ink-faint);
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.home-identity-close {
+  margin-top: clamp(2.35rem, 4.5vw, 3.75rem);
+}
+
+.home-identity-close-lead {
+  margin: 0 auto 0.9rem;
+}
+
+.home-identity-close-lead-text {
+  font-size: clamp(1.2rem, 0.4vw + 1.08rem, 1.5rem);
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: -0.018em;
+  color: var(--nr-ink);
+}
+
+.home-identity-heading-text p,
+.home-identity-lede-text p,
+.home-identity-belief-text p,
+.home-identity-body-text p,
+.home-identity-close-lead-text p,
+.home-identity-close-copy-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-identity-lede-text p,
+.home-identity-close-copy-text p {
+  white-space: pre-line;
+}
+
+@media (max-width: 799px) {
+  .home-identity {
+    padding-block: clamp(3.25rem, 10vw, 4.5rem);
+  }
+
+  .home-identity-row {
+    grid-template-columns: 1fr;
+    justify-items: start;
+    row-gap: 0.55rem;
+    column-gap: 0;
+    padding-block: 1.4rem;
+  }
+
+  .home-identity-body {
+    text-align: left;
+  }
+
+  .home-identity-arrow {
+    justify-self: start;
+    font-size: 1.15rem;
+  }
+}
+
+.home-roots {
+  padding-block: clamp(4.5rem, 8vw, 7.5rem);
+  overflow-x: clip;
+  background: transparent;
+}
+
+.home-roots .layout-container,
+.home-roots-container {
+  max-width: min(84rem, 100%);
+}
+
+.home-roots-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: clamp(2.25rem, 4vw, 3.5rem);
+  align-items: center;
+}
+
+.home-roots-media {
+  width: 100%;
+  max-width: 32rem;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #ddd6c8;
+}
+
+.home-roots-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.home-roots-copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: clamp(1.75rem, 3vw, 2.85rem);
+  min-width: 0;
+  max-width: 38rem;
+}
+
+.home-roots-intro,
+.home-roots-headline {
+  margin: 0;
+}
+
+.home-roots-intro-text,
+.home-roots-headline-text {
+  display: block;
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  color: #2b2b27;
+}
+
+.home-roots-intro-text {
+  font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.014em;
+}
+
+.home-roots-intro-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+}
+
+.home-roots-headline-text {
+  font-size: clamp(2.15rem, 0.45rem + 3.2vw, 3.85rem);
+  font-weight: 600;
+  line-height: 1.06;
+  letter-spacing: -0.032em;
+  color: var(--nr-ink);
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+
+.home-roots-headline-text p {
+  margin: 0;
+  font: inherit;
+  color: inherit;
+  white-space: pre-line;
+}
+
+@media (max-width: 640px) {
+  .home-roots {
+    padding-block: clamp(3.25rem, 10vw, 4.5rem);
+  }
+
+  .home-roots-headline-text {
+    font-size: clamp(2.15rem, 8vw, 2.85rem);
+  }
+}
+
+@media (min-width: 800px) {
+  .home-roots-grid {
+    grid-template-columns: minmax(12rem, min(24rem, 36%)) minmax(0, 1fr);
+    column-gap: clamp(2.75rem, 5vw, 6rem);
+    align-items: center;
+  }
+
+  .home-roots-media {
+    max-width: none;
+  }
+
+  .home-roots-copy {
+    max-width: 42rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .home-band {
+    padding-block: 8rem;
+  }
+
+  .home-faq-section {
+    padding-bottom: 0;
+  }
+}

@@ -1,17 +1,11 @@
+import type { BookingUiContent } from "@/content/i18n/types";
 import type { BookingStep } from "@/lib/booking/types";
 import { cn } from "@/lib/utils";
-
-const STEP_LABELS: Record<Exclude<BookingStep, "confirmed">, string> = {
-  session: "Session",
-  schedule: "Time",
-  "start-date": "Start date",
-  details: "Details",
-  payment: "Payment",
-};
 
 type BookingStepIndicatorProps = {
   currentStep: BookingStep;
   requiresStartDate?: boolean;
+  labels: BookingUiContent;
 };
 
 function buildVisibleSteps(requiresStartDate: boolean): Exclude<BookingStep, "confirmed">[] {
@@ -24,14 +18,22 @@ function buildVisibleSteps(requiresStartDate: boolean): Exclude<BookingStep, "co
 export function BookingStepIndicator({
   currentStep,
   requiresStartDate = false,
+  labels,
 }: BookingStepIndicatorProps) {
   if (currentStep === "confirmed") return null;
 
   const visibleSteps = buildVisibleSteps(requiresStartDate);
   const currentIndex = visibleSteps.indexOf(currentStep);
+  const stepLabels: Record<Exclude<BookingStep, "confirmed">, string> = {
+    session: labels.steps.session,
+    schedule: labels.steps.schedule,
+    "start-date": labels.steps.startDate,
+    details: labels.steps.details,
+    payment: labels.steps.payment,
+  };
 
   return (
-    <nav aria-label="Booking progress" className="border-b border-border-subtle pb-6">
+    <nav aria-label={labels.steps.progressLabel} className="border-b border-border-subtle pb-6">
       <ol className="flex flex-wrap gap-x-6 gap-y-2">
         {visibleSteps.map((step, index) => {
           const isActive = step === currentStep;
@@ -48,7 +50,7 @@ export function BookingStepIndicator({
                 )}
                 aria-current={isActive ? "step" : undefined}
               >
-                {String(index + 1).padStart(2, "0")} {STEP_LABELS[step]}
+                {String(index + 1).padStart(2, "0")} {stepLabels[step]}
               </span>
             </li>
           );

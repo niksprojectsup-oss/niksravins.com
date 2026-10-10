@@ -88,7 +88,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
       .catch(() => {
         if (!cancelled) {
           setAvailability([]);
-          setAvailabilityError("Unable to load available times. Please try again.");
+          setAvailabilityError(labels.validation.availabilityLoadError);
         }
       })
       .finally(() => {
@@ -98,7 +98,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
     return () => {
       cancelled = true;
     };
-  }, [serviceId, displayTimezone, step, requiresStartDate]);
+  }, [serviceId, displayTimezone, step, requiresStartDate, labels.validation.availabilityLoadError]);
 
   const isInitialStepRender = useRef(true);
 
@@ -134,7 +134,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
     if (step === "start-date" && courseStartDate) {
       const start = new Date(`${courseStartDate}T09:00:00.000Z`);
       if (Number.isNaN(start.getTime()) || start.getTime() <= Date.now()) {
-        setStartDateError("Please select a future start date.");
+        setStartDateError(labels.validation.futureStartDate);
         return;
       }
       setStartDateError(null);
@@ -150,7 +150,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
     }
 
     if (step === "details") {
-      const errors = validateClientDetails(clientDetails);
+      const errors = validateClientDetails(clientDetails, labels.validation);
       setFormErrors(errors);
       if (Object.keys(errors).length > 0) return;
       goToStep("payment");
@@ -192,7 +192,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
     serviceId !== null &&
     slotId !== null &&
     scheduledAt !== null &&
-    Object.keys(validateClientDetails(clientDetails)).length === 0;
+    Object.keys(validateClientDetails(clientDetails, labels.validation)).length === 0;
 
   if (step === "confirmed") {
     return (
@@ -209,7 +209,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
   return (
     <div className="layout-container max-w-wide pb-28 md:pb-section-lg">
       <BookingHero content={content} />
-      <BookingStepIndicator currentStep={step} requiresStartDate={requiresStartDate} />
+      <BookingStepIndicator currentStep={step} requiresStartDate={requiresStartDate} labels={labels} />
 
       <div className="layout-stack-lg pt-10 md:pt-14">
         <div ref={stepContentRef} key={step} className="layout-stack-lg">
@@ -268,8 +268,7 @@ export function BookingFlow({ content, offers }: BookingFlowProps) {
             ) : (
               <div className="observed-card p-6 md:p-8">
                 <p className="type-body text-warm" role="alert">
-                  Your booking details are incomplete. Go back and fill in all required
-                  fields before confirming.
+                  {labels.validation.incompleteDetails}
                 </p>
               </div>
             )

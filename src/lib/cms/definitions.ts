@@ -1,9 +1,16 @@
-export const CMS_LOCALES = ["en", "lv"] as const;
+export const CMS_LOCALES = ["en", "lv", "de", "fr", "es", "it", "ja", "zh"] as const;
 
 export type CmsLocale = (typeof CMS_LOCALES)[number];
 
+/** Import/seed only. Do not auto-create CMS rows for other locales. */
+export const CMS_IMPORT_LOCALES = ["en", "lv"] as const;
+
 export function isCmsLocale(value: string): value is CmsLocale {
   return CMS_LOCALES.includes(value as CmsLocale);
+}
+
+export function publicCmsLocale(locale: string): CmsLocale | null {
+  return isCmsLocale(locale) ? locale : null;
 }
 
 export type CmsFieldDefinition = {
@@ -11,7 +18,7 @@ export type CmsFieldDefinition = {
   label: string;
   placeholder?: string;
   /** Hint for editor placeholder and merge behavior. */
-  kind?: "plain" | "paragraphs" | "faq-answer";
+  kind?: "plain" | "paragraphs" | "faq-answer" | "image";
 };
 
 export type CmsSectionDefinition = {
@@ -40,32 +47,129 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         sortOrder: 0,
         fields: [
           { key: "hero.headline", label: "Headline", placeholder: "Main headline" },
-          {
-            key: "hero.explanation.0",
-            label: "Explanation card 1",
-            placeholder: "First supporting paragraph",
-            kind: "paragraphs",
-          },
-          {
-            key: "hero.explanation.1",
-            label: "Explanation card 2",
-            placeholder: "Second supporting paragraph",
-            kind: "paragraphs",
-          },
-          {
-            key: "hero.explanation.2",
-            label: "Explanation card 3",
-            placeholder: "Third supporting paragraph",
-            kind: "paragraphs",
-          },
           { key: "hero.primaryCta.label", label: "Primary button label" },
           { key: "hero.secondaryCta.label", label: "Secondary button label" },
         ],
       },
       {
+        key: "foundation",
+        title: "Foundation",
+        sortOrder: 1,
+        fields: [
+          { key: "foundation.image", label: "Foundation image", kind: "image" },
+          { key: "foundation.intro", label: "Foundation intro", kind: "paragraphs" },
+          { key: "foundation.headline", label: "Foundation headline" },
+        ],
+      },
+      {
+        key: "journey",
+        title: "Journey",
+        sortOrder: 2,
+        fields: [
+          {
+            key: "journey.change.0",
+            label: "Journey / Change step 01",
+            placeholder: "First stage",
+            kind: "paragraphs",
+          },
+          {
+            key: "journey.change.1",
+            label: "Journey / Change step 02",
+            placeholder: "Second stage",
+            kind: "paragraphs",
+          },
+          {
+            key: "journey.change.2",
+            label: "Journey / Change step 03",
+            placeholder: "Third stage",
+            kind: "paragraphs",
+          },
+          {
+            key: "journey.change.3",
+            label: "Journey / Change step 04",
+            placeholder: "Fourth stage",
+            kind: "paragraphs",
+          },
+        ],
+      },
+      {
+        key: "alignment",
+        title: "Alignment",
+        sortOrder: 3,
+        fields: [
+          { key: "alignment.0.image", label: "Alignment 01 image", kind: "image" },
+          { key: "alignment.0.title", label: "Alignment 01 title" },
+          { key: "alignment.0.body", label: "Alignment 01 body", kind: "paragraphs" },
+          { key: "alignment.1.image", label: "Alignment 02 image", kind: "image" },
+          { key: "alignment.1.title", label: "Alignment 02 title" },
+          { key: "alignment.1.body", label: "Alignment 02 body", kind: "paragraphs" },
+          { key: "alignment.2.image", label: "Alignment 03 image", kind: "image" },
+          { key: "alignment.2.title", label: "Alignment 03 title" },
+          { key: "alignment.2.body", label: "Alignment 03 body", kind: "paragraphs" },
+          { key: "alignment.3.image", label: "Alignment 04 image", kind: "image" },
+          { key: "alignment.3.title", label: "Alignment 04 title" },
+          { key: "alignment.3.body", label: "Alignment 04 body", kind: "paragraphs" },
+          { key: "alignment.4.image", label: "Alignment 05 image", kind: "image" },
+          { key: "alignment.4.title", label: "Alignment 05 title" },
+          { key: "alignment.4.body", label: "Alignment 05 body", kind: "paragraphs" },
+          { key: "alignment.5.image", label: "Alignment 06 image", kind: "image" },
+          { key: "alignment.5.title", label: "Alignment 06 title" },
+          { key: "alignment.5.body", label: "Alignment 06 body", kind: "paragraphs" },
+        ],
+      },
+      {
+        key: "underneath",
+        title: "Underneath",
+        sortOrder: 4,
+        fields: [
+          { key: "underneath.image", label: "Underneath image", kind: "image" },
+          { key: "underneath.intro", label: "Underneath intro", kind: "paragraphs" },
+          { key: "underneath.headline", label: "Underneath headline" },
+        ],
+      },
+      {
+        key: "identity-shifts",
+        title: "Identity shifts",
+        sortOrder: 5,
+        fields: [
+          { key: "identityShifts.heading", label: "Heading" },
+          { key: "identityShifts.intro", label: "Intro", kind: "paragraphs" },
+          { key: "identityShifts.rows.0.from", label: "Row 1 belief" },
+          { key: "identityShifts.rows.0.explanation", label: "Row 1 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.0.to", label: "Row 1 new belief" },
+          { key: "identityShifts.rows.1.from", label: "Row 2 belief" },
+          { key: "identityShifts.rows.1.explanation", label: "Row 2 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.1.to", label: "Row 2 new belief" },
+          { key: "identityShifts.rows.2.from", label: "Row 3 belief" },
+          { key: "identityShifts.rows.2.explanation", label: "Row 3 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.2.to", label: "Row 3 new belief" },
+          { key: "identityShifts.rows.3.from", label: "Row 4 belief" },
+          { key: "identityShifts.rows.3.explanation", label: "Row 4 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.3.to", label: "Row 4 new belief" },
+          { key: "identityShifts.rows.4.from", label: "Row 5 belief" },
+          { key: "identityShifts.rows.4.explanation", label: "Row 5 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.4.to", label: "Row 5 new belief" },
+          { key: "identityShifts.rows.5.from", label: "Row 6 belief" },
+          { key: "identityShifts.rows.5.explanation", label: "Row 6 explanation", kind: "paragraphs" },
+          { key: "identityShifts.rows.5.to", label: "Row 6 new belief" },
+          { key: "identityShifts.closingLead", label: "Closing lead" },
+          { key: "identityShifts.closing", label: "Closing copy", kind: "paragraphs" },
+        ],
+      },
+      {
+        key: "roots",
+        title: "Roots",
+        sortOrder: 6,
+        fields: [
+          { key: "roots.image", label: "Roots image", kind: "image" },
+          { key: "roots.intro", label: "Roots intro", kind: "paragraphs" },
+          { key: "roots.headline", label: "Roots headline" },
+        ],
+      },
+      {
         key: "trust",
         title: "Trust",
-        sortOrder: 1,
+        sortOrder: 7,
         fields: [
           { key: "trust.statements.0", label: "Statement 1", kind: "paragraphs" },
           { key: "trust.statements.1", label: "Statement 2", kind: "paragraphs" },
@@ -76,7 +180,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "about",
         title: "About",
-        sortOrder: 2,
+        sortOrder: 8,
         fields: [
           { key: "about.title", label: "Section title" },
           { key: "about.story.0", label: "Story paragraph 1", kind: "paragraphs" },
@@ -87,7 +191,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "aap",
         title: "AAP",
-        sortOrder: 3,
+        sortOrder: 9,
         fields: [
           { key: "aap.title", label: "Section title" },
           { key: "aap.intro", label: "Introduction", kind: "paragraphs" },
@@ -104,7 +208,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "faq",
         title: "FAQ",
-        sortOrder: 4,
+        sortOrder: 10,
         fields: [
           { key: "faq.headingLabel", label: "Heading label" },
           { key: "faq.heading", label: "Heading" },
@@ -125,7 +229,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "final-cta",
         title: "Final CTA",
-        sortOrder: 5,
+        sortOrder: 11,
         fields: [
           { key: "finalCta.lines.0", label: "Line 1", kind: "paragraphs" },
           { key: "finalCta.lines.1", label: "Line 2", kind: "paragraphs" },
@@ -136,7 +240,7 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
       {
         key: "seo",
         title: "SEO",
-        sortOrder: 6,
+        sortOrder: 12,
         fields: [
           { key: "seo.home.title", label: "Page title" },
           { key: "seo.home.description", label: "Meta description", kind: "paragraphs" },
@@ -239,4 +343,10 @@ export function getAllCmsFieldKeys(pageSlug: string): string[] {
 export const CMS_LOCALE_LABELS: Record<CmsLocale, string> = {
   en: "English",
   lv: "Latvian",
+  de: "German",
+  fr: "French",
+  es: "Spanish",
+  it: "Italian",
+  ja: "Japanese",
+  zh: "Chinese",
 };

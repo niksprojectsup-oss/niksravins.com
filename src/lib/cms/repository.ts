@@ -1,11 +1,18 @@
-import type { CmsContentItem, CmsPage, CmsSection, Prisma } from "@prisma/client";
+import type { CmsContentItem, CmsPage, CmsSection } from "@prisma/client";
 import {
   CMS_LOCALES,
   type CmsLocale,
   getCmsPageDefinition,
   isCmsLocale,
 } from "@/lib/cms/definitions";
-import { tiptapJsonToPlainText, normalizeCmsTiptapJson } from "@/lib/cms/tiptap";
+import {
+  buildCmsDraftSaveQuery,
+  buildCmsPublishQuery,
+  missingCmsSectionKeys,
+  planCmsDraftItemWrites,
+  planCmsPublishItemIds,
+} from "@/lib/cms/draft-persistence";
+import { hasCmsTiptapContent, normalizeCmsTiptapJson, tiptapJsonToPlainText } from "@/lib/cms/tiptap";
 import type {
   CmsPageContent,
   CmsPageStatus,
@@ -189,62 +196,45 @@ export async function saveContentDraft(input: {
     throw new Error("CMS page definition not found.");
   }
 
-  const allowedFieldKeys = new Set(
-    definition.sections.flatMap((section) => section.fields.map((field) => field.key)),
-  );
+  let sections = page.sections;
+  const missingSectionKeys = missingCmsSectionKeys(definition, sections);
 
-  await prisma.$transaction(async (tx) => {
-    for (const sectionDef of definition.sections) {
-      let section = page.sections.find((entry) => entry.key === sectionDef.key);
-      if (!section) {
-        section = await tx.cmsSection.create({
-          data: {
-            pageId: page.id,
-            key: sectionDef.key,
-            title: sectionDef.title,
-            sortOrder: sectionDef.sortOrder,
-          },
-          include: { items: true },
-        });
-      }
+  if (missingSectionKeys.length > 0) {
+    await prisma.cmsSection.createMany({
+      data: definition.sections
+        .filter((section) => missingSectionKeys.includes(section.key))
+        .map((section) => ({
+          pageId: page.id,
+          key: section.key,
+          title: section.title,
+          sortOrder: section.sortOrder,
+        })),
+      skipDuplicates: true,
+    });
 
-      for (const [fieldKey, draftJson] of Object.entries(input.fields)) {
-        if (!allowedFieldKeys.has(fieldKey)) continue;
-        if (!sectionDef.fields.some((field) => field.key === fieldKey)) continue;
-
-        const plainText = draftJson ? tiptapJsonToPlainText(draftJson) : null;
-        const draftJsonValue = draftJson
-          ? (JSON.parse(JSON.stringify(draftJson)) as Prisma.InputJsonValue)
-          : undefined;
-
-        await tx.cmsContentItem.upsert({
-          where: {
-            sectionId_locale_fieldKey: {
-              sectionId: section.id,
-              locale: input.locale,
-              fieldKey,
-            },
-          },
-          create: {
-            sectionId: section.id,
-            locale: input.locale,
-            fieldKey,
-            draftJson: draftJsonValue,
-            plainText,
-          },
-          update: {
-            draftJson: draftJsonValue,
-            plainText,
-          },
-        });
-      }
+    const refreshed = await getCmsPageRecordBySlug(input.pageSlug);
+    if (!refreshed) {
+      throw new Error("CMS page not found.");
     }
+    sections = refreshed.sections;
+  }
 
-    await tx.cmsPage.update({
+  const writes = planCmsDraftItemWrites({
+    sections,
+    definition,
+    locale: input.locale,
+    fields: input.fields,
+  });
+
+  if (writes.length === 0) {
+    await prisma.cmsPage.update({
       where: { id: page.id },
       data: { updatedAt: new Date() },
     });
-  });
+    return;
+  }
+
+  await prisma.$executeRaw(buildCmsDraftSaveQuery(page.id, writes));
 }
 
 export async function publishContent(input: {
@@ -257,33 +247,12 @@ export async function publishContent(input: {
     throw new Error("CMS page not found.");
   }
 
-  const items = page.sections.flatMap((section) =>
-    section.items.filter((item) => item.locale === input.locale),
+  const itemIds = planCmsPublishItemIds(
+    page.sections.flatMap((section) => section.items),
+    input.locale,
   );
 
-  await prisma.$transaction(async (tx) => {
-    for (const item of items) {
-      if (!item.draftJson) continue;
-
-      const plainText = item.plainText ?? tiptapJsonToPlainText(item.draftJson as CmsTiptapJson);
-
-      await tx.cmsContentItem.update({
-        where: { id: item.id },
-        data: {
-          publishedJson: item.draftJson,
-          plainText,
-        },
-      });
-    }
-
-    await tx.cmsPage.update({
-      where: { id: page.id },
-      data: {
-        status: "PUBLISHED",
-        updatedAt: new Date(),
-      },
-    });
-  });
+  await prisma.$executeRaw(buildCmsPublishQuery(page.id, itemIds));
 }
 
 export function assertCmsLocale(value: string): CmsLocale {
@@ -299,14 +268,18 @@ export async function getPreviewPageContent(
 ): Promise<CmsPublishedFieldMap> {
   requireDatabase();
   const adminContent = await getAdminPageContent(pageSlug, locale);
-  if (!adminContent) return {};
+  if (!adminContent || adminContent.locale !== locale) return {};
 
   const fields: CmsPublishedFieldMap = {};
   for (const section of adminContent.sections) {
     for (const field of section.fields) {
-      const source = field.draftJson ?? field.publishedJson;
-      const plainText = source ? tiptapJsonToPlainText(source) : field.plainText;
-      if (plainText) {
+      const source = hasCmsTiptapContent(field.draftJson)
+        ? field.draftJson
+        : hasCmsTiptapContent(field.publishedJson)
+          ? field.publishedJson
+          : null;
+      const plainText = source ? tiptapJsonToPlainText(source) : null;
+      if (plainText?.trim()) {
         fields[field.fieldKey] = plainText;
       }
     }

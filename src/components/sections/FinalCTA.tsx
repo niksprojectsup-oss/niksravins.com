@@ -1,6 +1,5 @@
 import type { PublicContent } from "@/content/i18n/types";
 import {
-  CMS_PUBLISHED_BLOCK_CLASS,
   CMS_PUBLISHED_INLINE_CLASS,
   CmsPublishedFieldText,
 } from "@/components/cms/CmsPublishedFieldText";
@@ -22,32 +21,20 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
       id="contact"
       size="lg"
       aria-labelledby="contact-heading"
-      className="!pb-10 md:!pb-20 lg:!pb-32"
+      className="!pt-5 !pb-6 md:!pt-5 md:!pb-8 lg:!pt-5 lg:!pb-10"
     >
-      <div className="max-w-prose layout-stack-md md:layout-stack-lg">
+      <div className="max-w-prose">
         <h2 id="contact-heading" className="sr-only">
           {sectionLabels.contactHeading}
         </h2>
-
-        <div className="layout-stack-sm">
-          {finalCta.lines.map((line, index) => (
-            <div key={line} className="type-heading-sm text-ink">
-              <CmsPublishedFieldText
-                html={cmsHtmlFields[`finalCta.lines.${index}`]}
-                fallback={line}
-                className={CMS_PUBLISHED_BLOCK_CLASS}
-              />
-            </div>
-          ))}
-        </div>
 
         <InternationalSessionNotice
           line1={internationalNotice.line1}
           line2={internationalNotice.line2}
         />
 
-        <div className="flex flex-col gap-5 pt-2 md:gap-6 md:pt-4 sm:flex-row sm:items-center">
-          <Button href={finalCta.button.href}>
+        <div className="mt-5 flex flex-col gap-5 md:mt-6 md:gap-6 sm:flex-row sm:items-center">
+          <Button href={finalCta.button.href} variant="booking">
             <CmsPublishedFieldText
               html={cmsHtmlFields["finalCta.button.label"]}
               fallback={finalCta.button.label}

@@ -47,6 +47,59 @@ describe("cms import content mapping", () => {
     const headline = values.find((entry) => entry.fieldKey === "hero.headline");
     assert.ok(headline);
     assert.match(tiptapJsonToPlainText(headline.draftJson), /You understand the reaction/);
+    const alignmentTitle = values.find((entry) => entry.fieldKey === "alignment.0.title");
+    assert.ok(alignmentTitle);
+    assert.match(tiptapJsonToPlainText(alignmentTitle.draftJson), /Your relationship/);
+    const underneathIntro = values.find((entry) => entry.fieldKey === "underneath.intro");
+    const underneathHeadline = values.find((entry) => entry.fieldKey === "underneath.headline");
+    assert.ok(underneathIntro);
+    assert.ok(underneathHeadline);
+    assert.match(tiptapJsonToPlainText(underneathIntro.draftJson), /Bring what is troubling you/);
+    assert.match(tiptapJsonToPlainText(underneathHeadline.draftJson), /what may be underneath it/);
+    assert.equal(
+      values.find((entry) => entry.fieldKey === "underneath.image"),
+      undefined,
+    );
+    const foundationIntro = values.find((entry) => entry.fieldKey === "foundation.intro");
+    const foundationHeadline = values.find((entry) => entry.fieldKey === "foundation.headline");
+    assert.ok(foundationIntro);
+    assert.ok(foundationHeadline);
+    assert.match(tiptapJsonToPlainText(foundationIntro.draftJson), /deeper emotional connections/);
+    assert.match(tiptapJsonToPlainText(foundationIntro.draftJson), /possible for you/);
+    assert.match(tiptapJsonToPlainText(foundationHeadline.draftJson), /Change the inner foundation/);
+    assert.match(tiptapJsonToPlainText(foundationHeadline.draftJson), /Create space for a different life/);
+    assert.match(JSON.stringify(foundationIntro.draftJson), /"type":"bold"/);
+    assert.match(JSON.stringify(foundationHeadline.draftJson), /"type":"bold"/);
+    assert.equal(
+      values.find((entry) => entry.fieldKey === "foundation.image"),
+      undefined,
+    );
+    const identityHeading = values.find((entry) => entry.fieldKey === "identityShifts.heading");
+    const identityIntro = values.find((entry) => entry.fieldKey === "identityShifts.intro");
+    const identityFrom = values.find((entry) => entry.fieldKey === "identityShifts.rows.0.from");
+    const identityTo = values.find((entry) => entry.fieldKey === "identityShifts.rows.0.to");
+    const identityClosing = values.find((entry) => entry.fieldKey === "identityShifts.closing");
+    assert.ok(identityHeading);
+    assert.ok(identityIntro);
+    assert.ok(identityFrom);
+    assert.ok(identityTo);
+    assert.ok(identityClosing);
+    assert.match(tiptapJsonToPlainText(identityHeading.draftJson), /Change at the level of identity/);
+    assert.match(tiptapJsonToPlainText(identityIntro.draftJson), /what you believe about who you are/);
+    assert.match(tiptapJsonToPlainText(identityFrom.draftJson), /I’m not good enough/);
+    assert.match(tiptapJsonToPlainText(identityTo.draftJson), /I am enough/);
+    assert.match(tiptapJsonToPlainText(identityClosing.draftJson), /the life you don’t allow yourself to have/);
+    const rootsIntro = values.find((entry) => entry.fieldKey === "roots.intro");
+    const rootsHeadline = values.find((entry) => entry.fieldKey === "roots.headline");
+    assert.ok(rootsIntro);
+    assert.ok(rootsHeadline);
+    assert.match(tiptapJsonToPlainText(rootsIntro.draftJson), /beliefs and emotional associations underneath it/);
+    assert.match(tiptapJsonToPlainText(rootsHeadline.draftJson), /When the inner foundation changes/);
+    assert.match(tiptapJsonToPlainText(rootsHeadline.draftJson), /the way you move through life can change with it/);
+    assert.equal(
+      values.find((entry) => entry.fieldKey === "roots.image"),
+      undefined,
+    );
   });
 
   it("maps standalone AAP body from existing public copy", () => {

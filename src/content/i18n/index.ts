@@ -6,11 +6,13 @@ import { esContent } from "./es";
 import { frContent } from "./fr";
 import { itContent } from "./it";
 import { jaContent } from "./ja";
+import { lvContent } from "./lv";
 import type { PublicContent } from "./types";
 import { zhContent } from "./zh";
 
 const CONTENT_BY_LOCALE: Record<Locale, PublicContent> = {
   en: enContent,
+  lv: lvContent,
   de: deContent,
   fr: frContent,
   es: esContent,
@@ -27,7 +29,15 @@ function localizeHomeSectionHref(href: string, homePath: string): string {
   return href;
 }
 
-function localizePaths(content: PublicContent, locale: Locale): PublicContent {
+export function getFilePublicContent(locale: Locale): PublicContent {
+  const content = CONTENT_BY_LOCALE[locale];
+  if (!content) {
+    throw new Error(`No public content for locale: ${locale}`);
+  }
+  return content;
+}
+
+export function applyLocalizedPaths(content: PublicContent, locale: Locale): PublicContent {
   const bookPath = localizedPath(locale, "book");
   const homePath = localizedPath(locale, "");
 
@@ -44,7 +54,14 @@ function localizePaths(content: PublicContent, locale: Locale): PublicContent {
     hero: {
       ...content.hero,
       primaryCta: { ...content.hero.primaryCta, href: bookPath },
-      secondaryCta: { ...content.hero.secondaryCta, href: `${homePath}#aap` },
+      secondaryCta: {
+        ...content.hero.secondaryCta,
+        href: localizeHomeSectionHref(content.hero.secondaryCta.href, homePath),
+      },
+      tertiaryCta: {
+        ...content.hero.tertiaryCta,
+        href: localizeHomeSectionHref(content.hero.tertiaryCta.href, homePath),
+      },
     },
     finalCta: {
       ...content.finalCta,
@@ -54,11 +71,7 @@ function localizePaths(content: PublicContent, locale: Locale): PublicContent {
 }
 
 export function getPublicContent(locale: Locale): PublicContent {
-  const content = CONTENT_BY_LOCALE[locale];
-  if (!content) {
-    throw new Error(`No public content for locale: ${locale}`);
-  }
-  return localizePaths(content, locale);
+  return applyLocalizedPaths(getFilePublicContent(locale), locale);
 }
 
 export function getAllPublicContent(): PublicContent[] {
