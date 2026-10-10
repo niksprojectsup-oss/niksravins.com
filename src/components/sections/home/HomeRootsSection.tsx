@@ -4,14 +4,17 @@ import {
   getPublishedCmsImageSrc,
   type CmsHtmlFields,
 } from "@/lib/cms/published-field-html";
+import type { PublicContent } from "@/content/i18n/types";
 
-const INTRO_FALLBACK =
-  "We work with the beliefs and emotional associations underneath it — the ones that can shape your choices, behaviour, relationships and the way you experience yourself.";
+type HomeRootsSectionProps = {
+  content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
+};
 
-const HEADLINE_FALLBACK =
-  "When the inner foundation changes,\nthe way you move through life can change with it.";
-
-export function HomeRootsSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: CmsHtmlFields }) {
+export function HomeRootsSection({
+  content,
+  cmsHtmlFields = {},
+}: HomeRootsSectionProps) {
   const imageSrc = getPublishedCmsImageSrc(cmsHtmlFields["roots.image"]);
 
   return (
@@ -28,14 +31,14 @@ export function HomeRootsSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: CmsHt
           <div className="home-roots-intro">
             <CmsPublishedFieldText
               html={cmsHtmlFields["roots.intro"]}
-              fallback={INTRO_FALLBACK}
+              fallback={content.roots.intro}
               className="home-roots-intro-text font-display"
             />
           </div>
           <h2 id="roots-heading" className="home-roots-headline">
             <CmsPublishedFieldText
               html={cmsHtmlFields["roots.headline"]}
-              fallback={HEADLINE_FALLBACK}
+              fallback={content.roots.headline}
               className="home-roots-headline-text font-display"
             />
           </h2>

@@ -7,6 +7,7 @@ import {
   LOCALES,
   LOCALE_DEFINITIONS,
   type Locale,
+  type LocalizedPublicPage,
 } from "@/lib/i18n/config";
 import {
   getLocaleFromPathname,
@@ -20,9 +21,10 @@ type LanguageSwitcherProps = {
   className?: string;
 };
 
-function getCurrentPage(pathname: string): "" | "book" {
+function getCurrentPage(pathname: string): LocalizedPublicPage {
   const stripped = stripLocalePrefix(pathname);
   if (stripped === "/book") return "book";
+  if (stripped === "/legal") return "legal";
   return "";
 }
 

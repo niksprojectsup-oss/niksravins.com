@@ -4,35 +4,17 @@ import {
   getPublishedCmsImageSrc,
   type CmsHtmlFields,
 } from "@/lib/cms/published-field-html";
+import type { PublicContent } from "@/content/i18n/types";
 
-const ALIGNMENT_ITEMS = [
-  {
-    title: "Your relationship.",
-    body: "You want to feel more connected, safe, loved or free in your relationship — but something keeps getting in the way.",
-  },
-  {
-    title: "Your work.",
-    body: "You hate your job. You want something different. You know you’re capable of more and deserve better, but something keeps you where you are.",
-  },
-  {
-    title: "Your confidence.",
-    body: "You want to speak up, be seen, trust yourself and take up space without constantly questioning yourself.",
-  },
-  {
-    title: "Your relationship with yourself.",
-    body: "You’re tired of doubting yourself, feeling like you’re not enough or constantly needing to prove your worth.",
-  },
-  {
-    title: "Your dreams.",
-    body: "There are things you want to create, experience or achieve — but you keep holding yourself back, postponing or staying in what feels familiar.",
-  },
-  {
-    title: "Your life.",
-    body: "You feel stuck, disconnected or like something is missing. You know you want more, but you haven’t found the way forward yet.",
-  },
-] as const;
+type HomeAlignmentSectionProps = {
+  content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
+};
 
-export function HomeAlignmentSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: CmsHtmlFields }) {
+export function HomeAlignmentSection({
+  content,
+  cmsHtmlFields = {},
+}: HomeAlignmentSectionProps) {
   return (
     <Section
       aria-labelledby="alignment-heading"
@@ -41,10 +23,10 @@ export function HomeAlignmentSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: C
     >
       <div className="home-alignment-inner">
         <h2 id="alignment-heading" className="home-alignment-heading font-display">
-          What feels out of alignment?
+          {content.alignment.heading}
         </h2>
         <div className="home-alignment-grid">
-          {ALIGNMENT_ITEMS.map((item, index) => {
+          {content.alignment.items.map((item, index) => {
             const number = String(index + 1).padStart(2, "0");
             const imageSrc = getPublishedCmsImageSrc(cmsHtmlFields[`alignment.${index}.image`]);
             const titleHtml = cmsHtmlFields[`alignment.${index}.title`];

@@ -19,6 +19,10 @@ export const enContent: PublicContent = {
     book: "Book",
     bookSession: "Book a Session",
     clientPortal: "Client Portal",
+    openMenu: "Open menu",
+    closeMenu: "Close menu",
+    primaryNavLabel: "Primary",
+    mobileNavLabel: "Mobile",
   },
   sectionLabels: {
     trustHeading: "Why people come here",
@@ -45,6 +49,141 @@ export const enContent: PublicContent = {
     primaryCta: { label: "Book a Session", href: "/book" },
     secondaryCta: { label: "Explore options", href: "#want-change" },
     tertiaryCta: { label: "Identity Shifts", href: "#identity-shifts" },
+  },
+  foundation: {
+    intro: [
+      { text: "I work with the " },
+      { text: "deeper emotional connections", bold: true },
+      { text: " and " },
+      { text: "beliefs", bold: true },
+      { text: " that shape how you " },
+      { text: "experience yourself", bold: true },
+      { text: ", what you believe " },
+      { text: "you deserve", bold: true },
+      { text: ", and what feels " },
+      { text: "possible for you", bold: true },
+      { text: "." },
+    ],
+    headline: [
+      { text: "Change the inner foundation." },
+      { text: "Create space for a different life.", bold: true },
+    ],
+  },
+  journey: {
+    heading: "You want something to change.",
+    steps: [
+      [
+        { text: "Maybe it’s your " },
+        { text: "relationship", bold: true },
+        { text: ". Maybe it’s your " },
+        { text: "work", bold: true },
+        { text: ". Maybe it’s how you feel about " },
+        { text: "yourself", bold: true },
+        { text: ". Maybe you simply know you want " },
+        { text: "more from life", bold: true },
+        { text: "." },
+      ],
+      [
+        { text: "You understand what " },
+        { text: "isn’t", bold: true },
+        { text: " working." },
+      ],
+      [
+        { text: "You may even understand what is " },
+        { text: "holding you back", bold: true },
+        { text: "." },
+      ],
+      [
+        { text: "But knowing something " },
+        { text: "doesn’t always make it change", bold: true },
+        { text: "." },
+      ],
+    ],
+  },
+  alignment: {
+    heading: "What feels out of alignment?",
+    items: [
+      {
+        title: "Your relationship.",
+        body: "You want to feel more connected, safe, loved or free in your relationship — but something keeps getting in the way.",
+      },
+      {
+        title: "Your work.",
+        body: "You hate your job. You want something different. You know you’re capable of more and deserve better, but something keeps you where you are.",
+      },
+      {
+        title: "Your confidence.",
+        body: "You want to speak up, be seen, trust yourself and take up space without constantly questioning yourself.",
+      },
+      {
+        title: "Your relationship with yourself.",
+        body: "You’re tired of doubting yourself, feeling like you’re not enough or constantly needing to prove your worth.",
+      },
+      {
+        title: "Your dreams.",
+        body: "There are things you want to create, experience or achieve — but you keep holding yourself back, postponing or staying in what feels familiar.",
+      },
+      {
+        title: "Your life.",
+        body: "You feel stuck, disconnected or like something is missing. You know you want more, but you haven’t found the way forward yet.",
+      },
+    ],
+  },
+  underneath: {
+    intro: "Bring what is troubling you.\nWhat is holding you back. What you want to change.",
+    headline: "Together we look at\nwhat may be underneath it.",
+  },
+  identityShifts: {
+    heading: "Change at the level of identity",
+    intro:
+      "Sometimes what holds you back isn’t the situation itself,\nbut what you believe about who you are and what is safe, possible or deserved for you.",
+    rows: [
+      {
+        from: "I’m not good enough.",
+        explanation:
+          "You may constantly prove yourself, compare yourself to others or hold back from opportunities, relationships and experiences you actually want.",
+        to: "I am enough.",
+      },
+      {
+        from: "I don’t deserve better.",
+        explanation:
+          "You may stay in a job, relationship or situation that no longer feels right — even when you know you want more.",
+        to: "I deserve better.",
+      },
+      {
+        from: "It’s safer to stay where I am.",
+        explanation:
+          "You may keep choosing what is familiar instead of taking the risk of moving towards what you really want.",
+        to: "I can choose differently.",
+      },
+      {
+        from: "I can’t trust people.",
+        explanation:
+          "You may struggle to open up, receive support or fully let someone close — even when you deeply want connection.",
+        to: "I can trust.",
+      },
+      {
+        from: "I have to do everything myself.",
+        explanation:
+          "You may find it difficult to receive, relax or let someone else take care of things. Even when you want more ease, softness and space, you keep taking control and carrying everything yourself.",
+        to: "I can trust and allow.",
+      },
+      {
+        from: "I’m too much.",
+        explanation:
+          "You may make yourself smaller, hide your needs or hold back parts of yourself to avoid rejection.",
+        to: "I am allowed to be fully myself.",
+      },
+    ],
+    closingLead: "These beliefs don’t always sound like thoughts in your head.",
+    closing:
+      "Sometimes they show up as the choices you make, the relationships you stay in,\nthe things you avoid, or the life you don’t allow yourself to have.",
+  },
+  roots: {
+    intro:
+      "We work with the beliefs and emotional associations underneath it — the ones that can shape your choices, behaviour, relationships and the way you experience yourself.",
+    headline:
+      "When the inner foundation changes,\nthe way you move through life can change with it.",
   },
   trust: {
     statements: [
@@ -173,6 +312,38 @@ export const enContent: PublicContent = {
     subtitle:
       "Begin the process of changing the automatic reactions that no longer serve you. International clients welcome — sessions are conducted in English.",
   },
+  bookingOffers: {
+    "initial-aap-session": {
+      title: "45-minute Initial Session",
+      description:
+        "Your first step in the process. Together we explore your patterns and automatic reactions, understand what is maintaining them, and determine the most effective way forward for you.",
+      durationLabel: "45 minutes",
+      priceLabel: "€90",
+    },
+    "aap-transformation-package": {
+      title: "5 × 45-minute Deep Transformation Package",
+      description:
+        "A structured transformation process — not five separate appointments, but one connected journey designed to create meaningful, lasting change.",
+      detail:
+        "Meaningful change usually requires more than a single conversation. Working across multiple sessions allows us to go deeper, track what shifts, and build momentum rather than starting from scratch each time.",
+      durationLabel: "5 sessions · 45 minutes each",
+      priceLabel: "€450 total",
+      checkoutNote:
+        "Your first session is confirmed. Schedule your remaining 4 sessions through your Client Portal.",
+      highlights: [
+        "Deeper understanding of your patterns",
+        "Working with underlying reactions",
+        "Tracking progress over time",
+        "Building lasting change",
+        "Consistency and momentum",
+      ],
+      bonuses: [
+        "Personal Reaction Map",
+        "Between-session reflection prompts",
+        "Priority scheduling",
+      ],
+    },
+  },
   bookingUi: {
     hero: {
       title: "Book a Session",
@@ -184,6 +355,14 @@ export const enContent: PublicContent = {
       description: "All offerings are paid sessions conducted online.",
       choose: "Choose",
       selected: "Selected",
+    },
+    steps: {
+      progressLabel: "Booking progress",
+      session: "Session",
+      schedule: "Time",
+      startDate: "Start date",
+      details: "Details",
+      payment: "Payment",
     },
     calendar: {
       title: "Choose a time",
@@ -202,19 +381,90 @@ export const enContent: PublicContent = {
       courseStartDescription:
         "Select when you would like your course or program to begin.",
       courseStartLabel: "Course start date",
+      weekdays: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      packageSessionNote: "You're booking session 1 of 5 today.",
+      packageFollowUpNote:
+        "Sessions 2–5 can be scheduled later, one at a time, from your Client Portal.",
+      localTimeNote: "Times are shown in your local time ({timezone}).",
+      previousMonth: "Previous month",
+      nextMonth: "Next month",
+      available: "available",
+      unavailable: "unavailable",
+      today: "today",
+      selected: "selected",
     },
     form: {
       title: "Your details",
       description:
         "This information helps prepare for your session. Everything shared here is confidential.",
+      firstName: "First name",
+      lastName: "Last name",
+      email: "Email",
+      phoneOptional: "Phone (optional)",
+      country: "Country",
+      timezone: "Time zone",
+      selectCountry: "Select country",
+      selectTimezone: "Select time zone",
       sessionIntentionLabel: "Session intention",
       sessionIntentionPlaceholder:
         "Briefly describe the reaction or pattern you would like to work on.",
+      countries: [
+        { value: "Latvia", label: "Latvia" },
+        { value: "United Kingdom", label: "United Kingdom" },
+        { value: "Germany", label: "Germany" },
+        { value: "France", label: "France" },
+        { value: "United States", label: "United States" },
+        { value: "Canada", label: "Canada" },
+        { value: "Australia", label: "Australia" },
+        { value: "Netherlands", label: "Netherlands" },
+        { value: "Sweden", label: "Sweden" },
+        { value: "Norway", label: "Norway" },
+        { value: "Other", label: "Other" },
+      ],
+      timezones: [
+        { value: "Europe/Riga", label: "Riga (EET/EEST)" },
+        { value: "Europe/London", label: "London (GMT/BST)" },
+        { value: "Europe/Berlin", label: "Berlin (CET/CEST)" },
+        { value: "Europe/Paris", label: "Paris (CET/CEST)" },
+        { value: "America/New_York", label: "New York (EST/EDT)" },
+        { value: "America/Chicago", label: "Chicago (CST/CDT)" },
+        { value: "America/Los_Angeles", label: "Los Angeles (PST/PDT)" },
+        { value: "Asia/Dubai", label: "Dubai (GST)" },
+        { value: "Asia/Singapore", label: "Singapore (SGT)" },
+        { value: "Australia/Sydney", label: "Sydney (AEST/AEDT)" },
+      ],
+    },
+    validation: {
+      firstNameRequired: "First name is required.",
+      lastNameRequired: "Last name is required.",
+      emailRequired: "Email is required.",
+      emailInvalid: "Enter a valid email address.",
+      phoneInvalid: "Enter a valid phone number.",
+      countryRequired: "Country is required.",
+      timezoneRequired: "Time zone is required.",
+      sessionIntentionRequired: "Please share your session intention.",
+      futureStartDate: "Please select a future start date.",
+      availabilityLoadError: "Unable to load available times. Please try again.",
+      incompleteDetails:
+        "Your booking details are incomplete. Go back and fill in all required fields before confirming.",
+      checkoutError: "Unable to start checkout. Please try again.",
+      invalidSessionType: "Please select a valid session type.",
+      selectCourseStartDate: "Please select a course start date.",
+      invalidStartDate: "The selected start date is invalid.",
+      selectTimeSlot: "Please select a time slot.",
+      selectScheduledTime: "Please select a scheduled time.",
+      invalidTime: "The selected time is invalid.",
+      futureTimeSlot: "Please select a future time slot.",
+      serviceUnavailable: "Selected service is not available.",
+      invalidPrice: "Invalid service price.",
+      stripeNoUrl: "Stripe did not return a checkout URL.",
+      stripeCreateFailed: "Unable to create Stripe checkout session.",
     },
     payment: {
       title: "Payment",
       description: "Complete your booking securely with card payment.",
       stripeLabel: "Pay with card",
+      redirecting: "Redirecting…",
     },
     paymentSuccess: {
       title: "Payment confirmed",
@@ -266,10 +516,20 @@ export const enContent: PublicContent = {
       description:
         "Book an online transformation session with Niks Ravins. Initial sessions and 5-session journeys available worldwide. Sessions are conducted in English.",
     },
+    legal: {
+      title: "Legal",
+      description: "Legal information for Niks Ravins. All rights reserved.",
+    },
+  },
+  legal: {
+    heading: "Legal",
+    body: "Niks Ravins. All rights reserved.",
+    contactLabel: "Contact:",
   },
   footer: {
     rights: "All rights reserved.",
     backToTop: "Back to top",
+    navLabel: "Footer",
   },
   languageSwitcherLabel: "Choose language",
 };

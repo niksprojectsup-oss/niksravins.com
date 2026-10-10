@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { getPublicContent } from "@/content/i18n";
 import { PublicBookPage } from "@/components/public/PublicBookPage";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
+import { applyOfferTranslations } from "@/lib/booking/localize-offer";
 import {
   ensureDefaultOffersSeeded,
   getBookableServices,
@@ -20,7 +21,7 @@ export const dynamic = "force-dynamic";
 
 export default async function BookPage() {
   await ensureDefaultOffersSeeded();
-  const offers = await getBookableServices();
+  const offers = applyOfferTranslations(await getBookableServices(), content.bookingOffers);
 
   return <PublicBookPage content={content} locale="en" offers={offers} />;
 }

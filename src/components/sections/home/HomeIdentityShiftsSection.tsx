@@ -1,61 +1,17 @@
 import { CmsPublishedFieldText } from "@/components/cms/CmsPublishedFieldText";
 import { Section } from "@/components/ui/Section";
 import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
+import type { PublicContent } from "@/content/i18n/types";
 
-const HEADING_FALLBACK = "Change at the level of identity";
-
-const INTRO_FALLBACK =
-  "Sometimes what holds you back isn’t the situation itself,\nbut what you believe about who you are and what is safe, possible or deserved for you.";
-
-const CLOSING_LEAD_FALLBACK = "These beliefs don’t always sound like thoughts in your head.";
-
-const CLOSING_FALLBACK =
-  "Sometimes they show up as the choices you make, the relationships you stay in,\nthe things you avoid, or the life you don’t allow yourself to have.";
-
-const ROWS = [
-  {
-    from: "I’m not good enough.",
-    explanation:
-      "You may constantly prove yourself, compare yourself to others or hold back from opportunities, relationships and experiences you actually want.",
-    to: "I am enough.",
-  },
-  {
-    from: "I don’t deserve better.",
-    explanation:
-      "You may stay in a job, relationship or situation that no longer feels right — even when you know you want more.",
-    to: "I deserve better.",
-  },
-  {
-    from: "It’s safer to stay where I am.",
-    explanation:
-      "You may keep choosing what is familiar instead of taking the risk of moving towards what you really want.",
-    to: "I can choose differently.",
-  },
-  {
-    from: "I can’t trust people.",
-    explanation:
-      "You may struggle to open up, receive support or fully let someone close — even when you deeply want connection.",
-    to: "I can trust.",
-  },
-  {
-    from: "I have to do everything myself.",
-    explanation:
-      "You may find it difficult to receive, relax or let someone else take care of things. Even when you want more ease, softness and space, you keep taking control and carrying everything yourself.",
-    to: "I can trust and allow.",
-  },
-  {
-    from: "I’m too much.",
-    explanation:
-      "You may make yourself smaller, hide your needs or hold back parts of yourself to avoid rejection.",
-    to: "I am allowed to be fully myself.",
-  },
-] as const;
+type HomeIdentityShiftsSectionProps = {
+  content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
+};
 
 export function HomeIdentityShiftsSection({
+  content,
   cmsHtmlFields = {},
-}: {
-  cmsHtmlFields?: CmsHtmlFields;
-}) {
+}: HomeIdentityShiftsSectionProps) {
   return (
     <Section
       id="identity-shifts"
@@ -67,22 +23,22 @@ export function HomeIdentityShiftsSection({
         <h2 id="identity-shifts-heading" className="home-identity-heading">
           <CmsPublishedFieldText
             html={cmsHtmlFields["identityShifts.heading"]}
-            fallback={HEADING_FALLBACK}
+            fallback={content.identityShifts.heading}
             className="home-identity-heading-text font-display"
           />
         </h2>
         <div className="home-identity-lede">
           <CmsPublishedFieldText
             html={cmsHtmlFields["identityShifts.intro"]}
-            fallback={INTRO_FALLBACK}
+            fallback={content.identityShifts.intro}
             className="home-identity-lede-text font-display"
           />
         </div>
       </header>
 
       <div className="home-identity-list">
-        {ROWS.map((row, index) => (
-          <article key={row.from} className="home-identity-row">
+        {content.identityShifts.rows.map((row, index) => (
+          <article key={`${index}-${row.from}`} className="home-identity-row">
             <div className="home-identity-from">
               <CmsPublishedFieldText
                 html={cmsHtmlFields[`identityShifts.rows.${index}.from`]}
@@ -118,14 +74,14 @@ export function HomeIdentityShiftsSection({
         <div className="home-identity-close-lead">
           <CmsPublishedFieldText
             html={cmsHtmlFields["identityShifts.closingLead"]}
-            fallback={CLOSING_LEAD_FALLBACK}
+            fallback={content.identityShifts.closingLead}
             className="home-identity-close-lead-text font-display"
           />
         </div>
         <div className="home-identity-close-copy">
           <CmsPublishedFieldText
             html={cmsHtmlFields["identityShifts.closing"]}
-            fallback={CLOSING_FALLBACK}
+            fallback={content.identityShifts.closing}
             className="home-identity-close-copy-text font-display"
           />
         </div>

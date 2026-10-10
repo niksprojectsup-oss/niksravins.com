@@ -125,17 +125,15 @@ export function BookingCalendar({
       <div className="layout-stack-md">
         {isPackage ? (
           <div className="rounded-xl border border-accent/25 bg-accent/5 px-5 py-4">
-            <p className="type-body text-ink">
-              You&apos;re booking <strong>session 1 of 5</strong> today.
-            </p>
+            <p className="type-body text-ink">{labels.calendar.packageSessionNote}</p>
             <p className="type-caption mt-2 text-ink-subtle">
-              Sessions 2–5 can be scheduled later, one at a time, from your Client Portal.
+              {labels.calendar.packageFollowUpNote}
             </p>
           </div>
         ) : null}
 
         <p className="type-caption text-ink-subtle">
-          Times are shown in your local time ({timezone}).
+          {labels.calendar.localTimeNote.replace("{timezone}", timezone)}
         </p>
 
         {loading ? (
@@ -165,6 +163,7 @@ export function BookingCalendar({
               onNextMonth={goToNextMonth}
               canGoPrevious={canGoPrevious}
               canGoNext={canGoNext}
+              labels={labels}
             />
 
             {selectedDay ? (
@@ -180,7 +179,7 @@ export function BookingCalendar({
                       type="button"
                       disabled={!slot.available}
                       aria-pressed={selectedSlotId === slot.id}
-                      aria-label={`${formatTime(slot.startTime, timezone)}, ${slot.available ? "available" : "unavailable"}`}
+                      aria-label={`${formatTime(slot.startTime, timezone)}, ${slot.available ? labels.calendar.available : labels.calendar.unavailable}`}
                       onClick={() => onSelectSlot(slot.id, slot.startTime)}
                       className={cn(
                         "min-h-12 rounded-md border px-3 py-3 text-sm transition-colors duration-200",

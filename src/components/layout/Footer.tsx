@@ -36,7 +36,7 @@ export function Footer({ content, locale }: FooterProps) {
           </div>
 
           <div className="flex flex-col gap-8">
-            <nav aria-label="Footer">
+            <nav aria-label={content.footer.navLabel}>
               <ul className="flex flex-col gap-3 sm:flex-row sm:gap-8">
                 {content.navigation.map((item) => (
                   <li key={item.href}>

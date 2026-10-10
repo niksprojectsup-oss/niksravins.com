@@ -10,6 +10,7 @@ describe("i18n paths", () => {
   it("localizedPath keeps English at root", () => {
     assert.equal(localizedPath("en", ""), "/");
     assert.equal(localizedPath("en", "book"), "/book");
+    assert.equal(localizedPath("en", "legal"), "/legal");
   });
 
   it("localizedPath prefixes non-English locales", () => {
@@ -17,9 +18,11 @@ describe("i18n paths", () => {
     assert.equal(localizedPath("de", "book"), "/de/book");
     assert.equal(localizedPath("ja", ""), "/ja");
     assert.equal(localizedPath("zh", "book"), "/zh/book");
+    assert.equal(localizedPath("de", "legal"), "/de/legal");
   });
 
   it("stripLocalePrefix removes locale segment", () => {
+    assert.equal(stripLocalePrefix("/de/legal"), "/legal");
     assert.equal(stripLocalePrefix("/de/book"), "/book");
     assert.equal(stripLocalePrefix("/fr"), "/");
     assert.equal(stripLocalePrefix("/book"), "/book");

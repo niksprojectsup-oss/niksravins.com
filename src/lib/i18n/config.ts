@@ -73,7 +73,7 @@ export const LOCALE_DEFINITIONS: Record<Locale, LocaleDefinition> = {
 };
 
 /** Public pages that have localized SEO URLs. */
-export const LOCALIZED_PUBLIC_PAGES = ["", "book"] as const;
+export const LOCALIZED_PUBLIC_PAGES = ["", "book", "legal"] as const;
 
 export type LocalizedPublicPage = (typeof LOCALIZED_PUBLIC_PAGES)[number];
 

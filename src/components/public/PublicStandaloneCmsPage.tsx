@@ -4,22 +4,20 @@ import { CmsPublishedBody } from "@/components/cms/CmsPublishedBody";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Section } from "@/components/ui/Section";
-import type { CmsLocale } from "@/lib/cms/definitions";
+import { isCmsSupportedPublicLocale } from "@/lib/cms/merge-homepage";
 import { getPublishedCmsPageContent } from "@/lib/cms/published-page-content";
 import type { StandaloneCmsPageSlug } from "@/lib/cms/published-page-content";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
+import type { CmsLocale } from "@/lib/cms/definitions";
 
 type PublicStandaloneCmsPageProps = {
   slug: StandaloneCmsPageSlug;
-  locale?: CmsLocale;
+  locale?: Locale;
 };
 
-function getFallbackPublicContent(): PublicContent {
-  return getPublicContent("en");
-}
-
-function getPublicLocale(): Locale {
-  return DEFAULT_LOCALE;
+function toCmsLocale(locale: Locale): CmsLocale | null {
+  if (locale === "en") return "en";
+  return null;
 }
 
 function LegalFallback({ content }: { content: PublicContent }) {
@@ -27,12 +25,11 @@ function LegalFallback({ content }: { content: PublicContent }) {
     <Section size="lg" aria-labelledby="legal-heading">
       <div className="max-w-prose layout-stack-md">
         <h1 id="legal-heading" className="type-heading">
-          Legal
+          {content.legal.heading}
         </h1>
+        <p className="type-body">{content.legal.body}</p>
         <p className="type-body">
-          {content.site.name}. {content.footer.rights}
-        </p>
-        <p className="type-body">
+          {content.legal.contactLabel}{" "}
           <a href={`mailto:${content.site.email}`} className="text-accent underline">
             {content.site.email}
           </a>
@@ -44,20 +41,23 @@ function LegalFallback({ content }: { content: PublicContent }) {
 
 export async function PublicStandaloneCmsPage({
   slug,
-  locale = "en",
+  locale = DEFAULT_LOCALE,
 }: PublicStandaloneCmsPageProps) {
   if (slug !== "legal") {
     throw new Error(`Unsupported standalone CMS page slug: ${slug}`);
   }
 
-  const fallbackContent = getFallbackPublicContent();
-  const publicLocale = getPublicLocale();
-  const published = await getPublishedCmsPageContent(slug, locale);
+  const content = getPublicContent(locale);
+  const cmsLocale =
+    isCmsSupportedPublicLocale(locale) ? toCmsLocale(locale) : null;
+  const published = cmsLocale
+    ? await getPublishedCmsPageContent(slug, cmsLocale)
+    : null;
   const publishedBody = published?.fields.body;
 
   return (
     <div className="min-h-screen bg-[#F5F1E8] text-[#2B2B27]">
-      <Header content={fallbackContent} locale={publicLocale} />
+      <Header content={content} locale={locale} />
       <main>
         {publishedBody ? (
           <Section size="lg" aria-labelledby={`${slug}-cms-heading`}>
@@ -66,10 +66,10 @@ export async function PublicStandaloneCmsPage({
             </div>
           </Section>
         ) : (
-          <LegalFallback content={fallbackContent} />
+          <LegalFallback content={content} />
         )}
       </main>
-      <Footer content={fallbackContent} locale={publicLocale} />
+      <Footer content={content} locale={locale} />
     </div>
   );
 }

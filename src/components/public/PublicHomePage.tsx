@@ -28,12 +28,12 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
       <Header content={content} locale={locale} />
       <main>
         <Hero content={content} cmsHtmlFields={cmsHtmlFields} />
-        <HomeFoundationSection cmsHtmlFields={cmsHtmlFields} />
-        <HomeWantChangeSection cmsHtmlFields={cmsHtmlFields} />
-        <HomeAlignmentSection cmsHtmlFields={cmsHtmlFields} />
-        <HomeUnderneathSection cmsHtmlFields={cmsHtmlFields} />
-        <HomeIdentityShiftsSection cmsHtmlFields={cmsHtmlFields} />
-        <HomeRootsSection cmsHtmlFields={cmsHtmlFields} />
+        <HomeFoundationSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeWantChangeSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeAlignmentSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeUnderneathSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeIdentityShiftsSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeRootsSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <HomeFaqSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <FinalCTA content={content} cmsHtmlFields={cmsHtmlFields} />
       </main>

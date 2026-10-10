@@ -4,13 +4,17 @@ import {
   getPublishedCmsImageSrc,
   type CmsHtmlFields,
 } from "@/lib/cms/published-field-html";
+import type { PublicContent } from "@/content/i18n/types";
 
-const INTRO_FALLBACK =
-  "Bring what is troubling you.\nWhat is holding you back. What you want to change.";
+type HomeUnderneathSectionProps = {
+  content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
+};
 
-const HEADLINE_FALLBACK = "Together we look at\nwhat may be underneath it.";
-
-export function HomeUnderneathSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: CmsHtmlFields }) {
+export function HomeUnderneathSection({
+  content,
+  cmsHtmlFields = {},
+}: HomeUnderneathSectionProps) {
   const imageSrc = getPublishedCmsImageSrc(cmsHtmlFields["underneath.image"]);
 
   return (
@@ -27,14 +31,14 @@ export function HomeUnderneathSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: 
           <div className="home-underneath-intro">
             <CmsPublishedFieldText
               html={cmsHtmlFields["underneath.intro"]}
-              fallback={INTRO_FALLBACK}
+              fallback={content.underneath.intro}
               className="home-underneath-intro-text font-display"
             />
           </div>
           <h2 id="underneath-heading" className="home-underneath-headline">
             <CmsPublishedFieldText
               html={cmsHtmlFields["underneath.headline"]}
-              fallback={HEADLINE_FALLBACK}
+              fallback={content.underneath.headline}
               className="home-underneath-headline-text font-display"
             />
           </h2>

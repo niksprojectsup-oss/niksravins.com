@@ -4,8 +4,21 @@ import {
   getPublishedCmsImageSrc,
   type CmsHtmlFields,
 } from "@/lib/cms/published-field-html";
+import type { PublicContent } from "@/content/i18n/types";
+import { EmphasizedText } from "./shared";
 
-function FoundationIntro({ html }: { html?: string }) {
+type HomeFoundationSectionProps = {
+  content: PublicContent;
+  cmsHtmlFields?: CmsHtmlFields;
+};
+
+function FoundationIntro({
+  html,
+  parts,
+}: {
+  html?: string;
+  parts: PublicContent["foundation"]["intro"];
+}) {
   if (html) {
     return (
       <CmsPublishedFieldText
@@ -17,15 +30,21 @@ function FoundationIntro({ html }: { html?: string }) {
   }
 
   return (
-    <p className="home-foundation-intro-text font-display">
-      I work with the <strong>deeper emotional connections</strong> and <strong>beliefs</strong> that
-      shape how you <strong>experience yourself</strong>, what you believe <strong>you deserve</strong>,
-      and what feels <strong>possible for you</strong>.
-    </p>
+    <EmphasizedText
+      as="p"
+      parts={parts}
+      className="home-foundation-intro-text font-display"
+    />
   );
 }
 
-function FoundationHeadline({ html }: { html?: string }) {
+function FoundationHeadline({
+  html,
+  parts,
+}: {
+  html?: string;
+  parts: PublicContent["foundation"]["headline"];
+}) {
   if (html) {
     return (
       <CmsPublishedFieldText
@@ -38,14 +57,20 @@ function FoundationHeadline({ html }: { html?: string }) {
 
   return (
     <span className="home-foundation-headline-text font-display">
-      Change the inner foundation.
-      <br />
-      <strong>Create space for a different life.</strong>
+      {parts.map((part, index) => (
+        <span key={index}>
+          {index > 0 ? <br /> : null}
+          {part.bold ? <strong>{part.text}</strong> : part.text}
+        </span>
+      ))}
     </span>
   );
 }
 
-export function HomeFoundationSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: CmsHtmlFields }) {
+export function HomeFoundationSection({
+  content,
+  cmsHtmlFields = {},
+}: HomeFoundationSectionProps) {
   const imageSrc = getPublishedCmsImageSrc(cmsHtmlFields["foundation.image"]);
 
   return (
@@ -57,10 +82,16 @@ export function HomeFoundationSection({ cmsHtmlFields = {} }: { cmsHtmlFields?: 
       <div className="home-foundation-grid">
         <div className="home-foundation-copy">
           <div className="home-foundation-intro">
-            <FoundationIntro html={cmsHtmlFields["foundation.intro"]} />
+            <FoundationIntro
+              html={cmsHtmlFields["foundation.intro"]}
+              parts={content.foundation.intro}
+            />
           </div>
           <h2 id="foundation-heading" className="home-foundation-headline">
-            <FoundationHeadline html={cmsHtmlFields["foundation.headline"]} />
+            <FoundationHeadline
+              html={cmsHtmlFields["foundation.headline"]}
+              parts={content.foundation.headline}
+            />
           </h2>
         </div>
         <div className="home-foundation-media">
