@@ -928,6 +928,21 @@
   }
 }
 
+/* A Tiptap “medium” kicker inside the display h1 inherits -0.03em
+   computed against the 46px headline, so 16px letters collide. */
+.home-hero-headline p:has(> [style*="font-size: medium"]),
+.home-hero-headline p:has(> [style*="font-size:medium"]) {
+  font-size: 1rem;
+  line-height: 1.45;
+  letter-spacing: 0;
+}
+
+.home-hero-headline [style*="font-size: medium"],
+.home-hero-headline [style*="font-size:medium"] {
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
 /* Scoped to the “Change the inner foundation.” section. */
 
 .home-foundation {

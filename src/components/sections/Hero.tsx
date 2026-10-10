@@ -5,6 +5,7 @@ import {
 } from "@/components/cms/CmsPublishedFieldText";
 import { Button } from "@/components/ui/Button";
 import { InternationalSessionNotice } from "@/components/i18n/InternationalSessionNotice";
+import { HOME_HERO_HEADLINE_CLASS } from "@/components/sections/hero-headline";
 import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 
 type HeroProps = {
@@ -22,7 +23,7 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
     >
       <div className="layout-container">
         <div className="layout-stack-lg max-w-wide">
-          <h1 id="hero-heading" className="type-display max-w-content">
+          <h1 id="hero-heading" className={HOME_HERO_HEADLINE_CLASS}>
             <CmsPublishedFieldText
               html={cmsHtmlFields["hero.headline"]}
               fallback={hero.headline}
