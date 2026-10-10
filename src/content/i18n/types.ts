@@ -71,7 +71,13 @@ export type ClientDetailErrorMessages = {
 
 export type BookingUiContent = {
   hero: { title: string; subtitle: string };
-  services: { title: string; description: string; choose: string; selected: string };
+  services: {
+    title: string;
+    description: string;
+    choose: string;
+    selected: string;
+    includedBonuses: string;
+  };
   steps: {
     progressLabel: string;
     session: string;

@@ -6,11 +6,13 @@ import { esContent } from "./es";
 import { frContent } from "./fr";
 import { itContent } from "./it";
 import { jaContent } from "./ja";
+import { lvContent } from "./lv";
 import type { PublicContent } from "./types";
 import { zhContent } from "./zh";
 
 const CONTENT_BY_LOCALE: Record<Locale, PublicContent> = {
   en: enContent,
+  lv: lvContent,
   de: deContent,
   fr: frContent,
   es: esContent,

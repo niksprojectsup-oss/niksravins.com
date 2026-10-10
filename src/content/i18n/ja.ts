@@ -354,6 +354,7 @@ export const jaContent: PublicContent = {
       description: "すべての提供は、有料のオンラインセッションです。",
       choose: "選ぶ",
       selected: "選択中",
+      includedBonuses: "含まれる特典",
     },
     steps: {
       progressLabel: "予約の進行",

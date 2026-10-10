@@ -2,6 +2,7 @@ export const DEFAULT_LOCALE = "en" as const;
 
 export const LOCALES = [
   "en",
+  "lv",
   "de",
   "fr",
   "es",
@@ -27,6 +28,13 @@ export const LOCALE_DEFINITIONS: Record<Locale, LocaleDefinition> = {
     htmlLang: "en",
     label: "English",
     nativeLabel: "EN",
+  },
+  lv: {
+    locale: "lv",
+    hreflang: "lv",
+    htmlLang: "lv",
+    label: "Latvian",
+    nativeLabel: "LV",
   },
   de: {
     locale: "de",

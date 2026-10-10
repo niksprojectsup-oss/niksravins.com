@@ -6,6 +6,7 @@ import { LOCALES } from "@/lib/i18n/config";
 
 const EXPECTED_NAV_LABELS = {
   en: { explore: "Explore options", identity: "Identity Shifts" },
+  lv: { explore: "Izpētīt iespējas", identity: "Identitātes pārmaiņas" },
   de: { explore: "Optionen erkunden", identity: "Identitätswandel" },
   fr: { explore: "Explorer les options", identity: "Changements identitaires" },
   es: { explore: "Explorar opciones", identity: "Cambios de identidad" },

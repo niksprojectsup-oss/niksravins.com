@@ -356,6 +356,7 @@ export const esContent: PublicContent = {
       description: "Todas las ofertas son sesiones de pago que se realizan en línea.",
       choose: "Elegir",
       selected: "Seleccionado",
+      includedBonuses: "Bonificaciones incluidas",
     },
     steps: {
       progressLabel: "Progreso de la reserva",

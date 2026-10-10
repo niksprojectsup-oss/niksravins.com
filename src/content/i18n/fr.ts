@@ -356,6 +356,7 @@ export const frContent: PublicContent = {
       description: "Toutes les prestations sont des séances payantes en ligne.",
       choose: "Choisir",
       selected: "Sélectionné",
+      includedBonuses: "Bonus inclus",
     },
     steps: {
       progressLabel: "Progression de la réservation",

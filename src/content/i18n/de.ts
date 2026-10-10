@@ -356,6 +356,7 @@ export const deContent: PublicContent = {
       description: "Alle Angebote sind kostenpflichtige Sitzungen, die online stattfinden.",
       choose: "Auswählen",
       selected: "Ausgewählt",
+      includedBonuses: "Enthaltene Boni",
     },
     steps: {
       progressLabel: "Buchungsfortschritt",

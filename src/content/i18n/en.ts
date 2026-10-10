@@ -355,6 +355,7 @@ export const enContent: PublicContent = {
       description: "All offerings are paid sessions conducted online.",
       choose: "Choose",
       selected: "Selected",
+      includedBonuses: "Included bonuses",
     },
     steps: {
       progressLabel: "Booking progress",

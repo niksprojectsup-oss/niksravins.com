@@ -354,6 +354,7 @@ export const zhContent: PublicContent = {
       description: "所有服务均为付费在线咨询。",
       choose: "选择",
       selected: "已选择",
+      includedBonuses: "包含的赠礼",
     },
     steps: {
       progressLabel: "预约进度",

@@ -4,6 +4,7 @@ import { esContent } from "@/content/i18n/es";
 import { frContent } from "@/content/i18n/fr";
 import { itContent } from "@/content/i18n/it";
 import { jaContent } from "@/content/i18n/ja";
+import { lvContent } from "@/content/i18n/lv";
 import type { PublicContent } from "@/content/i18n/types";
 import { zhContent } from "@/content/i18n/zh";
 import { LOCALES, type Locale } from "@/lib/i18n/config";
@@ -22,6 +23,7 @@ export type TranslationCatalogEntry = {
 
 const FILE_CONTENT_BY_LOCALE: Record<Locale, PublicContent> = {
   en: enContent,
+  lv: lvContent,
   de: deContent,
   fr: frContent,
   es: esContent,
@@ -214,10 +216,6 @@ export function buildTranslationCatalog(
 }
 
 export function fileTranslationMap(locale: TranslationLocale): Record<string, string> {
-  if (locale === "lv") {
-    return {};
-  }
-
   return flattenPublicContent(FILE_CONTENT_BY_LOCALE[locale]);
 }
 

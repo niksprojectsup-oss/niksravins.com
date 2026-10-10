@@ -356,6 +356,7 @@ export const itContent: PublicContent = {
       description: "Tutte le offerte sono sessioni a pagamento svolte online.",
       choose: "Scegli",
       selected: "Selezionato",
+      includedBonuses: "Bonus inclusi",
     },
     steps: {
       progressLabel: "Avanzamento della prenotazione",
