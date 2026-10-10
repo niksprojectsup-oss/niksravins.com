@@ -1,24 +1,18 @@
-import { getPublicContent } from "@/content/i18n";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import type { PublicContent } from "@/content/i18n/types";
 import { CmsPublishedBody } from "@/components/cms/CmsPublishedBody";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Section } from "@/components/ui/Section";
-import { isCmsSupportedPublicLocale } from "@/lib/cms/merge-homepage";
+import { publicCmsLocale } from "@/lib/cms/definitions";
 import { getPublishedCmsPageContent } from "@/lib/cms/published-page-content";
 import type { StandaloneCmsPageSlug } from "@/lib/cms/published-page-content";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
-import type { CmsLocale } from "@/lib/cms/definitions";
 
 type PublicStandaloneCmsPageProps = {
   slug: StandaloneCmsPageSlug;
   locale?: Locale;
 };
-
-function toCmsLocale(locale: Locale): CmsLocale | null {
-  if (locale === "en") return "en";
-  return null;
-}
 
 function LegalFallback({ content }: { content: PublicContent }) {
   return (
@@ -47,13 +41,14 @@ export async function PublicStandaloneCmsPage({
     throw new Error(`Unsupported standalone CMS page slug: ${slug}`);
   }
 
-  const content = getPublicContent(locale);
-  const cmsLocale =
-    isCmsSupportedPublicLocale(locale) ? toCmsLocale(locale) : null;
-  const published = cmsLocale
-    ? await getPublishedCmsPageContent(slug, cmsLocale)
-    : null;
-  const publishedBody = published?.fields.body;
+  const content = await getResolvedPublicContent(locale);
+  const cmsLocale = publicCmsLocale(locale);
+  const published =
+    cmsLocale && cmsLocale === locale
+      ? await getPublishedCmsPageContent(slug, cmsLocale)
+      : null;
+  const publishedBody =
+    published && published.locale === locale ? published.fields.body : undefined;
 
   return (
     <div className="min-h-screen bg-[#F5F1E8] text-[#2B2B27]">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPublicContent } from "@/content/i18n";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicStandaloneCmsPage } from "@/components/public/PublicStandaloneCmsPage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
@@ -18,7 +18,7 @@ export async function generateMetadata({
   const locale = parseLocaleParam(localeParam);
   if (!locale) return {};
 
-  const content = getPublicContent(locale);
+  const content = await getResolvedPublicContent(locale);
   return buildPublicMetadata({
     locale,
     page: "legal",

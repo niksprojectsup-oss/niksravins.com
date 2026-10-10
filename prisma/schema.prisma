@@ -653,6 +653,36 @@ model CmsContentItem {
   @@index([sectionId, locale])
 }
 
+model TranslationEntry {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  page      String
+  section   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  values TranslationValue[]
+
+  @@index([page, section])
+  @@index([sortOrder])
+}
+
+model TranslationValue {
+  id             String   @id @default(cuid())
+  entryId        String
+  locale         String
+  draftValue     String   @db.Text
+  publishedValue String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  entry TranslationEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@unique([entryId, locale])
+  @@index([locale])
+}
+
 model BookingSettings {
   id              String   @id @default("default")
   businessTimezone String  @default("Europe/Riga")

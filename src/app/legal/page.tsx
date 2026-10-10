@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import { getPublicContent } from "@/content/i18n";
 import { PublicStandaloneCmsPage } from "@/components/public/PublicStandaloneCmsPage";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 
-const content = getPublicContent("en");
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
+  const content = await getResolvedPublicContent("en");
   return buildPublicMetadata({
     locale: "en",
     page: "legal",

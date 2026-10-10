@@ -27,7 +27,15 @@ function localizeHomeSectionHref(href: string, homePath: string): string {
   return href;
 }
 
-function localizePaths(content: PublicContent, locale: Locale): PublicContent {
+export function getFilePublicContent(locale: Locale): PublicContent {
+  const content = CONTENT_BY_LOCALE[locale];
+  if (!content) {
+    throw new Error(`No public content for locale: ${locale}`);
+  }
+  return content;
+}
+
+export function applyLocalizedPaths(content: PublicContent, locale: Locale): PublicContent {
   const bookPath = localizedPath(locale, "book");
   const homePath = localizedPath(locale, "");
 
@@ -61,11 +69,7 @@ function localizePaths(content: PublicContent, locale: Locale): PublicContent {
 }
 
 export function getPublicContent(locale: Locale): PublicContent {
-  const content = CONTENT_BY_LOCALE[locale];
-  if (!content) {
-    throw new Error(`No public content for locale: ${locale}`);
-  }
-  return localizePaths(content, locale);
+  return applyLocalizedPaths(getFilePublicContent(locale), locale);
 }
 
 export function getAllPublicContent(): PublicContent[] {

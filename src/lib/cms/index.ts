@@ -1,15 +1,24 @@
 export {
   CMS_LOCALES,
+  CMS_IMPORT_LOCALES,
   CMS_LOCALE_LABELS,
   CMS_PAGE_DEFINITIONS,
   getAllCmsFieldKeys,
   getCmsPageDefinition,
   isCmsLocale,
+  publicCmsLocale,
   type CmsFieldDefinition,
   type CmsLocale,
   type CmsPageDefinition,
   type CmsSectionDefinition,
 } from "@/lib/cms/definitions";
+export {
+  cmsEditorPathForKey,
+  getFieldOwner,
+  isCmsOwnedCatalogKey,
+  isCmsOwnedFieldKey,
+} from "@/lib/cms/field-ownership";
+export { cmsHtmlFieldsForRequestedLocale } from "@/lib/cms/locale-render";
 export { applyCmsFieldsToHomeContent, applyCmsSeoFieldsToHomeContent, isCmsSupportedPublicLocale } from "@/lib/cms/merge-homepage";
 export { getPublicHomeContent, getPublicHomeMetadata, type PublicHomePageData } from "@/lib/cms/public-content";
 export {

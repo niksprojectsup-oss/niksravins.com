@@ -1,6 +1,7 @@
 export const adminNav = [
   { label: "Dashboard", href: "/admin" },
   { label: "Content", href: "/admin/content" },
+  { label: "Translations", href: "/admin/translations" },
   { label: "Calendar", href: "/admin/calendar" },
   { label: "Clients", href: "/admin/clients" },
   { label: "Sessions", href: "/admin/sessions" },
@@ -18,6 +19,10 @@ export const adminPages = {
   content: {
     title: "Content",
     description: "Edit website pages, sections, and localized copy.",
+  },
+  translations: {
+    title: "Translations",
+    description: "Edit public website translations by page, section, and locale. Publish to update the live site.",
   },
   calendar: {
     title: "Calendar",

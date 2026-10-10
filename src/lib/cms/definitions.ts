@@ -1,9 +1,16 @@
-export const CMS_LOCALES = ["en", "lv"] as const;
+export const CMS_LOCALES = ["en", "lv", "de", "fr", "es", "it", "ja", "zh"] as const;
 
 export type CmsLocale = (typeof CMS_LOCALES)[number];
 
+/** Import/seed only. Do not auto-create CMS rows for other locales. */
+export const CMS_IMPORT_LOCALES = ["en", "lv"] as const;
+
 export function isCmsLocale(value: string): value is CmsLocale {
   return CMS_LOCALES.includes(value as CmsLocale);
+}
+
+export function publicCmsLocale(locale: string): CmsLocale | null {
+  return isCmsLocale(locale) ? locale : null;
 }
 
 export type CmsFieldDefinition = {
@@ -336,4 +343,10 @@ export function getAllCmsFieldKeys(pageSlug: string): string[] {
 export const CMS_LOCALE_LABELS: Record<CmsLocale, string> = {
   en: "English",
   lv: "Latvian",
+  de: "German",
+  fr: "French",
+  es: "Spanish",
+  it: "Italian",
+  ja: "Japanese",
+  zh: "Chinese",
 };
