@@ -22,8 +22,9 @@ export default async function AdminTranslationsPage({
   searchParams,
 }: AdminTranslationsPageProps) {
   const params = await searchParams;
-  const locale: TranslationLocale = isTranslationLocale(params.locale ?? "")
-    ? params.locale!
+  const requestedLocale = params.locale ?? "";
+  const locale: TranslationLocale = isTranslationLocale(requestedLocale)
+    ? requestedLocale
     : "de";
 
   let extraOfferIds: string[] = [];
