@@ -7,6 +7,7 @@ export const CMS_FONT_SIZE_MAX = 200;
 
 export const CMS_FONT_FAMILIES = [
   { label: "Inter", value: "Inter, sans-serif" },
+  { label: "Fraunces", value: "var(--font-family-display), Fraunces, serif" },
   { label: "Arial", value: "Arial, Helvetica, sans-serif" },
   { label: "Helvetica", value: "Helvetica, Arial, sans-serif" },
   { label: "Georgia", value: "Georgia, serif" },
@@ -14,6 +15,10 @@ export const CMS_FONT_FAMILIES = [
   { label: "Courier New", value: '"Courier New", Courier, monospace' },
   { label: "System UI", value: "system-ui, sans-serif" },
 ] as const;
+
+export function cmsFontFamilyOption(value: string | null | undefined) {
+  return CMS_FONT_FAMILIES.find((entry) => entry.value === value) ?? CMS_FONT_FAMILIES[0];
+}
 
 export const CMS_TEXT_COLORS = [
   { label: "Black", value: "#111111" },

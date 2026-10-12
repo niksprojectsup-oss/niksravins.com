@@ -7,6 +7,7 @@ import { uploadCmsImage } from "@/lib/cms/cms-image-upload";
 import { cn } from "@/lib/utils";
 import {
   CMS_FONT_FAMILIES,
+  cmsFontFamilyOption,
   CMS_FONT_SIZE_MAX,
   CMS_FONT_SIZE_MIN,
   CMS_FONT_SIZE_PRESETS,
@@ -239,8 +240,7 @@ export function CmsEditorToolbar({
   const currentParagraphSpacing =
     (editor.getAttributes("paragraph").paragraphSpacing as string | undefined) ?? "normal";
 
-  const currentFontLabel =
-    CMS_FONT_FAMILIES.find((entry) => entry.value === currentFontFamily)?.label ?? "Inter";
+  const currentFontLabel = cmsFontFamilyOption(currentFontFamily).label;
 
   function setLink() {
     const previous = editor.getAttributes("link").href as string | undefined;
