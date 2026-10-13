@@ -13,6 +13,10 @@ type FooterProps = {
 export function Footer({ content, locale }: FooterProps) {
   const year = new Date().getFullYear();
   const homePath = localizedPath(locale, "");
+  const sessionNotice = [content.internationalNotice.line1, content.internationalNotice.line2]
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join(" · ");
 
   return (
     <footer className="border-t border-border-subtle">
@@ -24,9 +28,9 @@ export function Footer({ content, locale }: FooterProps) {
             <p className="type-caption text-ink-subtle">
               {content.site.availability}
             </p>
-            <p className="type-caption text-ink-subtle">
-              {content.internationalNotice.line1} · {content.internationalNotice.line2}
-            </p>
+            {sessionNotice ? (
+              <p className="type-caption text-ink-subtle">{sessionNotice}</p>
+            ) : null}
             <a
               href={`mailto:${content.site.email}`}
               className="type-accent-link w-fit pt-2"

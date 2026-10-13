@@ -5,15 +5,15 @@ export const lvContent: PublicContent = {
   translationStatus: "published",
   site: {
     name: "Niks Ravins",
-    method: "Adaptive Association Processing (AAP)",
+    method: "Personīgā transformācija",
     availability: "Tiešsaistē visā pasaulē",
     brandDescriptor: "Automātisko nervu sistēmas reakciju pārrakstīšanas speciālists",
     email: "hello@niksravins.com",
     bookingUrl: "/book",
   },
   internationalNotice: {
-    line1: "Tiešsaistē visā pasaulē",
-    line2: "Sesijas notiek angļu valodā",
+    line1: "",
+    line2: "",
   },
   header: {
     book: "Rezervēt",

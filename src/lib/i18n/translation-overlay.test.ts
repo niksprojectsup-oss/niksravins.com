@@ -3,6 +3,7 @@ import { describe, it } from "node:test";
 import { applyLocalizedPaths, getFilePublicContent, getPublicContent } from "@/content/i18n";
 import {
   applyEnglishCatalogFallback,
+  applyLatvianFooterCatalog,
   applyPublishedOverlay,
   isMissingTranslation,
   isUntranslatedFallback,
@@ -99,6 +100,46 @@ describe("translation overlay and fallback", () => {
     assert.equal(isMissingTranslation("en", "", ""), false);
     assert.equal(isUntranslatedFallback("de", "Book", "Book", "Book"), true);
     assert.equal(isUntranslatedFallback("de", "Book", "Buchen", "Buchen"), false);
+  });
+
+  it("keeps the Latvian footer method and removes the session notice from the catalog", () => {
+    const latvian = getFilePublicContent("lv");
+    const english = getFilePublicContent("en");
+    const german = getFilePublicContent("de");
+
+    assert.equal(latvian.site.method, "Personīgā transformācija");
+    assert.equal(latvian.internationalNotice.line1, "");
+    assert.equal(latvian.internationalNotice.line2, "");
+    assert.equal(english.site.method, "Adaptive Association Processing (AAP)");
+    assert.equal(english.internationalNotice.line1, "Online worldwide");
+    assert.equal(english.internationalNotice.line2, "Sessions are conducted in English");
+    assert.equal(german.site.method, "Adaptive Association Processing (AAP)");
+    assert.equal(german.internationalNotice.line2, "Sitzungen werden auf Englisch durchgeführt");
+  });
+
+  it("prefers the Latvian footer catalog over a stale published translation", () => {
+    const file = getFilePublicContent("lv");
+    const stale = applyPublishedOverlay(file, {
+      "site.method": "Adaptive Association Processing (AAP)",
+      "internationalNotice.line1": "Tiešsaistē visā pasaulē",
+      "internationalNotice.line2": "Sesijas notiek angļu valodā",
+    });
+    const withEnglish = applyEnglishCatalogFallback(stale, getFilePublicContent("en"));
+    const resolved = applyLatvianFooterCatalog(withEnglish, file, "lv");
+
+    assert.equal(resolved.site.method, "Personīgā transformācija");
+    assert.equal(resolved.internationalNotice.line1, "");
+    assert.equal(resolved.internationalNotice.line2, "");
+    assert.equal(resolved.site.availability, "Tiešsaistē visā pasaulē");
+    assert.equal(resolved.hero.headline, file.hero.headline);
+  });
+
+  it("does not apply the Latvian footer catalog to other locales", () => {
+    const german = getFilePublicContent("de");
+    const resolved = applyLatvianFooterCatalog(german, getFilePublicContent("lv"), "de");
+
+    assert.equal(resolved.site.method, "Adaptive Association Processing (AAP)");
+    assert.equal(resolved.internationalNotice.line1, "Weltweit online");
   });
 
   it("renders file content unchanged when no overlay is published", () => {

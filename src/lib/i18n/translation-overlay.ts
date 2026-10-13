@@ -27,6 +27,29 @@ export function applyPublishedOverlay(
   return applyTranslationOverlay(content, overlay);
 }
 
+/** Latvian footer method and session notice stay on the file catalog. */
+export function applyLatvianFooterCatalog(
+  content: PublicContent,
+  catalog: Pick<PublicContent, "site" | "internationalNotice">,
+  locale: string,
+): PublicContent {
+  if (locale !== "lv") {
+    return content;
+  }
+
+  return {
+    ...content,
+    site: {
+      ...content.site,
+      method: catalog.site.method,
+    },
+    internationalNotice: {
+      line1: catalog.internationalNotice.line1,
+      line2: catalog.internationalNotice.line2,
+    },
+  };
+}
+
 export function applyEnglishCatalogFallback<T>(
   localeContent: T,
   englishContent: T,
