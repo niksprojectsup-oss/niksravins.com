@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPublicContent } from "@/content/i18n";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicPaymentSuccessPage } from "@/components/public/PublicPaymentSuccessPage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { verifyCheckoutSession } from "@/lib/stripe/verify-checkout-session";
@@ -19,7 +19,7 @@ export async function generateMetadata({
   const locale = parseLocaleParam(localeParam);
   if (!locale) return {};
 
-  const content = getPublicContent(locale);
+  const content = await getResolvedPublicContent(locale);
   return {
     title: content.bookingUi.paymentSuccess.title,
     robots: { index: false, follow: false },
@@ -37,7 +37,7 @@ export default async function LocaleBookSuccessPage({
     notFound();
   }
 
-  const content = getPublicContent(locale);
+  const content = await getResolvedPublicContent(locale);
   const state = await verifyCheckoutSession(query.session_id);
 
   return (

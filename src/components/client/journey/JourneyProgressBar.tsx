@@ -5,12 +5,16 @@ type JourneyProgressBarProps = {
   timeline: PackageSessionSlot[];
   totalSessions: number;
   className?: string;
+  progressLabel?: string;
+  completedLabel?: string;
 };
 
 export function JourneyProgressBar({
   timeline,
   totalSessions,
   className,
+  progressLabel = "Session {current} of {total}",
+  completedLabel = "completed",
 }: JourneyProgressBarProps) {
   const completedCount = timeline.filter((slot) => slot.status === "completed").length;
   const scheduledUpcoming = timeline.find(
@@ -28,10 +32,12 @@ export function JourneyProgressBar({
     <div className={cn("layout-stack-sm", className)}>
       <div className="flex items-center justify-between gap-4">
         <p className="type-body text-ink">
-          Session {Math.max(currentSessionNumber, 1)} of {totalSessions}
+          {progressLabel
+            .replaceAll("{current}", String(Math.max(currentSessionNumber, 1)))
+            .replaceAll("{total}", String(totalSessions))}
         </p>
         <p className="type-caption text-ink-subtle">
-          {completedCount} completed
+          {completedCount} {completedLabel}
         </p>
       </div>
       <div className="flex items-center gap-2" aria-hidden>

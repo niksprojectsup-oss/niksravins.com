@@ -50,7 +50,18 @@ export function TransformationOverviewSection({
           <h3 className="type-label">Latest shared journal</h3>
           {overview.latestSharedJournal ? (
             <div className="mt-2">
-              <p className="type-caption">{formatAdminDate(overview.latestSharedJournal.createdAt)}</p>
+              <p className="type-caption">
+                {overview.latestSharedJournal.category === "PATTERN"
+                  ? "Pattern"
+                  : overview.latestSharedJournal.category === "TRIGGER"
+                    ? "Trigger"
+                    : overview.latestSharedJournal.category === "POSITIVE_OBSERVATION"
+                      ? "Positive observation"
+                      : "Uncategorized"}
+                {" · "}
+                {overview.latestSharedJournal.observedOn ??
+                  formatAdminDate(overview.latestSharedJournal.createdAt)}
+              </p>
               <p className="type-body mt-2 whitespace-pre-wrap">
                 {overview.latestSharedJournal.content}
               </p>

@@ -35,6 +35,7 @@ type SessionCardProps = {
   selected: boolean;
   chooseLabel: string;
   selectedLabel: string;
+  includedBonusesLabel: string;
   onSelect: () => void;
 };
 
@@ -86,6 +87,7 @@ export function SessionCard({
   selected,
   chooseLabel,
   selectedLabel,
+  includedBonusesLabel,
   onSelect,
 }: SessionCardProps) {
   return (
@@ -115,7 +117,7 @@ export function SessionCard({
         ) : null}
         {bonuses && bonuses.length > 0 ? (
           <div className="border-t border-border-subtle pt-4">
-            <p className="type-label text-ink-subtle">Included bonuses</p>
+            <p className="type-label text-ink-subtle">{includedBonusesLabel}</p>
             <div className="mt-3">
               <ServiceList items={bonuses} />
             </div>

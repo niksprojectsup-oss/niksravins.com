@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { PortalContent } from "@/content/i18n/portal";
 import type { PackageSessionSlot } from "@/lib/admin/client-types";
 import { formatPortalSessionDateTime } from "@/lib/client/portal-repository";
 
@@ -7,23 +8,29 @@ type JourneyTimelineProps = {
   packageId: string;
   totalSessions: number;
   timezone: string;
+  copy: PortalContent["journeyPage"];
+  prepareLabel: string;
+  bookLabel: string;
 };
 
 function slotAction(
   slot: PackageSessionSlot,
   packageId: string,
   isNextBookable: boolean,
-): { label: string; href?: string } {
+  copy: PortalContent["journeyPage"],
+  prepareLabel: string,
+  bookLabel: string,
+): { kind: "link" | "done" | "waiting"; label: string; href?: string } {
   if (slot.status === "completed") {
-    return { label: "Completed", href: `/client/sessions?session=${slot.sessionId}` };
+    return { kind: "done", label: copy.completed, href: `/client/sessions?session=${slot.sessionId}` };
   }
   if (slot.status === "scheduled") {
-    return { label: "Prepare for session", href: `/client/dashboard#next-session` };
+    return { kind: "link", label: prepareLabel, href: "/client/dashboard#focus" };
   }
   if (isNextBookable) {
-    return { label: "Book next session", href: `/client/packages/${packageId}/book` };
+    return { kind: "link", label: bookLabel, href: `/client/packages/${packageId}/book` };
   }
-  return { label: "Not yet scheduled" };
+  return { kind: "waiting", label: copy.notScheduled };
 }
 
 export function JourneyTimeline({
@@ -31,15 +38,17 @@ export function JourneyTimeline({
   packageId,
   totalSessions,
   timezone,
+  copy,
+  prepareLabel,
+  bookLabel,
 }: JourneyTimelineProps) {
   const firstUnscheduled = timeline.find((s) => s.status === "not_scheduled");
 
   return (
     <ol className="layout-stack-md">
       {timeline.map((slot, index) => {
-        const isNextBookable =
-          firstUnscheduled?.sessionNumber === slot.sessionNumber;
-        const action = slotAction(slot, packageId, isNextBookable);
+        const isNextBookable = firstUnscheduled?.sessionNumber === slot.sessionNumber;
+        const action = slotAction(slot, packageId, isNextBookable, copy, prepareLabel, bookLabel);
         const isLast = index === timeline.length - 1;
 
         return (
@@ -57,37 +66,30 @@ export function JourneyTimeline({
               >
                 {slot.status === "completed" ? "✓" : slot.sessionNumber}
               </span>
-              {!isLast ? (
-                <span className="mt-1 w-px flex-1 bg-border-subtle" aria-hidden />
-              ) : null}
+              {!isLast ? <span className="mt-1 w-px flex-1 bg-border-subtle" aria-hidden /> : null}
             </div>
 
             <div className="min-w-0 flex-1 pb-6">
               <p className="type-body text-ink">
-                Session {slot.sessionNumber}
-                <span className="type-caption ml-2 text-ink-subtle">
-                  of {totalSessions}
-                </span>
+                {copy.sessionProgress
+                  .replaceAll("{current}", String(slot.sessionNumber))
+                  .replaceAll("{total}", String(totalSessions))}
               </p>
               {slot.scheduledAt ? (
                 <p className="type-caption mt-1">
                   {formatPortalSessionDateTime(slot.scheduledAt, timezone)}
                 </p>
               ) : (
-                <p className="type-caption mt-1 text-ink-faint">
-                  {slot.status === "not_scheduled"
-                    ? "Not yet scheduled"
-                    : slot.status.replace("_", " ")}
-                </p>
+                <p className="type-caption mt-1 text-ink-faint">{copy.notScheduled}</p>
               )}
-              {action.href && action.label !== "Completed" ? (
+              {action.kind === "link" && action.href ? (
                 <Link href={action.href} className="type-accent-link mt-2 inline-block">
                   {action.label}
                 </Link>
-              ) : action.label === "Completed" ? (
-                <p className="type-caption mt-2 text-accent">{action.label}</p>
               ) : (
-                <p className="type-caption mt-2 text-ink-faint">{action.label}</p>
+                <p className={`type-caption mt-2 ${action.kind === "done" ? "text-accent" : "text-ink-faint"}`}>
+                  {action.label}
+                </p>
               )}
             </div>
           </li>

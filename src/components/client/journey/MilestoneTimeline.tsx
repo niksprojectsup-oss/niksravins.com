@@ -1,6 +1,12 @@
 import type { JourneyMilestone } from "@/lib/journey/milestones";
 
-export function MilestoneTimeline({ milestones }: { milestones: JourneyMilestone[] }) {
+export function MilestoneTimeline({
+  milestones,
+  labels,
+}: {
+  milestones: JourneyMilestone[];
+  labels?: Record<JourneyMilestone["key"], string>;
+}) {
   const visible = milestones.filter((m) => m.achieved || m.key !== "first_breakthrough");
 
   return (
@@ -14,7 +20,7 @@ export function MilestoneTimeline({ milestones }: { milestones: JourneyMilestone
             aria-hidden
           />
           <p className={`type-body ${milestone.achieved ? "text-ink" : "text-ink-faint"}`}>
-            {milestone.label.toUpperCase()}
+            {(labels?.[milestone.key] ?? milestone.label).toUpperCase()}
           </p>
           {milestone.achieved && milestone.achievedAt ? (
             <p className="type-caption mt-1">

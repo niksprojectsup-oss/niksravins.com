@@ -1,0 +1,203 @@
+export type PortalContent = {
+  metaTitle: string;
+  languageSwitcherLabel: string;
+  nav: {
+    home: string;
+    path: string;
+    sessions: string;
+    insights: string;
+    account: string;
+    label: string;
+    openMenu: string;
+    closeMenu: string;
+    search: string;
+  };
+  hero: {
+    greeting: string;
+    subtitle: string;
+    intro: string;
+    quote: string;
+    quoteBy: string;
+  };
+  stats: {
+    nextSession: string;
+    noNextSession: string;
+    sessions: string;
+    recordedChanges: string;
+  };
+  growth: {
+    title: string;
+    subtitle: string;
+    periodLabel: string;
+    period3: string;
+    period6: string;
+    periodAll: string;
+    empty: string;
+    dimensions: {
+      clarity: string;
+      confidence: string;
+      connection: string;
+      movingForward: string;
+      emotionalBalance: string;
+      feelingStuck: string;
+    };
+  };
+  lastSession: {
+    title: string;
+    subtitle: string;
+    viewAll: string;
+    empty: string;
+    conclusions: string;
+    emptyConclusions: string;
+  };
+  focus: {
+    title: string;
+    subtitle: string;
+    label: string;
+    placeholder: string;
+    save: string;
+    saving: string;
+    saved: string;
+    empty: string;
+  };
+  insights: {
+    title: string;
+    subtitle: string;
+    add: string;
+    all: string;
+    pattern: string;
+    trigger: string;
+    positive: string;
+    uncategorized: string;
+    searchPlaceholder: string;
+    empty: string;
+    noMatches: string;
+    edit: string;
+    delete: string;
+    confirmTitle: string;
+    confirmBody: string;
+    cancel: string;
+    save: string;
+    saving: string;
+    saved: string;
+    contentLabel: string;
+    dateLabel: string;
+    categoryLabel: string;
+    visibilityLegend: string;
+    privateTitle: string;
+    privateHint: string;
+    sharedTitle: string;
+    sharedHint: string;
+    contentRequired: string;
+  };
+  cards: {
+    processTitle: string;
+    processBody: string;
+    journalTitle: string;
+    journalBody: string;
+    trunksTitle: string;
+    trunksBody: string;
+    open: string;
+  };
+  trunksPage: {
+    title: string;
+    empty: string;
+  };
+  footer: {
+    quote: string;
+    privacy: string;
+    terms: string;
+    support: string;
+  };
+  login: {
+    title: string;
+    subtitle: string;
+    email: string;
+    password: string;
+    submit: string;
+    pending: string;
+    tooManyAttempts: string;
+    invalidCredentials: string;
+    forgot: string;
+  };
+  forgotPassword: {
+    title: string;
+    subtitle: string;
+    email: string;
+    submit: string;
+    pending: string;
+    success: string;
+    tooManyAttempts: string;
+    invalidEmail: string;
+    backToLogin: string;
+  };
+  setPassword: {
+    title: string;
+    subtitle: string;
+    password: string;
+    confirm: string;
+    submit: string;
+    pending: string;
+    invalidLink: string;
+    tooShort: string;
+    mismatch: string;
+    expired: string;
+    signInFailed: string;
+    tooManyAttempts: string;
+  };
+  account: {
+    title: string;
+    subtitle: string;
+    name: string;
+    email: string;
+    timezone: string;
+    signOut: string;
+  };
+  sessionsPage: {
+    title: string;
+    description: string;
+    upcoming: string;
+    past: string;
+    empty: string;
+    prepare: string;
+    bookPrompt: string;
+    book: string;
+    sessionNumber: string;
+    upcomingSession: string;
+    reflection: string;
+    takeaway: string;
+    reflectTitle: string;
+    rating: string;
+    valuable: string;
+    shifted: string;
+    takeawayPrompt: string;
+    messageToPractitioner: string;
+    shareQuestion: string;
+    yes: string;
+    no: string;
+    saveReflection: string;
+    savingReflection: string;
+    reflectionSaved: string;
+  };
+  journeyPage: {
+    title: string;
+    description: string;
+    empty: string;
+    book: string;
+    milestones: string;
+    completed: string;
+    remaining: string;
+    sessionProgress: string;
+    sessionOf: string;
+    notScheduled: string;
+    milestoneLabels: {
+      journey_started: string;
+      first_reflection: string;
+      first_session_completed: string;
+      first_breakthrough: string;
+      midpoint: string;
+      final_session: string;
+      journey_completed: string;
+    };
+  };
+};

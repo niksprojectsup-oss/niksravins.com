@@ -4,6 +4,7 @@ import type {
   AssessmentPhase,
   CheckInMood,
   GoalStatus,
+  JournalCategory,
   JournalVisibility,
   TestimonialConsent,
 } from "@prisma/client";
@@ -24,6 +25,8 @@ export type JourneyJournalEntry = {
   content: string;
   prompt: string;
   visibility: JournalVisibility;
+  category: JournalCategory | null;
+  observedOn: string | null;
   createdAt: string;
   updatedAt: string;
 };
@@ -133,6 +136,8 @@ function mapJournal(entry: {
   content: string;
   prompt: string;
   visibility: JournalVisibility;
+  category: JournalCategory | null;
+  observedOn: string | null;
   createdAt: Date;
   updatedAt: Date;
 }): JourneyJournalEntry {
@@ -141,6 +146,8 @@ function mapJournal(entry: {
     content: entry.content,
     prompt: entry.prompt,
     visibility: entry.visibility,
+    category: entry.category,
+    observedOn: entry.observedOn,
     createdAt: entry.createdAt.toISOString(),
     updatedAt: entry.updatedAt.toISOString(),
   };
@@ -379,20 +386,102 @@ export async function getJourneyDashboard(
   };
 }
 
+export type PortalHomeData = {
+  firstName: string;
+  timezone: string;
+  nextSession: JourneyNextSession | null;
+  preparation: JourneySessionPreparation | null;
+  completedSessions: number;
+  recordedChanges: number;
+  assessments: JourneySelfAssessment[];
+  lastSession: {
+    id: string;
+    scheduledAt: string;
+    sessionType: string;
+    mainTopic: string;
+  } | null;
+  lastReflection: {
+    takeaway: string;
+    whatShifted: string;
+  } | null;
+  insights: JourneyJournalEntry[];
+};
+
+export async function getPortalHome(clientId: string): Promise<PortalHomeData | null> {
+  requireDatabase();
+  const dashboard = await getJourneyDashboard(clientId);
+  if (!dashboard) return null;
+
+  const [completedSessions, recordedChanges, assessments, lastSession, insights] = await Promise.all([
+    prisma.session.count({ where: { clientId, status: "COMPLETED" } }),
+    prisma.checklist.count({ where: { clientId, type: "CURRENT", checked: true } }),
+    prisma.clientSelfAssessment.findMany({
+      where: { clientId },
+      orderBy: { createdAt: "asc" },
+    }),
+    prisma.session.findFirst({
+      where: { clientId, status: "COMPLETED" },
+      orderBy: { scheduledAt: "desc" },
+      select: {
+        id: true,
+        scheduledAt: true,
+        sessionType: true,
+        mainTopic: true,
+        reflection: { select: { takeaway: true, whatShifted: true } },
+      },
+    }),
+    prisma.clientJournalEntry.findMany({
+      where: { clientId },
+      orderBy: [{ observedOn: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }],
+    }),
+  ]);
+
+  return {
+    firstName: dashboard.firstName,
+    timezone: dashboard.timezone,
+    nextSession: dashboard.nextSession,
+    preparation: dashboard.preparation,
+    completedSessions,
+    recordedChanges,
+    assessments: assessments.map(mapAssessment),
+    lastSession: lastSession
+      ? {
+          id: lastSession.id,
+          scheduledAt: lastSession.scheduledAt.toISOString(),
+          sessionType: lastSession.sessionType,
+          mainTopic: lastSession.mainTopic,
+        }
+      : null,
+    lastReflection: lastSession?.reflection
+      ? {
+          takeaway: lastSession.reflection.takeaway,
+          whatShifted: lastSession.reflection.whatShifted,
+        }
+      : null,
+    insights: insights.map(mapJournal),
+  };
+}
+
 export async function listJournalEntries(
   clientId: string,
 ): Promise<JourneyJournalEntry[]> {
   requireDatabase();
   const entries = await prisma.clientJournalEntry.findMany({
     where: { clientId },
-    orderBy: { createdAt: "desc" },
+    orderBy: [{ observedOn: { sort: "desc", nulls: "last" } }, { createdAt: "desc" }],
   });
   return entries.map(mapJournal);
 }
 
 export async function createJournalEntry(
   clientId: string,
-  input: { content: string; prompt: string; visibility: JournalVisibility },
+  input: {
+    content: string;
+    prompt: string;
+    visibility: JournalVisibility;
+    category: JournalCategory;
+    observedOn: string;
+  },
 ) {
   requireDatabase();
   const entry = await prisma.clientJournalEntry.create({
@@ -404,7 +493,13 @@ export async function createJournalEntry(
 export async function updateJournalEntry(
   clientId: string,
   entryId: string,
-  input: { content: string; prompt: string; visibility: JournalVisibility },
+  input: {
+    content: string;
+    prompt: string;
+    visibility: JournalVisibility;
+    category: JournalCategory;
+    observedOn: string;
+  },
 ) {
   await assertClientOwnsJournalEntry(clientId, entryId);
   const entry = await prisma.clientJournalEntry.update({

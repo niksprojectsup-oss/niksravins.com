@@ -1,6 +1,12 @@
 import { createHash, randomBytes } from "node:crypto";
 import { isDatabaseConfigured, prisma, requireDatabase } from "@/lib/db/prisma";
-import { sendCreatePasswordEmail } from "@/lib/email/send-portal-setup-email";
+import { sendCreatePasswordEmail, sendPasswordResetEmail } from "@/lib/email/send-portal-setup-email";
+import {
+  PASSWORD_RESET_TTL_MS,
+  hashPasswordToken,
+  isEligiblePasswordResetAccount,
+  passwordTokenRejectionReason,
+} from "./password-reset";
 import { hashPassword, verifyPassword } from "./password";
 import type { AuthenticatedUser } from "./types";
 
@@ -15,7 +21,7 @@ export type ClientUserRecord = {
 };
 
 function hashToken(token: string): string {
-  return createHash("sha256").update(token).digest("hex");
+  return hashPasswordToken(token);
 }
 
 function mapClientUser(user: {
@@ -270,11 +276,18 @@ export async function consumePasswordSetupToken(input: {
     include: { user: true },
   });
 
-  if (!record || record.usedAt || record.expiresAt.getTime() <= Date.now()) {
-    return null;
-  }
+  const rejection = passwordTokenRejectionReason(
+    record
+      ? {
+          usedAt: record.usedAt,
+          expiresAt: record.expiresAt,
+          role: record.user.role,
+        }
+      : null,
+    Date.now(),
+  );
 
-  if (record.user.role !== "CLIENT") return null;
+  if (!record || rejection) return null;
 
   const passwordHash = await hashPassword(input.password);
 
@@ -317,6 +330,43 @@ function mapEmailResult(result: import("@/lib/email/client").SendEmailResult): P
   };
 }
 
+/**
+ * Send a reset link only for an existing CLIENT login.
+ * Does not create a user, client, booking, or payment.
+ */
+export async function requestClientPasswordReset(email: string): Promise<void> {
+  if (!isDatabaseConfigured()) return;
+
+  const normalizedEmail = email.trim().toLowerCase();
+  const user = await prisma.user.findUnique({
+    where: { email: normalizedEmail },
+    include: { client: { select: { firstName: true } } },
+  });
+
+  if (!isEligiblePasswordResetAccount(user)) return;
+
+  await prisma.clientPasswordToken.updateMany({
+    where: { userId: user.id, usedAt: null },
+    data: { usedAt: new Date() },
+  });
+
+  const resetToken = randomBytes(32).toString("hex");
+  await prisma.clientPasswordToken.create({
+    data: {
+      userId: user.id,
+      tokenHash: hashToken(resetToken),
+      expiresAt: new Date(Date.now() + PASSWORD_RESET_TTL_MS),
+    },
+  });
+
+  await sendPasswordResetEmail({
+    firstName: user.client?.firstName?.trim() || "there",
+    email: user.email,
+    resetToken,
+    userId: user.id,
+  });
+}
+
 /** Issue a fresh setup token and send the portal password email (admin/resend). */
 export async function sendPortalSetupEmailForClient(
   clientId: string,
@@ -333,7 +383,7 @@ export async function sendPortalSetupEmailForClient(
   }
 
   const normalizedEmail = client.email.trim().toLowerCase();
-  let user = await prisma.user.findFirst({
+  const user = await prisma.user.findFirst({
     where: { role: "CLIENT", clientId },
   });
 

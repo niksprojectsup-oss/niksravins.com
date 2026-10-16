@@ -1,20 +1,36 @@
 "use client";
 
 import type { Editor } from "@tiptap/react";
+import { TextSelection } from "@tiptap/pm/state";
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { uploadCmsImage } from "@/lib/cms/cms-image-upload";
 import { cn } from "@/lib/utils";
+import { applyCmsTextTransform } from "@/lib/cms/tiptap-text-controls";
+import {
+  activeFontSizeControlText,
+  activeFontSizeEditorHint,
+  fontSizeControlName,
+  fontSizeInheritIsActive,
+  fontSizeInspectionsEqual,
+  fontSizePresetIsActive,
+  inspectActiveFontSize,
+  shouldClearExplicitFontSize,
+  type ActiveFontSize,
+} from "./font-size-state";
 import {
   CMS_FONT_FAMILIES,
+  cmsFontFamilyOption,
   CMS_FONT_SIZE_MAX,
   CMS_FONT_SIZE_MIN,
   CMS_FONT_SIZE_PRESETS,
+  CMS_FONT_WEIGHTS,
+  CMS_LETTER_SPACINGS,
   CMS_LINE_HEIGHTS,
   CMS_PARAGRAPH_SPACINGS,
   CMS_TEXT_COLORS,
+  CMS_TEXT_TRANSFORMS,
   normalizeCustomFontSizeInput,
-  parseFontSizeValue,
 } from "./toolbar-constants";
 
 type ToolbarButtonProps = {
@@ -70,6 +86,7 @@ type DropdownProps = {
   children: React.ReactNode;
   className?: string;
   fixedPosition?: boolean;
+  onOpenMouseDown?: () => void;
 };
 
 function ToolbarDropdown({
@@ -78,6 +95,7 @@ function ToolbarDropdown({
   children,
   className,
   fixedPosition = false,
+  onOpenMouseDown,
 }: DropdownProps) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
@@ -164,7 +182,10 @@ function ToolbarDropdown({
         aria-expanded={open}
         aria-controls={listId}
         title={label}
-        onMouseDown={preventToolbarFocusLoss}
+        onMouseDown={(event) => {
+          preventToolbarFocusLoss(event);
+          onOpenMouseDown?.();
+        }}
         onClick={() => setOpen((current) => !current)}
         className="inline-flex h-8 min-w-[5.5rem] items-center justify-between gap-2 rounded-md border border-border-subtle bg-surface px-2 text-xs text-ink-subtle transition-colors hover:border-accent hover:text-accent"
       >
@@ -227,20 +248,38 @@ export function CmsEditorToolbar({
   const [customSizeOpen, setCustomSizeOpen] = useState(false);
   const [customSizeValue, setCustomSizeValue] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [fontSizeInspection, setFontSizeInspection] = useState<ActiveFontSize>(() =>
+    inspectActiveFontSize(editor.state),
+  );
+  const fontSizeSelectionRef = useRef<{ from: number; to: number } | null>(null);
+
+  useEffect(() => {
+    const refresh = () => {
+      const next = inspectActiveFontSize(editor.state);
+      setFontSizeInspection((current) => (fontSizeInspectionsEqual(current, next) ? current : next));
+    };
+
+    refresh();
+    editor.on("transaction", refresh);
+    return () => {
+      editor.off("transaction", refresh);
+    };
+  }, [editor]);
 
   const currentFontFamily =
     (editor.getAttributes("textStyle").fontFamily as string | undefined) ??
     CMS_FONT_FAMILIES[0].value;
-  const currentFontSize =
-    (editor.getAttributes("textStyle").fontSize as string | undefined) ?? "";
   const currentColor = (editor.getAttributes("textStyle").color as string | undefined) ?? "#111111";
-  const currentLineHeight =
-    (editor.getAttributes("textStyle").lineHeight as string | undefined) ?? "";
+  const textStyle = editor.getAttributes("textStyle");
+  const currentLineHeight = (textStyle.lineHeight as string | undefined) ?? "";
+  const currentLetterSpacing = (textStyle.letterSpacing as string | undefined) ?? "";
+  const currentTextTransform = (textStyle.textTransform as string | undefined) ?? "";
+  const currentFontWeight = (textStyle.fontWeight as string | undefined) ?? "";
+  const currentBackground = (textStyle.backgroundColor as string | undefined) ?? "";
   const currentParagraphSpacing =
     (editor.getAttributes("paragraph").paragraphSpacing as string | undefined) ?? "normal";
 
-  const currentFontLabel =
-    CMS_FONT_FAMILIES.find((entry) => entry.value === currentFontFamily)?.label ?? "Inter";
+  const currentFontLabel = cmsFontFamilyOption(currentFontFamily).label;
 
   function setLink() {
     const previous = editor.getAttributes("link").href as string | undefined;
@@ -279,13 +318,60 @@ export function CmsEditorToolbar({
     }
   }
 
+  function rememberFontSizeSelection() {
+    const { from, to } = editor.state.selection;
+    fontSizeSelectionRef.current = { from, to };
+  }
+
+  function chainWithRememberedSelection() {
+    const saved = fontSizeSelectionRef.current;
+    const chain = editor.chain();
+
+    if (saved) {
+      const current = editor.state.selection;
+      if (current.from !== saved.from || current.to !== saved.to) {
+        try {
+          TextSelection.create(editor.state.doc, saved.from, saved.to);
+          chain.setTextSelection({ from: saved.from, to: saved.to });
+        } catch {
+          // The document changed while the menu was open; keep the current selection.
+        }
+      }
+    }
+
+    return chain.focus();
+  }
+
+  function applyFontSize(fontSize: string) {
+    chainWithRememberedSelection().setFontSize(fontSize).run();
+  }
+
+  function clearExplicitFontSize() {
+    if (!shouldClearExplicitFontSize(fontSizeInspection)) return;
+    chainWithRememberedSelection().unsetFontSize().run();
+  }
+
   function applyCustomFontSize() {
     const normalized = normalizeCustomFontSizeInput(customSizeValue);
     if (!normalized) return;
-    editor.chain().focus().setFontSize(normalized).run();
+    applyFontSize(normalized);
     setCustomSizeOpen(false);
     setCustomSizeValue("");
   }
+
+  const fontSizeLabel = activeFontSizeControlText(fontSizeInspection);
+  const fontSizeEditorHint = activeFontSizeEditorHint(fontSizeInspection);
+  const fontSizeButtonLabel =
+    fontSizeInspection.status === "size" && fontSizeInspection.source === "inherited" ? (
+      <span className="inline-flex items-baseline gap-1">
+        <span>{fontSizeLabel}</span>
+        {fontSizeEditorHint ? (
+          <span className="text-[10px] font-normal text-ink-faint">editor {fontSizeEditorHint}</span>
+        ) : null}
+      </span>
+    ) : (
+      fontSizeLabel
+    );
 
   return (
     <div
@@ -316,17 +402,33 @@ export function CmsEditorToolbar({
       </ToolbarDropdown>
 
       <ToolbarDropdown
-        label="Font size"
+        label={fontSizeControlName(fontSizeInspection)}
         className="min-w-[4.5rem]"
         fixedPosition={useFixedDropdowns}
-        buttonLabel={currentFontSize ? parseFontSizeValue(currentFontSize) : "Size"}
+        buttonLabel={fontSizeButtonLabel}
+        onOpenMouseDown={rememberFontSizeSelection}
       >
+        <DropdownItem
+          label={
+            <span className="flex w-full flex-col items-start">
+              <span>Inherit</span>
+              <span className="text-[10px] text-ink-faint">
+                {fontSizeEditorHint
+                  ? `Page design · editor preview ${fontSizeEditorHint}px`
+                  : "Page design"}
+              </span>
+            </span>
+          }
+          active={fontSizeInheritIsActive(fontSizeInspection)}
+          onSelect={clearExplicitFontSize}
+        />
+        <div className="my-1 border-t border-border-subtle" />
         {CMS_FONT_SIZE_PRESETS.map((size) => (
           <DropdownItem
             key={size}
             label={String(size)}
-            active={parseFontSizeValue(currentFontSize) === String(size)}
-            onSelect={() => editor.chain().focus().setFontSize(`${size}px`).run()}
+            active={fontSizePresetIsActive(fontSizeInspection, size)}
+            onSelect={() => applyFontSize(`${size}px`)}
           />
         ))}
         <div className="mt-1 border-t border-border-subtle pt-1">
@@ -361,6 +463,7 @@ export function CmsEditorToolbar({
                 <button
                   type="button"
                   className="rounded border border-border-subtle px-2 py-0.5 text-[10px]"
+                  onMouseDown={preventToolbarFocusLoss}
                   onClick={() => {
                     setCustomSizeOpen(false);
                     setCustomSizeValue("");
@@ -371,6 +474,7 @@ export function CmsEditorToolbar({
                 <button
                   type="button"
                   className="rounded border border-accent bg-accent/10 px-2 py-0.5 text-[10px] text-accent"
+                  onMouseDown={preventToolbarFocusLoss}
                   onClick={applyCustomFontSize}
                 >
                   Apply
@@ -506,6 +610,74 @@ export function CmsEditorToolbar({
                     onSelect={() =>
                       editor.chain().focus().setParagraphSpacing(entry.value).run()
                     }
+                  />
+                ))}
+              </ToolbarDropdown>
+              <ToolbarDropdown label="Letter spacing" buttonLabel="Tracking">
+                <DropdownItem
+                  label="Section default"
+                  active={!currentLetterSpacing}
+                  onSelect={() => {
+                    if (currentLetterSpacing) editor.chain().focus().unsetLetterSpacing().run();
+                  }}
+                />
+                {CMS_LETTER_SPACINGS.map((entry) => (
+                  <DropdownItem
+                    key={entry.value}
+                    label={entry.label}
+                    active={currentLetterSpacing === entry.value}
+                    onSelect={() => editor.chain().focus().setLetterSpacing(entry.value).run()}
+                  />
+                ))}
+              </ToolbarDropdown>
+              <ToolbarDropdown label="Text transform" buttonLabel="Case">
+                <DropdownItem
+                  label="Section default"
+                  active={!currentTextTransform}
+                  onSelect={() => {
+                    if (currentTextTransform) applyCmsTextTransform(editor, null);
+                  }}
+                />
+                {CMS_TEXT_TRANSFORMS.map((entry) => (
+                  <DropdownItem
+                    key={entry.value}
+                    label={entry.label}
+                    active={currentTextTransform === entry.value}
+                    onSelect={() => applyCmsTextTransform(editor, entry.value)}
+                  />
+                ))}
+              </ToolbarDropdown>
+              <ToolbarDropdown label="Font weight" buttonLabel="Weight">
+                <DropdownItem
+                  label="Section default"
+                  active={!currentFontWeight}
+                  onSelect={() => {
+                    if (currentFontWeight) editor.chain().focus().unsetFontWeight().run();
+                  }}
+                />
+                {CMS_FONT_WEIGHTS.map((entry) => (
+                  <DropdownItem
+                    key={entry.value}
+                    label={entry.label}
+                    active={currentFontWeight === entry.value}
+                    onSelect={() => editor.chain().focus().setFontWeight(entry.value).run()}
+                  />
+                ))}
+              </ToolbarDropdown>
+              <ToolbarDropdown label="Background color" buttonLabel="Highlight">
+                <DropdownItem
+                  label="None"
+                  active={!currentBackground}
+                  onSelect={() => {
+                    if (currentBackground) editor.chain().focus().unsetBackgroundColor().run();
+                  }}
+                />
+                {CMS_TEXT_COLORS.map((entry) => (
+                  <DropdownItem
+                    key={entry.value}
+                    label={entry.label}
+                    active={currentBackground.toLowerCase() === entry.value.toLowerCase()}
+                    onSelect={() => editor.chain().focus().setBackgroundColor(entry.value).run()}
                   />
                 ))}
               </ToolbarDropdown>

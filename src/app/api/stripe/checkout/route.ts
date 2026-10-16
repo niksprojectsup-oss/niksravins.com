@@ -2,13 +2,17 @@ import { NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { getActiveOfferById, getOfferPriceCents, isCourseOffer } from "@/lib/booking/offer-repository";
 import { parseBookingFormData } from "@/lib/booking/form-data";
+import { localizeOffer } from "@/lib/booking/localize-offer";
 import { validateBookingRequest } from "@/lib/booking/validation";
 import { bookingSuccessPath } from "@/lib/booking/booking-success-path";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/i18n/paths";
 
 export async function POST(request: Request) {
+  let locale: Locale = DEFAULT_LOCALE;
+
   try {
     const body = await request.json();
     const {
@@ -26,8 +30,11 @@ export async function POST(request: Request) {
       locale: localeParam,
     } = body as Record<string, string | undefined>;
 
-    const locale: Locale =
+    locale =
       localeParam && parseLocaleParam(localeParam) ? parseLocaleParam(localeParam)! : DEFAULT_LOCALE;
+    const resolved = await getResolvedPublicContent(locale);
+    const checkoutCopy = resolved.bookingUi.validation;
+    const offerCopy = resolved.bookingOffers;
 
     const formData = new FormData();
     for (const [key, value] of Object.entries({
@@ -47,22 +54,23 @@ export async function POST(request: Request) {
     }
 
     const bookingRequest = parseBookingFormData(formData);
-    const validationError = await validateBookingRequest(bookingRequest);
+    const validationError = await validateBookingRequest(bookingRequest, checkoutCopy);
     if (validationError) {
       return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
-    const service = await getActiveOfferById(bookingRequest.serviceId);
-    if (!service) {
+    const serviceRecord = await getActiveOfferById(bookingRequest.serviceId);
+    if (!serviceRecord) {
       return NextResponse.json(
-        { error: "Selected service is not available." },
+        { error: checkoutCopy.serviceUnavailable },
         { status: 400 },
       );
     }
+    const service = localizeOffer(serviceRecord, offerCopy);
 
     const amountCents = await getOfferPriceCents(bookingRequest.serviceId);
     if (!amountCents || amountCents <= 0) {
-      return NextResponse.json({ error: "Invalid service price." }, { status: 400 });
+      return NextResponse.json({ error: checkoutCopy.invalidPrice }, { status: 400 });
     }
 
     const origin = new URL(request.url).origin;
@@ -108,7 +116,7 @@ export async function POST(request: Request) {
 
     if (!checkoutSession.url) {
       return NextResponse.json(
-        { error: "Stripe did not return a checkout URL." },
+        { error: checkoutCopy.stripeNoUrl },
         { status: 500 },
       );
     }
@@ -117,7 +125,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("[stripe] checkout creation failed:", error);
     return NextResponse.json(
-      { error: "Unable to create Stripe checkout session." },
+      { error: (await getResolvedPublicContent(locale)).bookingUi.validation.stripeCreateFailed },
       { status: 500 },
     );
   }

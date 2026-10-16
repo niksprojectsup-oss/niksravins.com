@@ -16,6 +16,7 @@ import {
   tiptapHeadingNode,
   tiptapLinkParagraph,
   tiptapParagraphNode,
+  tiptapText,
 } from "@/lib/cms/import/tiptap-builders";
 
 export type CmsImportContent = Pick<
@@ -47,20 +48,263 @@ function toParagraphFieldDocument(value: CmsParagraphField): CmsTiptapJson {
   return paragraphFieldToTiptapDocument(value);
 }
 
+function linesToTiptapDocument(lines: readonly string[]): CmsTiptapJson {
+  const content: CmsTiptapJson[] = [];
+
+  lines.forEach((line, index) => {
+    if (index > 0) {
+      content.push({ type: "hardBreak" });
+    }
+    if (line) {
+      content.push(tiptapText(line));
+    }
+  });
+
+  return tiptapDocumentFromBlocks([
+    {
+      type: "paragraph",
+      attrs: { textAlign: null },
+      content,
+    },
+  ]);
+}
+
+function journeyStepDocument(
+  parts: ReadonlyArray<{ text: string; bold?: boolean }>,
+): CmsTiptapJson {
+  return tiptapDocumentFromBlocks([
+    {
+      type: "paragraph",
+      attrs: { textAlign: null },
+      content: parts.map((part) => tiptapText(part.text, part.bold ? [{ type: "bold" }] : undefined)),
+    },
+  ]);
+}
+
+const JOURNEY_STEP_DOCUMENTS = [
+  journeyStepDocument([
+    { text: "Maybe it’s your " },
+    { text: "relationship", bold: true },
+    { text: ". Maybe it’s your " },
+    { text: "work", bold: true },
+    { text: ". Maybe it’s how you feel about " },
+    { text: "yourself", bold: true },
+    { text: ". Maybe you simply know you want " },
+    { text: "more from life", bold: true },
+    { text: "." },
+  ]),
+  journeyStepDocument([
+    { text: "You understand what " },
+    { text: "isn’t", bold: true },
+    { text: " working." },
+  ]),
+  journeyStepDocument([
+    { text: "You may even understand what is " },
+    { text: "holding you back", bold: true },
+    { text: "." },
+  ]),
+  journeyStepDocument([
+    { text: "But knowing something " },
+    { text: "doesn’t always make it change", bold: true },
+    { text: "." },
+  ]),
+] as const;
+
+const FOUNDATION_INTRO_DOCUMENT = journeyStepDocument([
+  { text: "I work with the " },
+  { text: "deeper emotional connections", bold: true },
+  { text: " and " },
+  { text: "beliefs", bold: true },
+  { text: " that shape how you " },
+  { text: "experience yourself", bold: true },
+  { text: ", what you believe " },
+  { text: "you deserve", bold: true },
+  { text: ", and what feels " },
+  { text: "possible for you", bold: true },
+  { text: "." },
+]);
+
+const FOUNDATION_HEADLINE_DOCUMENT = tiptapDocumentFromBlocks([
+  {
+    type: "paragraph",
+    attrs: { textAlign: null },
+    content: [
+      tiptapText("Change the inner foundation."),
+      { type: "hardBreak" },
+      tiptapText("Create space for a different life.", [{ type: "bold" }]),
+    ],
+  },
+]);
+
+const ALIGNMENT_ITEMS = [
+  {
+    title: "Your relationship.",
+    body: "You want to feel more connected, safe, loved or free in your relationship — but something keeps getting in the way.",
+  },
+  {
+    title: "Your work.",
+    body: "You hate your job. You want something different. You know you’re capable of more and deserve better, but something keeps you where you are.",
+  },
+  {
+    title: "Your confidence.",
+    body: "You want to speak up, be seen, trust yourself and take up space without constantly questioning yourself.",
+  },
+  {
+    title: "Your relationship with yourself.",
+    body: "You’re tired of doubting yourself, feeling like you’re not enough or constantly needing to prove your worth.",
+  },
+  {
+    title: "Your dreams.",
+    body: "There are things you want to create, experience or achieve — but you keep holding yourself back, postponing or staying in what feels familiar.",
+  },
+  {
+    title: "Your life.",
+    body: "You feel stuck, disconnected or like something is missing. You know you want more, but you haven’t found the way forward yet.",
+  },
+] as const;
+
+const IDENTITY_SHIFT_ROWS = [
+  {
+    from: "I’m not good enough.",
+    explanation:
+      "You may constantly prove yourself, compare yourself to others or hold back from opportunities, relationships and experiences you actually want.",
+    to: "I am enough.",
+  },
+  {
+    from: "I don’t deserve better.",
+    explanation:
+      "You may stay in a job, relationship or situation that no longer feels right — even when you know you want more.",
+    to: "I deserve better.",
+  },
+  {
+    from: "It’s safer to stay where I am.",
+    explanation:
+      "You may keep choosing what is familiar instead of taking the risk of moving towards what you really want.",
+    to: "I can choose differently.",
+  },
+  {
+    from: "I can’t trust people.",
+    explanation:
+      "You may struggle to open up, receive support or fully let someone close — even when you deeply want connection.",
+    to: "I can trust.",
+  },
+  {
+    from: "I have to do everything myself.",
+    explanation:
+      "You may find it difficult to receive, relax or let someone else take care of things. Even when you want more ease, softness and space, you keep taking control and carrying everything yourself.",
+    to: "I can trust and allow.",
+  },
+  {
+    from: "I’m too much.",
+    explanation:
+      "You may make yourself smaller, hide your needs or hold back parts of yourself to avoid rejection.",
+    to: "I am allowed to be fully myself.",
+  },
+] as const;
+
+function getIdentityShiftFieldValue(fieldKey: string): CmsTiptapJson | null {
+  switch (fieldKey) {
+    case "identityShifts.heading":
+      return plainStringToTiptapDocument("Change at the level of identity");
+    case "identityShifts.intro":
+      return linesToTiptapDocument([
+        "Sometimes what holds you back isn’t the situation itself,",
+        "but what you believe about who you are and what is safe, possible or deserved for you.",
+      ]);
+    case "identityShifts.closingLead":
+      return plainStringToTiptapDocument(
+        "These beliefs don’t always sound like thoughts in your head.",
+      );
+    case "identityShifts.closing":
+      return linesToTiptapDocument([
+        "Sometimes they show up as the choices you make, the relationships you stay in,",
+        "the things you avoid, or the life you don’t allow yourself to have.",
+      ]);
+    default:
+      break;
+  }
+
+  const rowMatch = /^identityShifts\.rows\.(\d+)\.(from|explanation|to)$/.exec(fieldKey);
+  if (!rowMatch) {
+    return null;
+  }
+
+  const row = IDENTITY_SHIFT_ROWS[Number(rowMatch[1])];
+  const part = rowMatch[2] as "from" | "explanation" | "to";
+  if (!row) {
+    return null;
+  }
+
+  return plainStringToTiptapDocument(row[part]);
+}
+
 function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTiptapJson | null {
+  if (fieldKey.startsWith("identityShifts.")) {
+    return getIdentityShiftFieldValue(fieldKey);
+  }
+
   switch (fieldKey) {
     case "hero.headline":
       return plainStringToTiptapDocument(content.hero.headline);
-    case "hero.explanation.0":
-      return plainStringToTiptapDocument(content.hero.explanation[0] ?? "");
-    case "hero.explanation.1":
-      return plainStringToTiptapDocument(content.hero.explanation[1] ?? "");
-    case "hero.explanation.2":
-      return plainStringToTiptapDocument(content.hero.explanation[2] ?? "");
     case "hero.primaryCta.label":
       return plainStringToTiptapDocument(content.hero.primaryCta.label);
     case "hero.secondaryCta.label":
       return plainStringToTiptapDocument(content.hero.secondaryCta.label);
+    case "foundation.intro":
+      return FOUNDATION_INTRO_DOCUMENT;
+    case "foundation.headline":
+      return FOUNDATION_HEADLINE_DOCUMENT;
+    case "journey.change.0":
+      return JOURNEY_STEP_DOCUMENTS[0];
+    case "journey.change.1":
+      return JOURNEY_STEP_DOCUMENTS[1];
+    case "journey.change.2":
+      return JOURNEY_STEP_DOCUMENTS[2];
+    case "journey.change.3":
+      return JOURNEY_STEP_DOCUMENTS[3];
+    case "alignment.0.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[0].title);
+    case "alignment.0.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[0].body);
+    case "alignment.1.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[1].title);
+    case "alignment.1.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[1].body);
+    case "alignment.2.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[2].title);
+    case "alignment.2.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[2].body);
+    case "alignment.3.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[3].title);
+    case "alignment.3.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[3].body);
+    case "alignment.4.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[4].title);
+    case "alignment.4.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[4].body);
+    case "alignment.5.title":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[5].title);
+    case "alignment.5.body":
+      return plainStringToTiptapDocument(ALIGNMENT_ITEMS[5].body);
+    case "underneath.intro":
+      return linesToTiptapDocument([
+        "Bring what is troubling you.",
+        "What is holding you back. What you want to change.",
+      ]);
+    case "underneath.headline":
+      return linesToTiptapDocument([
+        "Together we look at",
+        "what may be underneath it.",
+      ]);
+    case "roots.intro":
+      return plainStringToTiptapDocument(
+        "We work with the beliefs and emotional associations underneath it — the ones that can shape your choices, behaviour, relationships and the way you experience yourself.",
+      );
+    case "roots.headline":
+      return linesToTiptapDocument([
+        "When the inner foundation changes,",
+        "the way you move through life can change with it.",
+      ]);
     case "trust.statements.0":
       return plainStringToTiptapDocument(content.trust.statements[0] ?? "");
     case "trust.statements.1":

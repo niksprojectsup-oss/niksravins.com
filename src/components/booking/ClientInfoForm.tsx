@@ -1,7 +1,6 @@
 "use client";
 
 import type { BookingUiContent } from "@/content/i18n/types";
-import { countries, timezones } from "@/content/booking";
 import type { ClientDetails } from "@/lib/booking/types";
 import { Field, Input, Select, Textarea } from "@/components/ui/Field";
 import { BookingPanel } from "./BookingPanel";
@@ -28,7 +27,7 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
     >
       <form className="layout-stack-md max-w-prose" noValidate>
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <Field label="First name" id="firstName" error={errors?.firstName}>
+          <Field label={labels.form.firstName} id="firstName" error={errors?.firstName}>
             <Input
               id="firstName"
               name="firstName"
@@ -39,7 +38,7 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
             />
           </Field>
 
-          <Field label="Last name" id="lastName" error={errors?.lastName}>
+          <Field label={labels.form.lastName} id="lastName" error={errors?.lastName}>
             <Input
               id="lastName"
               name="lastName"
@@ -51,7 +50,7 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
           </Field>
         </div>
 
-        <Field label="Email" id="email" error={errors?.email}>
+        <Field label={labels.form.email} id="email" error={errors?.email}>
           <Input
             id="email"
             name="email"
@@ -63,7 +62,7 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
           />
         </Field>
 
-        <Field label="Phone (optional)" id="phone" error={errors?.phone}>
+        <Field label={labels.form.phoneOptional} id="phone" error={errors?.phone}>
           <Input
             id="phone"
             name="phone"
@@ -75,7 +74,7 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
         </Field>
 
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-          <Field label="Country" id="country" error={errors?.country}>
+          <Field label={labels.form.country} id="country" error={errors?.country}>
             <Select
               id="country"
               name="country"
@@ -83,16 +82,16 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
               onChange={(e) => updateField("country", e.target.value)}
               required
             >
-              <option value="">Select country</option>
-              {countries.map((country) => (
-                <option key={country} value={country}>
-                  {country}
+              <option value="">{labels.form.selectCountry}</option>
+              {labels.form.countries.map((country) => (
+                <option key={country.value} value={country.value}>
+                  {country.label}
                 </option>
               ))}
             </Select>
           </Field>
 
-          <Field label="Time zone" id="timezone" error={errors?.timezone}>
+          <Field label={labels.form.timezone} id="timezone" error={errors?.timezone}>
             <Select
               id="timezone"
               name="timezone"
@@ -100,8 +99,8 @@ export function ClientInfoForm({ value, onChange, errors, labels }: ClientInfoFo
               onChange={(e) => updateField("timezone", e.target.value)}
               required
             >
-              <option value="">Select time zone</option>
-              {timezones.map((tz) => (
+              <option value="">{labels.form.selectTimezone}</option>
+              {labels.form.timezones.map((tz) => (
                 <option key={tz.value} value={tz.value}>
                   {tz.label}
                 </option>

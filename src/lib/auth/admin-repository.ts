@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { lookupAdminSessionActive } from "@/lib/auth/admin-session-status";
 import { isDatabaseConfigured, prisma } from "@/lib/db/prisma";
 import { hashPassword, verifyPassword } from "./password";
 import type { AuthenticatedUser } from "./types";
@@ -146,17 +147,12 @@ export async function revokeAllAdminSessions(adminId: string): Promise<void> {
 export async function isAdminSessionActive(sessionId: string): Promise<boolean> {
   if (!isDatabaseConfigured()) return true;
 
-  try {
-    const session = await prisma.adminSession.findUnique({
-      where: { id: sessionId },
+  return lookupAdminSessionActive(sessionId, (id) =>
+    prisma.adminSession.findUnique({
+      where: { id },
       select: { expiresAt: true },
-    });
-
-    if (!session) return false;
-    return session.expiresAt.getTime() > Date.now();
-  } catch {
-    return false;
-  }
+    }),
+  );
 }
 
 export async function touchAdminLastLogin(adminId: string): Promise<void> {

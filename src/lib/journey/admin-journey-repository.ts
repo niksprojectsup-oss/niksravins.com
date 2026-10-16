@@ -22,6 +22,8 @@ export type AdminTransformationOverview = {
     id: string;
     content: string;
     prompt: string;
+    category: string | null;
+    observedOn: string | null;
     createdAt: string;
   } | null;
   latestSharedReflection: {
@@ -142,6 +144,8 @@ export async function getAdminTransformationOverview(
           id: latestSharedJournal.id,
           content: latestSharedJournal.content,
           prompt: latestSharedJournal.prompt,
+          category: latestSharedJournal.category,
+          observedOn: latestSharedJournal.observedOn,
           createdAt: latestSharedJournal.createdAt.toISOString(),
         }
       : null,

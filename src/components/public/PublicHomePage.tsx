@@ -3,13 +3,15 @@ import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 import type { Locale } from "@/lib/i18n/config";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
-import { About } from "@/components/sections/About";
-import { AAPMethod } from "@/components/sections/AAPMethod";
-import { FAQ } from "@/components/sections/FAQ";
 import { FinalCTA } from "@/components/sections/FinalCTA";
 import { Hero } from "@/components/sections/Hero";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { Trust } from "@/components/sections/Trust";
+import { HomeAlignmentSection } from "@/components/sections/home/HomeAlignmentSection";
+import { HomeFaqSection } from "@/components/sections/home/HomeFaqSection";
+import { HomeFoundationSection } from "@/components/sections/home/HomeFoundationSection";
+import { HomeIdentityShiftsSection } from "@/components/sections/home/HomeIdentityShiftsSection";
+import { HomeRootsSection } from "@/components/sections/home/HomeRootsSection";
+import { HomeUnderneathSection } from "@/components/sections/home/HomeUnderneathSection";
+import { HomeWantChangeSection } from "@/components/sections/home/HomeWantChangeSection";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { buildHomeJsonLd } from "@/lib/seo/json-ld";
 
@@ -26,11 +28,13 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
       <Header content={content} locale={locale} />
       <main>
         <Hero content={content} cmsHtmlFields={cmsHtmlFields} />
-        <Trust content={content} cmsHtmlFields={cmsHtmlFields} />
-        <About content={content} cmsHtmlFields={cmsHtmlFields} />
-        <AAPMethod content={content} cmsHtmlFields={cmsHtmlFields} />
-        <Testimonials content={content} />
-        <FAQ content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeFoundationSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeWantChangeSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeAlignmentSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeUnderneathSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeIdentityShiftsSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeRootsSection content={content} cmsHtmlFields={cmsHtmlFields} />
+        <HomeFaqSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <FinalCTA content={content} cmsHtmlFields={cmsHtmlFields} />
       </main>
       <Footer content={content} locale={locale} />
