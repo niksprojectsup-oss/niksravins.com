@@ -121,6 +121,18 @@ export const esPortal: PortalContent = {
     pending: "Entrando…",
     tooManyAttempts: "Demasiados intentos de acceso. Inténtalo más tarde.",
     invalidCredentials: "Correo o contraseña incorrectos.",
+    forgot: "¿Olvidaste tu contraseña?",
+  },
+  forgotPassword: {
+    title: "Restablecer la contraseña",
+    subtitle: "Introduce el correo de tu portal.",
+    email: "Correo",
+    submit: "Enviar enlace",
+    pending: "Enviando…",
+    success: "Si existe una cuenta para ese correo, enviamos un enlace para restablecer la contraseña.",
+    tooManyAttempts: "Demasiados intentos. Inténtalo más tarde.",
+    invalidEmail: "Introduce un correo válido.",
+    backToLogin: "Volver a entrar",
   },
   setPassword: {
     title: "Crea tu contraseña",
@@ -134,6 +146,7 @@ export const esPortal: PortalContent = {
     mismatch: "Las contraseñas no coinciden.",
     expired: "Este enlace de contraseña no es válido o ha caducado.",
     signInFailed: "No se pudo entrar después de crear la contraseña. Inicia sesión.",
+    tooManyAttempts: "Demasiados intentos. Inténtalo más tarde.",
   },
   account: {
     title: "Cuenta",

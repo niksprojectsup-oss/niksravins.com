@@ -118,6 +118,18 @@ export type PortalContent = {
     pending: string;
     tooManyAttempts: string;
     invalidCredentials: string;
+    forgot: string;
+  };
+  forgotPassword: {
+    title: string;
+    subtitle: string;
+    email: string;
+    submit: string;
+    pending: string;
+    success: string;
+    tooManyAttempts: string;
+    invalidEmail: string;
+    backToLogin: string;
   };
   setPassword: {
     title: string;
@@ -131,6 +143,7 @@ export type PortalContent = {
     mismatch: string;
     expired: string;
     signInFailed: string;
+    tooManyAttempts: string;
   };
   account: {
     title: string;

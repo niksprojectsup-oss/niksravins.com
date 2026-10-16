@@ -37,7 +37,8 @@ export type AuditAction =
   | "cms.content.publish"
   | "translation.save"
   | "translation.publish"
-  | "translation.add";
+  | "translation.add"
+  | "portal.preview";
 
 export type AuditResource =
   | "auth"
@@ -52,10 +53,12 @@ export type AuditResource =
   | "session_package"
   | "store_product"
   | "cms_page"
-  | "translation";
+  | "translation"
+  | "portal";
 
 export type RateLimitScope =
   | "auth.login"
+  | "auth.password_reset"
   | "auth.mfa"
   | "api.general"
   | "portal.general";

@@ -121,6 +121,18 @@ export const frPortal: PortalContent = {
     pending: "Connexion…",
     tooManyAttempts: "Trop de tentatives de connexion. Réessaie plus tard.",
     invalidCredentials: "E-mail ou mot de passe incorrect.",
+    forgot: "Mot de passe oublié ?",
+  },
+  forgotPassword: {
+    title: "Réinitialiser le mot de passe",
+    subtitle: "Saisis l’e-mail de ton espace client.",
+    email: "E-mail",
+    submit: "Envoyer le lien",
+    pending: "Envoi…",
+    success: "Si un compte existe pour cet e-mail, nous avons envoyé un lien de réinitialisation.",
+    tooManyAttempts: "Trop de tentatives. Réessaie plus tard.",
+    invalidEmail: "Saisis une adresse e-mail valide.",
+    backToLogin: "Retour à la connexion",
   },
   setPassword: {
     title: "Créer ton mot de passe",
@@ -134,6 +146,7 @@ export const frPortal: PortalContent = {
     mismatch: "Les mots de passe ne correspondent pas.",
     expired: "Ce lien de mot de passe n’est pas valide ou a expiré.",
     signInFailed: "Connexion impossible après la création du mot de passe. Merci de te connecter.",
+    tooManyAttempts: "Trop de tentatives. Réessaie plus tard.",
   },
   account: {
     title: "Compte",

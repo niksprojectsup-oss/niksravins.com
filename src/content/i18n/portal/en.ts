@@ -121,6 +121,18 @@ export const enPortal: PortalContent = {
     pending: "Signing in…",
     tooManyAttempts: "Too many login attempts. Try again later.",
     invalidCredentials: "Invalid email or password.",
+    forgot: "Forgot password?",
+  },
+  forgotPassword: {
+    title: "Reset your password",
+    subtitle: "Enter the email for your client portal.",
+    email: "Email",
+    submit: "Send reset link",
+    pending: "Sending…",
+    success: "If an account exists for that email, we sent a password reset link.",
+    tooManyAttempts: "Too many attempts. Try again later.",
+    invalidEmail: "Enter a valid email address.",
+    backToLogin: "Back to sign in",
   },
   setPassword: {
     title: "Create your password",
@@ -134,6 +146,7 @@ export const enPortal: PortalContent = {
     mismatch: "Passwords do not match.",
     expired: "This password link is invalid or has expired.",
     signInFailed: "Unable to sign in after setting the password. Please log in.",
+    tooManyAttempts: "Too many attempts. Try again later.",
   },
   account: {
     title: "Account",

@@ -5,9 +5,11 @@ import { redirect } from "next/navigation";
 import {
   consumePasswordSetupToken,
   createClientAuthSession,
+  requestClientPasswordReset,
   revokeClientAuthSession,
   verifyClientCredentials,
 } from "@/lib/auth/client-repository";
+import { acknowledgePasswordReset } from "@/lib/auth/password-reset";
 import {
   clearSessionCookie,
   createSessionToken,
@@ -21,6 +23,7 @@ import { checkRateLimit } from "@/lib/security/rate-limit";
 
 export type ClientAuthState = {
   error?: string;
+  message?: string;
 };
 
 function getClientIp(headerStore: Headers): string {
@@ -105,6 +108,14 @@ export async function clientSetPasswordAction(
   const password = String(formData.get("password") ?? "");
   const confirmPassword = String(formData.get("confirmPassword") ?? "");
   const copy = getPortalContent(await getPortalLocale()).setPassword;
+  const headerStore = await headers();
+  const rateLimit = checkRateLimit(
+    "auth.password_reset",
+    `set-password:${getClientIp(headerStore)}`,
+  );
+  if (!rateLimit.allowed) {
+    return { error: copy.tooManyAttempts };
+  }
 
   if (!token) {
     return { error: copy.invalidLink };
@@ -130,6 +141,36 @@ export async function clientSetPasswordAction(
 
   await establishClientSession(user);
   redirect("/client/dashboard");
+}
+
+export async function clientForgotPasswordAction(
+  _prevState: ClientAuthState,
+  formData: FormData,
+): Promise<ClientAuthState> {
+  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const copy = getPortalContent(await getPortalLocale()).forgotPassword;
+  const headerStore = await headers();
+  const ipAddress = getClientIp(headerStore);
+  const ipLimit = checkRateLimit("auth.password_reset", `ip:${ipAddress}`);
+  const emailLimit = checkRateLimit("auth.password_reset", `email:${email || "blank"}`);
+
+  if (!ipLimit.allowed || !emailLimit.allowed) {
+    return { error: copy.tooManyAttempts };
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return { error: copy.invalidEmail };
+  }
+
+  try {
+    await requestClientPasswordReset(email);
+  } catch (error) {
+    console.error("[portal] password reset request failed", {
+      name: error instanceof Error ? error.name : "unknown",
+    });
+  }
+
+  return acknowledgePasswordReset(copy.success);
 }
 
 export async function clientLogoutAction() {

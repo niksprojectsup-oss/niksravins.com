@@ -121,6 +121,18 @@ export const itPortal: PortalContent = {
     pending: "Accesso…",
     tooManyAttempts: "Troppi tentativi di accesso. Riprova più tardi.",
     invalidCredentials: "Email o password non validi.",
+    forgot: "Password dimenticata?",
+  },
+  forgotPassword: {
+    title: "Reimposta la password",
+    subtitle: "Inserisci l’email del portale cliente.",
+    email: "Email",
+    submit: "Invia il link",
+    pending: "Invio…",
+    success: "Se esiste un account per questa email, abbiamo inviato un link per reimpostare la password.",
+    tooManyAttempts: "Troppi tentativi. Riprova più tardi.",
+    invalidEmail: "Inserisci un indirizzo email valido.",
+    backToLogin: "Torna all’accesso",
   },
   setPassword: {
     title: "Crea la password",
@@ -134,6 +146,7 @@ export const itPortal: PortalContent = {
     mismatch: "Le password non coincidono.",
     expired: "Questo link per la password non è valido oppure è scaduto.",
     signInFailed: "Accesso non riuscito dopo aver impostato la password. Accedi di nuovo.",
+    tooManyAttempts: "Troppi tentativi. Riprova più tardi.",
   },
   account: {
     title: "Account",

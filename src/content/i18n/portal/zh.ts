@@ -120,6 +120,18 @@ export const zhPortal: PortalContent = {
     pending: "正在登录…",
     tooManyAttempts: "登录尝试过多。请稍后再试。",
     invalidCredentials: "邮箱或密码不正确。",
+    forgot: "忘记密码？",
+  },
+  forgotPassword: {
+    title: "重置密码",
+    subtitle: "输入客户门户的邮箱。",
+    email: "邮箱",
+    submit: "发送重置链接",
+    pending: "正在发送…",
+    success: "如果该邮箱有账户，我们已发送密码重置链接。",
+    tooManyAttempts: "尝试过多。请稍后再试。",
+    invalidEmail: "请输入有效的邮箱地址。",
+    backToLogin: "返回登录",
   },
   setPassword: {
     title: "创建密码",
@@ -133,6 +145,7 @@ export const zhPortal: PortalContent = {
     mismatch: "两次密码不一致。",
     expired: "这个密码链接无效或已过期。",
     signInFailed: "设置密码后无法登录。请重新登录。",
+    tooManyAttempts: "尝试过多。请稍后再试。",
   },
   account: {
     title: "账户",

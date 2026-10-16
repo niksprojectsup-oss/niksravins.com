@@ -121,6 +121,18 @@ export const lvPortal: PortalContent = {
     pending: "Piesakās…",
     tooManyAttempts: "Pārāk daudz pieteikšanās mēģinājumu. Mēģini vēlāk.",
     invalidCredentials: "Nepareizs e-pasts vai parole.",
+    forgot: "Aizmirsi paroli?",
+  },
+  forgotPassword: {
+    title: "Atiestati paroli",
+    subtitle: "Ievadi klienta portāla e-pastu.",
+    email: "E-pasts",
+    submit: "Nosūtīt saiti",
+    pending: "Nosūta…",
+    success: "Ja šim e-pastam ir konts, nosūtījām paroles atiestatīšanas saiti.",
+    tooManyAttempts: "Pārāk daudz mēģinājumu. Mēģini vēlāk.",
+    invalidEmail: "Ievadi derīgu e-pasta adresi.",
+    backToLogin: "Atpakaļ uz pieteikšanos",
   },
   setPassword: {
     title: "Izveido paroli",
@@ -134,6 +146,7 @@ export const lvPortal: PortalContent = {
     mismatch: "Paroles nesakrīt.",
     expired: "Šī paroles saite nav derīga vai ir beigusies.",
     signInFailed: "Pēc paroles iestatīšanas neizdevās pieteikties. Lūdzu, piesakies.",
+    tooManyAttempts: "Pārāk daudz mēģinājumu. Mēģini vēlāk.",
   },
   account: {
     title: "Pārziņas",

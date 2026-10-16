@@ -4,6 +4,7 @@ export const adminNav = [
   { label: "Translations", href: "/admin/translations" },
   { label: "Calendar", href: "/admin/calendar" },
   { label: "Clients", href: "/admin/clients" },
+  { label: "Open Client Portal", href: "/admin/portal-preview" },
   { label: "Sessions", href: "/admin/sessions" },
   { label: "Packages", href: "/admin/packages" },
   { label: "Store", href: "/admin/store" },

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useActionState } from "react";
 import { Field, Input } from "@/components/ui/Field";
 import type { PortalContent } from "@/content/i18n/portal";
@@ -43,6 +44,12 @@ export function ClientLoginForm({ nextPath, initialError, copy }: ClientLoginFor
           required
         />
       </Field>
+
+      <p className="text-right">
+        <Link href="/client/forgot-password" className="type-caption text-ink underline">
+          {copy.forgot}
+        </Link>
+      </p>
 
       {state.error ? (
         <p className="type-caption text-warm" role="alert">

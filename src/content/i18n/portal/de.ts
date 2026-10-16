@@ -121,6 +121,18 @@ export const dePortal: PortalContent = {
     pending: "Anmeldung…",
     tooManyAttempts: "Zu viele Anmeldeversuche. Versuche es später erneut.",
     invalidCredentials: "E-Mail oder Passwort ist ungültig.",
+    forgot: "Passwort vergessen?",
+  },
+  forgotPassword: {
+    title: "Passwort zurücksetzen",
+    subtitle: "Gib die E-Mail deines Klientenportals ein.",
+    email: "E-Mail",
+    submit: "Link senden",
+    pending: "Sendet…",
+    success: "Wenn für diese E-Mail ein Konto besteht, haben wir einen Link zum Zurücksetzen gesendet.",
+    tooManyAttempts: "Zu viele Versuche. Versuche es später erneut.",
+    invalidEmail: "Gib eine gültige E-Mail-Adresse ein.",
+    backToLogin: "Zurück zur Anmeldung",
   },
   setPassword: {
     title: "Passwort erstellen",
@@ -134,6 +146,7 @@ export const dePortal: PortalContent = {
     mismatch: "Die Passwörter stimmen nicht überein.",
     expired: "Dieser Passwort-Link ist ungültig oder abgelaufen.",
     signInFailed: "Nach dem Setzen des Passworts war die Anmeldung nicht möglich. Bitte melde dich an.",
+    tooManyAttempts: "Zu viele Versuche. Versuche es später erneut.",
   },
   account: {
     title: "Konto",

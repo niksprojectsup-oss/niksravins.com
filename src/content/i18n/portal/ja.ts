@@ -120,6 +120,18 @@ export const jaPortal: PortalContent = {
     pending: "サインインしています…",
     tooManyAttempts: "試行が多すぎます。しばらくしてからもう一度お試しください。",
     invalidCredentials: "メールまたはパスワードが正しくありません。",
+    forgot: "パスワードをお忘れですか？",
+  },
+  forgotPassword: {
+    title: "パスワードを再設定",
+    subtitle: "クライアントポータルのメールアドレスを入力してください。",
+    email: "メール",
+    submit: "再設定リンクを送る",
+    pending: "送信しています…",
+    success: "そのメールアドレスにアカウントがある場合、パスワード再設定リンクを送信しました。",
+    tooManyAttempts: "試行が多すぎます。しばらくしてからもう一度お試しください。",
+    invalidEmail: "有効なメールアドレスを入力してください。",
+    backToLogin: "サインインに戻る",
   },
   setPassword: {
     title: "パスワードを作成",
@@ -133,6 +145,7 @@ export const jaPortal: PortalContent = {
     mismatch: "パスワードが一致しません。",
     expired: "このパスワードリンクは無効か、期限が切れています。",
     signInFailed: "パスワード設定後にサインインできませんでした。ログインしてください。",
+    tooManyAttempts: "試行が多すぎます。しばらくしてからもう一度お試しください。",
   },
   account: {
     title: "アカウント",
