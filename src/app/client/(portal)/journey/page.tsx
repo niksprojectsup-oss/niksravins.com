@@ -6,13 +6,15 @@ import { JourneyProgressBar } from "@/components/client/journey/JourneyProgressB
 import { JourneyTimeline } from "@/components/client/journey/JourneyTimeline";
 import { MilestoneTimeline } from "@/components/client/journey/MilestoneTimeline";
 import { PortalCard, PortalGrid } from "@/components/client/journey/PortalShell";
-import { PortalPageHeader } from "@/components/client/journey/PortalPageHeader";
+import { getPortalContent } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
+import { getPortalLocale } from "@/lib/i18n/portal-locale";
 import { getJourneyPageData, getJourneyProgress } from "@/lib/journey/journey-repository";
 import { prisma } from "@/lib/db/prisma";
 
 export default async function ClientJourneyPage() {
   const session = await requireClient();
+  const content = getPortalContent(await getPortalLocale());
   const [journey, progress] = await Promise.all([
     getJourneyPageData(session.clientId!),
     getJourneyProgress(session.clientId!),
@@ -31,10 +33,10 @@ export default async function ClientJourneyPage() {
 
   return (
     <div className="layout-stack-xl">
-      <PortalPageHeader
-        title="My journey"
-        description="Sessions, milestones, and the arc of your transformation."
-      />
+      <header className="layout-stack-sm">
+        <h1 className="font-display text-4xl text-[#2c2824]">{content.journeyPage.title}</h1>
+        <p className="max-w-2xl text-[#6d675f]">{content.journeyPage.description}</p>
+      </header>
 
       {journey.activePackage ? (
         <>
@@ -42,6 +44,8 @@ export default async function ClientJourneyPage() {
             <JourneyProgressBar
               timeline={journey.activePackage.timeline}
               totalSessions={journey.activePackage.totalSessions}
+              progressLabel={content.journeyPage.sessionProgress}
+              completedLabel={content.journeyPage.completed}
             />
           </PortalCard>
 
@@ -49,8 +53,8 @@ export default async function ClientJourneyPage() {
             <PortalCard padding="lg">
               <h2 className="type-heading-sm">{journey.activePackage.serviceTitle}</h2>
               <p className="type-caption mt-2">
-                {journey.activePackage.completedSessions} completed ·{" "}
-                {journey.activePackage.remainingSessions} remaining
+                {journey.activePackage.completedSessions} {content.journeyPage.completed} ·{" "}
+                {journey.activePackage.remainingSessions} {content.journeyPage.remaining}
               </p>
               <div className="mt-6">
                 <JourneyTimeline
@@ -58,14 +62,20 @@ export default async function ClientJourneyPage() {
                   packageId={journey.activePackage.id}
                   totalSessions={journey.activePackage.totalSessions}
                   timezone={timezone}
+                  copy={content.journeyPage}
+                  prepareLabel={content.sessionsPage.prepare}
+                  bookLabel={content.sessionsPage.book}
                 />
               </div>
             </PortalCard>
 
             <PortalCard padding="lg">
-              <h2 className="type-heading-sm">Milestones</h2>
+              <h2 className="type-heading-sm">{content.journeyPage.milestones}</h2>
               <div className="mt-6">
-                <MilestoneTimeline milestones={journey.milestones} />
+                <MilestoneTimeline
+                  milestones={journey.milestones}
+                  labels={content.journeyPage.milestoneLabels}
+                />
               </div>
             </PortalCard>
           </PortalGrid>
@@ -77,6 +87,7 @@ export default async function ClientJourneyPage() {
                 milestones={journey.milestones}
                 completedSessions={journey.activePackage.completedSessions}
                 totalSessions={journey.activePackage.totalSessions}
+                milestoneLabels={content.journeyPage.milestoneLabels}
               />
               <FinalJourneyForms packageId={journey.activePackage.id} />
             </>
@@ -84,11 +95,9 @@ export default async function ClientJourneyPage() {
         </>
       ) : (
         <PortalCard>
-          <p className="type-body text-ink-subtle">
-            Your journey timeline will appear when you begin a session package.
-          </p>
+          <p className="type-body text-ink-subtle">{content.journeyPage.empty}</p>
           <Link href="/book" className="type-accent-link mt-4 inline-block">
-            Book your first session
+            {content.journeyPage.book}
           </Link>
         </PortalCard>
       )}

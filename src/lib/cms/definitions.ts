@@ -67,6 +67,12 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         sortOrder: 2,
         fields: [
           {
+            key: "journey.heading",
+            label: "Journey heading",
+            placeholder: "You want something to change.",
+            kind: "paragraphs",
+          },
+          {
             key: "journey.change.0",
             label: "Journey / Change step 01",
             placeholder: "First stage",
@@ -97,6 +103,12 @@ export const CMS_PAGE_DEFINITIONS: readonly CmsPageDefinition[] = [
         title: "Alignment",
         sortOrder: 3,
         fields: [
+          {
+            key: "alignment.heading",
+            label: "Alignment heading",
+            placeholder: "What feels out of alignment?",
+            kind: "paragraphs",
+          },
           { key: "alignment.0.image", label: "Alignment 01 image", kind: "image" },
           { key: "alignment.0.title", label: "Alignment 01 title" },
           { key: "alignment.0.body", label: "Alignment 01 body", kind: "paragraphs" },

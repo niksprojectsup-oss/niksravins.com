@@ -159,18 +159,21 @@
   }
 
   h1 {
+    --cms-tracking: var(--nr-tracking-tight);
     font-size: var(--nr-text-display);
     line-height: var(--nr-leading-tight);
     letter-spacing: var(--nr-tracking-tight);
   }
 
   h2 {
+    --cms-tracking: var(--nr-tracking-snug);
     font-size: var(--nr-text-3xl);
     line-height: var(--nr-leading-tight);
     letter-spacing: var(--nr-tracking-snug);
   }
 
   h3 {
+    --cms-tracking: var(--nr-tracking-snug);
     font-size: var(--nr-text-xl);
     line-height: var(--nr-leading-snug);
     letter-spacing: var(--nr-tracking-snug);
@@ -220,6 +223,7 @@
 
 @layer components {
   .type-display {
+    --cms-tracking: var(--nr-tracking-tight);
     font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
       serif;
     font-size: var(--nr-text-display);
@@ -230,6 +234,7 @@
   }
 
   .type-heading {
+    --cms-tracking: var(--nr-tracking-snug);
     font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
       serif;
     font-size: var(--nr-text-3xl);
@@ -240,6 +245,7 @@
   }
 
   .type-heading-sm {
+    --cms-tracking: var(--nr-tracking-snug);
     font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia,
       serif;
     font-size: var(--nr-text-xl);
@@ -505,16 +511,26 @@
 
 .want-change-title {
   margin: 0 auto;
-  max-width: 22em;
+  max-width: 100%;
   text-align: center;
+  --cms-tracking: 0.055em;
   text-transform: uppercase;
   text-wrap: balance;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
   font-size: clamp(1.28rem, 0.85vw + 1rem, 1.95rem);
   font-weight: 500;
   line-height: 1.18;
-  letter-spacing: 0.055em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
+}
+
+.want-change-title p {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-transform: inherit;
+  text-wrap: inherit;
 }
 
 .want-change-path {
@@ -566,10 +582,11 @@
   min-width: 0;
   margin: 0;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  --cms-tracking: -0.012em;
   font-size: 1.0625rem;
   font-weight: 450;
   line-height: 1.42;
-  letter-spacing: -0.012em;
+  letter-spacing: var(--cms-tracking);
   color: #2b2b27;
 }
 
@@ -586,8 +603,9 @@
 
 @media (max-width: 640px) {
   .want-change-title {
+    --cms-tracking: 0.042em;
     font-size: 1.16rem;
-    letter-spacing: 0.042em;
+    letter-spacing: var(--cms-tracking);
   }
 }
 
@@ -660,14 +678,29 @@
   margin: 0 auto;
   max-width: 22em;
   text-align: center;
+  --cms-tracking: 0.055em;
   text-transform: uppercase;
   text-wrap: balance;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
   font-size: clamp(1.28rem, 0.85vw + 1rem, 1.95rem);
   font-weight: 500;
   line-height: 1.18;
-  letter-spacing: 0.055em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
+}
+
+.home-alignment-heading p {
+  margin: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  color: inherit;
+  text-transform: inherit;
+  text-wrap: inherit;
+}
+
+.want-change-title p:has([style*="font-size"]),
+.home-alignment-heading p:has([style*="font-size"]) {
+  font-size: 1rem;
 }
 
 .home-alignment-grid {
@@ -714,7 +747,7 @@
   padding: 1.35rem 1.4rem 1.45rem;
   border: 0;
   border-radius: 13px;
-  background: rgba(255, 255, 255, 0.5);
+  background: color-mix(in srgb, var(--nr-canvas) 92%, transparent);
   box-shadow: none;
 }
 
@@ -751,18 +784,20 @@
 }
 
 .home-alignment-item-title-text {
+  --cms-tracking: -0.014em;
   font-size: 1.125rem;
   font-weight: 500;
   line-height: 1.28;
-  letter-spacing: -0.014em;
+  letter-spacing: var(--cms-tracking);
 }
 
 .home-alignment-item-body-text {
+  --cms-tracking: -0.01em;
   margin-top: 0.45rem;
   font-size: 0.98rem;
   font-weight: 450;
   line-height: 1.42;
-  letter-spacing: -0.01em;
+  letter-spacing: var(--cms-tracking);
 }
 
 .home-alignment-item-body-text p {
@@ -773,8 +808,9 @@
 
 @media (max-width: 640px) {
   .home-alignment-heading {
+    --cms-tracking: 0.042em;
     font-size: 1.16rem;
-    letter-spacing: 0.042em;
+    letter-spacing: var(--cms-tracking);
   }
 
   .home-alignment-panel {
@@ -874,10 +910,11 @@
 }
 
 .home-underneath-intro-text {
+  --cms-tracking: -0.014em;
   font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
   font-weight: 450;
   line-height: 1.45;
-  letter-spacing: -0.014em;
+  letter-spacing: var(--cms-tracking);
 }
 
 .home-underneath-intro-text p {
@@ -888,10 +925,11 @@
 }
 
 .home-underneath-headline-text {
+  --cms-tracking: -0.03em;
   font-size: clamp(1.95rem, 0.4rem + 3.15vw, 3.45rem);
   font-weight: 500;
   line-height: 1.08;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
 }
 
@@ -915,7 +953,7 @@
 @media (min-width: 800px) {
   .home-underneath-grid {
     grid-template-columns: minmax(12rem, min(22rem, 34%)) minmax(0, 1fr);
-    column-gap: clamp(2.75rem, 4.5vw, 5.5rem);
+    column-gap: var(--home-split-gap);
     align-items: center;
   }
 
@@ -926,6 +964,20 @@
   .home-underneath-copy {
     max-width: 46rem;
   }
+}
+
+/* An explicit font-size inside the display h1 inherits letter-spacing as a
+   px length from the headline (up to 84px × -0.03em = -2.52px). On the 24px
+   hero description that packs the letters together. The paragraph also keeps
+   the headline's 84px font, so its line strut is ~90px once the text wraps.
+   Re-resolve tracking on the sized element, and shrink that paragraph's strut
+   without changing the span's own font-size. Headings keep their tracking. */
+.home-hero-headline {
+  --cms-tracking: var(--nr-tracking-tight);
+}
+
+.home-hero-headline p:has([style*="font-size"]) {
+  font-size: 1rem;
 }
 
 /* A Tiptap “medium” kicker inside the display h1 inherits -0.03em
@@ -941,6 +993,21 @@
 .home-hero-headline [style*="font-size:medium"] {
   letter-spacing: 0;
   line-height: 1.45;
+}
+
+/* The subtitle and the following description are separate CMS blocks with no
+   margin. 10px separates them. A description that lives inside the heading
+   keeps its own line break and does not pick up this margin. */
+.home-hero-headline h3:has(+ p:not(:empty)) {
+  margin-bottom: 0.625rem;
+}
+
+/* layout-stack-lg is 3rem from 768px and 5rem from 1024px. The booking
+   button should stay with the description, about 36px below it. */
+@media (min-width: 768px) {
+  .home-hero-copy.layout-stack-lg > .home-hero-actions {
+    margin-top: 2.25rem;
+  }
 }
 
 /* Scoped to the “Change the inner foundation.” section. */
@@ -989,11 +1056,12 @@
 }
 
 .home-foundation-intro-text {
+  --cms-tracking: -0.014em;
   margin: 0;
   font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
   font-weight: 450;
   line-height: 1.45;
-  letter-spacing: -0.014em;
+  letter-spacing: var(--cms-tracking);
 }
 
 .home-foundation-intro-text p {
@@ -1008,10 +1076,11 @@
 }
 
 .home-foundation-headline-text {
+  --cms-tracking: -0.03em;
   font-size: clamp(1.9rem, 0.45rem + 2.55vw, 3.15rem);
   font-weight: 500;
   line-height: 1.08;
-  letter-spacing: -0.03em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
 }
 
@@ -1029,7 +1098,7 @@
 .home-foundation-media {
   width: 100%;
   max-width: 32rem;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 2.25 / 1;
   overflow: hidden;
   border-radius: 32px;
   background: #ddd6c8;
@@ -1039,6 +1108,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
 }
 
 @media (max-width: 640px) {
@@ -1053,29 +1123,26 @@
 
 @media (min-width: 800px) {
   .home-foundation-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(12rem, min(22rem, 32%));
-    column-gap: clamp(2.75rem, 4.5vw, 5.25rem);
+    grid-template-columns: minmax(0, 36rem) minmax(12rem, 1fr);
+    column-gap: var(--home-split-gap);
     align-items: center;
   }
 
   .home-foundation-media {
     max-width: none;
-    justify-self: end;
+    justify-self: stretch;
     width: 100%;
-  }
-
-  .home-foundation-copy {
-    max-width: none;
   }
 }
 
 /* FAQ accordion restored from 272be12. */
 
 .type-home-title {
+  --cms-tracking: -0.034em;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
   font-size: clamp(2.35rem, 4.6vw + 0.4rem, 4.35rem);
   line-height: 1.06;
-  letter-spacing: -0.034em;
+  letter-spacing: var(--cms-tracking);
   font-weight: 500;
   color: var(--nr-ink);
   text-wrap: balance;
@@ -1130,10 +1197,11 @@
   color: inherit;
   cursor: pointer;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  --cms-tracking: -0.022em;
   font-size: clamp(1.35rem, 1.2vw + 0.75rem, 2rem);
   font-weight: inherit;
   line-height: 1.25;
-  letter-spacing: -0.022em;
+  letter-spacing: var(--cms-tracking);
   list-style: none;
 }
 
@@ -1222,18 +1290,22 @@
 
 .home-identity-intro,
 .home-identity-close {
-  max-width: 46rem;
   margin-inline: auto;
   text-align: center;
 }
 
+.home-identity-close {
+  max-width: 46rem;
+}
+
 .home-identity-intro {
+  max-width: 100%;
   margin-bottom: clamp(2.5rem, 5vw, 4.25rem);
 }
 
 .home-identity-heading {
   margin: 0 auto 1.25rem;
-  max-width: 16ch;
+  max-width: 100%;
 }
 
 .home-identity-heading-text,
@@ -1248,10 +1320,11 @@
 }
 
 .home-identity-heading-text {
+  --cms-tracking: -0.034em;
   font-size: clamp(2.45rem, 0.5rem + 3.8vw, 4.35rem);
   font-weight: 500;
   line-height: 1.06;
-  letter-spacing: -0.034em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
   text-wrap: balance;
 }
@@ -1263,10 +1336,11 @@
 
 .home-identity-lede-text,
 .home-identity-close-copy-text {
+  --cms-tracking: -0.014em;
   font-size: clamp(1.12rem, 0.35vw + 1rem, 1.38rem);
   font-weight: 450;
   line-height: 1.45;
-  letter-spacing: -0.014em;
+  letter-spacing: var(--cms-tracking);
   white-space: pre-line;
 }
 
@@ -1300,19 +1374,21 @@
 }
 
 .home-identity-belief-text {
+  --cms-tracking: -0.02em;
   font-size: clamp(1.38rem, 0.55vw + 1.12rem, 1.9rem);
   font-weight: 450;
   font-style: italic;
   line-height: 1.18;
-  letter-spacing: -0.02em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
 }
 
 .home-identity-body-text {
+  --cms-tracking: -0.006em;
   font-size: clamp(0.9rem, 0.12vw + 0.86rem, 1rem);
   font-weight: 400;
   line-height: 1.5;
-  letter-spacing: -0.006em;
+  letter-spacing: var(--cms-tracking);
   color: #2b2b27;
 }
 
@@ -1333,10 +1409,11 @@
 }
 
 .home-identity-close-lead-text {
+  --cms-tracking: -0.018em;
   font-size: clamp(1.2rem, 0.4vw + 1.08rem, 1.5rem);
   font-weight: 500;
   line-height: 1.35;
-  letter-spacing: -0.018em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
 }
 
@@ -1354,6 +1431,12 @@
 .home-identity-lede-text p,
 .home-identity-close-copy-text p {
   white-space: pre-line;
+}
+
+@media (min-width: 800px) {
+  .home-identity {
+    padding-bottom: 2rem;
+  }
 }
 
 @media (max-width: 799px) {
@@ -1434,10 +1517,11 @@
 }
 
 .home-roots-intro-text {
+  --cms-tracking: -0.014em;
   font-size: clamp(1.2rem, 0.45vw + 1.05rem, 1.5rem);
   font-weight: 450;
   line-height: 1.45;
-  letter-spacing: -0.014em;
+  letter-spacing: var(--cms-tracking);
 }
 
 .home-roots-intro-text p {
@@ -1447,10 +1531,11 @@
 }
 
 .home-roots-headline-text {
+  --cms-tracking: -0.032em;
   font-size: clamp(2.15rem, 0.45rem + 3.2vw, 3.85rem);
   font-weight: 600;
   line-height: 1.06;
-  letter-spacing: -0.032em;
+  letter-spacing: var(--cms-tracking);
   color: var(--nr-ink);
   white-space: pre-line;
   text-wrap: pretty;
@@ -1497,4 +1582,43 @@
   .home-faq-section {
     padding-bottom: 0;
   }
+}
+
+/* The FAQ title is one CMS line. 16ch and the 40rem intro measure wrap it
+   on desktop. The section boundary was roots padding plus FAQ padding. */
+@media (min-width: 1024px) {
+  .home-roots {
+    padding-bottom: 0;
+  }
+
+  .home-faq-section {
+    padding-top: var(--home-split-gap);
+    padding-bottom: 0;
+  }
+
+  .home-faq-section .home-section-intro {
+    max-width: none;
+  }
+
+  .home-faq-section .type-home-title {
+    max-width: none;
+  }
+}
+
+/* CMS inline styles are the published values. These rules only supply a
+   section default when that property was not set on the text itself. */
+.cms-published-text [style*="font-size"]:not([style*="letter-spacing"]):not([style*="font-size: medium"]):not([style*="font-size:medium"]) {
+  letter-spacing: var(--cms-tracking, normal);
+}
+
+.cms-published-text p:has([style*="font-size"]) {
+  font-size: 1rem;
+}
+
+.cms-published-text [style*="font-weight"] strong {
+  font-weight: inherit;
+}
+
+.cms-published-text [style*="color"] strong {
+  color: inherit;
 }

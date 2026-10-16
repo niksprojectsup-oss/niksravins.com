@@ -286,7 +286,9 @@ export function CmsPageEditor({ initialContent, locale }: CmsPageEditorProps) {
                     locale={locale}
                     fields={fields}
                     sectionFields={section.fields}
-                    editorRefs={editorRefs}
+                    registerEditor={(fieldKey, instance) => {
+                      editorRefs.current[fieldKey] = instance;
+                    }}
                     syncVersion={editorSyncVersion}
                     onFieldChange={updateField}
                   />

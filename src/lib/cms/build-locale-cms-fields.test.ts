@@ -19,6 +19,9 @@ describe("locale CMS field builder", () => {
     assert.ok(fields["foundation.intro"]);
     assert.ok(fields["journey.change.0"]);
     assert.ok(fields["alignment.0.title"]);
+    assert.equal(tiptapJsonToPlainText(fields["journey.heading"]!), lvContent.journey.heading);
+    assert.equal(tiptapJsonToPlainText(fields["alignment.heading"]!), lvContent.alignment.heading);
+    assert.notEqual(tiptapJsonToPlainText(fields["journey.heading"]!), english.journey.heading);
     assert.equal(fields["foundation.image"], undefined);
 
     assert.match(tiptapJsonToPlainText(fields["hero.primaryCta.label"]!), /Rezervēt sesiju/);

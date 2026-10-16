@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { Field, Input } from "@/components/ui/Field";
+import type { PortalContent } from "@/content/i18n/portal";
 import {
   clientLoginAction,
   type ClientAuthState,
@@ -10,9 +11,10 @@ import {
 type ClientLoginFormProps = {
   nextPath?: string;
   initialError?: string;
+  copy: PortalContent["login"];
 };
 
-export function ClientLoginForm({ nextPath, initialError }: ClientLoginFormProps) {
+export function ClientLoginForm({ nextPath, initialError, copy }: ClientLoginFormProps) {
   const [state, formAction, pending] = useActionState<ClientAuthState, FormData>(
     clientLoginAction,
     { error: initialError },
@@ -22,7 +24,7 @@ export function ClientLoginForm({ nextPath, initialError }: ClientLoginFormProps
     <form action={formAction} className="layout-stack-md">
       {nextPath ? <input type="hidden" name="next" value={nextPath} /> : null}
 
-      <Field label="Email" id="client-email">
+      <Field label={copy.email} id="client-email">
         <Input
           id="client-email"
           name="email"
@@ -32,7 +34,7 @@ export function ClientLoginForm({ nextPath, initialError }: ClientLoginFormProps
         />
       </Field>
 
-      <Field label="Password" id="client-password">
+      <Field label={copy.password} id="client-password">
         <Input
           id="client-password"
           name="password"
@@ -53,7 +55,7 @@ export function ClientLoginForm({ nextPath, initialError }: ClientLoginFormProps
         disabled={pending}
         className="w-full min-h-12 rounded-md bg-ink px-4 py-3 type-body text-canvas transition-opacity duration-200 disabled:opacity-60"
       >
-        {pending ? "Signing in…" : "Sign in"}
+        {pending ? copy.pending : copy.submit}
       </button>
     </form>
   );

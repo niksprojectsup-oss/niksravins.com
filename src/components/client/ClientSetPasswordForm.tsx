@@ -2,6 +2,7 @@
 
 import { useActionState } from "react";
 import { Field, Input } from "@/components/ui/Field";
+import type { PortalContent } from "@/content/i18n/portal";
 import {
   clientSetPasswordAction,
   type ClientAuthState,
@@ -10,11 +11,13 @@ import {
 type ClientSetPasswordFormProps = {
   token: string;
   initialError?: string;
+  copy: PortalContent["setPassword"];
 };
 
 export function ClientSetPasswordForm({
   token,
   initialError,
+  copy,
 }: ClientSetPasswordFormProps) {
   const [state, formAction, pending] = useActionState<ClientAuthState, FormData>(
     clientSetPasswordAction,
@@ -25,7 +28,7 @@ export function ClientSetPasswordForm({
     <form action={formAction} className="layout-stack-md">
       <input type="hidden" name="token" value={token} />
 
-      <Field label="Password" id="password">
+      <Field label={copy.password} id="password">
         <Input
           id="password"
           name="password"
@@ -36,7 +39,7 @@ export function ClientSetPasswordForm({
         />
       </Field>
 
-      <Field label="Confirm password" id="confirmPassword">
+      <Field label={copy.confirm} id="confirmPassword">
         <Input
           id="confirmPassword"
           name="confirmPassword"
@@ -58,7 +61,7 @@ export function ClientSetPasswordForm({
         disabled={pending}
         className="w-full min-h-12 rounded-md bg-ink px-4 py-3 type-body text-canvas transition-opacity duration-200 disabled:opacity-60"
       >
-        {pending ? "Saving…" : "Create password"}
+        {pending ? copy.pending : copy.submit}
       </button>
     </form>
   );

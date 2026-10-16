@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type MutableRefObject } from "react";
+import { useRef, useState } from "react";
 import type { JSONContent } from "@tiptap/react";
 import {
   CmsRichTextEditor,
@@ -20,7 +20,7 @@ type CmsAlignmentSectionEditorProps = {
   locale: string;
   fields: Record<string, CmsTiptapJson>;
   sectionFields: readonly CmsFieldDefinition[];
-  editorRefs: MutableRefObject<Record<string, CmsRichTextEditorHandle | null>>;
+  registerEditor: (fieldKey: string, instance: CmsRichTextEditorHandle | null) => void;
   syncVersion: number;
   onFieldChange: (fieldKey: string, value: JSONContent) => void;
 };
@@ -34,12 +34,28 @@ export function CmsAlignmentSectionEditor({
   locale,
   fields,
   sectionFields,
-  editorRefs,
+  registerEditor,
   syncVersion,
   onFieldChange,
 }: CmsAlignmentSectionEditorProps) {
+  const headingField = fieldByKey(sectionFields, "alignment.heading");
+
   return (
     <div className="layout-stack-lg">
+      {headingField ? (
+        <CmsRichTextEditor
+          key={`${locale}-${headingField.key}`}
+          ref={(instance) => {
+            registerEditor(headingField.key, instance);
+          }}
+          id={`${pageSlug}-${headingField.key}`}
+          label={headingField.label}
+          placeholder={headingField.placeholder}
+          value={fields[headingField.key] ?? createEmptyTiptapDocument()}
+          syncVersion={syncVersion}
+          onChange={(value) => onFieldChange(headingField.key, value)}
+        />
+      ) : null}
       {Array.from({ length: ITEM_COUNT }, (_, index) => {
         const number = String(index + 1).padStart(2, "0");
         const imageField = fieldByKey(sectionFields, `alignment.${index}.image`);
@@ -58,7 +74,7 @@ export function CmsAlignmentSectionEditor({
             titleField={titleField}
             bodyField={bodyField}
             fields={fields}
-            editorRefs={editorRefs}
+            registerEditor={registerEditor}
             syncVersion={syncVersion}
             onFieldChange={onFieldChange}
           />
@@ -76,7 +92,7 @@ function CmsAlignmentItemEditor({
   titleField,
   bodyField,
   fields,
-  editorRefs,
+  registerEditor,
   syncVersion,
   onFieldChange,
 }: {
@@ -87,7 +103,7 @@ function CmsAlignmentItemEditor({
   titleField: CmsFieldDefinition;
   bodyField: CmsFieldDefinition;
   fields: Record<string, CmsTiptapJson>;
-  editorRefs: MutableRefObject<Record<string, CmsRichTextEditorHandle | null>>;
+  registerEditor: (fieldKey: string, instance: CmsRichTextEditorHandle | null) => void;
   syncVersion: number;
   onFieldChange: (fieldKey: string, value: JSONContent) => void;
 }) {
@@ -155,7 +171,7 @@ function CmsAlignmentItemEditor({
           <CmsRichTextEditor
             key={`${locale}-${titleField.key}`}
             ref={(instance) => {
-              editorRefs.current[titleField.key] = instance;
+              registerEditor(titleField.key, instance);
             }}
             id={`${pageSlug}-${titleField.key}`}
             label={titleField.label}
@@ -167,7 +183,7 @@ function CmsAlignmentItemEditor({
           <CmsRichTextEditor
             key={`${locale}-${bodyField.key}`}
             ref={(instance) => {
-              editorRefs.current[bodyField.key] = instance;
+              registerEditor(bodyField.key, instance);
             }}
             id={`${pageSlug}-${bodyField.key}`}
             label={bodyField.label}

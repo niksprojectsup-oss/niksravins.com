@@ -1,4 +1,4 @@
-import type { CmsContentItem, CmsPage, CmsSection } from "@prisma/client";
+import { Prisma, type CmsContentItem, type CmsPage, type CmsSection } from "@prisma/client";
 import {
   CMS_LOCALES,
   type CmsLocale,
@@ -12,7 +12,18 @@ import {
   planCmsDraftItemWrites,
   planCmsPublishItemIds,
 } from "@/lib/cms/draft-persistence";
-import { hasCmsTiptapContent, normalizeCmsTiptapJson, tiptapJsonToPlainText } from "@/lib/cms/tiptap";
+import {
+  planSharedHomepageImageDraftWrites,
+  planSharedHomepageImageMirrors,
+  resolveSharedHomepageImageSrc,
+  withCmsImageSrc,
+} from "@/lib/cms/shared-homepage-images";
+import {
+  getCmsImageSrcFromDocument,
+  hasCmsTiptapContent,
+  normalizeCmsTiptapJson,
+  tiptapJsonToPlainText,
+} from "@/lib/cms/tiptap";
 import type {
   CmsPageContent,
   CmsPageStatus,
@@ -25,6 +36,10 @@ import { prisma, requireDatabase } from "@/lib/db/prisma";
 
 type SectionWithItems = CmsSection & { items: CmsContentItem[] };
 type PageWithSections = CmsPage & { sections: SectionWithItems[] };
+
+function cmsJson(value: CmsTiptapJson): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
+}
 
 function mapPageStatus(status: CmsPage["status"]): CmsPageStatus {
   return status;
@@ -50,6 +65,7 @@ function buildSectionContent(
   section: SectionWithItems,
   locale: CmsLocale,
   definitionFields: readonly { key: string; label: string }[],
+  shareImages: boolean,
 ): CmsSectionContent {
   const itemsByField = new Map(section.items.filter((item) => item.locale === locale).map((item) => [item.fieldKey, item]));
 
@@ -59,7 +75,7 @@ function buildSectionContent(
     sortOrder: section.sortOrder,
     fields: definitionFields.map((field) => {
       const item = itemsByField.get(field.key);
-      return item
+      const mapped = item
         ? mapItemValue(item)
         : {
             fieldKey: field.key,
@@ -68,6 +84,19 @@ function buildSectionContent(
             plainText: null,
             updatedAt: section.updatedAt.toISOString(),
           };
+
+      if (!shareImages) return mapped;
+
+      const sharedSrc = resolveSharedHomepageImageSrc(section.items, field.key, "editor");
+      if (!sharedSrc) return mapped;
+
+      const base = mapped.draftJson ?? mapped.publishedJson;
+      if (getCmsImageSrcFromDocument(base) === sharedSrc) return mapped;
+
+      return {
+        ...mapped,
+        draftJson: withCmsImageSrc(base, sharedSrc),
+      };
     }),
   };
 }
@@ -139,7 +168,7 @@ export async function getAdminPageContent(
         };
       }
 
-      return buildSectionContent(section, locale, sectionDef.fields);
+      return buildSectionContent(section, locale, sectionDef.fields, page.slug === "home");
     }),
   };
 
@@ -219,12 +248,22 @@ export async function saveContentDraft(input: {
     sections = refreshed.sections;
   }
 
-  const writes = planCmsDraftItemWrites({
-    sections,
-    definition,
-    locale: input.locale,
-    fields: input.fields,
-  });
+  const existingItems = sections.flatMap((section) => section.items);
+  const writes = [
+    ...planCmsDraftItemWrites({
+      sections,
+      definition,
+      locale: input.locale,
+      fields: input.fields,
+    }),
+    ...planSharedHomepageImageDraftWrites({
+      definition,
+      sections,
+      sourceLocale: input.locale,
+      fields: input.fields,
+      existingItems,
+    }),
+  ];
 
   if (writes.length === 0) {
     await prisma.cmsPage.update({
@@ -247,12 +286,45 @@ export async function publishContent(input: {
     throw new Error("CMS page not found.");
   }
 
-  const itemIds = planCmsPublishItemIds(
-    page.sections.flatMap((section) => section.items),
-    input.locale,
-  );
+  const items = page.sections.flatMap((section) => section.items);
+  const itemIds = planCmsPublishItemIds(items, input.locale);
+  const definition = getCmsPageDefinition(page.slug);
+  const mirrors = definition
+    ? planSharedHomepageImageMirrors({
+        definition,
+        sourceLocale: input.locale,
+        items,
+      })
+    : [];
 
-  await prisma.$executeRaw(buildCmsPublishQuery(page.id, itemIds));
+  await prisma.$transaction(async (transaction) => {
+    await transaction.$executeRaw(buildCmsPublishQuery(page.id, itemIds));
+
+    for (const mirror of mirrors) {
+      await transaction.cmsContentItem.upsert({
+        where: {
+          sectionId_locale_fieldKey: {
+            sectionId: mirror.sectionId,
+            locale: mirror.locale,
+            fieldKey: mirror.fieldKey,
+          },
+        },
+        create: {
+          sectionId: mirror.sectionId,
+          locale: mirror.locale,
+          fieldKey: mirror.fieldKey,
+          draftJson: cmsJson(mirror.draftJson),
+          publishedJson: cmsJson(mirror.publishedJson),
+          plainText: mirror.plainText,
+        },
+        update: {
+          draftJson: cmsJson(mirror.draftJson),
+          publishedJson: cmsJson(mirror.publishedJson),
+          plainText: mirror.plainText,
+        },
+      });
+    }
+  });
 }
 
 export function assertCmsLocale(value: string): CmsLocale {

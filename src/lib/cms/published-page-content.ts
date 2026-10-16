@@ -5,6 +5,11 @@ import {
   isCmsLocale,
 } from "@/lib/cms/definitions";
 import { getCmsPageRecordBySlug } from "@/lib/cms/repository";
+import {
+  applySharedHomepageImageDocument,
+  isHomepageImageFieldKey,
+  resolveSharedHomepageImageSrc,
+} from "@/lib/cms/shared-homepage-images";
 import { hasCmsTiptapContent, normalizeCmsTiptapJson } from "@/lib/cms/tiptap";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 import { requireDatabase } from "@/lib/db/prisma";
@@ -50,6 +55,16 @@ export function buildPublishedCmsPageFields(input: {
     }
 
     fields[fieldKey] = normalizeCmsTiptapJson(item.publishedJson)!;
+  }
+
+  for (const fieldKey of input.fieldKeys) {
+    if (!isHomepageImageFieldKey(fieldKey)) continue;
+
+    const sharedSrc = resolveSharedHomepageImageSrc(input.items, fieldKey, "published");
+    const sharedDocument = applySharedHomepageImageDocument(fields[fieldKey], sharedSrc);
+    if (sharedDocument && sharedSrc) {
+      fields[fieldKey] = sharedDocument;
+    }
   }
 
   return fields;

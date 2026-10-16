@@ -50,6 +50,12 @@ enum JournalVisibility {
   SHARED
 }
 
+enum JournalCategory {
+  PATTERN
+  TRIGGER
+  POSITIVE_OBSERVATION
+}
+
 enum TestimonialConsent {
   PRIVATE
   ANONYMOUS
@@ -325,6 +331,8 @@ model ClientJournalEntry {
   content    String
   prompt     String            @default("")
   visibility JournalVisibility @default(PRIVATE)
+  category   JournalCategory?
+  observedOn String?
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
 
@@ -332,6 +340,7 @@ model ClientJournalEntry {
 
   @@index([clientId, createdAt])
   @@index([clientId, visibility])
+  @@index([clientId, category])
 }
 
 model ClientCheckIn {

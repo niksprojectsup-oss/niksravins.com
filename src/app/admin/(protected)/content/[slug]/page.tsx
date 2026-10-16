@@ -1,5 +1,7 @@
 import { notFound } from "next/navigation";
+import { getFilePublicContent } from "@/content/i18n";
 import { CmsPageEditor } from "@/components/admin/cms/CmsPageEditor";
+import { withCatalogSectionHeadingDrafts } from "@/lib/cms/build-locale-cms-fields";
 import { assertCmsLocale, getAdminPageContent } from "@/lib/cms/repository";
 import { getCmsPageDefinition, isAdminEditableCmsPageSlug } from "@/lib/cms/definitions";
 import { seedCmsPages } from "@/lib/cms/seed";
@@ -29,5 +31,10 @@ export default async function AdminContentEditorPage({
     notFound();
   }
 
-  return <CmsPageEditor initialContent={content} locale={locale} />;
+  const initialContent =
+    slug === "home"
+      ? withCatalogSectionHeadingDrafts(content, getFilePublicContent(locale))
+      : content;
+
+  return <CmsPageEditor initialContent={initialContent} locale={locale} />;
 }

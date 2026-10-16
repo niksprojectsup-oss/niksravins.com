@@ -18,6 +18,8 @@ describe("field ownership", () => {
     assert.equal(getFieldOwner("hero.headline"), "cms");
     assert.equal(getFieldOwner("faq.items.0.question"), "cms");
     assert.equal(getFieldOwner("journey.change.0"), "cms");
+    assert.equal(getFieldOwner("journey.heading"), "cms");
+    assert.equal(getFieldOwner("alignment.heading"), "cms");
     assert.equal(getFieldOwner("alignment.0.title"), "cms");
     assert.equal(getFieldOwner("legal.body"), "cms");
     assert.equal(isCmsOwnedFieldKey("foundation.image"), true);
@@ -31,7 +33,6 @@ describe("field ownership", () => {
     assert.equal(getFieldOwner("header.book"), "catalog");
     assert.equal(getFieldOwner("navigation.0.label"), "catalog");
     assert.equal(getFieldOwner("bookingUi.validation.emailRequired"), "catalog");
-    assert.equal(getFieldOwner("journey.heading"), "catalog");
     assert.equal(isCmsOwnedCatalogKey("hero.explanation.0"), false);
   });
 });

@@ -11,6 +11,34 @@ type HomeAlignmentSectionProps = {
   cmsHtmlFields?: CmsHtmlFields;
 };
 
+function SectionHeading({
+  id,
+  className,
+  html,
+  fallback,
+}: {
+  id: string;
+  className: string;
+  html?: string;
+  fallback: string;
+}) {
+  if (html) {
+    return (
+      <h2
+        id={id}
+        className={`${className} cms-published-text`}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+    );
+  }
+
+  return (
+    <h2 id={id} className={className}>
+      {fallback}
+    </h2>
+  );
+}
+
 export function HomeAlignmentSection({
   content,
   cmsHtmlFields = {},
@@ -22,9 +50,12 @@ export function HomeAlignmentSection({
       containerClassName="home-alignment-container"
     >
       <div className="home-alignment-inner">
-        <h2 id="alignment-heading" className="home-alignment-heading font-display">
-          {content.alignment.heading}
-        </h2>
+        <SectionHeading
+          id="alignment-heading"
+          className="home-alignment-heading font-display"
+          html={cmsHtmlFields["alignment.heading"]}
+          fallback={content.alignment.heading}
+        />
         <div className="home-alignment-grid">
           {content.alignment.items.map((item, index) => {
             const number = String(index + 1).padStart(2, "0");

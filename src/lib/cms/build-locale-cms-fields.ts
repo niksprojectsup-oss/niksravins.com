@@ -69,6 +69,47 @@ export function buildLocaleLegalBody(content: PublicContent): CmsTiptapJson {
   ]);
 }
 
+export function catalogSectionHeadingDocument(
+  content: PublicContent,
+  fieldKey: string,
+): CmsTiptapJson | null {
+  if (fieldKey === "journey.heading") return plainStringToTiptapDocument(content.journey.heading);
+  if (fieldKey === "alignment.heading") return plainStringToTiptapDocument(content.alignment.heading);
+  return null;
+}
+
+type SectionHeadingPage = {
+  sections: Array<{
+    fields: Array<{
+      fieldKey: string;
+      draftJson: CmsTiptapJson | null;
+      publishedJson: CmsTiptapJson | null;
+      plainText: string | null;
+    }>;
+  }>;
+};
+
+/** Shows the current catalog sentence in the editor when neither draft nor published exists. Does not write the database. */
+export function withCatalogSectionHeadingDrafts<T extends SectionHeadingPage>(
+  page: T,
+  content: PublicContent,
+): T {
+  return {
+    ...page,
+    sections: page.sections.map((section) => ({
+      ...section,
+      fields: section.fields.map((field) => {
+        if (field.draftJson || field.publishedJson) return field;
+        const document = catalogSectionHeadingDocument(content, field.fieldKey);
+        if (!document) return field;
+        const plainText =
+          field.fieldKey === "journey.heading" ? content.journey.heading : content.alignment.heading;
+        return { ...field, draftJson: document, plainText };
+      }),
+    })),
+  };
+}
+
 export function buildLocaleHomeCmsFields(content: PublicContent): Record<string, CmsTiptapJson> {
   const definition = getCmsPageDefinition("home");
   if (!definition) return {};
@@ -102,6 +143,9 @@ function homeFieldDocument(content: PublicContent, fieldKey: string): CmsTiptapJ
       return emphasizedDocument(content.foundation.intro);
     case "foundation.headline":
       return emphasizedDocument(content.foundation.headline);
+    case "journey.heading":
+    case "alignment.heading":
+      return catalogSectionHeadingDocument(content, fieldKey);
     case "underneath.intro":
       return linesDocument(content.underneath.intro);
     case "underneath.headline":

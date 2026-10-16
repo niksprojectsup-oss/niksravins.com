@@ -46,13 +46,6 @@ export function HomeFaqSection({ content, cmsHtmlFields = {} }: HomeSectionProps
   return (
     <Section id="faq" size="lg" aria-labelledby="faq-heading" className="home-band home-faq-section">
       <header className="home-copy home-section-intro">
-        <p className="type-label">
-          <CmsPublishedFieldText
-            html={cmsHtmlFields["faq.headingLabel"]}
-            fallback={faq.headingLabel}
-            className={CMS_PUBLISHED_INLINE_CLASS}
-          />
-        </p>
         <h2 id="faq-heading" className="type-home-title">
           <CmsPublishedFieldText
             html={cmsHtmlFields["faq.heading"]}

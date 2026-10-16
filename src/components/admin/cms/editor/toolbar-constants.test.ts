@@ -22,6 +22,10 @@ function frauncesOption() {
   return CMS_FONT_FAMILIES.find((entry) => entry.label === "Fraunces");
 }
 
+function unnaOption() {
+  return CMS_FONT_FAMILIES.find((entry) => entry.label === "Unna");
+}
+
 function styledDocument(fontFamily: string): CmsTiptapJson {
   return {
     type: "doc",
@@ -83,5 +87,80 @@ describe("cms editor font families", () => {
       cmsFontFamilyOption(storedFamily.content?.[0]?.marks?.[0]?.attrs?.fontFamily).label,
       "Fraunces",
     );
+  });
+
+  it("adds Unna beside Fraunces without replacing existing options", () => {
+    const unna = unnaOption();
+    const fraunces = frauncesOption();
+
+    assert.ok(unna);
+    assert.ok(fraunces);
+    assert.equal(unna.value, "var(--font-family-unna), Unna, serif");
+    assert.notEqual(unna.value, fraunces.value);
+    assert.doesNotMatch(unna.value, /--font-family-display/);
+
+    for (const family of existingFamilies) {
+      assert.deepEqual(
+        CMS_FONT_FAMILIES.find((entry) => entry.label === family.label),
+        family,
+      );
+    }
+  });
+
+  it("persists Unna with bold and italic in CMS HTML and editor JSON", () => {
+    const unna = unnaOption();
+    assert.ok(unna);
+
+    const document: CmsTiptapJson = {
+      type: "doc",
+      content: [
+        {
+          type: "paragraph",
+          content: [
+            {
+              type: "text",
+              text: "Regular",
+              marks: [{ type: "textStyle", attrs: { fontFamily: unna.value } }],
+            },
+            {
+              type: "text",
+              text: " Italic",
+              marks: [
+                { type: "italic" },
+                { type: "textStyle", attrs: { fontFamily: unna.value } },
+              ],
+            },
+            {
+              type: "text",
+              text: " Bold",
+              marks: [
+                { type: "bold" },
+                { type: "textStyle", attrs: { fontFamily: unna.value } },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const html = tiptapJsonToHtml(document);
+    const reopened = serializeCmsFieldsForAction({ "hero.headline": document });
+    const stored = (reopened["hero.headline"] as CmsTiptapJson).content?.[0] as {
+      content?: Array<{ marks?: Array<{ type?: string; attrs?: { fontFamily?: string } }> }>;
+    };
+
+    assert.match(html, /font-family:\s*var\(--font-family-unna\),\s*Unna,\s*serif/);
+    assert.match(html, /<em[\s\S]*Italic[\s\S]*<\/em>/);
+    assert.match(html, /<strong[\s\S]*Bold[\s\S]*<\/strong>/);
+    assert.equal(stored.content?.length, 3);
+    for (const node of stored.content ?? []) {
+      assert.equal(
+        node.marks?.find((mark) => mark.type === "textStyle")?.attrs?.fontFamily,
+        unna.value,
+      );
+    }
+    assert.ok(stored.content?.[1]?.marks?.some((mark) => mark.type === "italic"));
+    assert.ok(stored.content?.[2]?.marks?.some((mark) => mark.type === "bold"));
+    assert.equal(cmsFontFamilyOption(unna.value).label, "Unna");
   });
 });

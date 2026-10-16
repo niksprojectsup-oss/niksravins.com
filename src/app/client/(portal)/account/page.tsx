@@ -1,10 +1,13 @@
 import { ClientLogoutButton } from "@/components/client/ClientLogoutButton";
+import { getPortalContent } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
+import { getPortalLocale } from "@/lib/i18n/portal-locale";
 import { prisma } from "@/lib/db/prisma";
 import { notFound } from "next/navigation";
 
 export default async function ClientAccountPage() {
   const session = await requireClient();
+  const content = getPortalContent(await getPortalLocale());
   const client = await prisma.client.findUnique({
     where: { id: session.clientId! },
     select: {
@@ -20,30 +23,30 @@ export default async function ClientAccountPage() {
   return (
     <div className="layout-stack-xl max-w-prose">
       <header className="layout-stack-sm">
-        <h1 className="type-heading">Account</h1>
-        <p className="type-body text-ink-subtle">Your profile and sign-in.</p>
+        <h1 className="font-display text-4xl text-[#2c2824]">{content.account.title}</h1>
+        <p className="max-w-2xl text-[#6d675f]">{content.account.subtitle}</p>
       </header>
 
-      <section className="observed-card p-6 md:p-8">
+      <section className="rounded-[2rem] border border-[#eadfd2] bg-white p-6 md:p-8">
         <dl className="layout-stack-md">
           <div>
-            <dt className="type-caption">Name</dt>
-            <dd className="type-body mt-1">
+            <dt className="text-sm text-[#6d675f]">{content.account.name}</dt>
+            <dd className="mt-1 text-[#2c2824]">
               {client.firstName} {client.lastName}
             </dd>
           </div>
           <div>
-            <dt className="type-caption">Email</dt>
-            <dd className="type-body mt-1">{client.email}</dd>
+            <dt className="text-sm text-[#6d675f]">{content.account.email}</dt>
+            <dd className="mt-1 text-[#2c2824]">{client.email}</dd>
           </div>
           <div>
-            <dt className="type-caption">Timezone</dt>
-            <dd className="type-body mt-1">{client.timezone}</dd>
+            <dt className="text-sm text-[#6d675f]">{content.account.timezone}</dt>
+            <dd className="mt-1 text-[#2c2824]">{client.timezone}</dd>
           </div>
         </dl>
       </section>
 
-      <ClientLogoutButton />
+      <ClientLogoutButton label={content.account.signOut} />
     </div>
   );
 }

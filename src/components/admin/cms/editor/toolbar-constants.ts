@@ -8,6 +8,7 @@ export const CMS_FONT_SIZE_MAX = 200;
 export const CMS_FONT_FAMILIES = [
   { label: "Inter", value: "Inter, sans-serif" },
   { label: "Fraunces", value: "var(--font-family-display), Fraunces, serif" },
+  { label: "Unna", value: "var(--font-family-unna), Unna, serif" },
   { label: "Arial", value: "Arial, Helvetica, sans-serif" },
   { label: "Helvetica", value: "Helvetica, Arial, sans-serif" },
   { label: "Georgia", value: "Georgia, serif" },
@@ -30,6 +31,28 @@ export const CMS_TEXT_COLORS = [
   { label: "Green", value: "#16a34a" },
   { label: "Blue", value: "#2563eb" },
   { label: "Purple", value: "#9333ea" },
+] as const;
+
+export const CMS_LETTER_SPACINGS = [
+  { label: "Tight", value: "-0.03em" },
+  { label: "Snug", value: "-0.018em" },
+  { label: "Normal", value: "normal" },
+  { label: "Wide", value: "0.055em" },
+  { label: "Wider", value: "0.12em" },
+] as const;
+
+export const CMS_TEXT_TRANSFORMS = [
+  { label: "None", value: "none" },
+  { label: "Uppercase", value: "uppercase" },
+  { label: "Lowercase", value: "lowercase" },
+  { label: "Capitalize", value: "capitalize" },
+] as const;
+
+export const CMS_FONT_WEIGHTS = [
+  { label: "Regular", value: "400" },
+  { label: "Medium", value: "500" },
+  { label: "Semibold", value: "600" },
+  { label: "Bold", value: "700" },
 ] as const;
 
 export const CMS_LINE_HEIGHTS = [

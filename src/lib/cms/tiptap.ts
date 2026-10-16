@@ -5,6 +5,7 @@ import Image from "@tiptap/extension-image";
 import StarterKit from "@tiptap/starter-kit";
 import type { Extensions } from "@tiptap/core";
 import { ParagraphSpacing } from "@/lib/cms/tiptap-paragraph-spacing";
+import { CmsTextControls } from "@/lib/cms/tiptap-text-controls";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 
 function getCmsCoreExtensions(): Extensions {
@@ -21,9 +22,8 @@ function getCmsCoreExtensions(): Extensions {
         },
       },
     }),
-    TextStyleKit.configure({
-      backgroundColor: false,
-    }),
+    TextStyleKit.configure({}),
+    CmsTextControls,
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),

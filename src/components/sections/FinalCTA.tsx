@@ -14,7 +14,7 @@ type FinalCTAProps = {
 };
 
 export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
-  const { finalCta, site, internationalNotice, sectionLabels } = content;
+  const { finalCta, internationalNotice, sectionLabels } = content;
 
   return (
     <Section
@@ -41,12 +41,6 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
               className={CMS_PUBLISHED_INLINE_CLASS}
             />
           </Button>
-          <a
-            href={`mailto:${site.email}`}
-            className="type-caption text-ink-subtle no-underline hover:text-accent"
-          >
-            {site.email}
-          </a>
         </div>
       </div>
     </Section>
