@@ -16,7 +16,7 @@ export const lvPortal: PortalContent = {
   },
   hero: {
     greeting: "Sveiki, {name}!",
-    subtitle: "Tu dari svarīgu darbu ar sevi.",
+    subtitle: "Šī ir tava telpa, kur apstāties, ieklausīties sevī un labāk sevi saprast.",
     intro:
       "Šī ir Tava personīgā telpa, kur Tu vari sekot savam procesam, saglabāt atziņas un sagatavoties nākamajai sesijai.",
     quote: "Lielākās pārmaiņas notiek tad, kad mēs sākam saprast sevi, nevis kritizēt.",

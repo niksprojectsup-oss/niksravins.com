@@ -36,9 +36,9 @@ import {
 import { cn } from "@/lib/utils";
 
 const CARDS = [
-  ["journey", "/images/portal/process.webp", "processTitle", "processBody"],
-  ["journal", "/images/portal/session-journal.webp", "journalTitle", "journalBody"],
-  ["trunks", "/images/portal/trunks-branches.webp", "trunksTitle", "trunksBody"],
+  ["journey", "/images/portal/mansprocess.png", "processTitle", "processBody"],
+  ["journal", "/images/portal/sesijuzurnals.png", "journalTitle", "journalBody"],
+  ["trunks", "/images/portal/stumbriunzari.png", "trunksTitle", "trunksBody"],
 ] as const;
 
 type CardTarget = (typeof CARDS)[number][0];
@@ -294,24 +294,19 @@ function PreviewHome({
     <div className="portal-stack min-w-0 text-[#2c2824]">
       <section className="portal-hero relative overflow-hidden rounded-3xl">
         <Image
-          src="/images/portal/hero.webp"
+          src="/images/portal/header.png"
           alt=""
           fill
           priority
           sizes="(min-width: 1024px) 960px, 100vw"
           className="object-cover object-[70%_center]"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-black/10" />
-        <div className="relative flex h-full max-w-lg flex-col justify-end p-5 text-white md:p-7">
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(22,16,12,0.58)_0%,rgba(22,16,12,0.28)_36%,rgba(22,16,12,0.08)_62%,transparent_84%)]" />
+        <div className="relative flex h-full max-w-lg flex-col justify-end p-5 md:p-7">
           <h1 className="portal-hero-title">
             {formatPortalGreeting(content.hero.greeting, data.firstName)}
           </h1>
-          <p className="mt-2 text-base leading-snug">{content.hero.subtitle}</p>
-          <p className="mt-1.5 max-w-md text-sm leading-snug text-white/85">{content.hero.intro}</p>
-          <blockquote className="mt-3 max-w-md rounded-2xl border border-white/25 bg-black/25 px-3.5 py-2.5 text-sm leading-snug">
-            “{content.hero.quote}”
-            <footer className="mt-1 text-white/80">— {content.hero.quoteBy}</footer>
-          </blockquote>
+          <p className="portal-hero-copy">{content.hero.subtitle}</p>
         </div>
       </section>
 

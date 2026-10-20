@@ -1653,9 +1653,19 @@
 .client-portal .portal-hero-title {
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
   font-size: clamp(1.75rem, 2vw + 0.8rem, 2.25rem);
-  line-height: 1.12;
+  line-height: 1.2;
   letter-spacing: -0.02em;
-  font-weight: 500;
+  font-weight: 560;
+  color: #fffdf7;
+}
+
+.client-portal .portal-hero-copy {
+  max-width: 28rem;
+  margin-top: 0.55rem;
+  color: #fffdf7;
+  font-size: 1rem;
+  line-height: 1.45;
+  font-weight: 400;
 }
 
 .client-portal .portal-stack > * + * {
