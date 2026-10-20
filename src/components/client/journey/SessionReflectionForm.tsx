@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Field, Textarea } from "@/components/ui/Field";
 import type { PortalContent } from "@/content/i18n/portal";
+import { PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { saveSessionReflectionAction } from "@/lib/journey/journey-actions";
 import type { JourneySessionReflection } from "@/lib/journey/journey-repository";
 
@@ -52,7 +53,10 @@ export function SessionReflectionForm({
 
   return (
     <section className="observed-card p-6 md:p-8">
-      <h2 className="type-heading-sm">{copy.reflectTitle}</h2>
+      <h2 className="type-heading-sm flex items-center gap-2">
+        <PortalIconBadge name="notebookPen" tone="sand" className="h-8 w-8" />
+        {copy.reflectTitle}
+      </h2>
       <p className="type-caption mt-2">{sessionLabel}</p>
 
       <Field label={copy.rating} id="sessionRating" className="mt-6">

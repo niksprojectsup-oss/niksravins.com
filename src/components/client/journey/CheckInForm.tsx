@@ -7,6 +7,7 @@ import { Field, Textarea } from "@/components/ui/Field";
 import { CHECK_IN_MOODS, EMOTION_TAGS } from "@/lib/journey/constants";
 import { saveCheckInAction } from "@/lib/journey/journey-actions";
 import type { JourneyCheckIn } from "@/lib/journey/journey-repository";
+import { PortalIcon, checkInMoodIcon } from "@/components/client/portal/PortalIcon";
 import { cn } from "@/lib/utils";
 
 type CheckInFormProps = {
@@ -53,8 +54,11 @@ export function CheckInForm({ timezone, existing, compact, inline }: CheckInForm
     const moodMeta = CHECK_IN_MOODS.find((m) => m.key === existing.mood);
     return (
       <div className="layout-stack-sm">
-        <p className="type-body text-accent">
-          {moodMeta?.emoji} Today&apos;s check-in completed
+        <p className="type-body inline-flex items-center gap-2 text-accent">
+          {existing.mood ? (
+            <PortalIcon name={checkInMoodIcon(existing.mood)} className="h-4 w-4" />
+          ) : null}
+          Today&apos;s check-in completed
         </p>
         <p className="type-caption">
           {moodMeta?.label}
@@ -94,9 +98,7 @@ export function CheckInForm({ timezone, existing, compact, inline }: CheckInForm
                 : "border-border-subtle text-ink-subtle hover:border-accent/40",
             )}
           >
-            <span className="text-lg" aria-hidden>
-              {item.emoji}
-            </span>
+            <PortalIcon name={checkInMoodIcon(item.key)} className="h-5 w-5 text-[#3f6b4e]" />
             <span className="mt-1 block text-sm">{item.label}</span>
           </button>
         ))}

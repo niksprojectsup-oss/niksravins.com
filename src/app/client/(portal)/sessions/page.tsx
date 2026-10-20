@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { SessionsPanel } from "@/components/client/journey/SessionsPanel";
+import { PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { getPortalContent } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
 import { getPortalLocale } from "@/lib/i18n/portal-locale";
@@ -27,9 +28,12 @@ export default async function ClientSessionsPage({ searchParams }: ClientSession
 
   return (
     <div className="portal-stack">
-      <header className="layout-stack-sm">
-        <h1 className="portal-page-title text-[#2c2824]">{content.sessionsPage.title}</h1>
-        <p className="max-w-2xl text-[#6d675f]">{content.sessionsPage.description}</p>
+      <header className="flex items-start gap-3">
+        <PortalIconBadge name="calendar" tone="sand" />
+        <div className="layout-stack-sm min-w-0">
+          <h1 className="portal-page-title text-[#2c2824]">{content.sessionsPage.title}</h1>
+          <p className="max-w-2xl text-[#6d675f]">{content.sessionsPage.description}</p>
+        </div>
       </header>
       <SessionsPanel
         sessions={sessions}

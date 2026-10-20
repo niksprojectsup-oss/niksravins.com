@@ -11,6 +11,7 @@ import {
   saveJournalEntryAction,
 } from "@/lib/journey/journey-actions";
 import type { JourneyJournalEntry } from "@/lib/journey/journey-repository";
+import { PortalIcon, PortalIconBadge, type PortalIconName } from "@/components/client/portal/PortalIcon";
 import { cn } from "@/lib/utils";
 
 type JournalPanelProps = {
@@ -30,6 +31,13 @@ function todayKey(): string {
     month: "2-digit",
     day: "2-digit",
   }).format(new Date());
+}
+
+function insightIcon(category: JournalCategory | null): PortalIconName {
+  if (category === "PATTERN") return "brain";
+  if (category === "TRIGGER") return "heartPulse";
+  if (category === "POSITIVE_OBSERVATION") return "sprout";
+  return "notebook";
 }
 
 function formatInsightDate(entry: JourneyJournalEntry, locale: Locale): string {
@@ -134,19 +142,22 @@ export function JournalPanel({
   }
 
   const filters = [
-    ["ALL", copy.all],
-    ["PATTERN", copy.pattern],
-    ["TRIGGER", copy.trigger],
-    ["POSITIVE_OBSERVATION", copy.positive],
+    ["ALL", copy.all, "layers"],
+    ["PATTERN", copy.pattern, "brain"],
+    ["TRIGGER", copy.trigger, "heartPulse"],
+    ["POSITIVE_OBSERVATION", copy.positive, "sprout"],
   ] as const;
 
   return (
     <section id="insights" className="layout-stack-md">
       {heading ? (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="portal-section-title text-[#2c2824]">{copy.title}</h2>
-            <p className="mt-1 max-w-2xl text-sm text-[#6d675f]">{copy.subtitle}</p>
+          <div className="flex items-start gap-3">
+            <PortalIconBadge name="notebook" tone="sand" />
+            <div>
+              <h2 className="portal-section-title text-[#2c2824]">{copy.title}</h2>
+              <p className="mt-1 max-w-2xl text-sm text-[#6d675f]">{copy.subtitle}</p>
+            </div>
           </div>
           <a href="#insight-composer" className="inline-flex h-10 items-center rounded-full bg-[#3f6b4e] px-4 text-sm text-white no-underline">
             {copy.add}
@@ -156,18 +167,19 @@ export function JournalPanel({
 
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <div className="flex flex-wrap gap-2" role="group" aria-label={copy.categoryLabel}>
-          {filters.map(([key, label]) => (
+          {filters.map(([key, label, icon]) => (
             <button
               key={key}
               type="button"
               onClick={() => setFilter(key)}
               className={cn(
-                "rounded-full border px-3 py-1.5 text-sm",
+                "inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm",
                 filter === key
                   ? "border-[#3f6b4e] bg-[#e7f0ea] text-[#2f5a40]"
                   : "border-[#e4d8c8] text-[#6d675f]",
               )}
             >
+              <PortalIcon name={icon} className="h-3.5 w-3.5" />
               {label}
               {key !== "ALL"
                 ? ` (${entries.filter((entry) => entry.category === key).length})`
@@ -175,14 +187,18 @@ export function JournalPanel({
             </button>
           ))}
         </div>
-        <label className="block">
+        <label className="relative block">
           <span className="sr-only">{copy.searchPlaceholder}</span>
+          <PortalIcon
+            name="search"
+            className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-[#8a7568]"
+          />
           <input
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
             placeholder={copy.searchPlaceholder}
-            className="h-10 w-full rounded-full border border-[#e4d8c8] bg-white px-3 text-sm md:w-64"
+            className="h-10 w-full rounded-full border border-[#e4d8c8] bg-white pr-3 pl-9 text-sm md:w-64"
           />
         </label>
       </div>
@@ -196,7 +212,8 @@ export function JournalPanel({
           {visible.map((entry) => (
             <li key={entry.id} className="rounded-2xl border border-[#eadfd2] bg-white/80 p-4">
               <div className="flex flex-wrap items-center justify-between gap-3">
-                <p className="text-sm text-[#6d675f]">
+                <p className="inline-flex items-center gap-1.5 text-sm text-[#6d675f]">
+                  <PortalIcon name={insightIcon(entry.category)} className="h-3.5 w-3.5 text-[#3f6b4e]" />
                   {formatInsightDate(entry, locale)} · {categoryLabel(entry.category)}
                 </p>
                 <div className="flex gap-3 text-sm">
@@ -243,7 +260,10 @@ export function JournalPanel({
           handleSave();
         }}
       >
-        <h3 className="portal-section-title text-[#2c2824]">{form.id ? copy.edit : copy.add}</h3>
+        <h3 className="portal-section-title flex items-center gap-2 text-[#2c2824]">
+          <PortalIconBadge name="notebookPen" tone="ivory" className="h-8 w-8" />
+          {form.id ? copy.edit : copy.add}
+        </h3>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <label className="block text-sm text-[#5c564e]">
             {copy.dateLabel}

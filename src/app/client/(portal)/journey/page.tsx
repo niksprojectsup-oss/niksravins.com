@@ -5,6 +5,7 @@ import { JourneyCompletionSummary } from "@/components/client/journey/JourneyCom
 import { JourneyProgressBar } from "@/components/client/journey/JourneyProgressBar";
 import { JourneyTimeline } from "@/components/client/journey/JourneyTimeline";
 import { MilestoneTimeline } from "@/components/client/journey/MilestoneTimeline";
+import { PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { PortalCard, PortalGrid } from "@/components/client/journey/PortalShell";
 import { getPortalContent } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
@@ -33,9 +34,12 @@ export default async function ClientJourneyPage() {
 
   return (
     <div className="portal-stack">
-      <header className="layout-stack-sm">
-        <h1 className="portal-page-title text-[#2c2824]">{content.journeyPage.title}</h1>
-        <p className="max-w-2xl text-[#6d675f]">{content.journeyPage.description}</p>
+      <header className="flex items-start gap-3">
+        <PortalIconBadge name="sprout" tone="sage" />
+        <div className="layout-stack-sm min-w-0">
+          <h1 className="portal-page-title text-[#2c2824]">{content.journeyPage.title}</h1>
+          <p className="max-w-2xl text-[#6d675f]">{content.journeyPage.description}</p>
+        </div>
       </header>
 
       {journey.activePackage ? (

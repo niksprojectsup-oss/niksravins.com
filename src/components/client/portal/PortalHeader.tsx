@@ -6,14 +6,15 @@ import { usePathname } from "next/navigation";
 import type { PortalContent } from "@/content/i18n/portal";
 import type { Locale } from "@/lib/i18n/config";
 import { cn } from "@/lib/utils";
+import { PortalIcon, type PortalIconName } from "./PortalIcon";
 import { PortalLanguageSwitcher } from "./PortalLanguageSwitcher";
 
 const LINKS = [
-  ["home", "/client/dashboard"],
-  ["path", "/client/journey"],
-  ["sessions", "/client/sessions"],
-  ["insights", "/client/journal"],
-  ["account", "/client/account"],
+  ["home", "/client/dashboard", null],
+  ["path", "/client/journey", "sprout"],
+  ["sessions", "/client/sessions", "calendar"],
+  ["insights", "/client/journal", "notebook"],
+  ["account", "/client/account", null],
 ] as const;
 
 type PortalHeaderProps = {
@@ -36,33 +37,38 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
         </Link>
 
         <nav aria-label={content.nav.label} className="ml-auto hidden items-center gap-4 lg:flex">
-          {LINKS.map(([key, href]) => {
+          {LINKS.map(([key, href, icon]) => {
             const active = pathname === href || (href !== "/client/dashboard" && pathname.startsWith(href));
             return (
               <Link
                 key={href}
                 href={href}
                 className={cn(
-                  "text-sm no-underline",
+                  "inline-flex items-center gap-1.5 text-sm no-underline",
                   active ? "text-[#2f2b26] underline decoration-[#c4b49a] underline-offset-8" : "text-[#6d675f] hover:text-[#2f2b26]",
                 )}
               >
+                {icon ? <PortalIcon name={icon as PortalIconName} className="h-3.5 w-3.5" /> : null}
                 {content.nav[key]}
               </Link>
             );
           })}
         </nav>
 
-        <form action="/client/journal" className="ml-auto hidden lg:ml-3 lg:block">
+        <form action="/client/journal" className="relative ml-auto hidden lg:ml-3 lg:block">
           <label className="sr-only" htmlFor="portal-search">
             {content.nav.search}
           </label>
+          <PortalIcon
+            name="search"
+            className="pointer-events-none absolute top-1/2 left-2.5 h-3.5 w-3.5 -translate-y-1/2 text-[#8a7568]"
+          />
           <input
             id="portal-search"
             name="q"
             type="search"
             placeholder={content.insights.searchPlaceholder}
-            className="h-8 w-36 rounded-full border border-[#e4d8c8] bg-white/80 px-3 text-sm text-[#3f3a34] placeholder:text-[#a3988c]"
+            className="h-8 w-40 rounded-full border border-[#e4d8c8] bg-white/80 pr-3 pl-8 text-sm text-[#3f3a34] placeholder:text-[#a3988c]"
           />
         </form>
 
@@ -82,24 +88,29 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
       {open ? (
         <nav id="portal-mobile-nav" aria-label={content.nav.label} className="border-t border-[#eadfd2] px-4 py-3 lg:hidden">
           <ul className="flex flex-col gap-2">
-            {LINKS.map(([key, href]) => (
+            {LINKS.map(([key, href, icon]) => (
               <li key={href}>
-                <Link href={href} className="block py-1 text-[#3f3a34] no-underline" onClick={() => setOpen(false)}>
+                <Link href={href} className="inline-flex items-center gap-2 py-1 text-[#3f3a34] no-underline" onClick={() => setOpen(false)}>
+                  {icon ? <PortalIcon name={icon as PortalIconName} className="h-3.5 w-3.5 text-[#3f6b4e]" /> : null}
                   {content.nav[key]}
                 </Link>
               </li>
             ))}
           </ul>
-          <form action="/client/journal" className="mt-3">
+          <form action="/client/journal" className="relative mt-3">
             <label className="sr-only" htmlFor="portal-search-mobile">
               {content.nav.search}
             </label>
+            <PortalIcon
+              name="search"
+              className="pointer-events-none absolute top-1/2 left-3 h-3.5 w-3.5 -translate-y-1/2 text-[#8a7568]"
+            />
             <input
               id="portal-search-mobile"
               name="q"
               type="search"
               placeholder={content.insights.searchPlaceholder}
-              className="h-10 w-full rounded-full border border-[#e4d8c8] bg-white px-3 text-sm"
+              className="h-10 w-full rounded-full border border-[#e4d8c8] bg-white pr-3 pl-9 text-sm"
             />
           </form>
         </nav>

@@ -14,6 +14,7 @@ import { saveSessionPreparationAction } from "@/lib/journey/journey-actions";
 import type { PortalHomeData } from "@/lib/journey/journey-repository";
 import { ASSESSMENT_DIMENSIONS } from "@/lib/journey/constants";
 import { JournalPanel } from "@/components/client/journey/JournalPanel";
+import { PortalIcon, PortalIconBadge, growthDimensionIcon } from "@/components/client/portal/PortalIcon";
 
 type PortalHomeProps = {
   data: PortalHomeData;
@@ -94,30 +95,42 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
       </section>
 
       <section className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-3">
-        <article className="portal-card min-w-0 p-4">
-          <p className="text-sm text-[#6d675f]">{content.stats.nextSession}</p>
-          <p className="mt-1 font-display text-lg leading-snug">
-            {data.nextSession
-              ? formatWhen(data.nextSession.scheduledAt, data.timezone, locale)
-              : content.stats.noNextSession}
-          </p>
+        <article className="portal-card flex min-w-0 items-center gap-3 p-4">
+          <PortalIconBadge name="calendar" tone="sand" />
+          <div className="min-w-0">
+            <p className="text-sm text-[#6d675f]">{content.stats.nextSession}</p>
+            <p className="mt-1 font-display text-lg leading-snug">
+              {data.nextSession
+                ? formatWhen(data.nextSession.scheduledAt, data.timezone, locale)
+                : content.stats.noNextSession}
+            </p>
+          </div>
         </article>
-        <article className="portal-card min-w-0 p-4">
-          <p className="font-display text-2xl leading-none">{data.completedSessions}</p>
-          <p className="mt-1.5 text-sm text-[#6d675f]">{content.stats.sessions}</p>
+        <article className="portal-card flex min-w-0 items-center gap-3 p-4">
+          <PortalIconBadge name="layers" tone="ivory" />
+          <div className="min-w-0">
+            <p className="font-display text-2xl leading-none">{data.completedSessions}</p>
+            <p className="mt-1.5 text-sm text-[#6d675f]">{content.stats.sessions}</p>
+          </div>
         </article>
-        <article className="portal-card min-w-0 p-4">
-          <p className="font-display text-2xl leading-none">{data.recordedChanges}</p>
-          <p className="mt-1.5 text-sm text-[#6d675f]">{content.stats.recordedChanges}</p>
+        <article className="portal-card flex min-w-0 items-center gap-3 p-4">
+          <PortalIconBadge name="leaf" tone="sage" />
+          <div className="min-w-0">
+            <p className="font-display text-2xl leading-none">{data.recordedChanges}</p>
+            <p className="mt-1.5 text-sm text-[#6d675f]">{content.stats.recordedChanges}</p>
+          </div>
         </article>
       </section>
 
       <div className="portal-columns">
       <section className="portal-card portal-columns-lead p-4 md:p-5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-          <div className="min-w-0">
-            <h2 className="portal-section-title">{content.growth.title}</h2>
-            <p className="mt-1 text-sm text-[#6d675f]">{content.growth.subtitle}</p>
+          <div className="flex min-w-0 items-start gap-3">
+            <PortalIconBadge name="leaf" tone="sage" />
+            <div className="min-w-0">
+              <h2 className="portal-section-title">{content.growth.title}</h2>
+              <p className="mt-1 text-sm text-[#6d675f]">{content.growth.subtitle}</p>
+            </div>
           </div>
           <label className="text-sm text-[#6d675f]">
             <span className="sr-only">{content.growth.periodLabel}</span>
@@ -139,10 +152,25 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
               const starting = growth.starting?.[dimension.key];
               return (
                 <li key={dimension.key} className="rounded-xl border border-[#eadfd2] bg-[#fbf7f1] px-3 py-2.5">
-                  <div className="flex items-center justify-between gap-4 text-sm">
-                    <span>{content.growth.dimensions[dimension.key]}</span>
-                    <span className="text-[#6d675f]">
-                      {starting !== undefined ? `${starting} → ${current}` : current}
+                  <div className="flex items-center justify-between gap-3 text-sm">
+                    <span className="flex min-w-0 items-center gap-2">
+                      <PortalIconBadge
+                        name={growthDimensionIcon(dimension.key)}
+                        tone={dimension.key === "emotionalBalance" || dimension.key === "connection" ? "sage" : "ivory"}
+                        className="h-7 w-7"
+                      />
+                      <span className="min-w-0">{content.growth.dimensions[dimension.key]}</span>
+                    </span>
+                    <span className="inline-flex shrink-0 items-center gap-1 text-[#6d675f]">
+                      {starting !== undefined ? (
+                        <>
+                          {starting}
+                          <PortalIcon name="arrowRight" className="h-3 w-3" />
+                          {current}
+                        </>
+                      ) : (
+                        current
+                      )}
                     </span>
                   </div>
                   <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#efe7dc]" aria-hidden>
@@ -159,12 +187,16 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
 
       <section className="portal-card p-4 md:p-5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-          <div className="min-w-0">
-            <h2 className="portal-section-title">{content.lastSession.title}</h2>
-            <p className="mt-1 text-sm text-[#6d675f]">{content.lastSession.subtitle}</p>
+          <div className="flex min-w-0 items-start gap-3">
+            <PortalIconBadge name="notebook" tone="sand" />
+            <div className="min-w-0">
+              <h2 className="portal-section-title">{content.lastSession.title}</h2>
+              <p className="mt-1 text-sm text-[#6d675f]">{content.lastSession.subtitle}</p>
+            </div>
           </div>
-          <Link href="/client/sessions" className="text-sm text-[#3f6b4e] no-underline">
+          <Link href="/client/sessions" className="inline-flex items-center gap-1 text-sm text-[#3f6b4e] no-underline">
             {content.lastSession.viewAll}
+            <PortalIcon name="chevronRight" className="h-3.5 w-3.5" />
           </Link>
         </div>
         {data.lastSession ? (
@@ -192,8 +224,13 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
       </section>
 
       <section id="focus" className="portal-card portal-card-soft p-4 md:p-5">
-        <h2 className="portal-section-title">{content.focus.title}</h2>
-        <p className="mt-1 text-sm text-[#6d675f]">{content.focus.subtitle}</p>
+        <div className="flex items-start gap-3">
+          <PortalIconBadge name="notebookPen" tone="ivory" />
+          <div className="min-w-0">
+            <h2 className="portal-section-title">{content.focus.title}</h2>
+            <p className="mt-1 text-sm text-[#6d675f]">{content.focus.subtitle}</p>
+          </div>
+        </div>
         {data.nextSession ? (
           <form
             className="mt-3"
@@ -243,9 +280,9 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
             <span className="absolute inset-x-0 bottom-0 p-4 text-white">
               <span className="block font-display text-xl leading-tight">{title}</span>
               <span className="mt-1 block text-sm text-white/85">{body}</span>
-              <span className="mt-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 text-sm">
+              <span className="mt-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 text-white">
                 <span className="sr-only">{content.cards.open}</span>
-                →
+                <PortalIcon name="arrowRight" className="h-3.5 w-3.5" />
               </span>
             </span>
           </Link>

@@ -1,3 +1,4 @@
+import { PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { EmotionalJourneyChart } from "@/components/client/journey/EmotionalJourneyChart";
 import { MilestoneTimeline } from "@/components/client/journey/MilestoneTimeline";
 import { PortalCard, PortalSectionTitle } from "@/components/client/journey/PortalShell";
@@ -34,21 +35,30 @@ export function JourneyCompletionSummary({
         </p>
 
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border border-border-subtle bg-canvas p-4">
-            <p className="type-caption">Sessions completed</p>
-            <p className="type-heading-sm mt-2">
-              {completedSessions} / {totalSessions}
-            </p>
+          <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-canvas p-4">
+            <PortalIconBadge name="layers" tone="ivory" />
+            <div>
+              <p className="type-caption">Sessions completed</p>
+              <p className="type-heading-sm mt-2">
+                {completedSessions} / {totalSessions}
+              </p>
+            </div>
           </div>
-          <div className="rounded-xl border border-border-subtle bg-canvas p-4">
-            <p className="type-caption">Check-ins recorded</p>
-            <p className="type-heading-sm mt-2">{progress.checkIns.length}</p>
+          <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-canvas p-4">
+            <PortalIconBadge name="heartPulse" tone="sage" />
+            <div>
+              <p className="type-caption">Check-ins recorded</p>
+              <p className="type-heading-sm mt-2">{progress.checkIns.length}</p>
+            </div>
           </div>
-          <div className="rounded-xl border border-border-subtle bg-canvas p-4">
-            <p className="type-caption">Goals completed</p>
-            <p className="type-heading-sm mt-2">
-              {progress.goals.filter((g) => g.status === "COMPLETED").length}
-            </p>
+          <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-canvas p-4">
+            <PortalIconBadge name="sprout" tone="sand" />
+            <div>
+              <p className="type-caption">Goals completed</p>
+              <p className="type-heading-sm mt-2">
+                {progress.goals.filter((g) => g.status === "COMPLETED").length}
+              </p>
+            </div>
           </div>
         </div>
 

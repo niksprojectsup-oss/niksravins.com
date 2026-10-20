@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { SessionReflectionForm } from "@/components/client/journey/SessionReflectionForm";
 import { PortalCard, PortalGrid } from "@/components/client/journey/PortalShell";
+import { PortalIcon, PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { formatPortalSessionDateTime } from "@/lib/client/portal-repository";
 import type { PortalContent } from "@/content/i18n/portal";
 import type { JourneySessionListItem } from "@/lib/journey/journey-repository";
@@ -33,7 +34,10 @@ export function SessionsPanel({
     <div className="layout-stack-lg">
       {upcoming.length > 0 ? (
         <section className="layout-stack-md">
-          <h2 className="type-heading-sm">{copy.upcoming}</h2>
+          <h2 className="type-heading-sm flex items-center gap-2">
+            <PortalIconBadge name="calendar" tone="sand" className="h-8 w-8" />
+            {copy.upcoming}
+          </h2>
           <PortalGrid columns={1}>
             {upcoming.map((session) => (
               <PortalCard key={session.id}>
@@ -46,8 +50,9 @@ export function SessionsPanel({
                 <p className="type-caption mt-2">
                   {formatPortalSessionDateTime(session.scheduledAt, timezone)}
                 </p>
-                <Link href="/client/dashboard#focus" className="type-accent-link mt-4 inline-block">
+                <Link href="/client/dashboard#focus" className="type-accent-link mt-4 inline-flex items-center gap-1">
                   {copy.prepare}
+                  <PortalIcon name="chevronRight" className="h-3.5 w-3.5" />
                 </Link>
               </PortalCard>
             ))}
@@ -63,7 +68,10 @@ export function SessionsPanel({
       ) : null}
 
       <section className="layout-stack-md">
-        <h2 className="type-heading-sm">{copy.past}</h2>
+        <h2 className="type-heading-sm flex items-center gap-2">
+          <PortalIconBadge name="layers" tone="ivory" className="h-8 w-8" />
+          {copy.past}
+        </h2>
         {past.length === 0 ? (
           <PortalCard>
             <p className="type-body text-ink-subtle">{copy.empty}</p>

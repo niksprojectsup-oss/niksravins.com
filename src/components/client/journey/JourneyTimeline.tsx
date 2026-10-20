@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { PortalContent } from "@/content/i18n/portal";
 import type { PackageSessionSlot } from "@/lib/admin/client-types";
+import { PortalIcon } from "@/components/client/portal/PortalIcon";
 import { formatPortalSessionDateTime } from "@/lib/client/portal-repository";
 
 type JourneyTimelineProps = {
@@ -64,7 +65,11 @@ export function JourneyTimeline({
                 }`}
                 aria-hidden
               >
-                {slot.status === "completed" ? "✓" : slot.sessionNumber}
+                {slot.status === "completed" ? (
+                  <PortalIcon name="check" className="h-3.5 w-3.5" />
+                ) : (
+                  slot.sessionNumber
+                )}
               </span>
               {!isLast ? <span className="mt-1 w-px flex-1 bg-border-subtle" aria-hidden /> : null}
             </div>
