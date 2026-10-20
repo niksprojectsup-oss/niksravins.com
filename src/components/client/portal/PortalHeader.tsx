@@ -27,7 +27,7 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
 
   return (
     <header className="border-b border-[#eadfd2] bg-[#f7f1e8]/95 backdrop-blur-sm">
-      <div className="mx-auto flex w-full max-w-6xl items-center gap-4 px-4 py-3 md:px-8">
+      <div className="mx-auto flex w-full max-w-5xl items-center gap-3 px-4 py-2 md:px-6">
         <Link
           href="/client/dashboard"
           className="font-display text-sm tracking-[0.22em] text-[#3f3a34] no-underline"
@@ -35,7 +35,7 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
           NIKS RAVINS
         </Link>
 
-        <nav aria-label={content.nav.label} className="ml-auto hidden items-center gap-6 md:flex">
+        <nav aria-label={content.nav.label} className="ml-auto hidden items-center gap-4 lg:flex">
           {LINKS.map(([key, href]) => {
             const active = pathname === href || (href !== "/client/dashboard" && pathname.startsWith(href));
             return (
@@ -53,7 +53,7 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
           })}
         </nav>
 
-        <form action="/client/journal" className="ml-auto hidden md:ml-4 md:block">
+        <form action="/client/journal" className="ml-auto hidden lg:ml-3 lg:block">
           <label className="sr-only" htmlFor="portal-search">
             {content.nav.search}
           </label>
@@ -62,7 +62,7 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
             name="q"
             type="search"
             placeholder={content.insights.searchPlaceholder}
-            className="h-9 w-40 rounded-full border border-[#e4d8c8] bg-white/70 px-3 text-sm text-[#3f3a34] placeholder:text-[#a3988c]"
+            className="h-8 w-36 rounded-full border border-[#e4d8c8] bg-white/80 px-3 text-sm text-[#3f3a34] placeholder:text-[#a3988c]"
           />
         </form>
 
@@ -70,7 +70,7 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
 
         <button
           type="button"
-          className="inline-flex h-9 items-center rounded-full border border-[#e4d8c8] px-3 text-sm text-[#5c564e] md:hidden"
+          className="inline-flex h-8 items-center rounded-full border border-[#e4d8c8] px-3 text-sm text-[#5c564e] lg:hidden"
           aria-expanded={open}
           aria-controls="portal-mobile-nav"
           onClick={() => setOpen((value) => !value)}
@@ -80,7 +80,7 @@ export function PortalHeader({ content, locale }: PortalHeaderProps) {
       </div>
 
       {open ? (
-        <nav id="portal-mobile-nav" aria-label={content.nav.label} className="border-t border-[#eadfd2] px-4 py-3 md:hidden">
+        <nav id="portal-mobile-nav" aria-label={content.nav.label} className="border-t border-[#eadfd2] px-4 py-3 lg:hidden">
           <ul className="flex flex-col gap-2">
             {LINKS.map(([key, href]) => (
               <li key={href}>

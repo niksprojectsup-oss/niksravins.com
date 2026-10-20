@@ -69,61 +69,62 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
     .filter(Boolean);
 
   return (
-    <div className="layout-stack-xl text-[#2c2824]">
-      <section className="relative min-h-[28rem] overflow-hidden rounded-[2rem]">
+    <div className="portal-stack min-w-0 text-[#2c2824]">
+      <section className="portal-hero relative overflow-hidden rounded-3xl">
         <Image
           src="/images/portal/hero.webp"
           alt=""
           fill
           priority
-          sizes="(min-width: 1024px) 1100px, 100vw"
+          sizes="(min-width: 1024px) 960px, 100vw"
           className="object-cover object-[70%_center]"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/35 to-black/10" />
-        <div className="relative flex min-h-[28rem] max-w-xl flex-col justify-end p-6 text-white md:p-10">
-          <h1 className="font-display text-4xl leading-tight md:text-5xl">
+        <div className="relative flex h-full max-w-lg flex-col justify-end p-5 text-white md:p-7">
+          <h1 className="portal-hero-title">
             {formatPortalGreeting(content.hero.greeting, data.firstName)}
           </h1>
-          <p className="mt-3 text-lg">{content.hero.subtitle}</p>
-          <p className="mt-3 max-w-md text-sm text-white/85">{content.hero.intro}</p>
-          <blockquote className="mt-6 max-w-md rounded-2xl border border-white/30 bg-black/20 p-4 text-sm">
+          <p className="mt-2 text-base leading-snug">{content.hero.subtitle}</p>
+          <p className="mt-1.5 max-w-md text-sm leading-snug text-white/85">{content.hero.intro}</p>
+          <blockquote className="mt-3 max-w-md rounded-2xl border border-white/25 bg-black/25 px-3.5 py-2.5 text-sm leading-snug">
             “{content.hero.quote}”
-            <footer className="mt-2 text-white/80">— {content.hero.quoteBy}</footer>
+            <footer className="mt-1 text-white/80">— {content.hero.quoteBy}</footer>
           </blockquote>
         </div>
       </section>
 
-      <section className="grid gap-4 md:grid-cols-[minmax(0,1.4fr)_repeat(2,minmax(0,0.8fr))]">
-        <article className="rounded-3xl border border-[#eadfd2] bg-white p-5">
+      <section className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-3">
+        <article className="portal-card min-w-0 p-4">
           <p className="text-sm text-[#6d675f]">{content.stats.nextSession}</p>
-          <p className="mt-2 font-display text-2xl">
+          <p className="mt-1 font-display text-lg leading-snug">
             {data.nextSession
               ? formatWhen(data.nextSession.scheduledAt, data.timezone, locale)
               : content.stats.noNextSession}
           </p>
         </article>
-        <article className="rounded-3xl border border-[#eadfd2] bg-white p-5">
-          <p className="font-display text-3xl">{data.completedSessions}</p>
-          <p className="text-sm text-[#6d675f]">{content.stats.sessions}</p>
+        <article className="portal-card min-w-0 p-4">
+          <p className="font-display text-2xl leading-none">{data.completedSessions}</p>
+          <p className="mt-1.5 text-sm text-[#6d675f]">{content.stats.sessions}</p>
         </article>
-        <article className="rounded-3xl border border-[#eadfd2] bg-white p-5">
-          <p className="font-display text-3xl">{data.recordedChanges}</p>
-          <p className="text-sm text-[#6d675f]">{content.stats.recordedChanges}</p>
+        <article className="portal-card min-w-0 p-4">
+          <p className="font-display text-2xl leading-none">{data.recordedChanges}</p>
+          <p className="mt-1.5 text-sm text-[#6d675f]">{content.stats.recordedChanges}</p>
         </article>
       </section>
 
-      <section>
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <h2 className="font-display text-3xl">{content.growth.title}</h2>
-            <p className="mt-2 text-[#6d675f]">{content.growth.subtitle}</p>
+      <div className="portal-columns">
+      <section className="portal-card portal-columns-lead p-4 md:p-5">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+          <div className="min-w-0">
+            <h2 className="portal-section-title">{content.growth.title}</h2>
+            <p className="mt-1 text-sm text-[#6d675f]">{content.growth.subtitle}</p>
           </div>
           <label className="text-sm text-[#6d675f]">
             <span className="sr-only">{content.growth.periodLabel}</span>
             <select
               value={period}
               onChange={(event) => setPeriod(event.target.value as Period)}
-              className="h-10 rounded-full border border-[#e4d8c8] bg-white px-3"
+              className="h-8 rounded-full border border-[#e4d8c8] bg-white px-3 text-sm"
             >
               <option value="3">{content.growth.period3}</option>
               <option value="6">{content.growth.period6}</option>
@@ -132,12 +133,12 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
           </label>
         </div>
         {growth.current ? (
-          <ul className="mt-5 grid gap-3">
+          <ul className="mt-4 grid gap-2.5">
             {ASSESSMENT_DIMENSIONS.map((dimension) => {
               const current = growth.current?.[dimension.key] ?? 0;
               const starting = growth.starting?.[dimension.key];
               return (
-                <li key={dimension.key} className="rounded-2xl border border-[#eadfd2] bg-white px-4 py-3">
+                <li key={dimension.key} className="rounded-xl border border-[#eadfd2] bg-[#fbf7f1] px-3 py-2.5">
                   <div className="flex items-center justify-between gap-4 text-sm">
                     <span>{content.growth.dimensions[dimension.key]}</span>
                     <span className="text-[#6d675f]">
@@ -152,26 +153,26 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
             })}
           </ul>
         ) : (
-          <p className="mt-5 rounded-2xl border border-[#eadfd2] bg-white p-5 text-[#6d675f]">{content.growth.empty}</p>
+          <p className="mt-4 rounded-xl border border-[#eadfd2] bg-[#fbf7f1] p-4 text-sm text-[#6d675f]">{content.growth.empty}</p>
         )}
       </section>
 
-      <section className="rounded-[2rem] border border-[#eadfd2] bg-white p-5 md:p-7">
+      <section className="portal-card p-4 md:p-5">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
-          <div>
-            <h2 className="font-display text-3xl">{content.lastSession.title}</h2>
-            <p className="mt-2 text-[#6d675f]">{content.lastSession.subtitle}</p>
+          <div className="min-w-0">
+            <h2 className="portal-section-title">{content.lastSession.title}</h2>
+            <p className="mt-1 text-sm text-[#6d675f]">{content.lastSession.subtitle}</p>
           </div>
           <Link href="/client/sessions" className="text-sm text-[#3f6b4e] no-underline">
             {content.lastSession.viewAll}
           </Link>
         </div>
         {data.lastSession ? (
-          <div className="mt-5">
+          <div className="mt-3">
             <p className="text-sm text-[#6d675f]">
               {formatWhen(data.lastSession.scheduledAt, data.timezone, locale)}
             </p>
-            <h3 className="mt-2 text-xl">
+            <h3 className="mt-1 text-lg leading-snug">
               {data.lastSession.mainTopic || data.lastSession.sessionType}
             </h3>
             <h4 className="mt-4 text-sm text-[#6d675f]">{content.lastSession.conclusions}</h4>
@@ -186,16 +187,16 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
             )}
           </div>
         ) : (
-          <p className="mt-5 text-[#6d675f]">{content.lastSession.empty}</p>
+          <p className="mt-3 text-sm text-[#6d675f]">{content.lastSession.empty}</p>
         )}
       </section>
 
-      <section id="focus" className="rounded-[2rem] border border-[#eadfd2] bg-[#fbf7f1] p-5 md:p-7">
-        <h2 className="font-display text-3xl">{content.focus.title}</h2>
-        <p className="mt-2 max-w-2xl text-[#6d675f]">{content.focus.subtitle}</p>
+      <section id="focus" className="portal-card portal-card-soft p-4 md:p-5">
+        <h2 className="portal-section-title">{content.focus.title}</h2>
+        <p className="mt-1 text-sm text-[#6d675f]">{content.focus.subtitle}</p>
         {data.nextSession ? (
           <form
-            className="mt-5"
+            className="mt-3"
             onSubmit={(event) => {
               event.preventDefault();
               savePreparation();
@@ -207,7 +208,7 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
                 value={preparation}
                 onChange={(event) => setPreparation(event.target.value)}
                 placeholder={content.focus.placeholder}
-                className="mt-2 min-h-32 w-full rounded-2xl border border-[#e4d8c8] bg-white px-3 py-2"
+                className="mt-1.5 min-h-24 w-full rounded-xl border border-[#e4d8c8] bg-white px-3 py-2 text-sm"
               />
             </label>
             <div className="mt-3 flex items-center gap-3">
@@ -218,9 +219,10 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
             </div>
           </form>
         ) : (
-          <p className="mt-5 text-[#6d675f]">{content.focus.empty}</p>
+          <p className="mt-3 text-sm text-[#6d675f]">{content.focus.empty}</p>
         )}
       </section>
+      </div>
 
       <JournalPanel
         entries={data.insights}
@@ -229,17 +231,17 @@ export function PortalHome({ data, content, locale, initialQuery, asOf }: Portal
         initialQuery={initialQuery}
       />
 
-      <section className="grid gap-4 md:grid-cols-3">
+      <section className="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {[
           ["/client/journey", "/images/portal/process.webp", content.cards.processTitle, content.cards.processBody],
           ["/client/sessions", "/images/portal/session-journal.webp", content.cards.journalTitle, content.cards.journalBody],
           ["/client/branches", "/images/portal/trunks-branches.webp", content.cards.trunksTitle, content.cards.trunksBody],
         ].map(([href, src, title, body]) => (
-          <Link key={href} href={href} className="group relative min-h-64 overflow-hidden rounded-[1.6rem] no-underline">
-            <Image src={src} alt="" fill sizes="(min-width: 768px) 33vw, 100vw" className="object-cover" />
+          <Link key={href} href={href} className="group relative h-40 overflow-hidden rounded-3xl no-underline sm:h-44">
+            <Image src={src} alt="" fill sizes="(min-width: 1024px) 320px, (min-width: 640px) 50vw, 100vw" className="object-cover" />
             <span className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent" />
-            <span className="absolute inset-x-0 bottom-0 p-5 text-white">
-              <span className="block font-display text-2xl">{title}</span>
+            <span className="absolute inset-x-0 bottom-0 p-4 text-white">
+              <span className="block font-display text-xl leading-tight">{title}</span>
               <span className="mt-1 block text-sm text-white/85">{body}</span>
               <span className="mt-3 inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/70 text-sm">
                 <span className="sr-only">{content.cards.open}</span>

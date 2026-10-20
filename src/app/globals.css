@@ -1619,6 +1619,102 @@
   font-weight: inherit;
 }
 
+/* Client portal density. Public pages keep the larger type and section rhythm. */
+.client-portal {
+  overflow-x: clip;
+  background: #f6f1e8;
+  color: #2c2824;
+  font-family: var(--font-family-sans), "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+}
+
+.client-portal .portal-page-title,
+.client-portal .type-heading {
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: clamp(1.65rem, 1.4vw + 1rem, 2rem);
+  line-height: 1.18;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.client-portal .portal-section-title,
+.client-portal .type-heading-sm {
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: 1.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  font-weight: 500;
+}
+
+.client-portal .portal-hero {
+  height: auto;
+  min-height: 15.5rem;
+}
+
+.client-portal .portal-hero-title {
+  font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
+  font-size: clamp(1.75rem, 2vw + 0.8rem, 2.25rem);
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  font-weight: 500;
+}
+
+.client-portal .portal-stack > * + * {
+  margin-top: 1rem;
+}
+
+.client-portal .portal-columns {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+}
+
+.client-portal .layout-stack-sm > * + *,
+.client-portal .layout-stack-md > * + * {
+  margin-top: 0.85rem;
+}
+
+.client-portal .layout-stack-lg > * + *,
+.client-portal .layout-stack-xl > * + * {
+  margin-top: 1.15rem;
+}
+
+.client-portal .portal-card {
+  border: 1px solid #eadfd2;
+  border-radius: 1.25rem;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(44, 40, 36, 0.04);
+}
+
+.client-portal .portal-card-soft {
+  background: #fbf7f1;
+}
+
+@media (min-width: 768px) {
+  .client-portal .portal-hero {
+    height: 20rem;
+    min-height: 20rem;
+  }
+
+  .client-portal .layout-stack-lg > * + *,
+  .client-portal .layout-stack-xl > * + * {
+    margin-top: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .client-portal .portal-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .client-portal .portal-columns-lead {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+  }
+}
+
 .cms-published-text [style*="color"] strong {
   color: inherit;
 }

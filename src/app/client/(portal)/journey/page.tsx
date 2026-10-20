@@ -32,9 +32,9 @@ export default async function ClientJourneyPage() {
   );
 
   return (
-    <div className="layout-stack-xl">
+    <div className="portal-stack">
       <header className="layout-stack-sm">
-        <h1 className="font-display text-4xl text-[#2c2824]">{content.journeyPage.title}</h1>
+        <h1 className="portal-page-title text-[#2c2824]">{content.journeyPage.title}</h1>
         <p className="max-w-2xl text-[#6d675f]">{content.journeyPage.description}</p>
       </header>
 

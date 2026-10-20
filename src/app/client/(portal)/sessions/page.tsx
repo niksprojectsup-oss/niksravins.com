@@ -26,9 +26,9 @@ export default async function ClientSessionsPage({ searchParams }: ClientSession
   if (!client) notFound();
 
   return (
-    <div className="layout-stack-xl">
+    <div className="portal-stack">
       <header className="layout-stack-sm">
-        <h1 className="font-display text-4xl text-[#2c2824]">{content.sessionsPage.title}</h1>
+        <h1 className="portal-page-title text-[#2c2824]">{content.sessionsPage.title}</h1>
         <p className="max-w-2xl text-[#6d675f]">{content.sessionsPage.description}</p>
       </header>
       <SessionsPanel

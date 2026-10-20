@@ -145,8 +145,8 @@ export function JournalPanel({
       {heading ? (
         <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <h2 className="font-display text-3xl text-[#2c2824]">{copy.title}</h2>
-            <p className="mt-2 max-w-2xl text-[#6d675f]">{copy.subtitle}</p>
+            <h2 className="portal-section-title text-[#2c2824]">{copy.title}</h2>
+            <p className="mt-1 max-w-2xl text-sm text-[#6d675f]">{copy.subtitle}</p>
           </div>
           <a href="#insight-composer" className="inline-flex h-10 items-center rounded-full bg-[#3f6b4e] px-4 text-sm text-white no-underline">
             {copy.add}
@@ -237,13 +237,13 @@ export function JournalPanel({
 
       <form
         id="insight-composer"
-        className="rounded-3xl border border-[#eadfd2] bg-white p-5 md:p-6"
+        className="rounded-2xl border border-[#eadfd2] bg-white p-4 md:p-5"
         onSubmit={(event) => {
           event.preventDefault();
           handleSave();
         }}
       >
-        <h3 className="font-display text-2xl text-[#2c2824]">{form.id ? copy.edit : copy.add}</h3>
+        <h3 className="portal-section-title text-[#2c2824]">{form.id ? copy.edit : copy.add}</h3>
         <div className="mt-4 grid gap-4 md:grid-cols-2">
           <label className="block text-sm text-[#5c564e]">
             {copy.dateLabel}
@@ -276,7 +276,7 @@ export function JournalPanel({
             required
             value={form.content}
             onChange={(event) => setForm({ ...form, content: event.target.value })}
-            className="mt-1 min-h-32 w-full rounded-xl border border-[#e4d8c8] px-3 py-2"
+            className="mt-1 min-h-24 w-full rounded-xl border border-[#e4d8c8] px-3 py-2 text-sm"
           />
         </label>
         <fieldset className="mt-4">

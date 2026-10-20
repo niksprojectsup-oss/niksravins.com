@@ -21,13 +21,13 @@ export default async function ClientAccountPage() {
   if (!client) notFound();
 
   return (
-    <div className="layout-stack-xl max-w-prose">
+    <div className="portal-stack max-w-prose">
       <header className="layout-stack-sm">
-        <h1 className="font-display text-4xl text-[#2c2824]">{content.account.title}</h1>
+        <h1 className="portal-page-title text-[#2c2824]">{content.account.title}</h1>
         <p className="max-w-2xl text-[#6d675f]">{content.account.subtitle}</p>
       </header>
 
-      <section className="rounded-[2rem] border border-[#eadfd2] bg-white p-6 md:p-8">
+      <section className="portal-card p-5">
         <dl className="layout-stack-md">
           <div>
             <dt className="text-sm text-[#6d675f]">{content.account.name}</dt>

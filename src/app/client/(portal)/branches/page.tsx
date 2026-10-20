@@ -7,8 +7,8 @@ export default async function ClientBranchesPage() {
   const content = getPortalContent(await getPortalLocale());
 
   return (
-    <section className="rounded-[2rem] border border-[#eadfd2] bg-white p-6 md:p-8">
-      <h1 className="font-display text-3xl text-[#2c2824]">{content.trunksPage.title}</h1>
+    <section className="portal-card p-5 md:p-6">
+      <h1 className="portal-page-title text-[#2c2824]">{content.trunksPage.title}</h1>
       <p className="mt-3 max-w-2xl text-[#6d675f]">{content.trunksPage.empty}</p>
     </section>
   );

@@ -16,9 +16,9 @@ export default async function ClientPortalLayout({
   const content = getPortalContent(locale);
 
   return (
-    <div lang={portalIntlLocale(locale)} className="min-h-screen bg-[#f6f1e8] text-[#2c2824]">
+    <div lang={portalIntlLocale(locale)} className="client-portal min-h-screen">
       <PortalHeader content={content} locale={locale} />
-      <main className="mx-auto w-full max-w-6xl px-4 py-8 md:px-8">{children}</main>
+      <main className="mx-auto w-full max-w-5xl px-4 py-5 md:px-6 md:py-6">{children}</main>
       <PortalFooter content={content} locale={locale} />
     </div>
   );
