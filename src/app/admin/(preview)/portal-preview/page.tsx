@@ -18,8 +18,8 @@ export default async function AdminPortalPreviewPage() {
 
   return (
     <div className="bg-[#f6f1e8]">
-      <div className="sticky top-0 z-50 border-b border-[#eadfd2] bg-[#f7f1e8] px-4 py-3 md:px-8">
-        <div className="mx-auto flex w-full max-w-6xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+      <div className="sticky top-0 z-50 border-b border-[#eadfd2] bg-[#f7f1e8] px-4 py-2.5 md:px-6">
+        <div className="mx-auto flex w-full max-w-5xl flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm font-medium text-[#2c2824]">{ADMIN_PORTAL_PREVIEW_LABEL}</p>
           <Link href="/admin" className="text-sm text-[#3f6b4e] no-underline">
             Back to admin
