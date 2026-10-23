@@ -1,3 +1,4 @@
+import { PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { EmotionalJourneyChart } from "@/components/client/journey/EmotionalJourneyChart";
 import { GoalsPanel } from "@/components/client/journey/GoalsPanel";
 import { MilestoneTimeline } from "@/components/client/journey/MilestoneTimeline";
@@ -29,20 +30,31 @@ export function ProgressOverview({
       <PortalPageHeader
         title="Progress"
         description="See how your self-reflection, intentions, and emotional landscape evolve over time."
+        icon="leaf"
+        iconTone="sage"
       />
 
       <PortalGrid columns={3}>
-        <div className="rounded-xl border border-border-subtle bg-surface/40 p-5">
-          <p className="type-caption">Check-ins</p>
-          <p className="type-heading-sm mt-2">{progress.checkIns.length}</p>
+        <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-surface/40 p-5">
+          <PortalIconBadge name="heartPulse" tone="sage" />
+          <div>
+            <p className="type-caption">Check-ins</p>
+            <p className="type-heading-sm mt-2">{progress.checkIns.length}</p>
+          </div>
         </div>
-        <div className="rounded-xl border border-border-subtle bg-surface/40 p-5">
-          <p className="type-caption">Goals completed</p>
-          <p className="type-heading-sm mt-2">{completedGoals}</p>
+        <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-surface/40 p-5">
+          <PortalIconBadge name="sprout" tone="sand" />
+          <div>
+            <p className="type-caption">Goals completed</p>
+            <p className="type-heading-sm mt-2">{completedGoals}</p>
+          </div>
         </div>
-        <div className="rounded-xl border border-border-subtle bg-surface/40 p-5">
-          <p className="type-caption">Assessments</p>
-          <p className="type-heading-sm mt-2">{progress.assessments.length}</p>
+        <div className="flex items-center gap-3 rounded-xl border border-border-subtle bg-surface/40 p-5">
+          <PortalIconBadge name="layers" tone="ivory" />
+          <div>
+            <p className="type-caption">Assessments</p>
+            <p className="type-heading-sm mt-2">{progress.assessments.length}</p>
+          </div>
         </div>
       </PortalGrid>
 

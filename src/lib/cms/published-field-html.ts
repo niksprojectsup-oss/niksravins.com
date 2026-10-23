@@ -18,7 +18,7 @@ function tiptapJsonToInlineHtml(value: CmsTiptapJson): string {
 }
 
 function resolveHomeFieldVariant(field: CmsFieldDefinition): CmsPublishedFieldVariant {
-  if (field.kind === "paragraphs" || field.kind === "faq-answer") {
+  if (field.kind === "paragraphs" || field.kind === "faq-answer" || field.kind === "image") {
     return "block";
   }
 
@@ -64,4 +64,10 @@ export function buildPublishedCmsHtmlFields(
   }
 
   return htmlFields;
+}
+
+export function getPublishedCmsImageSrc(html?: string): string | undefined {
+  if (!html) return undefined;
+  const match = html.match(/<img\b[^>]*\bsrc="([^"]+)"/i);
+  return match?.[1];
 }

@@ -73,12 +73,20 @@ export default async function AdminContentPage() {
             key: "actions",
             header: "",
             cell: (row) => (
-              <Link
-                href={`/admin/content/${row.slug}`}
-                className="type-caption text-accent no-underline hover:text-accent-strong"
-              >
-                Edit
-              </Link>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href={`/admin/content/${row.slug}`}
+                  className="type-caption text-accent no-underline hover:text-accent-strong"
+                >
+                  Edit
+                </Link>
+                <Link
+                  href={`/admin/content/${row.slug}/preview?locale=en`}
+                  className="type-caption text-accent no-underline hover:text-accent-strong"
+                >
+                  Preview
+                </Link>
+              </div>
             ),
           },
         ]}

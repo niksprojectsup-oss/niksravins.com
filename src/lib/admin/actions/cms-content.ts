@@ -6,13 +6,15 @@ import { isAdminEditableCmsPageSlug } from "@/lib/cms/definitions";
 import { assertCmsLocale, publishContent, saveContentDraft } from "@/lib/cms/repository";
 import { normalizeIncomingTiptapValue } from "@/lib/cms/tiptap";
 import type { CmsTiptapJson } from "@/lib/cms/types";
+import { LOCALES, LOCALIZED_PUBLIC_PAGES } from "@/lib/i18n/config";
+import { localizedPath } from "@/lib/i18n/paths";
 import { logAuditEvent } from "@/lib/security/audit";
 
-const PUBLIC_CMS_PATHS = ["/", "/en", "/legal"] as const;
-
 function revalidatePublicCmsPaths(): void {
-  for (const path of PUBLIC_CMS_PATHS) {
-    revalidatePath(path);
+  for (const locale of LOCALES) {
+    for (const page of LOCALIZED_PUBLIC_PAGES) {
+      revalidatePath(localizedPath(locale, page));
+    }
   }
 }
 

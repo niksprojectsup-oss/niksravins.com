@@ -131,7 +131,7 @@ export function ClientDashboardView({ dashboard, timezone }: ClientDashboardView
             {dashboard.firstName} {dashboard.lastName}
           </h1>
         </div>
-        <ClientLogoutButton />
+        <ClientLogoutButton label="Sign out" />
       </div>
 
       <section className="layout-stack-md">

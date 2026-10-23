@@ -19,6 +19,7 @@ export type RateLimitResult = {
 
 const DEFAULT_LIMITS: Record<RateLimitScope, RateLimitConfig> = {
   "auth.login": { limit: 5, windowMs: 15 * 60 * 1000 },
+  "auth.password_reset": { limit: 5, windowMs: 15 * 60 * 1000 },
   "auth.mfa": { limit: 10, windowMs: 15 * 60 * 1000 },
   "api.general": { limit: 100, windowMs: 60 * 1000 },
   "portal.general": { limit: 60, windowMs: 60 * 1000 },

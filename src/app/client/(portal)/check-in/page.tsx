@@ -21,6 +21,8 @@ export default async function ClientCheckInPage() {
       <PortalPageHeader
         title="Check-in"
         description="A gentle moment to notice how you are today."
+        icon="heartPulse"
+        iconTone="sage"
       />
       <PortalCard padding="lg">
         <CheckInForm timezone={client.timezone} existing={todayCheckIn} />

@@ -15,20 +15,26 @@ import {
   tiptapJsonToPlainText,
 } from "@/lib/cms/tiptap";
 import { tiptapJsonToHtml } from "@/lib/cms/tiptap-server";
-import { isCmsLocale } from "@/lib/cms/definitions";
+import { CMS_LOCALES, isCmsLocale, publicCmsLocale } from "@/lib/cms/definitions";
 import type { CmsPageContent } from "@/lib/cms/types";
 
 describe("cms locale handling", () => {
-  it("supports English and Latvian CMS locales", () => {
+  it("supports all eight CMS locales and rejects unknown codes", () => {
+    assert.deepEqual([...CMS_LOCALES], ["en", "lv", "de", "fr", "es", "it", "ja", "zh"]);
     assert.equal(isCmsLocale("en"), true);
     assert.equal(isCmsLocale("lv"), true);
-    assert.equal(isCmsLocale("de"), false);
+    assert.equal(isCmsLocale("de"), true);
+    assert.equal(isCmsLocale("xx"), false);
   });
 
-  it("limits public homepage CMS merge to supported locales", () => {
+  it("allows CMS merge for every CMS locale without falling back to English", () => {
     assert.equal(isCmsSupportedPublicLocale("en"), true);
     assert.equal(isCmsSupportedPublicLocale("lv"), true);
-    assert.equal(isCmsSupportedPublicLocale("de"), false);
+    assert.equal(isCmsSupportedPublicLocale("de"), true);
+    assert.equal(isCmsSupportedPublicLocale("fr"), true);
+    assert.equal(publicCmsLocale("de"), "de");
+    assert.equal(publicCmsLocale("en"), "en");
+    assert.equal(publicCmsLocale("xx"), null);
   });
 });
 

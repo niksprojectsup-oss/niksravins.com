@@ -68,6 +68,22 @@ export function faqAnswerToTiptapDocument(answer: string | readonly string[]): C
   return plainStringsToTiptapDocument(paragraphs);
 }
 
+export function tiptapImageDocument(src: string, alt = ""): CmsTiptapJson {
+  return {
+    type: "doc",
+    content: [
+      {
+        type: "image",
+        attrs: {
+          src,
+          alt,
+          title: null,
+        },
+      },
+    ],
+  };
+}
+
 export function isEmptyCmsTiptapDocument(value: unknown): boolean {
   return tiptapJsonToPlainText(value as CmsTiptapJson | null).trim().length === 0;
 }

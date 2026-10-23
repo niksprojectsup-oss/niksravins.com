@@ -1,11 +1,29 @@
-import type { CmsContentItem, CmsPage, CmsSection, Prisma } from "@prisma/client";
+import { Prisma, type CmsContentItem, type CmsPage, type CmsSection } from "@prisma/client";
 import {
   CMS_LOCALES,
   type CmsLocale,
   getCmsPageDefinition,
   isCmsLocale,
 } from "@/lib/cms/definitions";
-import { tiptapJsonToPlainText, normalizeCmsTiptapJson } from "@/lib/cms/tiptap";
+import {
+  buildCmsDraftSaveQuery,
+  buildCmsPublishQuery,
+  missingCmsSectionKeys,
+  planCmsDraftItemWrites,
+  planCmsPublishItemIds,
+} from "@/lib/cms/draft-persistence";
+import {
+  planSharedHomepageImageDraftWrites,
+  planSharedHomepageImageMirrors,
+  resolveSharedHomepageImageSrc,
+  withCmsImageSrc,
+} from "@/lib/cms/shared-homepage-images";
+import {
+  getCmsImageSrcFromDocument,
+  hasCmsTiptapContent,
+  normalizeCmsTiptapJson,
+  tiptapJsonToPlainText,
+} from "@/lib/cms/tiptap";
 import type {
   CmsPageContent,
   CmsPageStatus,
@@ -18,6 +36,10 @@ import { prisma, requireDatabase } from "@/lib/db/prisma";
 
 type SectionWithItems = CmsSection & { items: CmsContentItem[] };
 type PageWithSections = CmsPage & { sections: SectionWithItems[] };
+
+function cmsJson(value: CmsTiptapJson): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value)) as Prisma.InputJsonValue;
+}
 
 function mapPageStatus(status: CmsPage["status"]): CmsPageStatus {
   return status;
@@ -43,6 +65,7 @@ function buildSectionContent(
   section: SectionWithItems,
   locale: CmsLocale,
   definitionFields: readonly { key: string; label: string }[],
+  shareImages: boolean,
 ): CmsSectionContent {
   const itemsByField = new Map(section.items.filter((item) => item.locale === locale).map((item) => [item.fieldKey, item]));
 
@@ -52,7 +75,7 @@ function buildSectionContent(
     sortOrder: section.sortOrder,
     fields: definitionFields.map((field) => {
       const item = itemsByField.get(field.key);
-      return item
+      const mapped = item
         ? mapItemValue(item)
         : {
             fieldKey: field.key,
@@ -61,6 +84,19 @@ function buildSectionContent(
             plainText: null,
             updatedAt: section.updatedAt.toISOString(),
           };
+
+      if (!shareImages) return mapped;
+
+      const sharedSrc = resolveSharedHomepageImageSrc(section.items, field.key, "editor");
+      if (!sharedSrc) return mapped;
+
+      const base = mapped.draftJson ?? mapped.publishedJson;
+      if (getCmsImageSrcFromDocument(base) === sharedSrc) return mapped;
+
+      return {
+        ...mapped,
+        draftJson: withCmsImageSrc(base, sharedSrc),
+      };
     }),
   };
 }
@@ -132,7 +168,7 @@ export async function getAdminPageContent(
         };
       }
 
-      return buildSectionContent(section, locale, sectionDef.fields);
+      return buildSectionContent(section, locale, sectionDef.fields, page.slug === "home");
     }),
   };
 
@@ -189,62 +225,55 @@ export async function saveContentDraft(input: {
     throw new Error("CMS page definition not found.");
   }
 
-  const allowedFieldKeys = new Set(
-    definition.sections.flatMap((section) => section.fields.map((field) => field.key)),
-  );
+  let sections = page.sections;
+  const missingSectionKeys = missingCmsSectionKeys(definition, sections);
 
-  await prisma.$transaction(async (tx) => {
-    for (const sectionDef of definition.sections) {
-      let section = page.sections.find((entry) => entry.key === sectionDef.key);
-      if (!section) {
-        section = await tx.cmsSection.create({
-          data: {
-            pageId: page.id,
-            key: sectionDef.key,
-            title: sectionDef.title,
-            sortOrder: sectionDef.sortOrder,
-          },
-          include: { items: true },
-        });
-      }
+  if (missingSectionKeys.length > 0) {
+    await prisma.cmsSection.createMany({
+      data: definition.sections
+        .filter((section) => missingSectionKeys.includes(section.key))
+        .map((section) => ({
+          pageId: page.id,
+          key: section.key,
+          title: section.title,
+          sortOrder: section.sortOrder,
+        })),
+      skipDuplicates: true,
+    });
 
-      for (const [fieldKey, draftJson] of Object.entries(input.fields)) {
-        if (!allowedFieldKeys.has(fieldKey)) continue;
-        if (!sectionDef.fields.some((field) => field.key === fieldKey)) continue;
-
-        const plainText = draftJson ? tiptapJsonToPlainText(draftJson) : null;
-        const draftJsonValue = draftJson
-          ? (JSON.parse(JSON.stringify(draftJson)) as Prisma.InputJsonValue)
-          : undefined;
-
-        await tx.cmsContentItem.upsert({
-          where: {
-            sectionId_locale_fieldKey: {
-              sectionId: section.id,
-              locale: input.locale,
-              fieldKey,
-            },
-          },
-          create: {
-            sectionId: section.id,
-            locale: input.locale,
-            fieldKey,
-            draftJson: draftJsonValue,
-            plainText,
-          },
-          update: {
-            draftJson: draftJsonValue,
-            plainText,
-          },
-        });
-      }
+    const refreshed = await getCmsPageRecordBySlug(input.pageSlug);
+    if (!refreshed) {
+      throw new Error("CMS page not found.");
     }
+    sections = refreshed.sections;
+  }
 
-    await tx.cmsPage.update({
+  const existingItems = sections.flatMap((section) => section.items);
+  const writes = [
+    ...planCmsDraftItemWrites({
+      sections,
+      definition,
+      locale: input.locale,
+      fields: input.fields,
+    }),
+    ...planSharedHomepageImageDraftWrites({
+      definition,
+      sections,
+      sourceLocale: input.locale,
+      fields: input.fields,
+      existingItems,
+    }),
+  ];
+
+  if (writes.length === 0) {
+    await prisma.cmsPage.update({
       where: { id: page.id },
       data: { updatedAt: new Date() },
     });
-  });
+    return;
+  }
+
+  await prisma.$executeRaw(buildCmsDraftSaveQuery(page.id, writes));
 }
 
 export async function publishContent(input: {
@@ -257,32 +286,44 @@ export async function publishContent(input: {
     throw new Error("CMS page not found.");
   }
 
-  const items = page.sections.flatMap((section) =>
-    section.items.filter((item) => item.locale === input.locale),
-  );
+  const items = page.sections.flatMap((section) => section.items);
+  const itemIds = planCmsPublishItemIds(items, input.locale);
+  const definition = getCmsPageDefinition(page.slug);
+  const mirrors = definition
+    ? planSharedHomepageImageMirrors({
+        definition,
+        sourceLocale: input.locale,
+        items,
+      })
+    : [];
 
-  await prisma.$transaction(async (tx) => {
-    for (const item of items) {
-      if (!item.draftJson) continue;
+  await prisma.$transaction(async (transaction) => {
+    await transaction.$executeRaw(buildCmsPublishQuery(page.id, itemIds));
 
-      const plainText = item.plainText ?? tiptapJsonToPlainText(item.draftJson as CmsTiptapJson);
-
-      await tx.cmsContentItem.update({
-        where: { id: item.id },
-        data: {
-          publishedJson: item.draftJson,
-          plainText,
+    for (const mirror of mirrors) {
+      await transaction.cmsContentItem.upsert({
+        where: {
+          sectionId_locale_fieldKey: {
+            sectionId: mirror.sectionId,
+            locale: mirror.locale,
+            fieldKey: mirror.fieldKey,
+          },
+        },
+        create: {
+          sectionId: mirror.sectionId,
+          locale: mirror.locale,
+          fieldKey: mirror.fieldKey,
+          draftJson: cmsJson(mirror.draftJson),
+          publishedJson: cmsJson(mirror.publishedJson),
+          plainText: mirror.plainText,
+        },
+        update: {
+          draftJson: cmsJson(mirror.draftJson),
+          publishedJson: cmsJson(mirror.publishedJson),
+          plainText: mirror.plainText,
         },
       });
     }
-
-    await tx.cmsPage.update({
-      where: { id: page.id },
-      data: {
-        status: "PUBLISHED",
-        updatedAt: new Date(),
-      },
-    });
   });
 }
 
@@ -299,14 +340,18 @@ export async function getPreviewPageContent(
 ): Promise<CmsPublishedFieldMap> {
   requireDatabase();
   const adminContent = await getAdminPageContent(pageSlug, locale);
-  if (!adminContent) return {};
+  if (!adminContent || adminContent.locale !== locale) return {};
 
   const fields: CmsPublishedFieldMap = {};
   for (const section of adminContent.sections) {
     for (const field of section.fields) {
-      const source = field.draftJson ?? field.publishedJson;
-      const plainText = source ? tiptapJsonToPlainText(source) : field.plainText;
-      if (plainText) {
+      const source = hasCmsTiptapContent(field.draftJson)
+        ? field.draftJson
+        : hasCmsTiptapContent(field.publishedJson)
+          ? field.publishedJson
+          : null;
+      const plainText = source ? tiptapJsonToPlainText(source) : null;
+      if (plainText?.trim()) {
         fields[field.fieldKey] = plainText;
       }
     }

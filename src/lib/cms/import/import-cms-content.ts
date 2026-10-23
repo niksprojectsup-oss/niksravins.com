@@ -1,6 +1,6 @@
 import type { CmsContentItem, Prisma, PrismaClient } from "@prisma/client";
 import type { CmsLocale } from "@/lib/cms/definitions";
-import { CMS_LOCALES, getCmsPageDefinition } from "@/lib/cms/definitions";
+import { CMS_IMPORT_LOCALES, getCmsPageDefinition } from "@/lib/cms/definitions";
 import {
   buildAllCmsImportFieldValues,
   buildCmsImportFieldValues,
@@ -114,7 +114,7 @@ export async function importCmsContentFromI18n(
   const localesSkipped: Array<{ locale: CmsLocale; reason: string }> = [];
   const results: CmsImportFieldResult[] = [];
 
-  for (const locale of CMS_LOCALES) {
+  for (const locale of CMS_IMPORT_LOCALES) {
     const content: CmsImportContent | null = await options.loadLocaleContent(locale);
     if (!content) {
       localesSkipped.push({

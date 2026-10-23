@@ -2,6 +2,7 @@ export const DEFAULT_LOCALE = "en" as const;
 
 export const LOCALES = [
   "en",
+  "lv",
   "de",
   "fr",
   "es",
@@ -27,6 +28,13 @@ export const LOCALE_DEFINITIONS: Record<Locale, LocaleDefinition> = {
     htmlLang: "en",
     label: "English",
     nativeLabel: "EN",
+  },
+  lv: {
+    locale: "lv",
+    hreflang: "lv",
+    htmlLang: "lv",
+    label: "Latvian",
+    nativeLabel: "LV",
   },
   de: {
     locale: "de",
@@ -73,7 +81,7 @@ export const LOCALE_DEFINITIONS: Record<Locale, LocaleDefinition> = {
 };
 
 /** Public pages that have localized SEO URLs. */
-export const LOCALIZED_PUBLIC_PAGES = ["", "book"] as const;
+export const LOCALIZED_PUBLIC_PAGES = ["", "book", "legal"] as const;
 
 export type LocalizedPublicPage = (typeof LOCALIZED_PUBLIC_PAGES)[number];
 

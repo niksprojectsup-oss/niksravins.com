@@ -1,6 +1,7 @@
 import { seedAvailabilityDefaults } from "../src/lib/booking/availability/config-repository";
 import { seedDefaultOffers } from "../src/lib/booking/offer-repository";
 import { seedCmsPages } from "../src/lib/cms/seed";
+import { seedTranslationCatalog } from "../src/lib/i18n/translation-repository";
 import {
   BEFORE_CHECKLIST_ITEMS,
   CURRENT_CHECKLIST_ITEMS,
@@ -14,6 +15,7 @@ async function main() {
   await seedAvailabilityDefaults();
   await seedDefaultOffers();
   await seedCmsPages();
+  await seedTranslationCatalog();
 
   const adminEmail = (process.env.ADMIN_EMAIL ?? "admin@niksravins.com").toLowerCase();
   const adminPassword = process.env.ADMIN_PASSWORD ?? "change-me-in-production";

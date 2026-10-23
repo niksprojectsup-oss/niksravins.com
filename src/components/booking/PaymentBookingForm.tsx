@@ -56,14 +56,14 @@ export function PaymentBookingForm({
 
       const data = (await response.json()) as { url?: string; error?: string };
       if (!response.ok || !data.url) {
-        setError(data.error ?? "Unable to start checkout. Please try again.");
+        setError(data.error ?? labels.validation.checkoutError);
         setPending(false);
         return;
       }
 
       window.location.href = data.url;
     } catch {
-      setError("Unable to start checkout. Please try again.");
+      setError(labels.validation.checkoutError);
       setPending(false);
     }
   }
@@ -90,7 +90,7 @@ export function PaymentBookingForm({
           disabled={pending}
           className="w-full sm:w-auto"
         >
-          {pending ? "Redirecting…" : labels.payment.stripeLabel}
+          {pending ? labels.payment.redirecting : labels.payment.stripeLabel}
         </Button>
       </div>
     </BookingPanel>

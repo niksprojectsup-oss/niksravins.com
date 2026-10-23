@@ -1,7 +1,8 @@
-import Link from "next/link";
-import { ClientPortalNav } from "@/components/client/ClientPortalNav";
+import { PortalFooter } from "@/components/client/portal/PortalFooter";
+import { PortalHeader } from "@/components/client/portal/PortalHeader";
+import { getPortalContent, portalIntlLocale } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
-import { siteConfig } from "@/content/site";
+import { getPortalLocale } from "@/lib/i18n/portal-locale";
 
 export const dynamic = "force-dynamic";
 
@@ -11,33 +12,14 @@ export default async function ClientPortalLayout({
   children: React.ReactNode;
 }>) {
   await requireClient();
+  const locale = await getPortalLocale();
+  const content = getPortalContent(locale);
 
   return (
-    <div className="min-h-screen bg-canvas text-ink">
-      <header className="border-b border-border-subtle bg-canvas/90 backdrop-blur-sm lg:hidden">
-        <div className="layout-container layout-wide py-4">
-          <div className="flex min-h-[3rem] items-center justify-between gap-4">
-            <Link href="/" className="font-display text-lg tracking-snug text-ink no-underline">
-              {siteConfig.name}
-            </Link>
-            <p className="type-caption text-ink-subtle">Your space</p>
-          </div>
-          <ClientPortalNav variant="mobile" />
-        </div>
-      </header>
-
-      <div className="layout-container layout-wide py-6 md:py-10 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-10 lg:py-12">
-        <aside className="hidden lg:block">
-          <div className="sticky top-8 layout-stack-md">
-            <Link href="/" className="font-display text-lg tracking-snug text-ink no-underline">
-              {siteConfig.name}
-            </Link>
-            <p className="type-caption text-ink-subtle">Your transformation space</p>
-            <ClientPortalNav variant="sidebar" />
-          </div>
-        </aside>
-        <main className="min-w-0">{children}</main>
-      </div>
+    <div lang={portalIntlLocale(locale)} className="client-portal min-h-screen">
+      <PortalHeader content={content} locale={locale} />
+      <main className="mx-auto w-full max-w-5xl px-4 py-5 md:px-6 md:py-6">{children}</main>
+      <PortalFooter content={content} locale={locale} />
     </div>
   );
 }

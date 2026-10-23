@@ -53,13 +53,6 @@ export function FAQ({ content, cmsHtmlFields = {} }: FAQProps) {
     <Section id="faq" size="lg" aria-labelledby="faq-heading">
       <div className="max-w-prose">
         <header className="layout-stack-sm layout-section-header">
-          <p className="type-label">
-            <CmsPublishedFieldText
-              html={cmsHtmlFields["faq.headingLabel"]}
-              fallback={faq.headingLabel}
-              className={CMS_PUBLISHED_INLINE_CLASS}
-            />
-          </p>
           <h2 id="faq-heading" className="type-heading">
             <CmsPublishedFieldText
               html={cmsHtmlFields["faq.heading"]}
