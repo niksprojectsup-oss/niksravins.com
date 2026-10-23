@@ -18,7 +18,7 @@ export function localizeOffer(
   return {
     ...offer,
     title: copy.title || offer.title,
-    description: copy.description || offer.description,
+    description: offer.description, // Keep database description, don't override with translation
     detail: copy.detail ?? offer.detail,
     durationLabel: copy.durationLabel ?? offer.durationLabel,
     priceLabel: copy.priceLabel ?? offer.priceLabel,
