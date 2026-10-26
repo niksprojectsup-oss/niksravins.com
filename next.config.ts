@@ -8,6 +8,7 @@ const homepageSectionRedirects = [
 ] as const;
 
 const nextConfig: NextConfig = {
+  skipTrailingSlashRedirect: true,
   async redirects() {
     return homepageSectionRedirects.map(({ source, destination }) => ({
       source,

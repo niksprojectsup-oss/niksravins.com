@@ -69,6 +69,9 @@ export async function POST(request: Request) {
     const stripe = getStripe();
     const isCourse = isCourseOffer(service);
 
+    // Use canonical hostname (without www) so Stripe success/cancel URLs land directly
+    const canonicalOrigin = origin.replace(/^https?:\/\/www\./, "https://");
+
     const checkoutSession = await stripe.checkout.sessions.create({
       mode: "payment",
       customer_email: bookingRequest.client.email.trim().toLowerCase(),
@@ -102,8 +105,8 @@ export async function POST(request: Request) {
         sessionIntention: bookingRequest.client.sessionIntention.trim(),
         locale,
       },
-      success_url: `${origin}${bookingSuccessPath(locale)}?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}${localizedPath(locale, "book")}`,
+      success_url: `${canonicalOrigin}${bookingSuccessPath(locale)}?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${canonicalOrigin}${localizedPath(locale, "book")}`,
     });
 
     if (!checkoutSession.url) {
