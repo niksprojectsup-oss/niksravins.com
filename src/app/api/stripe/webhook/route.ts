@@ -56,6 +56,47 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Incomplete metadata." }, { status: 400 });
     }
 
+    // Reconcile a partially processed session: if a booking was created for
+    // this slot but its payment was never linked, finish linking instead of
+    // letting slot validation block the retry forever.
+    const orphanBooking = await prisma.booking.findFirst({
+      where: { slotId, session: { scheduledAt: new Date(scheduledAt) } },
+      include: { client: true, session: true },
+    });
+    if (orphanBooking) {
+      await prisma.payment.updateMany({
+        where: { clientId: orphanBooking.clientId, status: "PENDING" },
+        data: {
+          status: "PAID",
+          provider: "stripe",
+          stripeCheckoutSessionId: checkoutSessionId,
+        },
+      });
+      await completeBookingSideEffects({
+        id: orphanBooking.id,
+        clientId: orphanBooking.clientId,
+        serviceId: orphanBooking.serviceId,
+        slotId: orphanBooking.slotId,
+        scheduledAt: orphanBooking.session.scheduledAt.toISOString(),
+        courseStartDate: orphanBooking.courseStartDate?.toISOString() ?? null,
+        client: {
+          firstName: orphanBooking.client.firstName,
+          lastName: orphanBooking.client.lastName,
+          email: orphanBooking.client.email,
+          phone: orphanBooking.client.phone ?? undefined,
+          country: orphanBooking.client.country,
+          timezone: orphanBooking.client.timezone,
+          sessionIntention: orphanBooking.sessionIntention,
+        },
+        status: "confirmed",
+        paymentStatus: "paid",
+        paymentProvider: "stripe",
+        createdAt: orphanBooking.createdAt.toISOString(),
+        updatedAt: orphanBooking.updatedAt.toISOString(),
+      });
+      return NextResponse.json({ received: true });
+    }
+
     try {
       const booking = await createBooking({
         serviceId,
