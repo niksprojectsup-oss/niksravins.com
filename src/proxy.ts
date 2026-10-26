@@ -8,7 +8,7 @@ import {
 import { REQUEST_PATHNAME_HEADER } from "@/lib/i18n/request-pathname";
 
 const PUBLIC_ADMIN_PATHS = ["/admin/login"];
-const PUBLIC_CLIENT_PATHS = ["/client/login", "/client/set-password"];
+const PUBLIC_CLIENT_PATHS = ["/client/login", "/client/forgot-password", "/client/set-password"];
 
 function isPublicAdminPath(pathname: string): boolean {
   return PUBLIC_ADMIN_PATHS.some(

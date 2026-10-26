@@ -1,17 +1,24 @@
 import { getServerSession } from "@/lib/auth/session";
 import { isAdminSessionActive } from "@/lib/auth/admin-repository";
+import { authorizeCmsImageUpload } from "@/lib/cms/cms-image-upload-auth";
 import { getCmsImageStorageProvider } from "@/lib/cms/image-storage";
 import { validateCmsImageUpload } from "@/lib/cms/image-storage/validation";
 
 export async function POST(request: Request) {
   const session = await getServerSession();
-  if (
-    !session ||
-    session.role !== "ADMIN" ||
-    !session.mfaVerified ||
-    !(await isAdminSessionActive(session.sessionId))
-  ) {
-    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  let sessionActive: boolean | "unavailable" = false;
+
+  if (session?.role === "ADMIN" && session.mfaVerified) {
+    try {
+      sessionActive = await isAdminSessionActive(session.sessionId);
+    } catch {
+      sessionActive = "unavailable";
+    }
+  }
+
+  const auth = authorizeCmsImageUpload({ session, sessionActive });
+  if (!auth.ok) {
+    return Response.json({ error: auth.error }, { status: auth.status });
   }
 
   const formData = await request.formData();

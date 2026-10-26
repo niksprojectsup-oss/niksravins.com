@@ -1,4 +1,5 @@
 import type { PublicContent } from "@/content/i18n/types";
+import { isCmsLocale } from "@/lib/cms/definitions";
 import { tiptapJsonToPlainText } from "@/lib/cms/tiptap";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 
@@ -105,5 +106,5 @@ export function applyCmsSeoFieldsToHomeContent(
 }
 
 export function isCmsSupportedPublicLocale(locale: string): boolean {
-  return locale === "en" || locale === "lv";
+  return isCmsLocale(locale);
 }

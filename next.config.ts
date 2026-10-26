@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const homepageSectionRedirects = [
-  { source: "/about", destination: "/#about" },
-  { source: "/aap", destination: "/#aap" },
+  { source: "/about", destination: "/#want-change" },
+  { source: "/aap", destination: "/#identity-shifts" },
   { source: "/faq", destination: "/#faq" },
   { source: "/contact", destination: "/#contact" },
 ] as const;

@@ -5,7 +5,12 @@ import {
   isCmsLocale,
 } from "@/lib/cms/definitions";
 import { getCmsPageRecordBySlug } from "@/lib/cms/repository";
-import { normalizeCmsTiptapJson, tiptapJsonToPlainText } from "@/lib/cms/tiptap";
+import {
+  applySharedHomepageImageDocument,
+  isHomepageImageFieldKey,
+  resolveSharedHomepageImageSrc,
+} from "@/lib/cms/shared-homepage-images";
+import { hasCmsTiptapContent, normalizeCmsTiptapJson } from "@/lib/cms/tiptap";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 import { requireDatabase } from "@/lib/db/prisma";
 
@@ -29,11 +34,6 @@ export type CmsPublishedPageContent = {
   fields: Record<string, CmsTiptapJson>;
 };
 
-function hasPublishedTiptapContent(value: unknown): value is CmsTiptapJson {
-  const normalized = normalizeCmsTiptapJson(value);
-  return Boolean(normalized && tiptapJsonToPlainText(normalized).trim());
-}
-
 export function buildPublishedCmsPageFields(input: {
   page: Pick<CmsPage, "status">;
   items: CmsContentItem[];
@@ -50,11 +50,21 @@ export function buildPublishedCmsPageFields(input: {
     const item = input.items.find(
       (entry) => entry.locale === input.locale && entry.fieldKey === fieldKey,
     );
-    if (!item?.publishedJson || !hasPublishedTiptapContent(item.publishedJson)) {
+    if (!item?.publishedJson || !hasCmsTiptapContent(item.publishedJson)) {
       continue;
     }
 
     fields[fieldKey] = normalizeCmsTiptapJson(item.publishedJson)!;
+  }
+
+  for (const fieldKey of input.fieldKeys) {
+    if (!isHomepageImageFieldKey(fieldKey)) continue;
+
+    const sharedSrc = resolveSharedHomepageImageSrc(input.items, fieldKey, "published");
+    const sharedDocument = applySharedHomepageImageDocument(fields[fieldKey], sharedSrc);
+    if (sharedDocument && sharedSrc) {
+      fields[fieldKey] = sharedDocument;
+    }
   }
 
   return fields;

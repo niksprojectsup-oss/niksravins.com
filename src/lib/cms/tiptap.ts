@@ -5,6 +5,7 @@ import Image from "@tiptap/extension-image";
 import StarterKit from "@tiptap/starter-kit";
 import type { Extensions } from "@tiptap/core";
 import { ParagraphSpacing } from "@/lib/cms/tiptap-paragraph-spacing";
+import { CmsTextControls } from "@/lib/cms/tiptap-text-controls";
 import type { CmsTiptapJson } from "@/lib/cms/types";
 
 function getCmsCoreExtensions(): Extensions {
@@ -21,9 +22,8 @@ function getCmsCoreExtensions(): Extensions {
         },
       },
     }),
-    TextStyleKit.configure({
-      backgroundColor: false,
-    }),
+    TextStyleKit.configure({}),
+    CmsTextControls,
     TextAlign.configure({
       types: ["heading", "paragraph"],
     }),
@@ -69,6 +69,32 @@ export function createEmptyTiptapDocument(text = ""): CmsTiptapJson {
       },
     ],
   };
+}
+
+export function getCmsImageSrcFromDocument(value: CmsTiptapJson | null | undefined): string | undefined {
+  if (!value) return undefined;
+
+  const visit = (node: CmsTiptapJson): string | undefined => {
+    if (node.type === "image" && typeof node.attrs?.src === "string" && node.attrs.src.trim()) {
+      return node.attrs.src;
+    }
+
+    for (const child of node.content ?? []) {
+      const found = visit(child);
+      if (found) return found;
+    }
+
+    return undefined;
+  };
+
+  return visit(value);
+}
+
+export function hasCmsTiptapContent(value: unknown): value is CmsTiptapJson {
+  const normalized = normalizeCmsTiptapJson(value);
+  if (!normalized) return false;
+  if (tiptapJsonToPlainText(normalized).trim()) return true;
+  return Boolean(getCmsImageSrcFromDocument(normalized));
 }
 
 export function tiptapJsonToPlainText(value: CmsTiptapJson | null | undefined): string {

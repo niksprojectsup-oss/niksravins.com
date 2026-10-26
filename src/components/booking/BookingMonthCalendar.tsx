@@ -1,10 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
+import type { BookingUiContent } from "@/content/i18n/types";
 import { getDateKeyInTimeZone, getIsoDayOfWeek, zonedLocalToUtc, formatInTimeZone } from "@/lib/booking/timezone";
 import { cn } from "@/lib/utils";
-
-const WEEKDAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"] as const;
 
 export type MonthCalendarCell =
   | { kind: "empty" }
@@ -76,6 +75,7 @@ function formatDateAriaLabel(
   available: boolean,
   selected: boolean,
   isToday: boolean,
+  labels: BookingUiContent["calendar"],
 ): string {
   const anchor = zonedLocalToUtc(dateKey, "12:00", timezone);
   const formatted = formatInTimeZone(anchor.toISOString(), timezone, {
@@ -85,9 +85,9 @@ function formatDateAriaLabel(
     year: "numeric",
   });
   const parts = [formatted];
-  if (isToday) parts.push("today");
-  if (selected) parts.push("selected");
-  parts.push(available ? "available" : "unavailable");
+  if (isToday) parts.push(labels.today);
+  if (selected) parts.push(labels.selected);
+  parts.push(available ? labels.available : labels.unavailable);
   return parts.join(", ");
 }
 
@@ -111,6 +111,7 @@ type BookingMonthCalendarProps = {
   onNextMonth: () => void;
   canGoPrevious: boolean;
   canGoNext: boolean;
+  labels: BookingUiContent;
 };
 
 export function BookingMonthCalendar({
@@ -124,6 +125,7 @@ export function BookingMonthCalendar({
   onNextMonth,
   canGoPrevious,
   canGoNext,
+  labels,
 }: BookingMonthCalendarProps) {
   const todayKey = useMemo(
     () => getDateKeyInTimeZone(new Date(), timezone),
@@ -160,7 +162,7 @@ export function BookingMonthCalendar({
           type="button"
           onClick={onPreviousMonth}
           disabled={!canGoPrevious}
-          aria-label="Previous month"
+          aria-label={labels.calendar.previousMonth}
           className={cn(
             "flex h-11 w-11 items-center justify-center rounded-full border text-lg transition-colors",
             canGoPrevious
@@ -175,7 +177,7 @@ export function BookingMonthCalendar({
           type="button"
           onClick={onNextMonth}
           disabled={!canGoNext}
-          aria-label="Next month"
+          aria-label={labels.calendar.nextMonth}
           className={cn(
             "flex h-11 w-11 items-center justify-center rounded-full border text-lg transition-colors",
             canGoNext
@@ -193,7 +195,7 @@ export function BookingMonthCalendar({
         className="mt-5 rounded-xl border border-border-subtle bg-surface/40 p-3 sm:p-4"
       >
         <div role="row" className="mb-2 grid grid-cols-7 gap-1">
-          {WEEKDAY_LABELS.map((label) => (
+          {labels.calendar.weekdays.map((label) => (
             <div
               key={label}
               role="columnheader"
@@ -232,6 +234,7 @@ export function BookingMonthCalendar({
                     available,
                     selected,
                     isToday,
+                    labels.calendar,
                   )}
                   aria-pressed={selected}
                   onClick={() => onSelectDate(dateKey)}

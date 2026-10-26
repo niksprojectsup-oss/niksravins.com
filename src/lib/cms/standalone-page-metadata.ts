@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { getPublicContent } from "@/content/i18n";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import type { CmsLocale } from "@/lib/cms/definitions";
 import { getPublishedCmsPageContent } from "@/lib/cms/published-page-content";
 import type { StandaloneCmsPageSlug } from "@/lib/cms/published-page-content";
@@ -10,7 +10,7 @@ export async function buildStandaloneCmsPageMetadata(
   slug: StandaloneCmsPageSlug,
   locale: CmsLocale = "en",
 ): Promise<Metadata> {
-  const fallback = getPublicContent("en");
+  const fallback = await getResolvedPublicContent("en");
   const published = await getPublishedCmsPageContent(slug, locale);
 
   const title = published?.title ?? fallback.site.name;

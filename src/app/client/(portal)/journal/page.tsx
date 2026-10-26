@@ -1,19 +1,26 @@
 import { JournalPanel } from "@/components/client/journey/JournalPanel";
-import { PortalPageHeader } from "@/components/client/journey/PortalPageHeader";
+import { getPortalContent } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
+import { getPortalLocale } from "@/lib/i18n/portal-locale";
 import { listJournalEntries } from "@/lib/journey/journey-repository";
 
-export default async function ClientJournalPage() {
+type ClientJournalPageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export default async function ClientJournalPage({ searchParams }: ClientJournalPageProps) {
   const session = await requireClient();
+  const locale = await getPortalLocale();
+  const params = await searchParams;
+  const content = getPortalContent(locale);
   const entries = await listJournalEntries(session.clientId!);
 
   return (
-    <div className="layout-stack-xl">
-      <PortalPageHeader
-        title="Journal"
-        description="A private space for reflection — you choose what to share."
-      />
-      <JournalPanel entries={entries} />
-    </div>
+    <JournalPanel
+      entries={entries}
+      copy={content.insights}
+      locale={locale}
+      initialQuery={params.q ?? ""}
+    />
   );
 }

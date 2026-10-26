@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
+import { PortalIconBadge, growthDimensionIcon } from "@/components/client/portal/PortalIcon";
 import { ASSESSMENT_DIMENSIONS } from "@/lib/journey/constants";
 import { saveSelfAssessmentAction } from "@/lib/journey/journey-actions";
 import type { AssessmentPhase } from "@prisma/client";
@@ -58,7 +59,12 @@ export function SelfAssessmentForm({
         {ASSESSMENT_DIMENSIONS.map((dimension) => (
           <div key={dimension.key}>
             <div className="flex items-center justify-between gap-4">
-              <label htmlFor={dimension.key} className="type-body text-ink">
+              <label htmlFor={dimension.key} className="type-body flex items-center gap-2 text-ink">
+                <PortalIconBadge
+                  name={growthDimensionIcon(dimension.key)}
+                  tone={dimension.key === "emotionalBalance" || dimension.key === "connection" ? "sage" : "ivory"}
+                  className="h-7 w-7"
+                />
                 {dimension.label}
                 {dimension.inverted ? (
                   <span className="type-caption ml-2 text-ink-subtle">

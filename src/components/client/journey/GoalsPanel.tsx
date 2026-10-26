@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/Button";
 import { Field, Input, Textarea } from "@/components/ui/Field";
+import { PortalIconBadge } from "@/components/client/portal/PortalIcon";
 import { saveGoalAction } from "@/lib/journey/journey-actions";
 import type { JourneyGoal } from "@/lib/journey/journey-repository";
 import { cn } from "@/lib/utils";
@@ -50,7 +51,10 @@ export function GoalsPanel({ goals, showForm = true, compact = false }: GoalsPan
     <div className="layout-stack-lg">
       {showForm ? (
         <section className="observed-card p-6 md:p-8">
-          <h2 className="type-heading-sm">My intention</h2>
+          <h2 className="type-heading-sm flex items-center gap-2">
+            <PortalIconBadge name="sprout" tone="sage" className="h-8 w-8" />
+            My intention
+          </h2>
           <p className="type-body mt-2 text-ink-subtle">
             By the end of this journey, I want to…
           </p>
@@ -79,7 +83,12 @@ export function GoalsPanel({ goals, showForm = true, compact = false }: GoalsPan
       ) : null}
 
       <section>
-        {!compact ? <h2 className="type-heading-sm">What I&apos;m working on</h2> : null}
+        {!compact ? (
+          <h2 className="type-heading-sm flex items-center gap-2">
+            <PortalIconBadge name="leaf" tone="sand" className="h-8 w-8" />
+            What I&apos;m working on
+          </h2>
+        ) : null}
         {activeGoals.length === 0 ? (
           !compact ? (
             <p className="type-body mt-4 text-ink-subtle">

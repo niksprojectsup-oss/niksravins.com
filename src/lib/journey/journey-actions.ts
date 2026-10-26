@@ -5,9 +5,12 @@ import type {
   AssessmentPhase,
   CheckInMood,
   GoalStatus,
+  JournalCategory,
   JournalVisibility,
   TestimonialConsent,
 } from "@prisma/client";
+import { getPortalContent } from "@/content/i18n/portal";
+import { getPortalLocale } from "@/lib/i18n/portal-locale";
 import { getServerSession } from "@/lib/auth/session";
 import { isClientAuthSessionActive } from "@/lib/auth/client-repository";
 import { JourneyForbiddenError, JourneyError } from "./errors";
@@ -70,31 +73,47 @@ function revalidateJourneyPaths() {
   revalidatePath("/client/sessions");
 }
 
+const JOURNAL_CATEGORIES = ["PATTERN", "TRIGGER", "POSITIVE_OBSERVATION"] as const;
+
+function isJournalCategory(value: string): value is JournalCategory {
+  return (JOURNAL_CATEGORIES as readonly string[]).includes(value);
+}
+
+function isObservedOn(value: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(value);
+}
+
 export async function saveJournalEntryAction(
   input: {
     id?: string;
     content: string;
     prompt: string;
     visibility: JournalVisibility;
+    category: string;
+    observedOn: string;
   },
 ): Promise<JourneyActionState> {
   try {
     const { clientId } = await requireClientForJourneyAction();
+    const copy = getPortalContent(await getPortalLocale());
     const content = input.content.trim();
-    if (!content) return { error: "Please write something before saving." };
+    if (!content) return { error: copy.insights.contentRequired };
+    if (!isJournalCategory(input.category) || !isObservedOn(input.observedOn)) {
+      return { error: copy.insights.contentRequired };
+    }
+
+    const payload = {
+      content,
+      prompt: input.prompt,
+      visibility: input.visibility,
+      category: input.category,
+      observedOn: input.observedOn,
+    };
 
     if (input.id) {
-      await updateJournalEntry(clientId, input.id, {
-        content,
-        prompt: input.prompt,
-        visibility: input.visibility,
-      });
+      await updateJournalEntry(clientId, input.id, payload);
     } else {
-      await createJournalEntry(clientId, {
-        content,
-        prompt: input.prompt,
-        visibility: input.visibility,
-      });
+      await createJournalEntry(clientId, payload);
     }
     revalidateJourneyPaths();
     return { success: true };

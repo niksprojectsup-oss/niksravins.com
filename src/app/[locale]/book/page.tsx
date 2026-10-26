@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPublicContent } from "@/content/i18n";
+import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicBookPage } from "@/components/public/PublicBookPage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
-import {
-  ensureDefaultOffersSeeded,
-  getBookableServices,
-} from "@/lib/booking/services-catalog";
+import { applyOfferTranslations } from "@/lib/booking/localize-offer";
+import { getBookableServices } from "@/lib/booking/services-catalog";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +20,7 @@ export async function generateMetadata({
   const locale = parseLocaleParam(localeParam);
   if (!locale) return {};
 
-  const content = getPublicContent(locale);
+  const content = await getResolvedPublicContent(locale);
   return buildPublicMetadata({
     locale,
     page: "book",
@@ -39,9 +37,8 @@ export default async function LocaleBookPage({ params }: LocaleBookPageProps) {
     notFound();
   }
 
-  const content = getPublicContent(locale);
-  await ensureDefaultOffersSeeded();
-  const offers = await getBookableServices();
+  const content = await getResolvedPublicContent(locale);
+  const offers = applyOfferTranslations(await getBookableServices(), content.bookingOffers);
 
   return <PublicBookPage content={content} locale={locale} offers={offers} />;
 }

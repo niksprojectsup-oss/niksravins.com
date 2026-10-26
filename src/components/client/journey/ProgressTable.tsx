@@ -1,3 +1,4 @@
+import { PortalIconBadge, growthDimensionIcon } from "@/components/client/portal/PortalIcon";
 import type { JourneyDashboardData } from "@/lib/journey/journey-repository";
 import { PortalCard } from "./PortalShell";
 
@@ -37,7 +38,14 @@ export function ProgressTable({ progress, compact = false }: ProgressTableProps)
           >
             <div className="flex items-center justify-between gap-4">
               <div className="min-w-0 flex-1">
-                <p className="type-body text-ink">{row.label}</p>
+                <p className="type-body flex items-center gap-2 text-ink">
+                  <PortalIconBadge
+                    name={growthDimensionIcon(row.key)}
+                    tone={row.key === "emotionalBalance" || row.key === "connection" ? "sage" : "ivory"}
+                    className="h-7 w-7"
+                  />
+                  {row.label}
+                </p>
                 <div className="mt-2 h-2 overflow-hidden rounded-full bg-surface">
                   <div
                     className="h-full rounded-full bg-accent/70 transition-all"

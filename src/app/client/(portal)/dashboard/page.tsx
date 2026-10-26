@@ -1,15 +1,31 @@
 import { notFound } from "next/navigation";
-import { TransformationDashboard } from "@/components/client/journey/TransformationDashboard";
+import { PortalHome } from "@/components/client/portal/PortalHome";
+import { getPortalContent } from "@/content/i18n/portal";
 import { requireClient } from "@/lib/auth/client-guards";
-import { getJourneyDashboard } from "@/lib/journey/journey-repository";
+import { getPortalLocale } from "@/lib/i18n/portal-locale";
+import { getPortalHome } from "@/lib/journey/journey-repository";
 
-export default async function ClientDashboardPage() {
+type ClientDashboardPageProps = {
+  searchParams: Promise<{ q?: string }>;
+};
+
+export default async function ClientDashboardPage({ searchParams }: ClientDashboardPageProps) {
   const session = await requireClient();
-  const data = await getJourneyDashboard(session.clientId!);
+  const locale = await getPortalLocale();
+  const params = await searchParams;
+  const data = await getPortalHome(session.clientId!);
 
   if (!data) {
     notFound();
   }
 
-  return <TransformationDashboard data={data} />;
+  return (
+    <PortalHome
+      data={data}
+      content={getPortalContent(locale)}
+      locale={locale}
+      initialQuery={params.q}
+      asOf={new Date().toISOString()}
+    />
+  );
 }

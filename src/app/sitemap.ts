@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import {
   LOCALIZED_PUBLIC_PAGES,
+  LOCALE_DEFINITIONS,
   type LocalizedPublicPage,
 } from "@/lib/i18n/config";
 import { getPublishedLocalesForPage, localizedPath } from "@/lib/i18n/paths";
@@ -33,8 +34,7 @@ function buildSitemapAlternates(page: LocalizedPublicPage): Record<string, strin
   const languages: Record<string, string> = {};
 
   for (const locale of locales) {
-    const hreflang = locale === "zh" ? "zh-Hans" : locale;
-    languages[hreflang] = absoluteUrl(localizedPath(locale, page));
+    languages[LOCALE_DEFINITIONS[locale].hreflang] = absoluteUrl(localizedPath(locale, page));
   }
 
   languages["x-default"] = absoluteUrl(localizedPath("en", page));

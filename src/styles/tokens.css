@@ -6,6 +6,7 @@
 :root {
   /* ── Color: canvas & surfaces ───────────────────────────── */
   --nr-canvas: #f6f3ee;
+  --home-split-gap: 25mm;
   --nr-surface: #fdfcfa;
   --nr-surface-muted: #ede8e0;
   --nr-surface-elevated: #ffffff;

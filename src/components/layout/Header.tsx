@@ -53,7 +53,7 @@ export function Header({ content, locale }: HeaderProps) {
         </Link>
 
         <nav
-          aria-label="Primary"
+          aria-label={content.header.primaryNavLabel}
           className="hidden min-w-0 flex-1 items-center justify-center gap-6 xl:gap-8 lg:flex"
         >
           {content.navigation.map((item) => (
@@ -85,7 +85,7 @@ export function Header({ content, locale }: HeaderProps) {
             className="flex h-11 w-11 items-center justify-center text-ink"
             aria-expanded={menuOpen}
             aria-controls="mobile-nav"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
+            aria-label={menuOpen ? content.header.closeMenu : content.header.openMenu}
             onClick={() => setMenuOpen((open) => !open)}
           >
             <svg
@@ -140,7 +140,7 @@ export function Header({ content, locale }: HeaderProps) {
 
       <nav
         id="mobile-nav"
-        aria-label="Mobile"
+        aria-label={content.header.mobileNavLabel}
         className={cn(
           "border-t border-border-subtle bg-canvas lg:hidden",
           menuOpen ? "block" : "hidden",

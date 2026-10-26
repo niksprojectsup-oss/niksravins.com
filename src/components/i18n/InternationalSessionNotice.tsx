@@ -13,6 +13,10 @@ export function InternationalSessionNotice({
   className,
   variant = "default",
 }: InternationalSessionNoticeProps) {
+  if (!line1.trim() && !line2.trim()) {
+    return null;
+  }
+
   return (
     <p
       className={cn(

@@ -50,6 +50,12 @@ enum JournalVisibility {
   SHARED
 }
 
+enum JournalCategory {
+  PATTERN
+  TRIGGER
+  POSITIVE_OBSERVATION
+}
+
 enum TestimonialConsent {
   PRIVATE
   ANONYMOUS
@@ -325,6 +331,8 @@ model ClientJournalEntry {
   content    String
   prompt     String            @default("")
   visibility JournalVisibility @default(PRIVATE)
+  category   JournalCategory?
+  observedOn String?
   createdAt  DateTime          @default(now())
   updatedAt  DateTime          @updatedAt
 
@@ -332,6 +340,7 @@ model ClientJournalEntry {
 
   @@index([clientId, createdAt])
   @@index([clientId, visibility])
+  @@index([clientId, category])
 }
 
 model ClientCheckIn {
@@ -651,6 +660,36 @@ model CmsContentItem {
 
   @@unique([sectionId, locale, fieldKey])
   @@index([sectionId, locale])
+}
+
+model TranslationEntry {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  page      String
+  section   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  values TranslationValue[]
+
+  @@index([page, section])
+  @@index([sortOrder])
+}
+
+model TranslationValue {
+  id             String   @id @default(cuid())
+  entryId        String
+  locale         String
+  draftValue     String   @db.Text
+  publishedValue String?  @db.Text
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  entry TranslationEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+
+  @@unique([entryId, locale])
+  @@index([locale])
 }
 
 model BookingSettings {

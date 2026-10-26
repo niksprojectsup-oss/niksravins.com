@@ -1,3 +1,4 @@
+import { PortalIcon, PortalIconBadge, checkInMoodIcon } from "@/components/client/portal/PortalIcon";
 import { CHECK_IN_MOODS } from "@/lib/journey/constants";
 import type { JourneyCheckIn } from "@/lib/journey/journey-repository";
 
@@ -16,7 +17,10 @@ export function EmotionalJourneyChart({ checkIns }: { checkIns: JourneyCheckIn[]
 
   return (
     <div className="observed-card p-6 md:p-8">
-      <h2 className="type-heading-sm">Your self-reflection over time</h2>
+      <h2 className="type-heading-sm flex items-center gap-2">
+        <PortalIconBadge name="heartPulse" tone="sage" className="h-8 w-8" />
+        Your self-reflection over time
+      </h2>
       <p className="type-caption mt-2">
         Emotional intensity and moods from your check-ins — personal reflection, not clinical diagnosis.
       </p>
@@ -52,7 +56,10 @@ export function EmotionalJourneyChart({ checkIns }: { checkIns: JourneyCheckIn[]
           .map((checkIn) => (
             <li key={checkIn.id} className="border-t border-border-subtle pt-4 first:border-t-0 first:pt-0">
               <p className="type-caption">{checkIn.checkInDate}</p>
-              <p className="type-body mt-1">
+              <p className="type-body mt-1 inline-flex items-center gap-2">
+                {checkIn.mood ? (
+                  <PortalIcon name={checkInMoodIcon(checkIn.mood)} className="h-4 w-4 text-[#3f6b4e]" />
+                ) : null}
                 {CHECK_IN_MOODS.find((m) => m.key === checkIn.mood)?.label} · intensity{" "}
                 {checkIn.intensity}/10
               </p>

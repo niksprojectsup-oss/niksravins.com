@@ -139,7 +139,12 @@ export async function updateOfferAction(id: string, formData: FormData) {
     }
   }
 
-  await updateOffer(id, parsed.data);
+  try {
+    await updateOffer(id, parsed.data);
+  } catch (error) {
+    console.error("Failed to update offer:", error);
+    return { error: "Unable to save offer. Please try again." };
+  }
 
   await logAuditEvent({
     action: "offer.update",
@@ -150,6 +155,8 @@ export async function updateOfferAction(id: string, formData: FormData) {
   });
 
   revalidatePath("/admin/packages");
+  revalidatePath(`/admin/packages/${id}/edit`);
   revalidatePath("/book");
+  revalidatePath("/[locale]/book");
   redirect("/admin/packages");
 }
