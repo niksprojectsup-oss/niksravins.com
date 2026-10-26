@@ -52,8 +52,8 @@ export function AdminCalendar({
     }
 
     for (let day = 1; day <= lastDay.getDate(); day++) {
-      const date = new Date(year, month, day);
-      cells.push({ date: date.toISOString().slice(0, 10), dayNumber: day });
+      const dateKey = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+      cells.push({ date: dateKey, dayNumber: day });
     }
 
     return cells;
