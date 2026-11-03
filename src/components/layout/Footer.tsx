@@ -8,9 +8,10 @@ import { LanguageSwitcher } from "@/components/i18n/LanguageSwitcher";
 type FooterProps = {
   content: PublicContent;
   locale: Locale;
+  hideBookingLink?: boolean;
 };
 
-export function Footer({ content, locale }: FooterProps) {
+export function Footer({ content, locale, hideBookingLink = false }: FooterProps) {
   const year = new Date().getFullYear();
   const homePath = localizedPath(locale, "");
   const sessionNotice = [content.internationalNotice.line1, content.internationalNotice.line2]
@@ -52,14 +53,16 @@ export function Footer({ content, locale }: FooterProps) {
                     </Link>
                   </li>
                 ))}
-                <li>
-                  <Link
-                    href={content.site.bookingUrl}
-                    className="type-caption text-ink-subtle no-underline hover:text-ink"
-                  >
-                    {content.header.book}
-                  </Link>
-                </li>
+                {!hideBookingLink ? (
+                  <li>
+                    <Link
+                      href={content.site.bookingUrl}
+                      className="type-caption text-ink-subtle no-underline hover:text-ink"
+                    >
+                      {content.header.book}
+                    </Link>
+                  </li>
+                ) : null}
               </ul>
             </nav>
             <LanguageSwitcher label={content.languageSwitcherLabel} />

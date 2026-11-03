@@ -9,6 +9,10 @@ import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { DEFAULT_LOCALE, type Locale } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/i18n/paths";
+import {
+  isLatvianBookingEnabled,
+  shouldBlockLatvianBooking,
+} from "@/lib/booking/feature-flags";
 
 export async function POST(request: Request) {
   let locale: Locale = DEFAULT_LOCALE;
@@ -71,6 +75,13 @@ export async function POST(request: Request) {
     const amountCents = await getOfferPriceCents(bookingRequest.serviceId);
     if (!amountCents || amountCents <= 0) {
       return NextResponse.json({ error: checkoutCopy.invalidPrice }, { status: 400 });
+    }
+
+    if (shouldBlockLatvianBooking(locale, await isLatvianBookingEnabled())) {
+      return NextResponse.json(
+        { error: "Online booking in Latvian is currently unavailable." },
+        { status: 403 },
+      );
     }
 
     const origin = new URL(request.url).origin;

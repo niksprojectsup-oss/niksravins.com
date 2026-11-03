@@ -19,15 +19,16 @@ type PublicHomePageProps = {
   content: PublicContent;
   locale: Locale;
   cmsHtmlFields?: CmsHtmlFields;
+  hideBookingCta?: boolean;
 };
 
-export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHomePageProps) {
+export function PublicHomePage({ content, locale, cmsHtmlFields = {}, hideBookingCta = false }: PublicHomePageProps) {
   return (
     <div className="min-h-screen bg-[#F5F1E8] text-[#2B2B27]">
       <JsonLd data={buildHomeJsonLd(content)} />
-      <Header content={content} locale={locale} />
+      <Header content={content} locale={locale} hideBookingLink={hideBookingCta} />
       <main>
-        <Hero content={content} cmsHtmlFields={cmsHtmlFields} />
+        <Hero content={content} cmsHtmlFields={cmsHtmlFields} hidePrimaryCta={hideBookingCta} />
         <HomeFoundationSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <HomeWantChangeSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <HomeAlignmentSection content={content} cmsHtmlFields={cmsHtmlFields} />
@@ -35,9 +36,9 @@ export function PublicHomePage({ content, locale, cmsHtmlFields = {} }: PublicHo
         <HomeIdentityShiftsSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <HomeRootsSection content={content} cmsHtmlFields={cmsHtmlFields} />
         <HomeFaqSection content={content} cmsHtmlFields={cmsHtmlFields} />
-        <FinalCTA content={content} cmsHtmlFields={cmsHtmlFields} />
+        <FinalCTA content={content} cmsHtmlFields={cmsHtmlFields} hideButton={hideBookingCta} />
       </main>
-      <Footer content={content} locale={locale} />
+      <Footer content={content} locale={locale} hideBookingLink={hideBookingCta} />
     </div>
   );
 }

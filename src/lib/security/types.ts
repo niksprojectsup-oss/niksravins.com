@@ -29,6 +29,7 @@ export type AuditAction =
   | "data.export"
   | "data.delete"
   | "availability.update"
+  | "settings.latvian_booking.update"
   | "offer.create"
   | "offer.update"
   | "store_product.create"

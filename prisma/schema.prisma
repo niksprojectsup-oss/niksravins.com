@@ -699,6 +699,7 @@ model BookingSettings {
   bufferMinutes   Int      @default(15)
   horizonDays     Int      @default(56)
   slotStepMinutes Int      @default(15)
+  latvianBookingEnabled Boolean @default(true)
   updatedAt       DateTime @updatedAt
 }
 

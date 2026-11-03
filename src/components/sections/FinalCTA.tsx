@@ -11,9 +11,10 @@ import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 type FinalCTAProps = {
   content: PublicContent;
   cmsHtmlFields?: CmsHtmlFields;
+  hideButton?: boolean;
 };
 
-export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
+export function FinalCTA({ content, cmsHtmlFields = {}, hideButton = false }: FinalCTAProps) {
   const { finalCta, internationalNotice, sectionLabels } = content;
 
   return (
@@ -34,6 +35,7 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
         />
 
         <div className="mt-5 flex flex-col gap-5 md:mt-6 md:gap-6 sm:flex-row sm:items-center">
+          {!hideButton ? (
           <Button href={finalCta.button.href} variant="booking">
             <CmsPublishedFieldText
               html={cmsHtmlFields["finalCta.button.label"]}
@@ -41,6 +43,7 @@ export function FinalCTA({ content, cmsHtmlFields = {} }: FinalCTAProps) {
               className={CMS_PUBLISHED_INLINE_CLASS}
             />
           </Button>
+          ) : null}
         </div>
       </div>
     </Section>

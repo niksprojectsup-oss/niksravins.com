@@ -1,10 +1,13 @@
 import { AdminPageHeader, AdminPanel } from "@/components/admin/AdminPageHeader";
 import { AvailabilitySettingsForm } from "@/components/admin/AvailabilitySettingsForm";
+import { LatvianBookingToggle } from "@/components/admin/LatvianBookingToggle";
 import { adminPages } from "@/content/admin";
 import { getAvailabilityConfig } from "@/lib/booking/availability/config-repository";
+import { isLatvianBookingEnabled } from "@/lib/booking/feature-flags";
 
 export default async function AdminSettingsPage() {
   const config = await getAvailabilityConfig();
+  const latvianBookingEnabled = await isLatvianBookingEnabled();
 
   return (
     <div className="layout-stack-lg max-w-wide">
@@ -12,6 +15,10 @@ export default async function AdminSettingsPage() {
         title={adminPages.settings.title}
         description={adminPages.settings.description}
       />
+
+      <AdminPanel title="Latvian Booking">
+        <LatvianBookingToggle initialEnabled={latvianBookingEnabled} />
+      </AdminPanel>
 
       <AdminPanel title="Online availability">
         <AvailabilitySettingsForm

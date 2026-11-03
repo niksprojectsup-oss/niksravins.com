@@ -4,6 +4,10 @@ import { PublicHomePage } from "@/components/public/PublicHomePage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
 import { getPublicHomeContent, getPublicHomeMetadata } from "@/lib/cms/public-content";
+import {
+  isLatvianBookingEnabled,
+  shouldBlockLatvianBooking,
+} from "@/lib/booking/feature-flags";
 
 export const dynamic = "force-dynamic";
 
@@ -41,6 +45,10 @@ export default async function LocaleHomePage({ params }: LocaleHomePageProps) {
   }
 
   const { content, cmsHtmlFields } = await getPublicHomeContent(locale);
+  const hideBookingCta = shouldBlockLatvianBooking(
+    locale,
+    await isLatvianBookingEnabled(),
+  );
 
-  return <PublicHomePage content={content} locale={locale} cmsHtmlFields={cmsHtmlFields} />;
+  return <PublicHomePage content={content} locale={locale} cmsHtmlFields={cmsHtmlFields} hideBookingCta={hideBookingCta} />;
 }

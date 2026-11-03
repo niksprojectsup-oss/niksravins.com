@@ -11,12 +11,13 @@ import { cn } from "@/lib/utils";
 type HeaderProps = {
   content: PublicContent;
   locale: Locale;
+  hideBookingLink?: boolean;
 };
 
 const navLinkClass =
   "type-caption text-ink-subtle no-underline transition-colors duration-300 hover:text-ink";
 
-export function Header({ content, locale }: HeaderProps) {
+export function Header({ content, locale, hideBookingLink = false }: HeaderProps) {
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const homePath = localizedPath(locale, "");
@@ -61,12 +62,14 @@ export function Header({ content, locale }: HeaderProps) {
               {item.label}
             </Link>
           ))}
-          <Link
-            href={content.site.bookingUrl}
-            className="type-caption font-medium text-accent no-underline transition-colors duration-300 hover:text-accent-strong"
-          >
-            {content.header.book}
-          </Link>
+          {!hideBookingLink ? (
+            <Link
+              href={content.site.bookingUrl}
+              className="type-caption font-medium text-accent no-underline transition-colors duration-300 hover:text-accent-strong"
+            >
+              {content.header.book}
+            </Link>
+          ) : null}
         </nav>
 
         <div className="hidden shrink-0 items-center gap-3 lg:flex">
@@ -158,15 +161,17 @@ export function Header({ content, locale }: HeaderProps) {
               </Link>
             </li>
           ))}
-          <li>
-            <Link
-              href={content.site.bookingUrl}
-              className="block py-4 font-display text-2xl text-accent no-underline"
-              onClick={() => setMenuOpen(false)}
-            >
-              {content.header.book}
-            </Link>
-          </li>
+          {!hideBookingLink ? (
+            <li>
+              <Link
+                href={content.site.bookingUrl}
+                className="block py-4 font-display text-2xl text-accent no-underline"
+                onClick={() => setMenuOpen(false)}
+              >
+                {content.header.book}
+              </Link>
+            </li>
+          ) : null}
           <li className="pt-6">
             <LanguageSwitcher label={content.languageSwitcherLabel} />
           </li>

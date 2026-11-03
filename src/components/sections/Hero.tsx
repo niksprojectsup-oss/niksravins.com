@@ -11,9 +11,10 @@ import type { CmsHtmlFields } from "@/lib/cms/published-field-html";
 type HeroProps = {
   content: PublicContent;
   cmsHtmlFields?: CmsHtmlFields;
+  hidePrimaryCta?: boolean;
 };
 
-export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
+export function Hero({ content, cmsHtmlFields = {}, hidePrimaryCta = false }: HeroProps) {
   const { hero, internationalNotice } = content;
 
   return (
@@ -31,15 +32,17 @@ export function Hero({ content, cmsHtmlFields = {} }: HeroProps) {
             />
           </h1>
 
-          <div className="home-hero-actions flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Button href={hero.primaryCta.href} variant="booking">
-              <CmsPublishedFieldText
-                html={cmsHtmlFields["hero.primaryCta.label"]}
-                fallback={hero.primaryCta.label}
-                className={CMS_PUBLISHED_INLINE_CLASS}
-              />
-            </Button>
-          </div>
+          {!hidePrimaryCta ? (
+            <div className="home-hero-actions flex flex-col gap-4 sm:flex-row sm:items-center">
+              <Button href={hero.primaryCta.href} variant="booking">
+                <CmsPublishedFieldText
+                  html={cmsHtmlFields["hero.primaryCta.label"]}
+                  fallback={hero.primaryCta.label}
+                  className={CMS_PUBLISHED_INLINE_CLASS}
+                />
+              </Button>
+            </div>
+          ) : null}
 
           <InternationalSessionNotice
             line1={internationalNotice.line1}
