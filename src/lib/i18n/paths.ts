@@ -51,5 +51,9 @@ export function getPublishedLocalesForPage(page: LocalizedPublicPage): Locale[] 
 }
 
 export function localeHasPage(_locale: Locale, _page: LocalizedPublicPage): boolean {
+  // Identity test pagaidām publicēts tikai LV/EN — pārējās valodas pēc satura apstiprināšanas.
+  if (_page === "identity-test") {
+    return _locale === "en" || _locale === "lv";
+  }
   return PUBLISHED_LOCALES.includes(_locale);
 }

@@ -37,6 +37,7 @@ export const lvContent: PublicContent = {
     { label: "Identitātes pārmaiņas", href: "#identity-shifts" },
     { label: "BUJ", href: "#faq" },
     { label: "Saziņa", href: "#contact" },
+    { label: "Identitātes Tests", href: "/lv/identity-test" },
   ],
   hero: {
     name: "Niks Ravins",
@@ -529,6 +530,67 @@ export const lvContent: PublicContent = {
     rights: "Visas tiesības aizsargātas.",
     backToTop: "Uz augšu",
     navLabel: "Kājene",
+  },
+  identityTest: {
+    seo: {
+      title: "Identitātes tests — Niks Ravins",
+      description:
+        "Atzīmē iekšējos uzskatus, kuros atpazīsti sevi, un saņem divus personalizētus portretus: kā šie uzskati ietekmē tavu ikdienu un kā varētu izskatīties dzīve pēc darba ar tiem.",
+    },
+    intro: {
+      title: "IERAUGI, KAS TEVI VADA.",
+      subtitle: "Tavi iekšējie uzskati. Tava ikdiena. Tavas attiecības.",
+      lead: "Atzīmē apgalvojumus, kuros atpazīsti sevi. Izvēlies tos, kuri visprecīzāk raksturo tavas domas, reakcijas vai ierasto rīcību.",
+      note: "Nav jāizvēlas visi. Izvēlies tikai tos, kuri tev patiešām šķiet atbilstoši.",
+      startCta: "Sākt testu",
+    },
+    steps: ["Ievads", "Tēmas", "Uzskati", "Pārskats", "E-pasts"],
+    themeStep: {
+      heading: "Izvēlies vienu tēmu vai apskati visas.",
+      allThemes: "Apskatīt visas tēmas",
+      next: "Turpināt",
+      back: "Atpakaļ",
+    },
+    beliefStep: {
+      selectedSuffix: "izvēlēti",
+      next: "Turpināt",
+      back: "Atpakaļ",
+    },
+    review: {
+      heading: "Tava izvēle",
+      subheading: "Pārskati atzīmētos apgalvojumus — vari labot, ja vajag.",
+      submitCta: "Saņemt manu personīgo rezultātu",
+      back: "Atpakaļ",
+    },
+    emailStep: {
+      heading: "Uz kuru e-pastu nosūtīt rezultātu?",
+      lead: "Nosūtīsim abus tavus personalizētos portretus:",
+      lead1: "1. Kā izvēlētie uzskati var ietekmēt tavu ikdienu, emocijas un attiecības.",
+      lead2: "2. Kā varētu izskatīties tava dzīve pēc darba ar šiem uzskatiem.",
+      privacyNote: "E-pasta ievade ir nepieciešama rezultāta piegādei.",
+      emailLabel: "E-pasta adrese",
+      emailPlaceholder: "tavs@epasts.lv",
+      submitCta: "Nosūtīt manu rezultātu",
+      sendingLabel: "Sūta…",
+    },
+    confirmation: {
+      heading: "Rezultāts ir ceļā",
+      body: "Tavs personīgais rezultāts ir nosūtīts uz norādīto e-pasta adresi.",
+      spamNote: "Lūdzu, pārbaudi arī mēstuļu mapi.",
+      sessionLead:
+        "Ja šajā aprakstā atpazini savus ikdienas modeļus, iespējams, ir pienācis laiks pievērsties uzskatiem, kas tos uztur. Individuālā sesijā varam izpētīt, kuri no šiem uzskatiem tev ir būtiskākie un kā ar tiem strādāt.",
+      sessionCta: "Pieteikties individuālai sesijai",
+    },
+    crisis: {
+      heading: "Atbalsts ir pieejams",
+      body: "Šis tests nav krīzes izvērtēšanas instruments. Ja tu vai kāds tuvinieks atrodies tūlītējā apdraudējumā, zvani 112 vai 113. Mēs iesakām sazināties ar uzticamu cilvēku un kvalificētu krīzes vai veselības aprūpes speciālistu.",
+    },
+    errors: {
+      generic: "Radās kļūda. Lūdzu, mēģini vēlreiz.",
+      invalidEmail: "Lūdzu, ievadi derīgu e-pasta adresi.",
+      sendFailed: "Rezultātu neizdevās nosūtīt. Lūdzu, mēģini vēlreiz.",
+      retry: "Mēģināt vēlreiz",
+    },
   },
   languageSwitcherLabel: "Izvēlēties valodu",
 };

@@ -1,0 +1,643 @@
+[
+  {
+    "slug": "self-worth",
+    "nameLv": "Pašvērtība un identitāte",
+    "nameEn": "Self-Worth and Identity",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Nepietiekamība un mazvērtība",
+        "flags": [],
+        "beliefs": [
+          "Es neesmu pietiekami labs, lai mani patiesi mīlētu.",
+          "Citi cilvēki ir vērtīgāki, interesantāki un labāki par mani.",
+          "Man vienmēr kaut kā pietrūkst, lai būtu pietiekams.",
+          "Es neesmu pelnījis labu dzīvi, mīlestību un laimi."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Ārējais apstiprinājums un pieņemšana",
+        "flags": [],
+        "beliefs": [
+          "Mana vērtība ir atkarīga no tā, ko par mani domā citi.",
+          "Man ir jāizpatīk citiem, lai mani pieņemtu un mīlētu.",
+          "Ja kāds mani kritizē, tas nozīmē, ka ar mani kaut kas nav kārtībā.",
+          "Man ir nepieciešama citu uzmanība un apbrīna, lai justos vērtīgs."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Kauns un sevis slēpšana",
+        "flags": [],
+        "beliefs": [
+          "Ja cilvēki iepazīs mani patieso, viņi mani nepieņems.",
+          "Man ir jāslēpj savas nepilnības, lai nezaudētu citu cieņu.",
+          "Es nedrīkstu kļūdīties, jo tad zaudēšu savu vērtību.",
+          "Man ir jāizliekas stiprākam, pārliecinātākam vai veiksmīgākam, nekā patiesībā jūtos."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Sasniegumi un pašvērtība",
+        "flags": [],
+        "beliefs": [
+          "Mana vērtība ir atkarīga no tā, ko esmu sasniedzis.",
+          "Man nepārtraukti jāpierāda, ka esmu kaut ko vērts.",
+          "Es drīkstu būt apmierināts ar sevi tikai tad, kad esmu sasniedzis vairāk.",
+          "Ja neesmu noderīgs citiem, es nejūtos vajadzīgs un nozīmīgs."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Identitāte un tiesības būt sev",
+        "flags": [],
+        "beliefs": [
+          "Man jāpielāgojas citiem, lai nezaudētu viņu pieņemšanu.",
+          "Es nezinu, kas es esmu, ja neskatos uz sevi caur citu vērtējumu.",
+          "Manas patiesās vēlmes un vajadzības nav tik svarīgas kā citu cilvēku vēlmes.",
+          "Es nevaru būt pilnībā es pats un vienlaikus būt pieņemts un mīlēts."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "relationships",
+    "nameLv": "Attiecības, tuvība un piesaiste",
+    "nameEn": "Relationships, Intimacy and Attachment",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Pamešana un emocionālā nedrošība",
+        "flags": [],
+        "beliefs": [
+          "Es baidos, ka cilvēks, kuru mīlu, agrāk vai vēlāk mani pametīs.",
+          "Man ir jācenšas vairāk nekā otram, lai viņš paliktu ar mani.",
+          "Ja partneris kļūst vēsāks vai attālinās, es uzreiz domāju, ka vairs neesmu viņam svarīgs.",
+          "Man ir grūti justies droši attiecībās, pat tad, ja partneris man apliecina savu mīlestību."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Uzticēšanās, greizsirdība un kontrole",
+        "flags": [],
+        "beliefs": [
+          "Es nevaru pilnībā uzticēties partnerim, jo viņš var mani pievilt vai nodot.",
+          "Man ir jāzina, kur partneris ir, ar ko viņš ir un ko dara.",
+          "Ja partneris pievērš uzmanību citiem, es jūtos apdraudēts un mazāk vērtīgs.",
+          "Man ir jāuzrauga attiecības, lai nepieļautu to sabrukumu."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Tuvības bailes un emocionāla nepieejamība",
+        "flags": [],
+        "beliefs": [
+          "Ja kādam ļaušu pietuvoties pārāk tuvu, viņš var mani sāpināt.",
+          "Man ir vieglāk attālināties nekā atklāti parādīt, ko patiesībā jūtu.",
+          "Kad attiecībās kļūst pārāk tuvi, man rodas vēlme aizbēgt vai noslēgties.",
+          "Es nespēju pilnībā atslābt un būt es pats pat ar cilvēku, kuru mīlu."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Pielāgošanās, vajadzības un robežas",
+        "flags": [],
+        "beliefs": [
+          "Man ir jāatsakās no savām vajadzībām, lai saglabātu attiecības.",
+          "Ja pateikšu, ko patiesībā vēlos, partneris var mani noraidīt.",
+          "Es jūtos atbildīgs par partnera emocijām un viņa labsajūtu.",
+          "Man ir grūti pateikt, ko vēlos, un pieprasīt attiecībās to, kas man ir svarīgs."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Konflikti, pašsabotāža un mīlestības pieredze",
+        "flags": [],
+        "beliefs": [
+          "Man ir jāizraisa partnera reakcija, lai pārliecinātos, ka viņam rūpu.",
+          "Es attālinos, klusēju vai liedzu tuvību, kad jūtos aizvainots vai nesaprasts.",
+          "Es atkārtoju attiecību modeļus, kuri mani sāpina, pat ja apzinos to sekas.",
+          "Es neticu, ka varu piedzīvot mīlestību bez cīņas, spriedzes un emocionālām sāpēm."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "family",
+    "nameLv": "Ģimene, bērnība un vecāku ietekme",
+    "nameEn": "Family, Childhood and Parental Influence",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Emocionāla nevērība un nepiepildītas vajadzības",
+        "flags": [],
+        "beliefs": [
+          "Bērnībā manas emocijas un vajadzības nebija pietiekami svarīgas.",
+          "Manas vajadzības ir apgrūtinājums citiem cilvēkiem.",
+          "Man jāspēj tikt galā pašam, jo uz citiem nevar paļauties.",
+          "Neviens mani īsti nesaprot, tāpēc man jāpaliek vienam ar savām izjūtām."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Kritika, kauns un bailes kļūdīties",
+        "flags": [],
+        "beliefs": [
+          "Es nekad neesmu pietiekami labs savu vecāku acīs.",
+          "Kļūdas nozīmē, ka esmu slikts un nekompetents.",
+          "Man jāslēpj savs patiesais viedoklis, lai izvairītos no kritikas.",
+          "Es esmu atbildīgs par to, lai vecāki ar mani lepotos."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Nosacīta mīlestība un pieņemšana",
+        "flags": [],
+        "beliefs": [
+          "Mani mīl tikai tad, ja es uzvedos pareizi.",
+          "Man jāizpilda citu gaidas, lai nezaudētu viņu mīlestību.",
+          "Ja esmu citāds nekā ģimene, es viņus nododu.",
+          "Lai mani pieņemtu, man jāslēpj tas, ko patiesībā vēlos."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Priekšlaicīga atbildība un ģimenes lomas",
+        "flags": [],
+        "beliefs": [
+          "Man jau bērnībā bija jāparūpējas par visiem pārējiem.",
+          "Es esmu atbildīgs par vecāku emocijām un viņu laimi.",
+          "Man jābūt stipram, jo ģimenē nav vietas manam vājumam.",
+          "Es drīkstu justies labi tikai tad, ja visiem apkārt viss ir kārtībā."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Vaina, lojalitāte un ģimenes noteikumi",
+        "flags": [],
+        "beliefs": [
+          "Ja izvēlos sevi, esmu egoists un slikts ģimenes loceklis.",
+          "Esmu parādā vecākiem par visu, ko viņi man devuši.",
+          "Man jāklusē par ģimenes problēmām, lai neizjauktu ģimeni.",
+          "Es nevaru dzīvot citādi, jo man jāpaliek uzticīgam ģimenes liktenim."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "safety-control",
+    "nameLv": "Drošība, kontrole un bailes",
+    "nameEn": "Safety, Control and Fear",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Pastāvīga apdraudējuma sajūta",
+        "flags": [],
+        "beliefs": [
+          "Ar mani jebkurā brīdī var notikt kaut kas slikts.",
+          "Pasaule ir bīstama vieta, un es nevaru sevi pasargāt.",
+          "Es nekad nevaru pilnībā atslābt, jo kaut kas var notikt.",
+          "Ja neesmu uzmanīgs, es nepamanīšu briesmas."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Kontrole un vajadzība visu paredzēt",
+        "flags": [],
+        "beliefs": [
+          "Man viss jākontrolē, lai justos drošībā.",
+          "Ja nezinu, kas notiks, es nevaru justies mierīgi.",
+          "Man pašam jāparedz un jānovērš visas iespējamās problēmas.",
+          "Ja kaut kas nenotiek pēc mana plāna, es zaudēju drošības sajūtu."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Uzticēšanās un paļaušanās",
+        "flags": [],
+        "beliefs": [
+          "Es nevaru uzticēties cilvēkiem, jo viņi mani pievils.",
+          "Paļauties uz citiem ir bīstami.",
+          "Ja parādīšu ievainojamību, kāds to izmantos pret mani.",
+          "Man vienmēr jāpaļaujas tikai uz sevi."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Bailes no zaudējuma un neveiksmes",
+        "flags": [],
+        "beliefs": [
+          "Ja zaudēšu to, kas man ir, es nespēšu to pārdzīvot.",
+          "Kļūdīties ir bīstami, jo sekas var visu sabojāt.",
+          "Ja zaudēšu kontroli pār situāciju, viss sabruks.",
+          "Man jāizvairās no riskiem, lai nekad netiktu sāpināts."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Bezspēcība un rīcībspēja",
+        "flags": [],
+        "beliefs": [
+          "Es nespēju ietekmēt to, kas ar mani notiek.",
+          "Man nav neviena, kas mani pasargātu, tāpēc esmu viens.",
+          "Es nevaru tikt galā ar spēcīgām emocijām un bailēm.",
+          "Tikai tad, ja esmu pilnībā gatavs, drīkstu rīkoties."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "emotions",
+    "nameLv": "Emocijas un iekšējā pasaule",
+    "nameEn": "Emotions and Inner World",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Emociju apspiešana un noliegšana",
+        "flags": [],
+        "beliefs": [
+          "Manas emocijas ir traucēklis, un man tās jāapslāpē.",
+          "Man nav tiesību justies slikti, ja citiem klājas grūtāk.",
+          "Man jābūt stipram un jāizliekas, ka viss ir kārtībā.",
+          "Ja sākšu just savas emocijas, es zaudēšu kontroli."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Kauns un ievainojamība",
+        "flags": [],
+        "beliefs": [
+          "Raudāt un izrādīt jūtas nozīmē būt vājam.",
+          "Man ir kauns par to, ko patiesībā jūtu.",
+          "Ja parādīšu, ka esmu sāpināts, citi izmantos manu vājumu.",
+          "Manas dusmas padara mani par sliktu cilvēku."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Emocionāla atkarība un ārējs apstiprinājums",
+        "flags": [],
+        "beliefs": [
+          "Es jūtos labi tikai tad, ja citi ir apmierināti ar mani.",
+          "Ja kāds ir neapmierināts ar mani, es jūtos vainīgs.",
+          "Man vajadzīga citu uzmanība, lai justos emocionāli piepildīts.",
+          "Ja kāds mani nesaprot, es jūtos noraidīts un nevērtīgs."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Emocionāla noslēgšanās un izvairīšanās",
+        "flags": [],
+        "beliefs": [
+          "Vieglāk ir neko nejust, nekā piedzīvot sāpes.",
+          "Man jānovērš uzmanība, lai nebūtu jāpaliek ar sevi.",
+          "Ja atklāšu savas jūtas, kļūšu atkarīgs no otra.",
+          "Man jānorobežojas no cilvēkiem, lai neviens mani nesāpinātu."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Pašpārmetumi un iekšējs konflikts",
+        "flags": [],
+        "beliefs": [
+          "Es esmu vainīgs, ka jūtos slikti un nespēju saņemties.",
+          "Man jābūt laimīgam un pozitīvam, lai citiem nebūtu grūti.",
+          "Es nedrīkstu dusmoties uz cilvēkiem, kurus mīlu.",
+          "Es neesmu pelnījis mieru, kamēr neesmu atrisinājis visas problēmas."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "work-career",
+    "nameLv": "Darbs, karjera un pašrealizācija",
+    "nameEn": "Work, Career and Self-Realization",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Pašvērtība un sasniegumi",
+        "flags": [],
+        "beliefs": [
+          "Mana vērtība ir atkarīga no tā, cik veiksmīgs esmu darbā.",
+          "Man nepārtraukti jāpierāda, ka esmu pietiekami spējīgs.",
+          "Ja neesmu labāks par citiem, es neesmu pietiekami labs.",
+          "Ja man neizdodas sasniegt iecerēto, esmu neveiksminieks."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Perfekcionisms un bailes kļūdīties",
+        "flags": [],
+        "beliefs": [
+          "Man viss jādara perfekti, lai mani novērtētu.",
+          "Es nedrīkstu kļūdīties, jo citi zaudēs cieņu pret mani.",
+          "Kamēr neesmu pilnībā gatavs, man nevajadzētu sākt.",
+          "Ja mans darbs nav nevainojams, labāk to nevienam nerādīt."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Redzamība un atzinība",
+        "flags": [],
+        "beliefs": [
+          "Ja kļūšu pamanāms, citi mani kritizēs vai nosodīs.",
+          "Man nav tiesību prasīt lielāku samaksu par savu darbu.",
+          "Ja runāšu par saviem sasniegumiem, citi domās, ka esmu iedomīgs.",
+          "Man jāgaida, līdz kāds pamanīs manu potenciālu."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Vilcināšanās un šaubas par sevi",
+        "flags": [],
+        "beliefs": [
+          "Es neesmu pietiekami spējīgs, lai īstenotu savas ieceres.",
+          "Manas idejas nav pietiekami labas, lai tās īstenotu.",
+          "Ja sākšu un man neizdosies, būšu sevi apkaunojis.",
+          "Man jāgaida īstais brīdis, lai sāktu."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Pārslodze un identitāte darbā",
+        "flags": [],
+        "beliefs": [
+          "Man vienmēr jāstrādā vairāk, lai būtu pelnījis atpūtu.",
+          "Ja es neizdarīšu visu pats, nekas netiks paveikts pareizi.",
+          "Man jābūt vienmēr produktīvam, citādi izniekoju laiku.",
+          "Ja pārstāšu strādāt, zaudēšu savu nozīmīgumu un identitāti."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "money",
+    "nameLv": "Nauda, materiālā drošība un labklājība",
+    "nameEn": "Money, Material Security and Well-Being",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Trūkuma domāšana",
+        "flags": [],
+        "beliefs": [
+          "Man nekad nebūs pietiekami daudz naudas, lai justos droši.",
+          "Naudas vienmēr būs par maz, lai dzīvotu, kā vēlos.",
+          "Ja iztērēšu naudu, vēlāk man tās pietrūks.",
+          "Man jāuzkrāj pēc iespējas vairāk, jo nākotnē var pienākt trūkums."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Pel­nīšana un saņemšana",
+        "flags": [],
+        "beliefs": [
+          "Man ir grūti nopelnīt, jo neesmu pietiekami vērtīgs.",
+          "Es neesmu pelnījis dzīvot bagātībā un labklājībā.",
+          "Man jāstrādā ļoti smagi, lai būtu pelnījis naudu.",
+          "Man ir neērti prasīt samaksu par savu darbu."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Ģimenes pārliecības un vaina",
+        "flags": [],
+        "beliefs": [
+          "Ja man būs vairāk naudas nekā ģimenei, es viņus nodošu.",
+          "Nauda cilvēkus padara savtīgus un sliktus.",
+          "Man jāpalīdz citiem finansiāli, pat ja pašam nepietiek.",
+          "Man nav tiesību dzīvot labāk, ja tuviniekiem klājas grūti."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Risks un finanšu lēmumi",
+        "flags": [],
+        "beliefs": [
+          "Jebkurš finansiāls risks var novest mani līdz katastrofai.",
+          "Es neprotu rīkoties ar naudu, tāpēc labāk neko nemainīt.",
+          "Ja zaudēšu naudu, tas pierādīs, ka esmu neveiksminieks.",
+          "Man jābūt pilnīgi pārliecinātam, pirms pieņemu finanšu lēmumu."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Saņemšana, tērēšana un pašierobežošana",
+        "flags": [],
+        "beliefs": [
+          "Man ir neērti pieņemt dāvanas, palīdzību vai finansiālu atbalstu.",
+          "Es nedrīkstu tērēt sev, kamēr viss pārējais nav nokārtots.",
+          "Ja man ir nauda, man tā ātri jāiztērē.",
+          "Liela nauda un labklājība nav domāta tādiem cilvēkiem kā es."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "meaning-choices",
+    "nameLv": "Dzīves jēga, pārmaiņas un izvēles",
+    "nameEn": "Meaning, Change and Life Choices",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Jēga un virziens",
+        "flags": [],
+        "beliefs": [
+          "Manai dzīvei nav īstas jēgas vai nozīmes.",
+          "Es nezinu, ko patiesībā vēlos no savas dzīves.",
+          "Mana dzīve nenotiek tā, kā tai vajadzētu notikt.",
+          "Es neesmu atradis savu īsto vietu pasaulē."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Bailes no pārmaiņām",
+        "flags": [],
+        "beliefs": [
+          "Pārmaiņas ir bīstamas, un labāk palikt pie zināmā.",
+          "Ja pametīšu ierasto dzīvi, zaudēšu visu.",
+          "Es nespēšu tikt galā ar nākotni.",
+          "Labāk neko nemainīt, nekā riskēt kļūdīties."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Izvēles un lēmumi",
+        "flags": [],
+        "beliefs": [
+          "Es baidos pieņemt nepareizu lēmumu un sabojāt savu dzīvi.",
+          "Kādam citam jāpasaka, kas man būtu jādara.",
+          "Es esmu atbildīgs par to, lai visi lēmumi būtu pareizi.",
+          "Ja izvēlēšos sevi, pievilšu vai sāpināšu citus."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Pagātne un nožēla",
+        "flags": [],
+        "beliefs": [
+          "Esmu pieļāvis pārāk daudz kļūdu, lai sāktu no jauna.",
+          "Es nevaru sev piedot par pagātni.",
+          "Esmu palaidis garām savu iespēju dzīvot, kā vēlējos.",
+          "Pagātne ir noteikusi manu nākotni."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Dzīvošana tagadnē",
+        "flags": [],
+        "beliefs": [
+          "Es sākšu dzīvot, kad viss būs sakārtots.",
+          "Man vispirms jāizpilda pienākumi, tikai tad drīkstu domāt par sevi.",
+          "Ir par vēlu sākt kaut ko jaunu.",
+          "Man vienmēr jāvēlas vairāk, nevis jābūt apmierinātam."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "boundaries-agency",
+    "nameLv": "Robežas, vara un atbildība",
+    "nameEn": "Boundaries, Agency and Responsibility",
+    "isSensitive": false,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Personīgās robežas un tiesības atteikt",
+        "flags": [],
+        "beliefs": [
+          "Man nav tiesību atteikt citiem cilvēkiem.",
+          "Ja nospraudīšu robežas, cilvēki mani vairs nemīlēs.",
+          "Man jāpielāgojas citiem, lai izvairītos no konfliktiem.",
+          "Citu cilvēku vajadzības vienmēr ir svarīgākas par manējām."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Bailes no konflikta un citu reakcijām",
+        "flags": [],
+        "beliefs": [
+          "Ja kāds uz mani dusmojas, esmu izdarījis kaut ko nepareizi.",
+          "Man jāizvairās no konfliktiem par katru cenu.",
+          "Ja aizstāvēšu sevi, būšu savtīgs vai agresīvs.",
+          "Man jāpanāk, lai visi būtu apmierināti ar mani."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Vara, kontrole un bezspēcība",
+        "flags": [],
+        "beliefs": [
+          "Citi cilvēki nosaka, kā man jādzīvo.",
+          "Man nav spēka mainīt to, kas mani neapmierina.",
+          "Man viss jākontrolē, lai citi mani neizmantotu.",
+          "Ja neuzņemšos vadību, citi pieņems lēmumus manā vietā."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Atbildība, vaina un pienākums",
+        "flags": [],
+        "beliefs": [
+          "Esmu atbildīgs par to, lai citiem viss būtu labi.",
+          "Ja kaut kas noiet greizi, tā ir mana vaina.",
+          "Man jāizdara viss, ko no manis sagaida.",
+          "Es nedrīkstu pievilt citus, pat ja tas kaitē man pašam."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Pašcieņa un pašnoteikšanās",
+        "flags": [],
+        "beliefs": [
+          "Man nav tiesību prasīt, lai pret mani izturas ar cieņu.",
+          "Es nevaru paļauties uz savu spriedumu un lēmumiem.",
+          "Man jāgaida citu atļauja, lai darītu to, ko vēlos.",
+          "Esmu bezspēcīgs, ja kāds nepiekrīt manām izvēlēm."
+        ]
+      }
+    ]
+  },
+  {
+    "slug": "crisis-trauma",
+    "nameLv": "Krīzes, traumatiska pieredze un smagi dzīves notikumi",
+    "nameEn": "Crisis, Traumatic Experiences and Severe Life Events",
+    "isSensitive": true,
+    "subcats": [
+      {
+        "slug": "s01",
+        "nameLv": "Fiziska vardarbība un ķermeņa drošība",
+        "flags": [
+          "VIOLENCE"
+        ],
+        "beliefs": [
+          "Manam ķermenim nav tiesību uz drošību un cieņu.",
+          "Man jāklusē par piedzīvoto, lai izvairītos no sekām.",
+          "Es pats esmu vainīgs, ka pret mani izturējās vardarbīgi.",
+          "Man vienmēr jābūt gatavam aizstāvēties, jo briesmas var atkārtoties."
+        ]
+      },
+      {
+        "slug": "s02",
+        "nameLv": "Seksuāla vardarbība un ķermeņa autonomija",
+        "flags": [
+          "SEXUAL_VIOLENCE"
+        ],
+        "beliefs": [
+          "Man nav tiesību noteikt, kas notiek ar manu ķermeni.",
+          "Man jāpieņem otra cilvēka vēlmes, lai mani neatstumtu.",
+          "Pēc notikušā esmu sabojāts un mazāk vērtīgs.",
+          "Man nav tiesību runāt par to, kas ar mani notika."
+        ]
+      },
+      {
+        "slug": "s03",
+        "nameLv": "Karš, dzīvības apdraudējums un izdzīvošana",
+        "flags": [
+          "WAR"
+        ],
+        "beliefs": [
+          "Es nekad vairs nevarēšu justies droši.",
+          "Man jādzīvo pastāvīgā gatavībā, jo viss var sabrukt.",
+          "Ja izdzīvoju, kamēr citi gāja bojā, man nav tiesību justies labi.",
+          "Es nespēšu atgūt kontroli pār savu dzīvi pēc piedzīvotā."
+        ]
+      },
+      {
+        "slug": "s04",
+        "nameLv": "Smags zaudējums, bezcerība un nomāktība",
+        "flags": [
+          "SEVERE_LOSS"
+        ],
+        "beliefs": [
+          "Es nekad nespēšu pārdzīvot šo zaudējumu.",
+          "Mana dzīve vairs nekad nebūs jēgpilna.",
+          "Man jāslēpj savas sāpes, lai nekļūtu par nastu citiem.",
+          "Es neesmu pelnījis palīdzību, kamēr pats netieku galā."
+        ]
+      },
+      {
+        "slug": "s05",
+        "nameLv": "Paškaitējums, pašnāvības domas un tiesības dzīvot",
+        "flags": [
+          "SELF_HARM",
+          "CRISIS"
+        ],
+        "beliefs": [
+          "Manas sāpes nekad nemazināsies.",
+          "Es esmu nasta citiem cilvēkiem.",
+          "Man nav tiesību lūgt palīdzību, jo citiem ir grūtāk.",
+          "Mana dzīve nav pietiekami vērtīga, lai par to cīnītos."
+        ]
+      }
+    ]
+  }
+]

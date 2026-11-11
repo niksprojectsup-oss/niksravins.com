@@ -111,6 +111,8 @@ model AdminUser {
   sessions  AdminSession[]
   auditLogs AuditLog[]   @relation("AdminAuditActor")
 
+  identityContentVersions IdentityContentVersion[]
+
   @@index([isActive])
 }
 
@@ -722,4 +724,370 @@ model DailyTimeBlock {
   active    Boolean @default(true)
 
   @@unique([startTime, endTime])
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// IDENTITY TEST — satura struktūra, rezultāti, e-pastu automatizācija
+// ═══════════════════════════════════════════════════════════════════
+
+enum IdentityContentStatus {
+  DRAFT
+  REVIEW
+  APPROVED
+  PUBLISHED
+  DISABLED
+}
+
+enum IdentityTranslationStatus {
+  NOT_TRANSLATED
+  AUTO_TRANSLATED
+  NEEDS_REVIEW
+  APPROVED
+  PUBLISHED
+}
+
+enum IdentitySafetyFlag {
+  VIOLENCE
+  SEXUAL_VIOLENCE
+  WAR
+  SEVERE_LOSS
+  SELF_HARM
+  CRISIS
+}
+
+enum IdentityContentEntityType {
+  THEME
+  SUBCATEGORY
+  BELIEF
+  TRUNK
+  BRANCH
+  MECHANISM_TAG
+  CONNECTOR
+  SAFETY_TEXT
+  CONSENT_TEXT
+  EMAIL_TEMPLATE
+}
+
+enum IdentityConnectorKind {
+  OPENING
+  JOIN_SIMILAR
+  JOIN_CONTRAST
+  TRANSITION
+  CLOSING
+}
+
+enum IdentityEmailStep {
+  RESULT
+  DAY_1
+  DAY_3
+  DAY_5
+}
+
+enum IdentityEmailKind {
+  RESULT
+  SEQUENCE_STEP
+  ADMIN_TEST
+}
+
+enum IdentityDeliveryState {
+  PENDING
+  PROCESSING
+  SENT
+  FAILED
+  SKIPPED
+}
+
+enum IdentitySequenceStatus {
+  ACTIVE
+  PROCESSING
+  PAUSED
+  COMPLETED
+  CANCELLED
+}
+
+enum IdentitySubmissionStatus {
+  RECEIVED
+  VALIDATED
+  RESULT_GENERATED
+  REJECTED
+}
+
+enum IdentityVersionAction {
+  UPDATE
+  PUBLISH
+  UNPUBLISH
+  RESTORE
+}
+
+model IdentityTestTheme {
+  id          String                 @id @default(cuid())
+  slug        String                 @unique
+  sortOrder   Int                    @default(0)
+  status      IdentityContentStatus  @default(DRAFT)
+  isSensitive Boolean                @default(false)
+  createdAt   DateTime               @default(now())
+  updatedAt   DateTime               @updatedAt
+
+  subcategories IdentityTestSubcategory[]
+
+  @@index([status, sortOrder])
+}
+
+model IdentityTestSubcategory {
+  id        String                 @id @default(cuid())
+  themeId   String
+  slug      String
+  sortOrder Int                    @default(0)
+  status    IdentityContentStatus  @default(DRAFT)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+
+  theme   IdentityTestTheme @relation(fields: [themeId], references: [id], onDelete: Restrict)
+  beliefs IdentityBelief[]
+
+  @@unique([themeId, slug])
+  @@index([themeId, sortOrder])
+}
+
+model IdentityBelief {
+  id            String                 @id @default(cuid())
+  stableKey     String                 @unique
+  subcategoryId String
+  sortOrder     Int                    @default(0)
+  status        IdentityContentStatus  @default(DRAFT)
+  safetyFlags   IdentitySafetyFlag[]   @default([])
+  adminNotes    String                 @default("") @db.Text
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+
+  subcategory IdentityTestSubcategory    @relation(fields: [subcategoryId], references: [id], onDelete: Restrict)
+  trunk       IdentityPositiveTrunk?
+  mechanisms  IdentityBeliefMechanism[]
+
+  @@index([subcategoryId, sortOrder])
+  @@index([status])
+}
+
+model IdentityMechanismTag {
+  id        String                 @id @default(cuid())
+  key       String                 @unique
+  sortOrder Int                    @default(0)
+  status    IdentityContentStatus  @default(DRAFT)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+
+  beliefs IdentityBeliefMechanism[]
+}
+
+model IdentityBeliefMechanism {
+  beliefId String
+  tagId    String
+
+  belief IdentityBelief       @relation(fields: [beliefId], references: [id], onDelete: Cascade)
+  tag    IdentityMechanismTag @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([beliefId, tagId])
+  @@index([tagId])
+}
+
+model IdentityPositiveTrunk {
+  id        String                 @id @default(cuid())
+  beliefId  String                 @unique
+  sortOrder Int                    @default(0)
+  status    IdentityContentStatus  @default(DRAFT)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+
+  belief   IdentityBelief           @relation(fields: [beliefId], references: [id], onDelete: Cascade)
+  branches IdentityPositiveBranch[]
+}
+
+model IdentityPositiveBranch {
+  id        String                 @id @default(cuid())
+  trunkId   String
+  sortOrder Int                    @default(0)
+  status    IdentityContentStatus  @default(DRAFT)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+
+  trunk IdentityPositiveTrunk @relation(fields: [trunkId], references: [id], onDelete: Cascade)
+
+  @@index([trunkId, sortOrder])
+}
+
+model IdentityConnector {
+  id        String                 @id @default(cuid())
+  key       String                 @unique
+  kind      IdentityConnectorKind
+  status    IdentityContentStatus  @default(DRAFT)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+}
+
+model IdentityContentTranslation {
+  id                String                      @id @default(cuid())
+  entityType        IdentityContentEntityType
+  entityId          String
+  field             String
+  locale            String
+  draftValue        String                      @default("") @db.Text
+  publishedValue    String?                     @db.Text
+  translationStatus IdentityTranslationStatus   @default(NOT_TRANSLATED)
+  manuallyEdited    Boolean                     @default(false)
+  sourceVersion     Int                         @default(1)
+  createdAt         DateTime                    @default(now())
+  updatedAt         DateTime                    @updatedAt
+
+  @@unique([entityType, entityId, field, locale])
+  @@index([entityType, entityId])
+  @@index([locale, translationStatus])
+}
+
+model IdentityTestSubmission {
+  id                String                    @id @default(cuid())
+  selectedBeliefIds String[]
+  locale            String
+  requestId         String?                   @unique // klienta UUID — dubultklikšķu idempotence
+  status            IdentitySubmissionStatus  @default(RECEIVED)
+  validationNote    String?                   @db.Text
+  safetyTriggered   Boolean                   @default(false)
+  retainUntil       DateTime?
+  createdAt         DateTime                  @default(now())
+  updatedAt         DateTime                  @updatedAt
+
+  result     IdentityTestResult?
+  consents   IdentityEmailConsent[]
+  sequences  IdentityEmailSequence[]
+  deliveries IdentityEmailDelivery[]
+
+  @@index([status, createdAt])
+}
+
+model IdentityTestResult {
+  id             String   @id @default(cuid())
+  submissionId   String   @unique
+  email          String   @db.Text // šifrēts (encryptField)
+  emailHash      String   // HMAC-SHA256 meklēšanai, nekad ne plaintext
+  portraitNow    String   @db.Text // šifrēts (encryptField)
+  portraitFuture String   @db.Text // šifrēts (encryptField)
+  contentVersion Int      @default(1)
+  snapshot       Json?    // pilns ģenerēšanas momentuzņēmums: uzskati+teksti,
+                          // fragmenti, tēmu/apakštēmu teksti, savienotājfrāzes
+  locale         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  submission IdentityTestSubmission  @relation(fields: [submissionId], references: [id], onDelete: Cascade)
+  deliveries IdentityEmailDelivery[]
+
+  @@index([emailHash])
+}
+
+model IdentityEmailConsent {
+  id                  String    @id @default(cuid())
+  submissionId        String?
+  email               String    @db.Text // šifrēts (encryptField)
+  emailHash           String    // HMAC-SHA256
+  marketingConsent    Boolean   @default(false)
+  consentTimestamp    DateTime  @default(now())
+  consentTextVersion  String
+  consentSource       String    @default("identity-test")
+  withdrawalTimestamp DateTime?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  submission IdentityTestSubmission?  @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  sequences  IdentityEmailSequence[]
+
+  @@index([emailHash])
+  @@index([submissionId])
+}
+
+model IdentityEmailTemplate {
+  id        String                 @id @default(cuid())
+  step      IdentityEmailStep      @unique // RESULT | DAY_1 | DAY_3 | DAY_5
+  delayDays Int                    @default(0) // RESULT solim ignorējams
+  status    IdentityContentStatus  @default(DRAFT)
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+}
+
+model IdentityEmailDelivery {
+  id                   String                @id @default(cuid())
+  requestId            String                @unique // deterministiska idempotences atslēga:
+                                                     // result:{resultId} | seq:{sequenceId}:{step} | admin:{uuid}
+  resultId             String?
+  submissionId         String?
+  recipient            String                @db.Text // šifrēts (encryptField)
+  recipientHash        String?               // HMAC-SHA256
+  emailKind            IdentityEmailKind
+  step                 IdentityEmailStep?
+  status               IdentityDeliveryState @default(PENDING)
+  attemptCount         Int                   @default(0)
+  processingStartedAt  DateTime?             // atomiskas pretenzijas + stale atgūšanai
+  nextRetryAt          DateTime?
+  lastAttemptAt        DateTime?
+  providerMessageId    String?
+  lastError            String?               @db.Text
+  sentAt               DateTime?
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+
+  result     IdentityTestResult?     @relation(fields: [resultId], references: [id], onDelete: SetNull)
+  submission IdentityTestSubmission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+
+  @@index([status, createdAt])
+  @@index([resultId])
+  @@index([submissionId])
+}
+
+model IdentityEmailSequence {
+  id           String                  @id @default(cuid())
+  submissionId String?                 @unique
+  consentId    String
+  email        String                  @db.Text // šifrēts (encryptField)
+  emailHash    String?
+  nextStep     IdentityEmailStep
+  nextSendAt   DateTime
+  status       IdentitySequenceStatus  @default(ACTIVE)
+  claimedAt    DateTime?               // PROCESSING pretenzijas laikmets
+  completedAt  DateTime?
+  cancelledAt  DateTime?
+  createdAt    DateTime                @default(now())
+  updatedAt    DateTime                @updatedAt
+
+  submission IdentityTestSubmission? @relation(fields: [submissionId], references: [id], onDelete: SetNull)
+  consent    IdentityEmailConsent    @relation(fields: [consentId], references: [id], onDelete: Cascade)
+
+  @@index([status, nextSendAt])
+  @@index([consentId])
+}
+
+model IdentityContentVersion {
+  id              String                     @id @default(cuid())
+  entityType      IdentityContentEntityType
+  entityId        String
+  field           String
+  locale          String
+  previousContent String?                    @db.Text
+  newContent      String?                    @db.Text
+  action          IdentityVersionAction      @default(UPDATE)
+  changedById     String?
+  changedAt       DateTime                   @default(now())
+
+  admin AdminUser? @relation(fields: [changedById], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, changedAt])
+}
+
+// Kopīgs (multi-instance) rate limit kauss — Postgres ir koplietotā
+// stāvokļa vieta Vercel serverless instance vidū.
+model SecurityRateLimitBucket {
+  key       String   @id // `${scope}:${identifier}`
+  count     Int      @default(0)
+  resetAt   DateTime // fixed window beigu brīdis
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([resetAt])
 }

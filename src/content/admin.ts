@@ -2,6 +2,7 @@ export const adminNav = [
   { label: "Dashboard", href: "/admin" },
   { label: "Content", href: "/admin/content" },
   { label: "Translations", href: "/admin/translations" },
+  { label: "Identity Test", href: "/admin/identity-test" },
   { label: "Calendar", href: "/admin/calendar" },
   { label: "Clients", href: "/admin/clients" },
   { label: "Open Client Portal", href: "/admin/portal-preview" },

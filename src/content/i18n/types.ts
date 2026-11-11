@@ -288,5 +288,63 @@ export type PublicContent = {
     backToTop: string;
     navLabel: string;
   };
+  identityTest: IdentityTestContent;
   languageSwitcherLabel: string;
+};
+
+export type IdentityTestContent = {
+  seo: { title: string; description: string };
+  intro: {
+    title: string;
+    subtitle: string;
+    lead: string;
+    note: string;
+    startCta: string;
+  };
+  steps: readonly string[];
+  themeStep: {
+    heading: string;
+    allThemes: string;
+    next: string;
+    back: string;
+  };
+  beliefStep: {
+    selectedSuffix: string;
+    next: string;
+    back: string;
+  };
+  review: {
+    heading: string;
+    subheading: string;
+    submitCta: string;
+    back: string;
+  };
+  emailStep: {
+    heading: string;
+    lead: string;
+    lead1: string;
+    lead2: string;
+    privacyNote: string;
+    emailLabel: string;
+    emailPlaceholder: string;
+    submitCta: string;
+    sendingLabel: string;
+  };
+  confirmation: {
+    heading: string;
+    body: string;
+    spamNote: string;
+    sessionLead: string;
+    sessionCta: string;
+  };
+  crisis: {
+    heading: string;
+    body: string;
+  };
+  errors: {
+    generic: string;
+    invalidEmail: string;
+    sendFailed: string;
+    retry: string;
+  };
 };

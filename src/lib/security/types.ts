@@ -39,7 +39,14 @@ export type AuditAction =
   | "translation.save"
   | "translation.publish"
   | "translation.add"
-  | "portal.preview";
+  | "portal.preview"
+  | "identity_test.update"
+  | "identity_test.create"
+  | "identity_test.publish"
+  | "identity_test.delete"
+  | "identity_test.resend"
+  | "identity_test.cancel"
+  | "identity_test.restore";
 
 export type AuditResource =
   | "auth"
@@ -55,7 +62,8 @@ export type AuditResource =
   | "store_product"
   | "cms_page"
   | "translation"
-  | "portal";
+  | "portal"
+  | "identity_test";
 
 export type RateLimitScope =
   | "auth.login"

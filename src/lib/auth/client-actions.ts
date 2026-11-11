@@ -80,7 +80,7 @@ export async function clientLoginAction(
   const ipAddress = getClientIp(headerStore);
 
   const copy = getPortalContent(await getPortalLocale()).login;
-  const rateLimit = checkRateLimit("auth.login", ipAddress);
+  const rateLimit = await checkRateLimit("auth.login", ipAddress);
   if (!rateLimit.allowed) {
     return { error: copy.tooManyAttempts };
   }
@@ -109,7 +109,7 @@ export async function clientSetPasswordAction(
   const confirmPassword = String(formData.get("confirmPassword") ?? "");
   const copy = getPortalContent(await getPortalLocale()).setPassword;
   const headerStore = await headers();
-  const rateLimit = checkRateLimit(
+  const rateLimit = await checkRateLimit(
     "auth.password_reset",
     `set-password:${getClientIp(headerStore)}`,
   );
@@ -151,8 +151,8 @@ export async function clientForgotPasswordAction(
   const copy = getPortalContent(await getPortalLocale()).forgotPassword;
   const headerStore = await headers();
   const ipAddress = getClientIp(headerStore);
-  const ipLimit = checkRateLimit("auth.password_reset", `ip:${ipAddress}`);
-  const emailLimit = checkRateLimit("auth.password_reset", `email:${email || "blank"}`);
+  const ipLimit = await checkRateLimit("auth.password_reset", `ip:${ipAddress}`);
+  const emailLimit = await checkRateLimit("auth.password_reset", `email:${email || "blank"}`);
 
   if (!ipLimit.allowed || !emailLimit.allowed) {
     return { error: copy.tooManyAttempts };

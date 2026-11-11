@@ -513,5 +513,66 @@ export const zhContent: PublicContent = {
     backToTop: "回到顶部",
     navLabel: "页脚",
   },
+  identityTest: {
+    seo: {
+      title: "Identity Test — Niks Ravins",
+      description:
+        "Mark the inner beliefs you recognize and receive two personalized portraits: how these beliefs may shape your daily life, and what life could look like after working with them.",
+    },
+    intro: {
+      title: "SEE WHAT DRIVES YOU.",
+      subtitle: "Your inner beliefs. Your daily life. Your relationships.",
+      lead: "Mark the statements you recognize yourself in. Choose the ones that most accurately describe your thoughts, reactions, or usual behavior.",
+      note: "You don't have to choose them all. Pick only those that genuinely fit.",
+      startCta: "Start the test",
+    },
+    steps: ["Intro", "Themes", "Beliefs", "Review", "Email"],
+    themeStep: {
+      heading: "Choose one theme or explore them all.",
+      allThemes: "View all themes",
+      next: "Continue",
+      back: "Back",
+    },
+    beliefStep: {
+      selectedSuffix: "selected",
+      next: "Continue",
+      back: "Back",
+    },
+    review: {
+      heading: "Your selection",
+      subheading: "Review the marked statements — you can still edit.",
+      submitCta: "Get my personal result",
+      back: "Back",
+    },
+    emailStep: {
+      heading: "Where should we send your result?",
+      lead: "We will send both of your personalized portraits:",
+      lead1: "1. How the beliefs you selected may affect your daily life, emotions, and relationships.",
+      lead2: "2. What your life could look like after working with these beliefs.",
+      privacyNote: "Your email is required to deliver the result.",
+      emailLabel: "Email address",
+      emailPlaceholder: "you@example.com",
+      submitCta: "Send my result",
+      sendingLabel: "Sending…",
+    },
+    confirmation: {
+      heading: "Your result is on its way",
+      body: "Your personal result has been sent to the email address you provided.",
+      spamNote: "Please check your spam folder as well.",
+      sessionLead:
+        "If you recognized your daily patterns in this description, it may be time to look at the beliefs that keep them going. In an individual session we can explore which of these beliefs matter most to you and how to work with them.",
+      sessionCta: "Book an individual session",
+    },
+    crisis: {
+      heading: "Support is available",
+      body: "This test is not a crisis assessment tool. If you or someone close to you is in immediate danger, call 112 or 113 (in Latvia). We encourage you to reach out to a trusted person and a qualified crisis or healthcare professional.",
+    },
+    errors: {
+      generic: "Something went wrong. Please try again.",
+      invalidEmail: "Please enter a valid email address.",
+      sendFailed: "We couldn't send your result. Please try again.",
+      retry: "Try again",
+    },
+  },
   languageSwitcherLabel: "选择语言",
 };

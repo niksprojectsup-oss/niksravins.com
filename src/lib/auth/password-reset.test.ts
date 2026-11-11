@@ -174,13 +174,13 @@ describe("password reset email url", () => {
 });
 
 describe("password reset limits and boundaries", () => {
-  it("rate limits reset requests", () => {
+  it("rate limits reset requests", async () => {
     const identifier = `reset-test-${Date.now()}`;
     assert.equal(getDefaultRateLimit("auth.password_reset").limit, 5);
     for (let attempt = 0; attempt < 5; attempt += 1) {
-      assert.equal(checkRateLimit("auth.password_reset", identifier).allowed, true);
+      assert.equal((await checkRateLimit("auth.password_reset", identifier)).allowed, true);
     }
-    assert.equal(checkRateLimit("auth.password_reset", identifier).allowed, false);
+    assert.equal((await checkRateLimit("auth.password_reset", identifier)).allowed, false);
   });
 
   it("keeps the request path public and away from account creation", () => {

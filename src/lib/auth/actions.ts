@@ -40,7 +40,7 @@ export async function loginAction(
   const ipAddress = getClientIp(headerStore);
   const userAgent = headerStore.get("user-agent");
 
-  const rateLimit = checkRateLimit("auth.login", ipAddress);
+  const rateLimit = await checkRateLimit("auth.login", ipAddress);
   if (!rateLimit.allowed) {
     await logAuditEvent({
       action: "auth.login_failed",
