@@ -23,6 +23,8 @@ async function publishT(entityType: string, entityId: string, field: string, val
   });
 }
 
+const RUN_START = new Date();
+
 async function main() {
   // Fiksūra: pirmie 2 uzskati (T01) + to struktūra PUBLISHED + portretu fragmenti.
   const beliefs = await prisma.identityBelief.findMany({
@@ -124,7 +126,7 @@ async function main() {
     throw new Error("plaintext leak in result fields");
   }
   const stuckProcessing = await prisma.identityEmailDelivery.count({
-    where: { status: "PROCESSING" },
+    where: { status: "PROCESSING", createdAt: { gte: RUN_START } },
   });
   if (stuckProcessing > 0) throw new Error("delivery stuck in PROCESSING");
   console.log("submission:", sub?.status, "| deliveries:", sub?.deliveries.map((d) => `${d.emailKind}:${d.status}:${d.lastError ?? ""}`).join(","), "| sequences:", sub?.sequences.map((s) => `${s.status}:${s.nextStep}`).join(","));

@@ -69,8 +69,8 @@ export async function checkRateLimit(
   const key = buildKey(scope, identifier);
   try {
     const rows = await prisma.$queryRaw<{ count: number; resetAt: Date }[]>`
-      INSERT INTO "SecurityRateLimitBucket" ("key", "count", "resetAt")
-      VALUES (${key}, 1, ${new Date(Date.now() + config.windowMs)})
+      INSERT INTO "SecurityRateLimitBucket" ("key", "count", "resetAt", "updatedAt")
+      VALUES (${key}, 1, ${new Date(Date.now() + config.windowMs)}, now())
       ON CONFLICT ("key") DO UPDATE SET
         "count" = CASE
           WHEN "SecurityRateLimitBucket"."resetAt" <= now()
