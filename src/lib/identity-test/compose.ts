@@ -95,15 +95,18 @@ export function composePortraits(input: {
     .map((cluster) => clusterParagraph(cluster, "portraitFuture", connectors))
     .filter(Boolean);
 
-  const portraitNow = joinParagraphs(
-    [connectors.opening ?? "", ...nowParagraphs, connectors.closing ?? ""],
-    connectors.joinContrast,
-  );
+  // Kontrasta savienotājs tikai starp klasteru rindkopām — ne starp opening/closing.
+  const portraitNow = [
+    connectors.opening ?? "",
+    joinParagraphs(nowParagraphs, connectors.joinContrast),
+    connectors.closing ?? "",
+  ].filter(Boolean).join("\n\n");
 
-  const portraitFuture = joinParagraphs(
-    [connectors.transition ?? "", ...futureParagraphs, connectors.closingFuture ?? connectors.closing ?? ""],
-    connectors.joinContrast,
-  );
+  const portraitFuture = [
+    connectors.transition ?? "",
+    joinParagraphs(futureParagraphs, connectors.joinContrast),
+    connectors.closingFuture ?? connectors.closing ?? "",
+  ].filter(Boolean).join("\n\n");
 
   const safetyTriggered = beliefs.some((b) => b.safetyFlags.includes("CRISIS"));
   const now = safetyTriggered && input.safetyBlock
