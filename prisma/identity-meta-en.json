@@ -1,0 +1,26 @@
+{
+"themes": {
+"self-worth": {"lv":"Pašvērtība un identitāte","en":"Self-Worth and Identity","descLv":"Uzskati par to, vai esi pietiekami labs un pelnījis mīlestību tāds, kāds esi.","descEn":"Beliefs about whether you are good enough and deserve love as you are."},
+"relationships": {"lv":"Attiecības, tuvība un piesaiste","en":"Relationships, Intimacy and Attachment","descLv":"Modeļi, kā tuvinies, uzticies un paliec attiecībās.","descEn":"Patterns in how you approach closeness, trust and staying in relationships."},
+"family": {"lv":"Ģimene, bērnība un vecāku ietekme","en":"Family, Childhood and Parental Influence","descLv":"Kā agrīnā ģimenes pieredze joprojām veido tavas izvēles.","descEn":"How early family experience still shapes your choices today."},
+"safety-control": {"lv":"Drošība, kontrole un bailes","en":"Safety, Control and Fear","descLv":"Uzskati par drošību, kontroli un to, kas var notikt.","descEn":"Beliefs about safety, control and what might happen."},
+"emotions": {"lv":"Emocijas un iekšējā pasaule","en":"Emotions and Inner World","descLv":"Kā tu attiecies pret savām jūtām un iekšējo pieredzi.","descEn":"How you relate to your feelings and inner experience."},
+"work-career": {"lv":"Darbs, karjera un pašrealizācija","en":"Work, Career and Self-Realization","descLv":"Uzskati par vērtību, sasniegumiem un redzamību darbā.","descEn":"Beliefs about worth, achievement and visibility at work."},
+"money": {"lv":"Nauda, materiālā drošība un labklājība","en":"Money, Material Security and Well-Being","descLv":"Attieksme pret naudu, pelnīšanu un tiesībām uz labklājību.","descEn":"Your relationship with money, earning and the right to well-being."},
+"meaning-choices": {"lv":"Dzīves jēga, pārmaiņas un izvēles","en":"Meaning, Change and Life Choices","descLv":"Uzskati par jēgu, lēmumiem un tiesībām dzīvot savu dzīvi.","descEn":"Beliefs about meaning, decisions and your right to live your own life."},
+"boundaries-agency": {"lv":"Robežas, vara un atbildība","en":"Boundaries, Agency and Responsibility","descLv":"Tiesības teikt nē, aizstāvēt sevi un noteikt savu dzīvi.","descEn":"Your right to say no, stand up for yourself and shape your life."},
+"crisis-trauma": {"lv":"Krīzes, traumatiska pieredze un smagi dzīves notikumi","en":"Crisis, Traumatic Experiences and Severe Life Events","descLv":"Uzskati, kas veidojušies smagu notikumu un drošības pieredzēs.","descEn":"Beliefs formed through difficult events and experiences of safety."}
+},
+"subcats": {
+"T01-S01":"Inadequacy and low self-worth","T01-S02":"External validation and acceptance","T01-S03":"Shame and hiding yourself","T01-S04":"Achievement and self-worth","T01-S05":"Identity and the right to be yourself",
+"T02-S01":"Abandonment and emotional insecurity","T02-S02":"Trust, jealousy and control","T02-S03":"Fear of closeness and emotional unavailability","T02-S04":"Adapting, needs and boundaries","T02-S05":"Conflict, self-sabotage and the experience of love",
+"T03-S01":"Emotional neglect and unmet needs","T03-S02":"Criticism, shame and fear of mistakes","T03-S03":"Conditional love and acceptance","T03-S04":"Premature responsibility and family roles","T03-S05":"Guilt, loyalty and family rules",
+"T04-S01":"A constant sense of threat","T04-S02":"Control and the need to foresee everything","T04-S03":"Trust and reliance","T04-S04":"Fear of loss and failure","T04-S05":"Powerlessness and agency",
+"T05-S01":"Suppressing and denying emotions","T05-S02":"Shame and vulnerability","T05-S03":"Emotional dependency and external validation","T05-S04":"Emotional shutdown and avoidance","T05-S05":"Self-blame and inner conflict",
+"T06-S01":"Self-worth and achievement","T06-S02":"Perfectionism and fear of mistakes","T06-S03":"Visibility and recognition","T06-S04":"Procrastination and self-doubt","T06-S05":"Overload and identity at work",
+"T07-S01":"Scarcity mindset","T07-S02":"Earning and receiving","T07-S03":"Family beliefs and guilt","T07-S04":"Risk and financial decisions","T07-S05":"Receiving, spending and self-restriction",
+"T08-S01":"Meaning and direction","T08-S02":"Fear of change","T08-S03":"Choices and decisions","T08-S04":"The past and regret","T08-S05":"Living in the present",
+"T09-S01":"Personal boundaries and the right to refuse","T09-S02":"Fear of conflict and others' reactions","T09-S03":"Power, control and powerlessness","T09-S04":"Responsibility, guilt and duty","T09-S05":"Self-respect and self-determination",
+"T10-S01":"Physical violence and bodily safety","T10-S02":"Sexual violence and bodily autonomy","T10-S03":"War, life threat and survival","T10-S04":"Severe loss, hopelessness and despair","T10-S05":"Self-harm, suicidal thoughts and the right to live"
+}
+}
