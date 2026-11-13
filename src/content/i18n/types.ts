@@ -341,6 +341,10 @@ export type IdentityTestContent = {
     heading: string;
     body: string;
   };
+  closed: {
+    heading: string;
+    body: string;
+  };
   errors: {
     generic: string;
     invalidEmail: string;

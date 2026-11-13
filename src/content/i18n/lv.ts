@@ -585,6 +585,10 @@ export const lvContent: PublicContent = {
       heading: "Atbalsts ir pieejams",
       body: "Šis tests nav krīzes izvērtēšanas instruments. Ja tu vai kāds tuvinieks atrodies tūlītējā apdraudējumā, zvani 112 vai 113. Mēs iesakām sazināties ar uzticamu cilvēku un kvalificētu krīzes vai veselības aprūpes speciālistu.",
     },
+    closed: {
+      heading: "Tests šobrīd ir pieejams tikai uzaicinātiem testētājiem.",
+      body: "Identity Test pašlaik darbojas slēgtā beta režīmā. Ja esi saņēmis personīgu uzaicinājuma saiti, atver to, lai sāktu.",
+    },
     errors: {
       generic: "Radās kļūda. Lūdzu, mēģini vēlreiz.",
       invalidEmail: "Lūdzu, ievadi derīgu e-pasta adresi.",

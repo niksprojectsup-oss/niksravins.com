@@ -588,6 +588,10 @@ export const frContent: PublicContent = {
       heading: "Support is available",
       body: "This test is not a crisis assessment tool. If you or someone close to you is in immediate danger, call 112 or 113 (in Latvia). We encourage you to reach out to a trusted person and a qualified crisis or healthcare professional.",
     },
+    closed: {
+      heading: "Le test est actuellement réservé aux testeurs invités.",
+      body: "Le Identity Test est actuellement en bêta fermée. Si tu as reçu un lien d'invitation personnel, ouvre-le pour commencer.",
+    },
     errors: {
       generic: "Something went wrong. Please try again.",
       invalidEmail: "Please enter a valid email address.",

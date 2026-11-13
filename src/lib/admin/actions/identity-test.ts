@@ -542,3 +542,58 @@ export async function previewCompositionAction(input: {
 
   return { ok: true, portraitNow, portraitFuture, warnings };
 }
+
+export async function createBetaInviteAction(input: {
+  label: string;
+  maxUses?: number;
+  expiresInDays?: number;
+  locale?: string;
+}) {
+  const session = await requireAdmin();
+  const { generateBetaToken } = await import("@/lib/identity-test/beta");
+  const { token, hash } = generateBetaToken();
+  const expiresAt = new Date(Date.now() + (input.expiresInDays ?? 14) * 24 * 60 * 60 * 1000);
+  const row = await prisma.identityBetaInvite.create({
+    data: {
+      tokenHash: hash,
+      label: input.label.trim().slice(0, 120),
+      maxUses: Math.min(Math.max(input.maxUses ?? 5, 1), 100),
+      expiresAt,
+      createdById: session.id,
+    },
+  });
+  await logAuditEvent({
+    action: "identity_test.create",
+    resource: "identity_test",
+    resourceId: `beta-invite:${row.id}`,
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { entity: "beta_invite", label: row.label } as Prisma.InputJsonValue,
+  });
+  const locale = input.locale === "lv" ? "lv" : "en";
+  const path = locale === "lv" ? "/lv/identity-test" : "/identity-test";
+  return {
+    ok: true,
+    id: row.id,
+    url: `${getAppBaseUrl()}/api/identity-test/redeem?token=${token}&locale=${locale}`,
+    path,
+  };
+}
+
+export async function revokeBetaInviteAction(id: string) {
+  const session = await requireAdmin();
+  await prisma.identityBetaInvite.update({
+    where: { id },
+    data: { revokedAt: new Date() },
+  });
+  await logAuditEvent({
+    action: "identity_test.update",
+    resource: "identity_test",
+    resourceId: `beta-invite:${id}`,
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { entity: "beta_invite", op: "revoke" } as Prisma.InputJsonValue,
+  });
+  revalidatePath(`${ADMIN_BASE}/beta`);
+  return { ok: true };
+}

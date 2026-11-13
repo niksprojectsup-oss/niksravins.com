@@ -112,6 +112,7 @@ model AdminUser {
   auditLogs AuditLog[]   @relation("AdminAuditActor")
 
   identityContentVersions IdentityContentVersion[]
+  betaInvites          IdentityBetaInvite[]
 
   @@index([isActive])
 }
@@ -1090,4 +1091,22 @@ model SecurityRateLimitBucket {
   updatedAt DateTime @updatedAt
 
   @@index([resetAt])
+}
+
+// Slēgtā beta uzaicinājuma tokens. Tiek saglabāts tikai SHA-256 hash —
+// neapstrādātais tokens redzams vienu reizi izveides brīdī.
+model IdentityBetaInvite {
+  id          String    @id @default(cuid())
+  tokenHash   String    @unique
+  label       String // testētāja vārds/piezīme (ne obligāti e-pasts)
+  maxUses     Int       @default(5)
+  uses        Int       @default(0)
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  createdById String?
+  createdAt   DateTime  @default(now())
+
+  createdBy AdminUser? @relation(fields: [createdById], references: [id], onDelete: SetNull)
+
+  @@index([expiresAt])
 }

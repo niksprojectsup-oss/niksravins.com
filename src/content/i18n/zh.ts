@@ -567,6 +567,10 @@ export const zhContent: PublicContent = {
       heading: "Support is available",
       body: "This test is not a crisis assessment tool. If you or someone close to you is in immediate danger, call 112 or 113 (in Latvia). We encourage you to reach out to a trusted person and a qualified crisis or healthcare professional.",
     },
+    closed: {
+      heading: "The test is currently available to invited testers only.",
+      body: "Identity Test is running in closed beta. If you received a personal invitation link, open it to begin.",
+    },
     errors: {
       generic: "Something went wrong. Please try again.",
       invalidEmail: "Please enter a valid email address.",

@@ -4,6 +4,8 @@ import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicIdentityTestPage } from "@/components/public/PublicIdentityTestPage";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
 import { getPublicTestContent, loadConsentText } from "@/lib/identity-test/repository";
+import { isBetaRequestAllowed } from "@/lib/identity-test/beta";
+import { IdentityTestClosedNotice } from "@/components/public/IdentityTestClosedNotice";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +28,10 @@ export default async function IdentityTestPage() {
 
   if (tree.themes.length === 0) {
     notFound();
+  }
+
+  if (!(await isBetaRequestAllowed())) {
+    return <IdentityTestClosedNotice content={content} locale="en" />;
   }
 
   return (

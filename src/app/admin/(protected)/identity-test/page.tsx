@@ -13,6 +13,7 @@ const SECTIONS = [
   { href: "/admin/identity-test/emails", label: "E-pasti un secības" },
   { href: "/admin/identity-test/submissions", label: "Iesniegumi un piegādes" },
   { href: "/admin/identity-test/versions", label: "Versiju vēsture" },
+  { href: "/admin/identity-test/beta", label: "Beta piekļuve" },
 ];
 
 export default async function IdentityTestAdminPage() {
