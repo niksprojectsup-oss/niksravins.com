@@ -2,6 +2,7 @@
  *  e-pastu veidnes (LV+EN), mehānismu saites. Palaišana: npx tsx scripts/identity-content-publish.ts */
 import { readFileSync } from "node:fs";
 import { PrismaClient, IdentityContentStatus, IdentityTranslationStatus } from "@prisma/client";
+import type { IdentityContentEntityType, IdentityEmailStep } from "@prisma/client";
 
 const prisma = new PrismaClient();
 const pub = (value: string) => ({
@@ -10,7 +11,7 @@ const pub = (value: string) => ({
   publishedValue: value,
 });
 
-async function upsertT(entityType: string, entityId: string, field: string, locale: string, value: string) {
+async function upsertT(entityType: IdentityContentEntityType, entityId: string, field: string, locale: string, value: string) {
   await prisma.identityContentTranslation.upsert({
     where: { entityType_entityId_field_locale: { entityType, entityId, field, locale } },
     update: pub(value),
@@ -77,7 +78,7 @@ async function main() {
   console.log("safety + consent done");
 
   // 4) E-pastu veidnes
-  const tpl = async (step: string, fields: Record<string, { lv: string; en: string }>) => {
+  const tpl = async (step: IdentityEmailStep, fields: Record<string, { lv: string; en: string }>) => {
     const t = await prisma.identityEmailTemplate.update({
       where: { step }, data: { status: IdentityContentStatus.PUBLISHED },
     });
@@ -137,22 +138,19 @@ async function main() {
   };
   const tags = await prisma.identityMechanismTag.findMany();
   const tagByKey = new Map(tags.map((t) => [t.key, t.id]));
-  const subs = await prisma.identityTestSubcategory.findMany({ include: { beliefs: true } });
-  const subByKey = new Map(subs.map((s) => [s.stableKey, s]));
+  // Apakštēmām nav stableKey — kartējam pēc uzskata stableKey prefiksa (Txx-Syy).
+  const allBeliefs = await prisma.identityBelief.findMany({ select: { id: true, stableKey: true } });
   let links = 0;
-  for (const [subKey, mechKeys] of Object.entries(mechMap)) {
-    const sub = subByKey.get(subKey);
-    if (!sub) continue;
-    for (const b of sub.beliefs) {
-      for (const mk of mechKeys) {
-        const tagId = tagByKey.get(mk);
-        if (!tagId) continue;
-        await prisma.identityBeliefMechanism.upsert({
-          where: { beliefId_tagId: { beliefId: b.id, tagId } },
-          update: {}, create: { beliefId: b.id, tagId },
-        });
-        links++;
-      }
+  for (const b of allBeliefs) {
+    const mechKeys = mechMap[b.stableKey.slice(0, 7)] ?? [];
+    for (const mk of mechKeys) {
+      const tagId = tagByKey.get(mk);
+      if (!tagId) continue;
+      await prisma.identityBeliefMechanism.upsert({
+        where: { beliefId_tagId: { beliefId: b.id, tagId } },
+        update: {}, create: { beliefId: b.id, tagId },
+      });
+      links++;
     }
   }
   console.log("mechanism links:", links);

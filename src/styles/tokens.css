@@ -46,13 +46,13 @@
   --nr-text-xs: 0.75rem;
   --nr-text-sm: 0.875rem;
   --nr-text-base: 1.125rem;
-  --nr-text-md: 1.3125rem;
-  --nr-text-lg: 1.5rem;
-  --nr-text-xl: 2rem;
-  --nr-text-2xl: 2.625rem;
-  --nr-text-3xl: 3.375rem;
-  --nr-text-4xl: 4.25rem;
-  --nr-text-display: clamp(2.875rem, 6vw + 1rem, 5.25rem);
+  --nr-text-md: clamp(1.0625rem, 1.2vw + 0.85rem, 1.3125rem);
+  --nr-text-lg: clamp(1.25rem, 1.5vw + 0.9rem, 1.5rem);
+  --nr-text-xl: clamp(1.625rem, 2.5vw + 1rem, 2rem);
+  --nr-text-2xl: clamp(1.875rem, 3.5vw + 1rem, 2.625rem);
+  --nr-text-3xl: clamp(2.25rem, 4.5vw + 1rem, 3.375rem);
+  --nr-text-4xl: clamp(2.75rem, 5.5vw + 1rem, 4.25rem);
+  --nr-text-display: clamp(2.625rem, 6vw + 1rem, 5.25rem);
   --nr-text-editorial: clamp(1.375rem, 2vw + 0.75rem, 1.75rem);
 
   /* ── Typography: line height ────────────────────────────── */
