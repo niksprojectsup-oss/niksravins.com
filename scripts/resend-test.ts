@@ -45,7 +45,7 @@ async function main() {
     text: content.text,
   });
   const row = await prisma.identityEmailDelivery.findUnique({ where: { id: reserved.row!.id } });
-  console.log(JSON.stringify({ ok: outcome.ok, status: row?.status, providerId: row?.providerId, error: row?.lastError }));
+  console.log(JSON.stringify({ ok: outcome.ok, status: row?.status, providerId: row?.providerMessageId, error: row?.lastError }));
   await prisma.$disconnect();
 }
 main().catch((e) => { console.error(e.message); process.exit(1); });

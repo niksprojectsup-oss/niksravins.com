@@ -35,7 +35,6 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
     () => tree.beliefs.filter((b) => beliefIds.has(b.id)),
     [tree.beliefs, beliefIds],
   );
-  const crisisSelected = selectedBeliefs.some((b) => b.safetyFlags.includes("CRISIS"));
 
   const stepIndex = step === "done" ? STEP_ORDER.length - 1 : STEP_ORDER.indexOf(step);
 
@@ -241,7 +240,6 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
               </li>
             ))}
           </ul>
-          {crisisSelected ? <CrisisBlock ui={ui} /> : null}
           <div className="flex items-center gap-4 pt-2">
             <button type="button" onClick={() => setStep("beliefs")} className="type-caption text-ink-subtle hover:text-ink">
               {ui.review.back}
@@ -296,7 +294,6 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
             </label>
           ) : null}
 
-          {crisisSelected ? <CrisisBlock ui={ui} /> : null}
           {error ? (
             <p role="alert" className="type-caption text-red-700">{error}</p>
           ) : null}
@@ -327,7 +324,6 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
           <h1 className="type-heading-sm font-display">{ui.confirmation.heading}</h1>
           <p className="type-body">{ui.confirmation.body}</p>
           <p className="type-caption text-ink-subtle">{ui.confirmation.spamNote}</p>
-          {crisisSelected ? <CrisisBlock ui={ui} /> : null}
           <div className="layout-stack-sm pt-4">
             <p className="type-body max-w-prose">{ui.confirmation.sessionLead}</p>
             <a
@@ -339,15 +335,6 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
           </div>
         </section>
       ) : null}
-    </div>
-  );
-}
-
-function CrisisBlock({ ui }: { ui: IdentityTestContent }) {
-  return (
-    <div className="rounded-lg border-l-2 border-warm bg-warm-soft p-5">
-      <p className="type-caption font-medium text-ink">{ui.crisis.heading}</p>
-      <p className="type-caption mt-2 text-ink-muted">{ui.crisis.body}</p>
     </div>
   );
 }
