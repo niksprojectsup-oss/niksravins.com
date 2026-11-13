@@ -180,6 +180,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     portraitFuture,
     safetyBlock: safetyTriggered ? (safetyBlock ?? undefined) : undefined,
     bookingUrl,
+    hideBookingCta: payload.locale === "lv",
     texts: {
       greeting: resolved.values.greeting ?? "",
       intro: resolved.values.intro ?? "",
@@ -240,6 +241,7 @@ export async function resendResultEmail(resultId: string): Promise<SubmitResult>
     portraitNow,
     portraitFuture,
     bookingUrl: `${getAppBaseUrl()}${bookingPath}`,
+    hideBookingCta: result.locale === "lv",
     texts: {
       greeting: resolved.values.greeting ?? "",
       intro: resolved.values.intro ?? "",

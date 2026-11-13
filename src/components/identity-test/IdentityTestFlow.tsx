@@ -425,12 +425,14 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
           <h1 className="font-display text-3xl tracking-tight text-ink">{ui.confirmation.heading}</h1>
           <p className="type-body mt-4">{ui.confirmation.body}</p>
           <p className="type-caption mt-2 text-ink-subtle">{ui.confirmation.spamNote}</p>
-          <div className="mt-10 rounded-2xl border border-border bg-surface p-6">
-            <p className="type-body max-w-prose">{ui.confirmation.sessionLead}</p>
-            <a href={bookingUrl} className={cn(primaryBtn, "mt-5 bg-booking hover:bg-booking-strong")}>
-              {ui.confirmation.sessionCta}
-            </a>
-          </div>
+          {locale === "lv" ? null : (
+            <div className="mt-10 rounded-2xl border border-border bg-surface p-6">
+              <p className="type-body max-w-prose">{ui.confirmation.sessionLead}</p>
+              <a href={bookingUrl} className={cn(primaryBtn, "mt-5 bg-booking hover:bg-booking-strong")}>
+                {ui.confirmation.sessionCta}
+              </a>
+            </div>
+          )}
         </section>
       ) : null}
     </div>

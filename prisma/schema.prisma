@@ -1110,3 +1110,9 @@ model IdentityBetaInvite {
 
   @@index([expiresAt])
 }
+
+model IdentityTestSettings {
+  id                  String   @id @default("default")
+  publicAccessEnabled Boolean  @default(false)
+  updatedAt           DateTime @updatedAt
+}

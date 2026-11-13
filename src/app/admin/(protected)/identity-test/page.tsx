@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { AdminPageHeader, AdminPanel, AdminStatCard } from "@/components/admin/AdminPageHeader";
 import { getIdentityDashboard } from "@/lib/identity-test/admin-repository";
+import { isIdentityTestPublicEnabled } from "@/lib/identity-test/public-access";
+import { PublicAccessToggle } from "@/components/admin/identity-test/PublicAccessToggle";
 
 export const dynamic = "force-dynamic";
 
@@ -17,10 +19,17 @@ const SECTIONS = [
 ];
 
 export default async function IdentityTestAdminPage() {
-  const d = await getIdentityDashboard();
+  const [d, publicAccess] = await Promise.all([getIdentityDashboard(), isIdentityTestPublicEnabled()]);
   return (
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader title="Identitātes Tests" description="Testa satura, rezultātu un e-pastu pārvaldība." />
+
+      <AdminPanel title="Publiskā piekļuve">
+        <PublicAccessToggle enabled={publicAccess} />
+        <p className="type-caption mt-3 text-ink-subtle">
+          Ieslēgts — tests pieejams ikvienam bez uzaicinājuma. Izslēgts — piekļuve tikai ar derīgu beta uzaicinājumu.
+        </p>
+      </AdminPanel>
 
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         <AdminStatCard label="Tēmas" value={String(d.themes)} />

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { processSubmission } from "@/lib/identity-test/submit";
 import { checkRateLimit } from "@/lib/security/rate-limit";
-import { isBetaRequestAllowed } from "@/lib/identity-test/beta";
+import { isIdentityTestAccessible } from "@/lib/identity-test/public-access";
 import type { SubmitPayload } from "@/lib/identity-test/types";
 
 export const dynamic = "force-dynamic";
@@ -24,8 +24,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, reason: "rate_limited" }, { status: 429 });
   }
 
-  if (!(await isBetaRequestAllowed())) {
-    return NextResponse.json({ ok: false, reason: "beta_closed" }, { status: 403 });
+  if (!(await isIdentityTestAccessible())) {
+    return NextResponse.json({ ok: false, reason: "test_closed" }, { status: 403 });
   }
 
   let body: SubmitPayload;

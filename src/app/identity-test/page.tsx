@@ -4,7 +4,7 @@ import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicIdentityTestPage } from "@/components/public/PublicIdentityTestPage";
 import { buildPublicMetadata } from "@/lib/seo/metadata";
 import { getPublicTestContent, loadConsentText } from "@/lib/identity-test/repository";
-import { isBetaRequestAllowed } from "@/lib/identity-test/beta";
+import { isIdentityTestAccessible } from "@/lib/identity-test/public-access";
 import { IdentityTestClosedNotice } from "@/components/public/IdentityTestClosedNotice";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +30,7 @@ export default async function IdentityTestPage() {
     notFound();
   }
 
-  if (!(await isBetaRequestAllowed())) {
+  if (!(await isIdentityTestAccessible())) {
     return <IdentityTestClosedNotice content={content} locale="en" />;
   }
 

@@ -34,6 +34,8 @@ export function buildResultEmail(input: {
   portraitFuture: string;
   safetyBlock?: string;
   bookingUrl?: string;
+  /** true → rezultāta beigās nav rezervācijas bloka (LV slēgts pēc produkta lēmuma). */
+  hideBookingCta?: boolean;
   texts: {
     greeting: string;
     intro: string;
@@ -57,10 +59,14 @@ export function buildResultEmail(input: {
     ${safety}
     ${section(input.texts.futureTitle, input.portraitFuture)}
     <p style="margin:24px 0 8px;font-size:13px;line-height:1.6;color:#7a756d;">${escapeHtml(input.texts.disclaimer)}</p>
-    <p style="margin:24px 0 12px;font-size:15px;line-height:1.7;color:#4a4743;">${escapeHtml(input.texts.sessionLead)}</p>
+    ${
+      input.hideBookingCta
+        ? ""
+        : `<p style="margin:24px 0 12px;font-size:15px;line-height:1.7;color:#4a4743;">${escapeHtml(input.texts.sessionLead)}</p>
     <p style="margin:0 0 24px;">
       <a href="${bookingUrl}" style="display:inline-block;padding:12px 22px;background-color:#4f6b62;color:#fdfcfa;text-decoration:none;border-radius:999px;font-size:14px;letter-spacing:0.02em;">${escapeHtml(input.texts.sessionCta)}</a>
-    </p>
+    </p>`
+    }
     <p style="margin:0;font-size:12px;line-height:1.6;color:#a39d94;">${escapeHtml(input.texts.privacyNote)}</p>`;
 
   const text = [
@@ -77,9 +83,7 @@ export function buildResultEmail(input: {
     "",
     input.texts.disclaimer,
     "",
-    input.texts.sessionLead,
-    bookingUrl,
-    "",
+    ...(input.hideBookingCta ? [] : [input.texts.sessionLead, bookingUrl, ""]),
     input.texts.privacyNote,
   ].filter((line) => line !== undefined).join("\n");
 

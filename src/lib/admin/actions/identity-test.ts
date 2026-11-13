@@ -597,3 +597,26 @@ export async function revokeBetaInviteAction(id: string) {
   revalidatePath(`${ADMIN_BASE}/beta`);
   return { ok: true };
 }
+
+// ── Publiskās pieejamības slēdzis ───────────────────────────
+
+export async function setIdentityPublicAccessAction(enabled: boolean) {
+  const session = await requireAdmin();
+  await prisma.identityTestSettings.upsert({
+    where: { id: "default" },
+    update: { publicAccessEnabled: enabled },
+    create: { id: "default", publicAccessEnabled: enabled },
+  });
+  await logAuditEvent({
+    action: "identity_test.update",
+    resource: "identity_test",
+    resourceId: "settings:public-access",
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { entity: "settings", publicAccessEnabled: enabled } as Prisma.InputJsonValue,
+  });
+  revalidatePath(ADMIN_BASE);
+  revalidatePath("/identity-test");
+  revalidatePath("/lv/identity-test");
+  return { ok: true };
+}
