@@ -51,3 +51,26 @@ Tikai development/test konfigurācija. Īstas mārketinga kampaņas aizliegtas.
 ## Automātiskā pārklājuma karte
 
 E2E (`scripts/e2e-identity.ts`) jau sedz: idempotenci, requestId dedup, ambiguous→PENDING, claim ekskluzivitāti, skipped→FAILED, consent→sequence, unsubscribe→CANCELLED, crisis→no-marketing. Šis fails ir atkārtojams pret dev DB.
+
+## Domēna verifikācija (`niksravins.com`)
+
+Statuss: **nepārbaudīts no koda** — Resend API atslēga nav lokāli pieejama; verifikācijas statuss jāpārbauda Resend Console → Domains → `niksravins.com` (DNS ieraksti: DKIM/SPF/MX). Pirms beta palaišanas apstiprini, ka domēns ir `verified` — citādi e-pasti iet tikai uz Resend konta īpašnieka adresi (test režīms) vai netiek piegādāti.
+
+## Kontrolēta testa e-pasta procedūra
+
+1. `RESEND_API_KEY` un `EMAIL_FROM` ieliec `.env.local` (pagaidu; pēc testa var noņemt).
+2. Palaid `npx tsx scripts/resend-test.ts <testa-adrese>` — tas iet caur pilno `reserveDelivery` → `deliverEmail` pipeline ar `[TEST]` prefiksu un `ADMIN_TEST` piegādes veidu (neiet caur produkcijas sarakstiem).
+3. Alternatīva pilna plūsma: DEV beta uzaicinājums → aizpildi testu → RESULT e-pasts.
+4. Pēc testa pārbaudi `IdentityEmailDelivery.status` un Resend dashboard piegādi.
+5. Īsta sūtīšana tikai pēc lietotāja atsevišķas atļaujas un norādītas testa adreses.
+
+## CRON_SECRET konfigurācija
+
+`api/cron/identity-email-sequence` bez `CRON_SECRET` atgriež **401** (drošs default).
+
+Production uzstādīšana (pēc apstiprinājuma):
+1. `openssl rand -hex 32` → saglabā.
+2. Vercel → Project → Environment Variables → `CRON_SECRET` (Production).
+3. `vercel.json` cron vai Vercel Cron UI: `GET /api/cron/identity-email-sequence`, ieteicams `*/15 * * * *`, header `Authorization: Bearer $CRON_SECRET`.
+4. Smoke test: `curl -H "Authorization: Bearer $CRON_SECRET" https://niksravins.com/api/cron/identity-email-sequence` → 200 `{processed:0,...}`.
+5. Pirms aktivizēšanas: DAY_1/3/5 veidnēm jābūt PUBLISHED LV+EN.
