@@ -9,6 +9,7 @@ export type PublicTheme = {
   slug: string;
   name: string;
   isSensitive: boolean;
+  description?: string;
 };
 
 export type PublicSubcategory = {

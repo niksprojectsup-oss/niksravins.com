@@ -36,7 +36,7 @@ export async function getPublicTestContent(locale: string): Promise<TestContentT
   });
 
   const [themeT, subT, beliefT] = await Promise.all([
-    loadPublishedTranslations({ entityType: "THEME", entityIds: themes.map((t) => t.id), fields: ["name"] }),
+    loadPublishedTranslations({ entityType: "THEME", entityIds: themes.map((t) => t.id), fields: ["name", "description"] }),
     loadPublishedTranslations({ entityType: "SUBCATEGORY", entityIds: subcategories.map((s) => s.id), fields: ["name"] }),
     loadPublishedTranslations({ entityType: "BELIEF", entityIds: beliefs.map((b) => b.id), fields: ["text"] }),
   ]);
@@ -45,6 +45,7 @@ export async function getPublicTestContent(locale: string): Promise<TestContentT
     .map((t) => ({
       id: t.id, slug: t.slug, isSensitive: t.isSensitive,
       name: resolveTranslation(themeT, { entityId: t.id, field: "name", locale })?.value ?? t.slug,
+      description: resolveTranslation(themeT, { entityId: t.id, field: "description", locale })?.value,
     }))
     .filter((t) => subcategories.some((s) => s.themeId === t.id));
 
