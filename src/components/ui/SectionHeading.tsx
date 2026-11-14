@@ -20,7 +20,7 @@ export function SectionHeading({
   return (
     <header
       className={cn(
-        "layout-stack-sm mb-stack-md max-w-prose",
+        "layout-stack-sm mb-8 max-w-prose md:mb-12",
         align === "center" && "mx-auto text-center",
         className,
       )}

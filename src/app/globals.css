@@ -417,7 +417,7 @@
   }
 
   .layout-section-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
 
   @media (min-width: 768px) {
@@ -946,7 +946,7 @@
   }
 
   .home-underneath-headline-text {
-    font-size: clamp(2.15rem, 8vw, 2.75rem);
+    font-size: clamp(1.75rem, 6.5vw, 2.75rem);
   }
 }
 
@@ -1137,10 +1137,21 @@
 
 /* FAQ accordion restored from 272be12. */
 
+/* Mobile: multi-line serif headings read better with slightly airier
+   leading. Unlayered so it overrides the utilities-layer defaults. */
+@media (max-width: 767px) {
+  .type-display,
+  .type-heading,
+  .type-home-title,
+  .home-underneath-headline-text {
+    line-height: 1.14;
+  }
+}
+
 .type-home-title {
   --cms-tracking: -0.034em;
   font-family: var(--font-family-display), "Fraunces", ui-serif, Georgia, serif;
-  font-size: clamp(2.35rem, 4.6vw + 0.4rem, 4.35rem);
+  font-size: clamp(1.9375rem, 4.6vw + 0.4rem, 4.35rem);
   line-height: 1.06;
   letter-spacing: var(--cms-tracking);
   font-weight: 500;
