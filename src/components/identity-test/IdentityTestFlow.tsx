@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { IdentityTestContent } from "@/content/i18n/types";
 import type { PublicBelief, TestContentTree } from "@/lib/identity-test/types";
 import { cn } from "@/lib/utils";
@@ -27,6 +27,12 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
   const [requestId] = useState(() => crypto.randomUUID());
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Soļu maiņa ir klienta pusē bez navigācijas - mobīlajā versijā
+  // lapa paliktu tajā pašā scroll pozīcijā; katru soli sākam no augšas.
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+  }, [step]);
 
   const visibleSubcategories = useMemo(
     () => tree.subcategories.filter((s) => themeIds.has(s.themeId)),
