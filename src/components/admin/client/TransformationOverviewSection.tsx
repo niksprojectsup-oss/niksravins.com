@@ -121,7 +121,7 @@ export function TransformationOverviewSection({
               .filter((row) => row.current !== null)
               .map((row) => (
                 <li key={row.key} className="type-body">
-                  {row.label}: {row.starting ?? "—"} → {row.current}
+                  {row.label}: {row.starting ?? "-"} → {row.current}
                   {row.inverted ? (
                     <span className="type-caption ml-2">(lower stuck is improvement)</span>
                   ) : null}

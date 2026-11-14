@@ -1,4 +1,4 @@
-/** Kontrolēts RESULT e-pasta tests — pilnais pipeline (compose + buildResultEmail +
+/** Kontrolēts RESULT e-pasta tests - pilnais pipeline (compose + buildResultEmail +
  * reserveDelivery + deliverEmail), subject ar [TEST] prefiksu.
  * Palaišana: npx tsx --env-file=.env.local scripts/identity-test-send-result.ts <locale> <adrese> */
 import { prisma } from "../src/lib/db/prisma";
@@ -32,7 +32,7 @@ async function main() {
     throw new Error(`EMAIL_FROM mismatch: ${cfg.from}`);
   }
 
-  // Īsti uzskatu id no DEV DB — 3 apgalvojumi no vienas apakštēmas (klasteris)
+  // Īsti uzskatu id no DEV DB - 3 apgalvojumi no vienas apakštēmas (klasteris)
   const beliefs = await prisma.identityBelief.findMany({
     where: { status: "PUBLISHED", stableKey: { in: ["T01-S01-B01", "T01-S01-B02", "T01-S04-B01", "T02-S03-B01"] } },
     select: { id: true, stableKey: true },
@@ -49,7 +49,7 @@ async function main() {
     beliefs: resolved, connectors, safetyBlock: safetyBlock ?? undefined,
   });
   if (portraitNow.length < 100 || portraitFuture.length < 100) {
-    throw new Error("portraits too short — content problem");
+    throw new Error("portraits too short - content problem");
   }
 
   const template = await prisma.identityEmailTemplate.findUnique({ where: { step: "RESULT" } });

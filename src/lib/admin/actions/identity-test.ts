@@ -388,7 +388,7 @@ export async function updateEmailTemplateAction(
   return { ok: true };
 }
 
-/** Testa e-pasts administratoram — SEQUENCE_STEP veidnes. Nesūta īstiem klientiem. */
+/** Testa e-pasts administratoram - SEQUENCE_STEP veidnes. Nesūta īstiem klientiem. */
 export async function sendTestEmailAction(input: {
   step: IdentityEmailStep;
   locale: string;
@@ -432,7 +432,7 @@ export async function resendFailedDeliveryAction(deliveryId: string) {
   if (delivery.emailKind === "RESULT" && delivery.resultId) {
     return resendResultEmail(delivery.resultId);
   }
-  // Secības solis — atlaižam uz PENDING, cron paņems nākamajā ciklā.
+  // Secības solis - atlaižam uz PENDING, cron paņems nākamajā ciklā.
   await prisma.identityEmailDelivery.update({
     where: { id: deliveryId },
     data: { status: "PENDING", nextRetryAt: new Date() },

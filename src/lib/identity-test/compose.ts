@@ -3,11 +3,11 @@ import type { ConnectorTexts, ResolvedBeliefContent } from "./types";
 /**
  * Deterministiska portretu kompozīcija.
  *
- * Principi (specifikācija §4–5):
- * - Līdzīgi uzskati grupējas pēc kopīgiem mehānismu tagiem (union–find).
+ * Principi (specifikācija §4-5):
+ * - Līdzīgi uzskati grupējas pēc kopīgiem mehānismu tagiem (union-find).
  * - Katrs klasteris → viena rindkopa; klasteru iekšienē nav fragmentu atkārtošanās.
- * - Atšķirīgi modeļi netiek sapludināti — starp klasteriem kontrasta pāreja.
- * - Teksts balstās TIKAI uz izvēlēto uzskatu fragmentiem — neizdomā faktus.
+ * - Atšķirīgi modeļi netiek sapludināti - starp klasteriem kontrasta pāreja.
+ * - Teksts balstās TIKAI uz izvēlēto uzskatu fragmentiem - neizdomā faktus.
  * - Fragmenti ir admin-apstiprināti un jau satur iespējamības valodu.
  */
 
@@ -28,7 +28,7 @@ function dedupe<T>(items: T[], key: (item: T) => string): T[] {
 type Cluster = { beliefs: ResolvedBeliefContent[]; mechanismKeys: string[] };
 
 export function clusterBeliefs(beliefs: ResolvedBeliefContent[]): Cluster[] {
-  // Union–find pār indeksiem: savieno uzskatus ar kopīgu mehānismu tagu.
+  // Union-find pār indeksiem: savieno uzskatus ar kopīgu mehānismu tagu.
   const parent = beliefs.map((_, i) => i);
   const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])));
   const union = (a: number, b: number) => { parent[find(a)] = find(b); };
@@ -68,13 +68,15 @@ function clusterParagraph(
   cluster: Cluster,
   field: "portraitNow" | "portraitFuture",
   connectors: ConnectorTexts,
+  isFirst: boolean,
 ): string {
   const fragments = dedupe(
     cluster.beliefs.map((b) => b[field]),
     (t) => t,
   );
-  if (cluster.beliefs.length > 1 && connectors.joinSimilar) {
-    // Kopīgs mehānisms → savienotājfrāze pirms fragmentu virknes.
+  // joinSimilar tikai pirmajam klasterim - vēlākos jau ievada kontrasta
+  // savienotājs, un divi savienotāji pēc kārtas lasās nedabiski.
+  if (isFirst && cluster.beliefs.length > 1 && connectors.joinSimilar) {
     return [connectors.joinSimilar, joinParagraphs(fragments)].filter(Boolean).join(" ");
   }
   return joinParagraphs(fragments);
@@ -89,13 +91,13 @@ export function composePortraits(input: {
   const clusters = clusterBeliefs(beliefs);
 
   const nowParagraphs = clusters
-    .map((cluster) => clusterParagraph(cluster, "portraitNow", connectors))
+    .map((cluster, i) => clusterParagraph(cluster, "portraitNow", connectors, i === 0))
     .filter(Boolean);
   const futureParagraphs = clusters
-    .map((cluster) => clusterParagraph(cluster, "portraitFuture", connectors))
+    .map((cluster, i) => clusterParagraph(cluster, "portraitFuture", connectors, i === 0))
     .filter(Boolean);
 
-  // Kontrasta savienotājs tikai starp klasteru rindkopām — ne starp opening/closing.
+  // Kontrasta savienotājs tikai starp klasteru rindkopām - ne starp opening/closing.
   const portraitNow = [
     connectors.opening ?? "",
     joinParagraphs(nowParagraphs, connectors.joinContrast),

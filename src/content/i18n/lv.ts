@@ -43,7 +43,7 @@ export const lvContent: PublicContent = {
     name: "Niks Ravins",
     headline: "Jūs saprotat reakciju, bet tā tik un tā notiek.",
     explanation: [
-      "Jūs varat zināt, ka esat drošībā, ka pietiekat, ka drīkstat teikt nē vai būt pats — un tomēr reaģēt tā, it kā nekas no tā nebūtu patiess.",
+      "Jūs varat zināt, ka esat drošībā, ka pietiekat, ka drīkstat teikt nē vai būt pats - un tomēr reaģēt tā, it kā nekas no tā nebūtu patiess.",
       "Jautājums zem tā bieži nav tikai tas, kāpēc jūs reaģējat, bet gan tas, par ko jūs iemācījāties kļūt, lai jūs mīlētu, izvēlētos, pieņemtu, lai jūs justos droši vai pietiekami.",
       "Šī atbilde var kļūt par iekšēju likumu. Un likums var turpināt organizēt reakciju ilgi pēc tam, kad apzināti jau zināt labāk.",
     ],
@@ -106,7 +106,7 @@ export const lvContent: PublicContent = {
     items: [
       {
         title: "Jūsu attiecības.",
-        body: "Jūs vēlaties attiecībās justies saistītāks, drošāks, mīlētāks vai brīvāks — bet kaut kas arvien atkal nāk ceļā.",
+        body: "Jūs vēlaties attiecībās justies saistītāks, drošāks, mīlētāks vai brīvāks - bet kaut kas arvien atkal nāk ceļā.",
       },
       {
         title: "Jūsu darbs.",
@@ -122,7 +122,7 @@ export const lvContent: PublicContent = {
       },
       {
         title: "Jūsu sapņi.",
-        body: "Ir lietas, ko vēlaties radīt, piedzīvot vai sasniegt — bet jūs arvien sevi aizturat, atliekat vai paliekat pie tā, kas šķiet pazīstams.",
+        body: "Ir lietas, ko vēlaties radīt, piedzīvot vai sasniegt - bet jūs arvien sevi aizturat, atliekat vai paliekat pie tā, kas šķiet pazīstams.",
       },
       {
         title: "Jūsu dzīve.",
@@ -148,7 +148,7 @@ export const lvContent: PublicContent = {
       {
         from: "Es neesmu pelnījis labāku.",
         explanation:
-          "Jūs varat palikt darbā, attiecībās vai situācijā, kas vairs nejūtas pareizi — pat ja zināt, ka vēlaties vairāk.",
+          "Jūs varat palikt darbā, attiecībās vai situācijā, kas vairs nejūtas pareizi - pat ja zināt, ka vēlaties vairāk.",
         to: "Es esmu pelnījis labāku.",
       },
       {
@@ -160,7 +160,7 @@ export const lvContent: PublicContent = {
       {
         from: "Es nevaru uzticēties cilvēkiem.",
         explanation:
-          "Jums var būt grūti atvērties, pieņemt atbalstu vai ļaut kādam īsti tuvoties — pat ja dziļi vēlaties saikni.",
+          "Jums var būt grūti atvērties, pieņemt atbalstu vai ļaut kādam īsti tuvoties - pat ja dziļi vēlaties saikni.",
         to: "Es varu uzticēties.",
       },
       {
@@ -182,16 +182,16 @@ export const lvContent: PublicContent = {
   },
   roots: {
     intro:
-      "Mēs strādājam ar pārliecībām un emocionālajām saiknēm zem tā — tām, kas var veidot jūsu izvēles, uzvedību, attiecības un to, kā jūs piedzīvojat sevi.",
+      "Mēs strādājam ar pārliecībām un emocionālajām saiknēm zem tā - tām, kas var veidot jūsu izvēles, uzvedību, attiecības un to, kā jūs piedzīvojat sevi.",
     headline:
       "Kad mainās iekšējais pamats,\nvar mainīties arī tas, kā jūs ejat cauri dzīvei.",
   },
   trust: {
     statements: [
-      "Jūs varat saprast, kāpēc reaģējat — un tomēr turpināt reaģēt.",
-      "Greizsirdība, kontrole, trauksme, atkāpšanās, vēlme izpatikt, pārmērīga funkcionēšana, grūtības teikt nē, bailes no noraidījuma, vajadzība sevi pierādīt, pazaudēt sevi attiecībās — tas var izskatīties pēc atsevišķām problēmām.",
+      "Jūs varat saprast, kāpēc reaģējat - un tomēr turpināt reaģēt.",
+      "Greizsirdība, kontrole, trauksme, atkāpšanās, vēlme izpatikt, pārmērīga funkcionēšana, grūtības teikt nē, bailes no noraidījuma, vajadzība sevi pierādīt, pazaudēt sevi attiecībās - tas var izskatīties pēc atsevišķām problēmām.",
       "Bieži tās ir viena stumbra zari: iekšējs likums par to, kam jums bija jābūt, lai paliktu saistīts, drošībā vai vērtīgs.",
-      "Šis darbs ir cilvēkiem, kuri jau ir pašapzināti — un ievēro, ka sapratne vien nav noteikti mainījusi to, kā reakcija jūtas, kad tā atnāk.",
+      "Šis darbs ir cilvēkiem, kuri jau ir pašapzināti - un ievēro, ka sapratne vien nav noteikti mainījusi to, kā reakcija jūtas, kad tā atnāk.",
     ],
   },
   about: {
@@ -199,15 +199,15 @@ export const lvContent: PublicContent = {
     story: [
       [
         "Viens veids, kā saprast šo modeli, ir vienkāršs tēls.",
-        "Stumbrs ir iekšējais likums — piemēram: man jābūt viegli mīlamam.",
+        "Stumbrs ir iekšējais likums - piemēram: man jābūt viegli mīlamam.",
         "Zari ir tas, kā tas parādās: grūtības teikt nē, pārmērīga pielāgošanās, bailes no konflikta, otra noskaņojuma uzraudzīšana, savu vajadzību apspiešana, vainas sajūta, kad izvēlaties sevi.",
-        "Mēs varam gadus strādāt ar zariem. Darbs bieži kļūst noderīgāks, kad paskatāmies uz stumbru — jo, kad pamatā esošais likums sāk mainīties, var sākt mainīties arī zari.",
+        "Mēs varam gadus strādāt ar zariem. Darbs bieži kļūst noderīgāks, kad paskatāmies uz stumbru - jo, kad pamatā esošais likums sāk mainīties, var sākt mainīties arī zari.",
       ],
       [
-        "Identitātes pārrakstīšana ir tas, par ko šis darbs ir: atklāt iekšējos likumus, pēc kuriem iemācījāties dzīvot — un izzināt, kas kļūst iespējams, kad tiem vairs nav jāorganizē, kas jūs esat.",
+        "Identitātes pārrakstīšana ir tas, par ko šis darbs ir: atklāt iekšējos likumus, pēc kuriem iemācījāties dzīvot - un izzināt, kas kļūst iespējams, kad tiem vairs nav jāorganizē, kas jūs esat.",
         "Tas nav pozitīvais domāšana, piespiedu afirmācijas vai vēl viens jūsu modeļa skaidrojums. Šis darbs nav par kļūšanu par kādu citu. Tas ir par dzīvošanu ar mazāku nepieciešamību organizēt sevi ap veciem likumiem par to, kam jums bija jābūt.",
       ],
-      "Es strādāju ar cilvēkiem, kuri jau daudz saprot par sevi — un tomēr ievēro, ka atnāk tā pati automātiskā reakcija. Gadiem es redzēju skaidru ieskatu līdzās nemainītai reakcijai. Šajā spraugā dzīvo šis darbs: ne vairāk sapratnē, bet sastopot iekšējo likumu pieredzē — emocionāli, attiecībās, ķermenī.",
+      "Es strādāju ar cilvēkiem, kuri jau daudz saprot par sevi - un tomēr ievēro, ka atnāk tā pati automātiskā reakcija. Gadiem es redzēju skaidru ieskatu līdzās nemainītai reakcijai. Šajā spraugā dzīvo šis darbs: ne vairāk sapratnē, bet sastopot iekšējo likumu pieredzē - emocionāli, attiecībās, ķermenī.",
     ],
   },
   aap: {
@@ -221,23 +221,23 @@ export const lvContent: PublicContent = {
         title: "Ko šeit nozīmē „saikne”",
         description: [
           "Saikne ir iemācītā saite starp pieredzi un tagadējo reakciju.",
-          "Piemēram: jūs varat iemācīties, ka vajadzību izteikšana apdraud saikni. Saikne — manas vajadzības rada briesmas — var turpināt darboties, pat ja racionāli zināt, ka esat drošībā. Tā jūs iemācījāties būt tas, kurš pielāgojas. AAP strādā tieši ar šo saiti, ne tikai ar stāstu par to.",
+          "Piemēram: jūs varat iemācīties, ka vajadzību izteikšana apdraud saikni. Saikne - manas vajadzības rada briesmas - var turpināt darboties, pat ja racionāli zināt, ka esat drošībā. Tā jūs iemācījāties būt tas, kurš pielāgojas. AAP strādā tieši ar šo saiti, ne tikai ar stāstu par to.",
         ],
       },
       {
         title: "Kas notiek sesijā",
         description:
-          "Mēs atrodam vienu konkrētu automātisko reakciju un strādājam ar saikni un dzīvo pieredzi, kas ar to saistīta. Sesijas ir strukturētas un fokusētas. Jums nelūdz uzstāties vai radīt ieskatu. Darbs ir pieredzes — tas notiek caur to, ko jūs patiešām jūtat un pie kā varat palikt, nevis bezgalīgi runājot par modeli.",
+          "Mēs atrodam vienu konkrētu automātisko reakciju un strādājam ar saikni un dzīvo pieredzi, kas ar to saistīta. Sesijas ir strukturētas un fokusētas. Jums nelūdz uzstāties vai radīt ieskatu. Darbs ir pieredzes - tas notiek caur to, ko jūs patiešām jūtat un pie kā varat palikt, nevis bezgalīgi runājot par modeli.",
       },
       {
-        title: "Kāpēc pagātne var būt nozīmīga — to nepārdzīvojot no jauna",
+        title: "Kāpēc pagātne var būt nozīmīga - to nepārdzīvojot no jauna",
         description:
-          "Pagātne var būt būtiska, jo saiknes tiek iemācītas pieredzē. Mēs varam īsi aktivizēt emocionālo atmiņu, kas saistīta ar jūsu reakciju — pietiekami, lai sasniegtu to, kas to uztur šodien. Mērķis nav atkārtoti apmeklēt bērnību, bet strādāt ar to, kas tagad uztur reakciju.",
+          "Pagātne var būt būtiska, jo saiknes tiek iemācītas pieredzē. Mēs varam īsi aktivizēt emocionālo atmiņu, kas saistīta ar jūsu reakciju - pietiekami, lai sasniegtu to, kas to uztur šodien. Mērķis nav atkārtoti apmeklēt bērnību, bet strādāt ar to, kas tagad uztur reakciju.",
       },
       {
         title: "Kas var mainīties",
         description:
-          "Kad saikne pārbīdās un iekšējais likums atslābst, reakcija, kas tam sekoja, var kļūt mīkstāka vai mazāk nepieciešama. Tas nav solījums. Klienti bieži apraksta ne jaunu cilvēku, bet citu ikdienas pieredzi — mazāk organizētu ap veco likumu, vairāk spējīgu palikt pie sevis, nemaksājot par to ar vainu, kontroli vai sevis pamešanu.",
+          "Kad saikne pārbīdās un iekšējais likums atslābst, reakcija, kas tam sekoja, var kļūt mīkstāka vai mazāk nepieciešama. Tas nav solījums. Klienti bieži apraksta ne jaunu cilvēku, bet citu ikdienas pieredzi - mazāk organizētu ap veco likumu, vairāk spējīgu palikt pie sevis, nemaksājot par to ar vainu, kontroli vai sevis pamešanu.",
       },
     ],
   },
@@ -258,7 +258,7 @@ export const lvContent: PublicContent = {
       {
         title: "Dusmas atnāk retāk",
         description:
-          "Dusmas, kam nebija sakara ar šo mirkli, vairs nenāca pirms domas. Situācija nemainījās. Reakcija — jā.",
+          "Dusmas, kam nebija sakara ar šo mirkli, vairs nenāca pirms domas. Situācija nemainījās. Reakcija - jā.",
       },
     ],
   },
@@ -269,28 +269,28 @@ export const lvContent: PublicContent = {
       {
         question: "Kas ir identitātes pārrakstīšana?",
         answer:
-          "Identitātes pārrakstīšana ir nosaukums, ko izmantoju šī darba plašākajam virzienam: atklāt iekšējos likumus, pēc kuriem iemācījāties dzīvot — kam jums bija jābūt, lai jūs mīlētu, izvēlētos, pieņemtu, lai justos droši vai pietiekami — un izzināt, kas kļūst iespējams, kad šiem likumiem vairs nav jāorganizē jūsu reakcijas. Tā ir konceptuāla valoda darbam, nevis medicīnisks vai neirozinātnisks apgalvojums.",
+          "Identitātes pārrakstīšana ir nosaukums, ko izmantoju šī darba plašākajam virzienam: atklāt iekšējos likumus, pēc kuriem iemācījāties dzīvot - kam jums bija jābūt, lai jūs mīlētu, izvēlētos, pieņemtu, lai justos droši vai pietiekami - un izzināt, kas kļūst iespējams, kad šiem likumiem vairs nav jāorganizē jūsu reakcijas. Tā ir konceptuāla valoda darbam, nevis medicīnisks vai neirozinātnisks apgalvojums.",
       },
       {
-        question: "Kas ir AAP — un ar ko tas atšķiras?",
+        question: "Kas ir AAP - un ar ko tas atšķiras?",
         answer:
           "Adaptive Association Processing (AAP) ir strukturēts terapeitisks process, ko es izmantoju psihoterapijā. Tas strādā ar iemācīto saikni un dzīvo pieredzi, kas var uzturēt vecu iekšējo likumu aktīvu. Identitātes pārrakstīšana raksturo, par ko darbs ir; AAP ir tas, kā tas notiek telpā. Tie nav atsevišķi piedāvājumi vai konkurējošas metodes.",
       },
       {
         question: "Kas notiek sesijas laikā?",
         answer:
-          "Mēs identificējam konkrētu automātisko reakciju un strādājam ar saikni un dzīvo pieredzi, kas ar to saistīta. Sesijas ir strukturētas, mierīgas un fokusētas. Jums nelūdz uzstāties vai radīt ieskatu — darbs notiek caur tiešu modeļa pieredzi, tādā tempā, kādā jūs varat palikt pie tā.",
+          "Mēs identificējam konkrētu automātisko reakciju un strādājam ar saikni un dzīvo pieredzi, kas ar to saistīta. Sesijas ir strukturētas, mierīgas un fokusētas. Jums nelūdz uzstāties vai radīt ieskatu - darbs notiek caur tiešu modeļa pieredzi, tādā tempā, kādā jūs varat palikt pie tā.",
       },
       {
         question: "Ko darīt, ja es jau saprotu savus modeļus?",
         answer:
-          "Tas bieži ir sākuma punkts. Daudzi cilvēki šeit var skaidri izskaidrot savus modeļus — un tomēr ievēro, ka atnāk tā pati reakcija. Šis darbs adresē spraugu starp zināšanu un citādu piedzīvošanu: ne vēl vienu skaidrojumu, bet darbu ar to, kas modeli uztur dzīvu tagadnē.",
+          "Tas bieži ir sākuma punkts. Daudzi cilvēki šeit var skaidri izskaidrot savus modeļus - un tomēr ievēro, ka atnāk tā pati reakcija. Šis darbs adresē spraugu starp zināšanu un citādu piedzīvošanu: ne vēl vienu skaidrojumu, bet darbu ar to, kas modeli uztur dzīvu tagadnē.",
       },
       {
         question: "Kāda ir atšķirība starp pirmo sesiju un paketi?",
         answer: [
           "45 minūšu sākotnējā sesija ir jūsu pirmais solis: mēs izpētām jūsu modeļus, saprotam, kas tos uztur, un noskaidrojam visefektīvāko ceļu uz priekšu.",
-          "5 × 45 minūšu Deep Transformation pakete ir saistīts process — ceļojums pāri sesijām, lai ietu dziļāk un sekotu tam, kas mainās. Pirmo sesiju rezervējat norēķinu laikā; pārējās plānojat klienta portālā.",
+          "5 × 45 minūšu Deep Transformation pakete ir saistīts process - ceļojums pāri sesijām, lai ietu dziļāk un sekotu tam, kas mainās. Pirmo sesiju rezervējat norēķinu laikā; pārējās plānojat klienta portālā.",
         ],
       },
       {
@@ -302,7 +302,7 @@ export const lvContent: PublicContent = {
   finalCta: {
     lines: [
       "Iespējams, jūs jau saprotat modeli.",
-      "Interesantāks jautājums var būt, par ko jūs iemācījāties kļūt —",
+      "Interesantāks jautājums var būt, par ko jūs iemācījāties kļūt -",
       "un vai šim likumam joprojām jāorganizē jūsu dzīve.",
     ],
     button: { label: "Rezervēt sesiju", href: "/book" },
@@ -311,7 +311,7 @@ export const lvContent: PublicContent = {
     label: "Rezervācija",
     title: "Rezervēt sesiju",
     subtitle:
-      "Sāciet procesu, lai mainītu automātiskās reakcijas, kas jums vairs neder. Starptautiskie klienti ir laipni gaidīti — sesijas notiek angļu valodā.",
+      "Sāciet procesu, lai mainītu automātiskās reakcijas, kas jums vairs neder. Starptautiskie klienti ir laipni gaidīti - sesijas notiek angļu valodā.",
   },
   bookingOffers: {
     "initial-aap-session": {
@@ -324,7 +324,7 @@ export const lvContent: PublicContent = {
     "aap-transformation-package": {
       title: "5 × 45 minūšu Deep Transformation pakete",
       description:
-        "Strukturēts transformācijas process — nevis piecas atsevišķas tikšanās, bet viens saistīts ceļojums, kas veidots ilgstošām pārmaiņām.",
+        "Strukturēts transformācijas process - nevis piecas atsevišķas tikšanās, bet viens saistīts ceļojums, kas veidots ilgstošām pārmaiņām.",
       detail:
         "Jēgpilnām pārmaiņām parasti vajag vairāk nekā vienu sarunu. Darbs vairākās sesijās ļauj iet dziļāk, sekot tam, kas mainās, un veidot impulsu, nevis sākt no jauna katru reizi.",
       durationLabel: "5 sesijas · katra 45 minūtes",
@@ -369,7 +369,7 @@ export const lvContent: PublicContent = {
       title: "Izvēlieties laiku",
       packageTitle: "Izvēlieties pirmo sesiju",
       packageDescription:
-        "Rezervējiet pirmo sesiju tagad. 2.–5. sesiju varēsiet plānot vēlāk pa vienai klienta portālā.",
+        "Rezervējiet pirmo sesiju tagad. 2.-5. sesiju varēsiet plānot vēlāk pa vienai klienta portālā.",
       description:
         "Izvēlieties pieejamu tiešsaistes sesiju. Jūs redzēsiet tikai laikus, kad Niks ir pieejams tiešsaistes darbam.",
       loading: "Ielādē pieejamos laikus…",
@@ -384,7 +384,7 @@ export const lvContent: PublicContent = {
       weekdays: ["Pr", "Ot", "Tr", "Ce", "Pk", "Se", "Sv"],
       packageSessionNote: "Šodien rezervējat 1. no 5 sesijām.",
       packageFollowUpNote:
-        "2.–5. sesiju varēsiet plānot vēlāk pa vienai klienta portālā.",
+        "2.-5. sesiju varēsiet plānot vēlāk pa vienai klienta portālā.",
       localTimeNote: "Laiki tiek rādīti jūsu vietējā laikā ({timezone}).",
       previousMonth: "Iepriekšējais mēnesis",
       nextMonth: "Nākamais mēnesis",
@@ -470,7 +470,7 @@ export const lvContent: PublicContent = {
       title: "Maksājums apstiprināts",
       errorTitle: "Maksājumu neizdevās verificēt",
       message:
-        "Paldies — jūsu maksājums ir saņemts. Rezervācija ir apstiprināta, un drīzumā saņemsiet apstiprinājuma e-pastu.",
+        "Paldies - jūsu maksājums ir saņemts. Rezervācija ir apstiprināta, un drīzumā saņemsiet apstiprinājuma e-pastu.",
       packageMessage:
         "Jūsu transformācijas pakete ir apstiprināta. Saņemsiet e-pastu ar rezervācijas datiem un piekļuvi klienta portālam.",
       courseMessage:
@@ -533,7 +533,7 @@ export const lvContent: PublicContent = {
   },
   identityTest: {
     seo: {
-      title: "Identitātes tests — Niks Ravins",
+      title: "Identitātes tests - Niks Ravins",
       description:
         "Atzīmē iekšējos uzskatus, kuros atpazīsti sevi, un saņem divus personalizētus portretus: kā šie uzskati ietekmē tavu ikdienu un kā varētu izskatīties dzīve pēc darba ar tiem.",
     },
@@ -558,7 +558,7 @@ export const lvContent: PublicContent = {
     },
     review: {
       heading: "Tava izvēle",
-      subheading: "Pārskati atzīmētos apgalvojumus — vari labot, ja vajag.",
+      subheading: "Pārskati atzīmētos apgalvojumus - vari labot, ja vajag.",
       submitCta: "Saņemt manu personīgo rezultātu",
       back: "Atpakaļ",
     },

@@ -7,7 +7,7 @@ import type { EditorState } from "@tiptap/pm/state";
  * Paragraphs inherit `.type-body` (`--nr-text-base: 1.125rem` → 18px at a 16px root).
  * Heading levels use the global heading rules: h2 is `--nr-text-3xl` (54px),
  * h3 is `--nr-text-xl` (32px). h1 is `--nr-text-display`
- * (`clamp(2.875rem, 6vw + 1rem, 5.25rem)` → 46px–84px), so it is not one pixel size.
+ * (`clamp(2.875rem, 6vw + 1rem, 5.25rem)` → 46px-84px), so it is not one pixel size.
  */
 export const CMS_EDITOR_BODY_FONT_SIZE_LABEL = "18";
 

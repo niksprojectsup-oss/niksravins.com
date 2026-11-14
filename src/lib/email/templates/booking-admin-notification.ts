@@ -10,7 +10,7 @@ export function buildBookingAdminNotificationEmail(
   const sessionTime = formatSlotTime(payload.scheduledAt, BUSINESS_TIMEZONE);
   const clientLocalTime = formatSlotTime(payload.scheduledAt, payload.clientTimezone);
 
-  const subject = `New booking — ${clientName}`;
+  const subject = `New booking - ${clientName}`;
 
   const text = [
     "A new session has been booked.",

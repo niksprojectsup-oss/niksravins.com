@@ -27,7 +27,7 @@ export function PractitionerNotesSection({
     <section className="observed-card p-6 md:p-8">
       <div className="layout-stack-sm">
         <h2 className="type-heading-sm">Practitioner notes</h2>
-        <p className="type-body">Private notes — not visible to clients.</p>
+        <p className="type-body">Private notes - not visible to clients.</p>
       </div>
 
       <div className="mt-6">

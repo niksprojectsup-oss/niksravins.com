@@ -161,7 +161,7 @@ export function AdminCalendar({
                       hour: "2-digit",
                       minute: "2-digit",
                     }).format(new Date(slot.startTime))}
-                    {" – "}
+                    {" - "}
                     {new Intl.DateTimeFormat("en-GB", {
                       hour: "2-digit",
                       minute: "2-digit",

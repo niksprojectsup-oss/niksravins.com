@@ -54,9 +54,9 @@ export function ProgressTable({ progress, compact = false }: ProgressTableProps)
                 </div>
               </div>
               <div className="shrink-0 text-right">
-                <p className="type-caption">{row.current ?? "—"}</p>
+                <p className="type-caption">{row.current ?? "-"}</p>
                 {!compact ? (
-                  <p className="type-caption text-ink-faint">from {row.starting ?? "—"}</p>
+                  <p className="type-caption text-ink-faint">from {row.starting ?? "-"}</p>
                 ) : null}
               </div>
             </div>

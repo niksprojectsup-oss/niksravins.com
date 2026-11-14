@@ -38,8 +38,8 @@ async function main() {
   // 2) Savienotājfrāzes
   const connectors: { key: string; kind: "OPENING"|"JOIN_SIMILAR"|"JOIN_CONTRAST"|"TRANSITION"|"CLOSING"; lv: string; en: string }[] = [
     { key: "opening", kind: "OPENING",
-      lv: "Paldies, ka veltīji laiku šai izpētei. Zemāk — uzmanīgs apraksts par to, kā izvēlētie uzskati var izpausties ikdienas dzīvē. Tas nav diagnoze un ne spriedums — tikai spogulis, kas palīdz pamanīt modeļus, kuri varbūt jau sen darbojas fonā.",
-      en: "Thank you for taking the time for this reflection. Below is a careful description of how the beliefs you selected may show up in everyday life. This is not a diagnosis or a judgment — only a mirror to help you notice patterns that may have been operating in the background for a long time." },
+      lv: "Paldies, ka veltīji laiku šai izpētei. Zemāk - uzmanīgs apraksts par to, kā izvēlētie uzskati var izpausties ikdienas dzīvē. Tas nav diagnoze un ne spriedums - tikai spogulis, kas palīdz pamanīt modeļus, kuri varbūt jau sen darbojas fonā.",
+      en: "Thank you for taking the time for this reflection. Below is a careful description of how the beliefs you selected may show up in everyday life. This is not a diagnosis or a judgment - only a mirror to help you notice patterns that may have been operating in the background for a long time." },
     { key: "join-similar", kind: "JOIN_SIMILAR",
       lv: "Tas bieži savienojas ar līdzīgu izjūtu:",
       en: "This often connects with a similar feeling:" },
@@ -47,14 +47,14 @@ async function main() {
       lv: "Reizēm tas izpaužas arī savādāk:",
       en: "Sometimes it also shows up differently:" },
     { key: "transition", kind: "TRANSITION",
-      lv: "Un tagad — kā tava dzīve varētu izskatīties, ja šie uzskati vairs nenoteiktu tavas izvēles. Tas nav solījums un ne pozitīvs apgalvojums — tikai iespēja, kuru vari izpētīt savā tempā.",
-      en: "And now — how your life could look if these beliefs no longer governed your choices. This is not a promise and not a positive affirmation — only a possibility you can explore at your own pace." },
+      lv: "Un tagad - kā tava dzīve varētu izskatīties, ja šie uzskati vairs nenoteiktu tavas izvēles. Tas nav solījums un ne pozitīvs apgalvojums - tikai iespēja, kuru vari izpētīt savā tempā.",
+      en: "And now - how your life could look if these beliefs no longer governed your choices. This is not a promise and not a positive affirmation - only a possibility you can explore at your own pace." },
     { key: "closing", kind: "CLOSING",
-      lv: "Ja kāds no šiem aprakstiem šķita pazīstams, tas nozīmē, ka esi sācis pamanīt savus modeļus — un pamanīšana ir pirmais solis uz izvēles brīvību. Individuāls darbs ar speciālistu var palīdzēt šos modeļus izpētīt dziļāk.",
-      en: "If any of these descriptions felt familiar, it means you have started noticing your patterns — and noticing is the first step toward freedom of choice. Individual work with a specialist can help you explore these patterns more deeply." },
+      lv: "Ja kāds no šiem aprakstiem šķita pazīstams, tas nozīmē, ka esi sācis pamanīt savus modeļus - un pamanīšana pati par sevi jau ir virzība uz izvēles brīvību.",
+      en: "If any of these descriptions felt familiar, it means you have started noticing your patterns - and noticing is the first step toward freedom of choice. Individual work with a specialist can help you explore these patterns more deeply." },
     { key: "closing-future", kind: "CLOSING",
-      lv: "Šīs izmaiņas nenotiek vienu dienu — tās veidojas mazos, atkārtotos soļos. Katrs brīdis, kad pamanī veco modeli un izvēlies ko citu, ir reāla pārmaiņa. Ja vēlies šo ceļu iet ar atbalstu — individuālā sesija ir droša vieta, kur to sākt.",
-      en: "These changes do not happen in a day — they are built in small, repeated steps. Every moment you notice the old pattern and choose differently is real change. If you want to walk this path with support — an individual session is a safe place to start." },
+      lv: "Šīs izmaiņas nenotiek vienu dienu - tās veidojas mazos, atkārtotos soļos. Katrs brīdis, kad pamanī veco modeli un izvēlies ko citu, ir reāla pārmaiņa, un tā pieder tev.",
+      en: "These changes do not happen in a day - they are built in small, repeated steps. Every moment you notice the old pattern and choose differently is real change. If you want to walk this path with support - an individual session is a safe place to start." },
   ];
   for (const c of connectors) {
     const row = await prisma.identityConnector.upsert({
@@ -67,8 +67,8 @@ async function main() {
   console.log("connectors:", connectors.length);
 
   // 3) Drošības teksts + mārketinga piekrišanas teksts
-  const safetyLv = "Ja atklāti par to, ko piedzīvoji, rodas pārņemošas sajūtas — Tev nav jāpaliek ar tām vienam. Ja ir domas par paškaitējumu vai tu jūties briesmās — zvani 112 vai 113, vai sazinies ar uzticamu cilvēku. Tavas izjūtas ir reālas, un palīdzība ir pieejama.";
-  const safetyEn = "If talking about what you experienced brings up overwhelming feelings — you do not have to stay with them alone. If you have thoughts of self-harm or feel in danger — call 112 or 113, or reach out to someone you trust. Your feelings are real, and help is available.";
+  const safetyLv = "Ja atklāti par to, ko piedzīvoji, rodas pārņemošas sajūtas - Tev nav jāpaliek ar tām vienam. Ja ir domas par paškaitējumu vai tu jūties briesmās - zvani 112 vai 113, vai sazinies ar uzticamu cilvēku. Tavas izjūtas ir reālas, un palīdzība ir pieejama.";
+  const safetyEn = "If talking about what you experienced brings up overwhelming feelings - you do not have to stay with them alone. If you have thoughts of self-harm or feel in danger - call 112 or 113, or reach out to someone you trust. Your feelings are real, and help is available.";
   await upsertT("SAFETY_TEXT", "crisis-block", "body", "lv", safetyLv);
   await upsertT("SAFETY_TEXT", "crisis-block", "body", "en", safetyEn);
   const consentLv = "Vēlos saņemt turpmākus e-pastus ar materiāliem par iekšējo uzskatu darbu un individuālām sesijām (var atteikties jebkurā brīdī).";
@@ -89,31 +89,31 @@ async function main() {
     return t.id;
   };
   await tpl("RESULT", {
-    subject: { lv: "Tavs Identitātes testa rezultāts — divi portreti", en: "Your Identity Test results — two portraits" },
+    subject: { lv: "Tavs Identitātes testa rezultāts - divi portreti", en: "Your Identity Test results - two portraits" },
     greeting: { lv: "Sveiki,", en: "Hello," },
     intro: { lv: "Paldies, ka aizpildīji Identitātes testu. Zemāk ir divi personalizēti portreti, kas izveidoti no uzskatiem, kurus tu izvēlējies.", en: "Thank you for completing the Identity Test. Below are two personalized portraits created from the beliefs you selected." },
     nowTitle: { lv: "Kā šie uzskati var izpausties šodien", en: "How these beliefs may show up today" },
     futureTitle: { lv: "Kā dzīve varētu izskatīties bez tiem", en: "How life could look without them" },
-    disclaimer: { lv: "Šis nav medicīnisks vai psiholoģisks slēdziens — tas ir reflektīvs materiāls, kas apraksta iespējamos uzskatu izpausmes veidus.", en: "This is not a medical or psychological assessment — it is a reflective material describing possible ways these beliefs may manifest." },
-    sessionLead: { lv: "Ja vēlies izpētīt savus uzskatus individuālā darbā ar speciālistu — rezervē sesiju:", en: "If you would like to explore your beliefs in individual work with a specialist — book a session:" },
+    disclaimer: { lv: "Šis nav medicīnisks vai psiholoģisks slēdziens - tas ir reflektīvs materiāls, kas apraksta iespējamos uzskatu izpausmes veidus.", en: "This is not a medical or psychological assessment - it is a reflective material describing possible ways these beliefs may manifest." },
+    sessionLead: { lv: "Ja vēlies izpētīt savus uzskatus individuālā darbā ar speciālistu - rezervē sesiju:", en: "If you would like to explore your beliefs in individual work with a specialist - book a session:" },
     sessionCta: { lv: "Rezervēt sesiju", en: "Book a session" },
     privacyNote: { lv: "Šis e-pasts tika nosūtīts uz Tavu norādīto adresi. Tavas atbildes ir šifrētas un netiek izmantotas citos nolūkos.", en: "This email was sent to the address you provided. Your answers are encrypted and are not used for other purposes." },
   });
   await tpl("DAY_1", {
     subject: { lv: "Viena doma no Tava testa", en: "A thought from your test" },
-    body: { lv: "Sveiki,\n\nVakar saņēmi savus Identitātes testa portretus. Ja vēl neesi tos pārlasījis — iesaku to izdarīt mierīgā brīdī.\n\nViena doma, ko izvēlēties ar sevi: uzskati, kurus atzīmēji, nav tavi defekti — tie ir modeļi, kas kādreiz aizsargāja. Pamanīt tos, nepazūdinot sevi — tas ir darba sākums.\n\nJa rodas jautājumi — vienkārši atbildi uz šo e-pastu.", en: "Hello,\n\nYesterday you received your Identity Test portraits. If you have not revisited them yet — I suggest doing so in a quiet moment.\n\nOne thought to take with you: the beliefs you selected are not flaws — they are patterns that once protected you. Noticing them without erasing yourself — that is where the work begins.\n\nIf questions arise — simply reply to this email." },
+    body: { lv: "Sveiki,\n\nVakar saņēmi savus Identitātes testa portretus. Ja vēl neesi tos pārlasījis - iesaku to izdarīt mierīgā brīdī.\n\nViena doma, ko izvēlēties ar sevi: uzskati, kurus atzīmēji, nav tavi defekti - tie ir modeļi, kas kādreiz aizsargāja. Pamanīt tos, nepazūdinot sevi - tas ir darba sākums.\n\nJa rodas jautājumi - vienkārši atbildi uz šo e-pastu.", en: "Hello,\n\nYesterday you received your Identity Test portraits. If you have not revisited them yet - I suggest doing so in a quiet moment.\n\nOne thought to take with you: the beliefs you selected are not flaws - they are patterns that once protected you. Noticing them without erasing yourself - that is where the work begins.\n\nIf questions arise - simply reply to this email." },
   });
   await tpl("DAY_3", {
     subject: { lv: "Mazs eksperiments šai nedēļai", en: "A small experiment for this week" },
-    body: { lv: "Sveiki,\n\nJa pēc testa kāds uzskats īpaši 'atskanēja' — iesaku šonedēļ vienkārši to pamanīt. Ne mainīt, ne cīnīties — tikai pamanīt brīdi, kad tas ieslēdzas.\n\nPiemēram: ja uzskats 'man jāizturas pareizi' parādās sarunā — ievēro to, pasaki sev 'aha, tas ir tas uzskats', un turpini.\n\nPamanīšana bez darbības ir pirmā izmaiņa. Pārējais nāk vēlāk.", en: "Hello,\n\nIf one belief from the test particularly resonated — I suggest simply noticing it this week. Not changing it, not fighting it — just noticing the moment it activates.\n\nFor example: if the belief 'I must behave correctly' appears in a conversation — notice it, tell yourself 'ah, that is that belief', and continue.\n\nNoticing without action is the first change. The rest comes later." },
+    body: { lv: "Sveiki,\n\nJa pēc testa kāds uzskats īpaši 'atskanēja' - iesaku šonedēļ vienkārši to pamanīt. Ne mainīt, ne cīnīties - tikai pamanīt brīdi, kad tas ieslēdzas.\n\nPiemēram: ja uzskats 'man jāizturas pareizi' parādās sarunā - ievēro to, pasaki sev 'aha, tas ir tas uzskats', un turpini.\n\nPamanīšana bez darbības ir pirmā izmaiņa. Pārējais nāk vēlāk.", en: "Hello,\n\nIf one belief from the test particularly resonated - I suggest simply noticing it this week. Not changing it, not fighting it - just noticing the moment it activates.\n\nFor example: if the belief 'I must behave correctly' appears in a conversation - notice it, tell yourself 'ah, that is that belief', and continue.\n\nNoticing without action is the first change. The rest comes later." },
   });
   await tpl("DAY_5", {
     subject: { lv: "Kad uzskats grib palikt", en: "When a belief wants to stay" },
-    body: { lv: "Sveiki,\n\nUzskatu maiņa reti notiek tāpēc, ka kāds tev saka 'tā nav taisnība'. Tā notiek, kad tu pats pieredzi, ka dzīvot var arī citādi.\n\nTāpēc individuālā sesija nav par 'labošanu' — tā ir vieta, kur droši izmēģināt jaunu attiecību modeli, ko vēlāk pārnest uz dzīvi.\n\nJa jūti, ka laiks sākt — rezervē sesiju niksravins.com/book.\n\nAr cieņu,\nNiks", en: "Hello,\n\nBeliefs rarely change because someone tells you 'that is not true'. They change when you experience that living differently is possible.\n\nThat is why an individual session is not about 'fixing' — it is a place to safely try a new way of relating, to later carry into your life.\n\nIf you feel it is time to begin — book a session at niksravins.com/book.\n\nWith respect,\nNiks" },
+    body: { lv: "Sveiki,\n\nUzskatu maiņa reti notiek tāpēc, ka kāds tev saka 'tā nav taisnība'. Tā notiek, kad tu pats pieredzi, ka dzīvot var arī citādi.\n\nTāpēc individuālā sesija nav par 'labošanu' - tā ir vieta, kur droši izmēģināt jaunu attiecību modeli, ko vēlāk pārnest uz dzīvi.\n\nJa jūti, ka laiks sākt - rezervē sesiju niksravins.com/book.\n\nAr cieņu,\nNiks", en: "Hello,\n\nBeliefs rarely change because someone tells you 'that is not true'. They change when you experience that living differently is possible.\n\nThat is why an individual session is not about 'fixing' - it is a place to safely try a new way of relating, to later carry into your life.\n\nIf you feel it is time to begin - book a session at niksravins.com/book.\n\nWith respect,\nNiks" },
   });
   console.log("templates published: RESULT, DAY_1, DAY_3, DAY_5");
 
-  // 5) Mehānismu saites — heuristika pa apakštēmām
+  // 5) Mehānismu saites - heuristika pa apakštēmām
   const mechMap: Record<string, string[]> = {
     "T01-S01": ["self-blame"], "T01-S02": ["external-validation"], "T01-S03": ["external-validation","avoidance"],
     "T01-S04": ["perfectionism","external-validation"], "T01-S05": ["external-validation","over-responsibility"],
@@ -138,7 +138,7 @@ async function main() {
   };
   const tags = await prisma.identityMechanismTag.findMany();
   const tagByKey = new Map(tags.map((t) => [t.key, t.id]));
-  // Apakštēmām nav stableKey — kartējam pēc uzskata stableKey prefiksa (Txx-Syy).
+  // Apakštēmām nav stableKey - kartējam pēc uzskata stableKey prefiksa (Txx-Syy).
   const allBeliefs = await prisma.identityBelief.findMany({ select: { id: true, stableKey: true } });
   let links = 0;
   for (const b of allBeliefs) {

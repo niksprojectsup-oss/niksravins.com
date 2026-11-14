@@ -15,7 +15,7 @@ export default async function IdentityPreviewPage() {
   return (
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader title="Rezultātu priekšskatījums"
-        description="Izvēlies uzskatus un valodu — portretu kompozīcija izmanto melnrakstu vai publicētos tekstus. Nekas netiek nosūtīts." />
+        description="Izvēlies uzskatus un valodu - portretu kompozīcija izmanto melnrakstu vai publicētos tekstus. Nekas netiek nosūtīts." />
       <PreviewTool beliefs={beliefs.map((b) => ({ id: b.id, stableKey: b.stableKey, label: label.get(b.id) ?? "" }))} />
     </div>
   );

@@ -40,7 +40,7 @@ export default async function IdentityTranslationsPage() {
                   const pending = total - published;
                   return (
                     <td key={locale} className="px-3 py-2 text-xs">
-                      {total === 0 ? "—" : (
+                      {total === 0 ? "-" : (
                         <span title={STATUSES.map((s) => `${s}: ${cell[s] ?? 0}`).join("\n")}>
                           {published}/{total} pub.{pending ? ` (+${pending} gaida)` : ""}
                         </span>

@@ -1,4 +1,4 @@
-// Slēgtā beta piekļuves mehānisms — servera puses vārti.
+// Slēgtā beta piekļuves mehānisms - servera puses vārti.
 // Uzaicinājuma links: /api/identity-test/redeem?token=<t>&locale=<l>
 // Redeem iestata HttpOnly cookie; publiskā lapa un submit API to pārbauda.
 import { createHash, randomBytes } from "node:crypto";
@@ -41,7 +41,7 @@ async function findValidInvite(rawToken: string): Promise<InviteRow | null> {
 export async function redeemBetaToken(rawToken: string): Promise<boolean> {
   const invite = await findValidInvite(rawToken);
   if (!invite) return false;
-  // Atomisks uses+1 ar nosacījumu — sacensību gadījumā limitu nepārsniedz.
+  // Atomisks uses+1 ar nosacījumu - sacensību gadījumā limitu nepārsniedz.
   const updated = await prisma.identityBetaInvite.updateMany({
     where: { id: invite.id, uses: { lt: invite.maxUses }, revokedAt: null },
     data: { uses: { increment: 1 } },
@@ -49,7 +49,7 @@ export async function redeemBetaToken(rawToken: string): Promise<boolean> {
   return updated.count === 1;
 }
 
-/** Cookie derīguma pārbaudes (nepalielina uses — izmantošana jau reģistrēta redeem brīdī). */
+/** Cookie derīguma pārbaudes (nepalielina uses - izmantošana jau reģistrēta redeem brīdī). */
 export async function isBetaRequestAllowed(): Promise<boolean> {
   const store = await cookies();
   const raw = store.get(BETA_COOKIE_NAME)?.value;

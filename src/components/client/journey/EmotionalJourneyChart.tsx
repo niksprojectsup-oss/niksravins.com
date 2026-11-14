@@ -22,7 +22,7 @@ export function EmotionalJourneyChart({ checkIns }: { checkIns: JourneyCheckIn[]
         Your self-reflection over time
       </h2>
       <p className="type-caption mt-2">
-        Emotional intensity and moods from your check-ins — personal reflection, not clinical diagnosis.
+        Emotional intensity and moods from your check-ins - personal reflection, not clinical diagnosis.
       </p>
 
       <div className="mt-8 flex items-end gap-1 overflow-x-auto pb-2" aria-hidden>

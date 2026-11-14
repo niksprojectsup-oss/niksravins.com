@@ -82,7 +82,7 @@ describe("admin portal preview", () => {
     assert.match(page, /ADMIN_PORTAL_PREVIEW_LABEL/);
     assert.match(page, /logAuditEvent\(buildAdminPortalPreviewAudit\(session\.id\)\)/);
     assert.match(view, /buildAdminPortalPreviewFixture\(\)/);
-    assert.equal(ADMIN_PORTAL_PREVIEW_LABEL, "Administrator Preview — not a client session");
+    assert.equal(ADMIN_PORTAL_PREVIEW_LABEL, "Administrator Preview - not a client session");
     assert.equal(ADMIN_PORTAL_PREVIEW_PATH, "/admin/portal-preview");
     assert.match(nav, /href: "\/admin\/portal-preview"/);
 

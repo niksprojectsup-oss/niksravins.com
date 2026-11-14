@@ -11,7 +11,7 @@ import { DEFAULT_PACKAGE_SESSIONS, LEGACY_SERVICE_IDS } from "./types";
 
 export { LEGACY_SERVICE_IDS, DEFAULT_PACKAGE_SESSIONS as PACKAGE_TOTAL_SESSIONS };
 
-/** @deprecated Use listPublishedOffers() — loads from database. */
+/** @deprecated Use listPublishedOffers() - loads from database. */
 export async function getBookableServices(): Promise<BookableService[]> {
   return listPublishedOffers();
 }

@@ -84,6 +84,20 @@ describe("composePortraits", () => {
     assert.ok(portraitNow.includes("Savukārt"));
   });
 
+  it("joinSimilar neligzdojas aiz kontrasta savienotāja", () => {
+    const { portraitNow } = composePortraits({
+      beliefs: [
+        belief({ id: "a", mechanismKeys: ["x"], portraitNow: "A1." }),
+        belief({ id: "b", mechanismKeys: ["x"], portraitNow: "A2." }),
+        belief({ id: "c", mechanismKeys: ["y"], portraitNow: "B1." }),
+        belief({ id: "d", mechanismKeys: ["y"], portraitNow: "B2." }),
+      ],
+      connectors,
+    });
+    assert.equal(portraitNow.match(/Tie dalās kopējā mehānismā:/g)?.length, 1);
+    assert.ok(!portraitNow.includes("Savukārt Tie dalās"));
+  });
+
   it("deduplikē identiskus fragmentus", () => {
     const { portraitNow } = composePortraits({
       beliefs: [

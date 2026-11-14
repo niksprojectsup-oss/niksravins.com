@@ -147,7 +147,7 @@ export function CheckInForm({ timezone, existing, compact, inline }: CheckInForm
                 id="checkInNotes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Optional — whatever feels helpful to note…"
+                placeholder="Optional - whatever feels helpful to note…"
               />
             </Field>
           ) : null}

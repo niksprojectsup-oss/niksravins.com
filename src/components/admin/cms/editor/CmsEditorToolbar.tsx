@@ -437,7 +437,7 @@ export function CmsEditorToolbar({
           ) : (
             <div className="px-1 py-1">
               <label className="type-caption mb-1 block text-ink-faint">
-                Custom ({CMS_FONT_SIZE_MIN}–{CMS_FONT_SIZE_MAX})
+                Custom ({CMS_FONT_SIZE_MIN}-{CMS_FONT_SIZE_MAX})
               </label>
               <input
                 type="text"

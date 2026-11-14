@@ -69,8 +69,8 @@ export default async function IdentityBeliefsPage({ searchParams }: { searchPara
                 <td className="px-3 py-2">{b.subcategory.theme.slug}</td>
                 <td className="px-3 py-2">{b.subcategory.slug}</td>
                 <td className="px-3 py-2">{b.status}</td>
-                <td className="px-3 py-2">{b.safetyFlags.length ? b.safetyFlags.join(",") : "—"}</td>
-                <td className="px-3 py-2">{complete(b.id) ? "✓" : "—"}</td>
+                <td className="px-3 py-2">{b.safetyFlags.length ? b.safetyFlags.join(",") : "-"}</td>
+                <td className="px-3 py-2">{complete(b.id) ? "✓" : "-"}</td>
                 <td className="px-3 py-2">
                   <Link href={`/admin/identity-test/beliefs/${b.id}`} className="text-accent">Rediģēt</Link>
                 </td>

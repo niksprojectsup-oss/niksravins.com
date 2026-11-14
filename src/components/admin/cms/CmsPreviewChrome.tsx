@@ -26,7 +26,7 @@ export function CmsPreviewChrome({ slug, locale, children }: CmsPreviewChromePro
       >
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="layout-stack-xs">
-            <p className="type-caption font-medium text-ink">Draft preview — not published</p>
+            <p className="type-caption font-medium text-ink">Draft preview - not published</p>
             <p className="type-caption text-ink-subtle">
               Saved {locale.toUpperCase()} draft for /{slug}. Public pages still show published
               content only.

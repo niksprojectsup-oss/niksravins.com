@@ -14,7 +14,7 @@ function nextStepAfter(step: IdentityEmailStep): IdentityEmailStep | null {
   return index >= 0 && index < STEP_ORDER.length - 1 ? STEP_ORDER[index + 1] : null;
 }
 
-/** Atomiska secības pretensija — pasargā no paralēlu cron izpildu dublēšanas. */
+/** Atomiska secības pretensija - pasargā no paralēlu cron izpildu dublēšanas. */
 async function claimSequence(sequenceId: string): Promise<boolean> {
   const result = await prisma.identityEmailSequence.updateMany({
     where: { id: sequenceId, status: "ACTIVE", nextSendAt: { lte: new Date() } },
@@ -54,7 +54,7 @@ export async function processDueSequences(): Promise<{ processed: number; sent: 
       continue;
     }
 
-    // Aktuālā piekrišanas pārbaude servera pusē — unsubscribe varēja notikt pēc ielādes.
+    // Aktuālā piekrišanas pārbaude servera pusē - unsubscribe varēja notikt pēc ielādes.
     const consent = await prisma.identityEmailConsent.findUnique({
       where: { id: sequence.consentId },
     });
@@ -93,7 +93,7 @@ export async function processDueSequences(): Promise<{ processed: number; sent: 
       continue;
     }
 
-    // Otra pārbaude tieši pirms sūtīšanas — sašaurina unsubscribe sacensības logu.
+    // Otra pārbaude tieši pirms sūtīšanas - sašaurina unsubscribe sacensības logu.
     // Atkārtojam arī krīzes karoga pārbaudi (submission varēja tikt atzīmēts).
     const [consentNow, submissionNow] = await Promise.all([
       prisma.identityEmailConsent.findUnique({

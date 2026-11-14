@@ -34,10 +34,10 @@ export default async function IdentitySubmissionsPage() {
                 <td className="px-3 py-1.5 whitespace-nowrap">{s.createdAt.toISOString().replace("T", " ").slice(0, 16)}</td>
                 <td className="px-3 py-1.5">{s.locale}</td>
                 <td className="px-3 py-1.5">{s.status}</td>
-                <td className="px-3 py-1.5">{s.safetyTriggered ? "⚠" : "—"}</td>
-                <td className="px-3 py-1.5">{s.result ? maskEmailAddress(decryptField(s.result.email)) : "—"}</td>
+                <td className="px-3 py-1.5">{s.safetyTriggered ? "⚠" : "-"}</td>
+                <td className="px-3 py-1.5">{s.result ? maskEmailAddress(decryptField(s.result.email)) : "-"}</td>
                 <td className="px-3 py-1.5">
-                  {s.deliveries.map((d) => `${d.emailKind}:${d.status}`).join(", ") || "—"}
+                  {s.deliveries.map((d) => `${d.emailKind}:${d.status}`).join(", ") || "-"}
                 </td>
               </tr>
             ))}

@@ -42,14 +42,14 @@ async function toEmailPayload(booking: BookingRecord): Promise<BookingEmailPaylo
 
 /**
  * Sends client confirmation and admin notification emails.
- * Never throws — booking persistence must not depend on email delivery.
+ * Never throws - booking persistence must not depend on email delivery.
  */
 export async function sendBookingConfirmationEmails(
   booking: BookingRecord,
 ): Promise<void> {
   const payload = await toEmailPayload(booking);
   if (!payload) {
-    console.error("[email] Skipped booking emails — unknown service", {
+    console.error("[email] Skipped booking emails - unknown service", {
       bookingId: booking.id,
       serviceId: booking.serviceId,
     });

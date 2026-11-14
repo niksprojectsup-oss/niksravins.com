@@ -71,7 +71,7 @@ export async function listAdminPayments(): Promise<AdminPayment[]> {
       ? `${payment.session.sessionType} · ${formatAdminDateTime(payment.session.scheduledAt.toISOString())}`
       : payment.package
         ? "Transformation package · 5 sessions"
-        : "—",
+        : "-",
     amountCents: payment.amountCents,
     currency: payment.currency,
     status: payment.status.toLowerCase() as AdminPayment["status"],

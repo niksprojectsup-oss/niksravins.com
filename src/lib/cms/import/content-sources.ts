@@ -139,7 +139,7 @@ const FOUNDATION_HEADLINE_DOCUMENT = tiptapDocumentFromBlocks([
 const ALIGNMENT_ITEMS = [
   {
     title: "Your relationship.",
-    body: "You want to feel more connected, safe, loved or free in your relationship — but something keeps getting in the way.",
+    body: "You want to feel more connected, safe, loved or free in your relationship - but something keeps getting in the way.",
   },
   {
     title: "Your work.",
@@ -155,7 +155,7 @@ const ALIGNMENT_ITEMS = [
   },
   {
     title: "Your dreams.",
-    body: "There are things you want to create, experience or achieve — but you keep holding yourself back, postponing or staying in what feels familiar.",
+    body: "There are things you want to create, experience or achieve - but you keep holding yourself back, postponing or staying in what feels familiar.",
   },
   {
     title: "Your life.",
@@ -173,7 +173,7 @@ const IDENTITY_SHIFT_ROWS = [
   {
     from: "I don’t deserve better.",
     explanation:
-      "You may stay in a job, relationship or situation that no longer feels right — even when you know you want more.",
+      "You may stay in a job, relationship or situation that no longer feels right - even when you know you want more.",
     to: "I deserve better.",
   },
   {
@@ -185,7 +185,7 @@ const IDENTITY_SHIFT_ROWS = [
   {
     from: "I can’t trust people.",
     explanation:
-      "You may struggle to open up, receive support or fully let someone close — even when you deeply want connection.",
+      "You may struggle to open up, receive support or fully let someone close - even when you deeply want connection.",
     to: "I can trust.",
   },
   {
@@ -298,7 +298,7 @@ function getHomeFieldValue(content: CmsImportContent, fieldKey: string): CmsTipt
       ]);
     case "roots.intro":
       return plainStringToTiptapDocument(
-        "We work with the beliefs and emotional associations underneath it — the ones that can shape your choices, behaviour, relationships and the way you experience yourself.",
+        "We work with the beliefs and emotional associations underneath it - the ones that can shape your choices, behaviour, relationships and the way you experience yourself.",
       );
     case "roots.headline":
       return linesToTiptapDocument([

@@ -11,7 +11,7 @@ function buildNextSteps(payload: BookingEmailPayload): string[] {
   if (payload.isPackage) {
     return [
       "Your first session is confirmed. Your Deep Transformation Package includes 5 sessions in total, each 45 minutes.",
-      "You can schedule your remaining sessions through your Client Portal — choose from available dates and times at your convenience.",
+      "You can schedule your remaining sessions through your Client Portal - choose from available dates and times at your convenience.",
       `Access your Client Portal: ${portalUrl}`,
       payload.meetingLink
         ? `Join your session online: ${payload.meetingLink}`
@@ -76,8 +76,8 @@ export function buildBookingConfirmationEmail(
   });
 
   const subject = payload.isPackage
-    ? `Package booking confirmed — ${sessionDate}`
-    : `Session confirmed — ${sessionDate}`;
+    ? `Package booking confirmed - ${sessionDate}`
+    : `Session confirmed - ${sessionDate}`;
 
   const text = [
     `Dear ${payload.clientFirstName},`,
@@ -116,7 +116,7 @@ export function buildBookingConfirmationEmail(
     <p style="margin:0 0 24px;font-size:16px;color:#4a4743;">Dear ${payload.clientFirstName},</p>
     <p style="margin:0 0 8px;font-size:16px;color:#4a4743;">${
       payload.isPackage
-        ? "Thank you for booking the Deep Transformation Package. Your first session is confirmed — sessions 2–5 can be scheduled later from your Client Portal."
+        ? "Thank you for booking the Deep Transformation Package. Your first session is confirmed - sessions 2-5 can be scheduled later from your Client Portal."
         : "Thank you for booking. Here are your session details:"
     }</p>
     ${detailsTable(

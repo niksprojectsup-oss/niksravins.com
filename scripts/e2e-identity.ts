@@ -72,7 +72,7 @@ async function main() {
   }
 
   // Drošības bloks (singleton)
-  await publishT("SAFETY_TEXT", "crisis-block", "body", "Ja tev draud briesmas — zvani 112 vai 113.");
+  await publishT("SAFETY_TEXT", "crisis-block", "body", "Ja tev draud briesmas - zvani 112 vai 113.");
 
   // RESULT e-pasta veidne
   const tpl = await prisma.identityEmailTemplate.upsert({
@@ -107,7 +107,7 @@ async function main() {
     beliefIds: beliefs.map((b) => b.id), marketingConsent: true,
   });
   console.log("submit#2 (same requestId):", JSON.stringify(r2));
-  // Bez RESEND_API_KEY piegāde neizdodas — e2e pārbauda idempotenci un stāvokļus.
+  // Bez RESEND_API_KEY piegāde neizdodas - e2e pārbauda idempotenci un stāvokļus.
   if (!r1.submissionId || r1.submissionId !== r2.submissionId) throw new Error("idempotency failed");
   const subCount = await prisma.identityTestSubmission.count({ where: { requestId: reqId } });
   if (subCount !== 1) throw new Error("duplicate submission created");
@@ -121,7 +121,7 @@ async function main() {
     where: { requestId: reqId },
     include: { result: true, deliveries: true, sequences: true },
   });
-  // Šifrēšanas pārbaude — email/portreti nedrīkst būt plaintext.
+  // Šifrēšanas pārbaude - email/portreti nedrīkst būt plaintext.
   if (sub?.result && (sub.result.email.includes("@") || sub.result.portraitNow.includes("portrets"))) {
     throw new Error("plaintext leak in result fields");
   }
@@ -180,7 +180,7 @@ async function main() {
   console.log("crisis sequence after cron:", seqCrisis?.status);
   if (seqCrisis?.status !== "CANCELLED") throw new Error("crisis sequence was not cancelled by cron");
 
-  // 4d) Piegādes idempotence/retry/ambiguous (mokēts send — Resend nav vajadzīgs).
+  // 4d) Piegādes idempotence/retry/ambiguous (mokēts send - Resend nav vajadzīgs).
   const mockOk = async () => ({ ok: true as const, id: "msg_test_1" });
   const mockFail = async () => ({ ok: false as const, reason: "resend_timeout" });
   const mockFailSkip = async () => ({ ok: false as const, skipped: true as const, reason: "not_configured" });

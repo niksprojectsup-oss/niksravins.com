@@ -31,7 +31,7 @@ export default async function IdentityVersionsPage() {
                 <td className="px-3 py-1.5">{v.field}</td>
                 <td className="px-3 py-1.5">{v.locale}</td>
                 <td className="px-3 py-1.5">{v.action}</td>
-                <td className="px-3 py-1.5">{v.admin?.email ?? "—"}</td>
+                <td className="px-3 py-1.5">{v.admin?.email ?? "-"}</td>
                 <td className="px-3 py-1.5">
                   {v.previousContent !== null ? <VersionRestoreButton id={v.id} /> : null}
                 </td>

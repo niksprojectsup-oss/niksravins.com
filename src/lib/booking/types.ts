@@ -1,4 +1,4 @@
-/** Booking domain types — shared across client UI, API routes, and admin. */
+/** Booking domain types - shared across client UI, API routes, and admin. */
 
 export type ServiceId = string;
 
@@ -128,7 +128,7 @@ export const BOOKING_STEPS: BookingStep[] = [
   "confirmed",
 ];
 
-/** @deprecated Use BookableService catalog — kept for migration compatibility. */
+/** @deprecated Use BookableService catalog - kept for migration compatibility. */
 export type SessionType = ServiceId;
 
 /** Legacy stable IDs for existing records. */

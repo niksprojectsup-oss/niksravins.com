@@ -51,7 +51,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
 
   const email = normalizeEmail(payload.email);
 
-  // Idempotence: requestId unikāls — dubultklikšķis atgriež esošo submission.
+  // Idempotence: requestId unikāls - dubultklikšķis atgriež esošo submission.
   let submission;
   try {
     submission = await prisma.identityTestSubmission.create({
@@ -118,7 +118,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
         locale: payload.locale,
       },
     }),
-    // safetyTriggered saglabājam uzreiz — neatkarīgi no tālākā e-pasta iznākuma,
+    // safetyTriggered saglabājam uzreiz - neatkarīgi no tālākā e-pasta iznākuma,
     // lai krīzes karogs vienmēr būt pieejams secību/drošības loģikai.
     prisma.identityTestSubmission.update({
       where: { id: submission.id },
@@ -127,7 +127,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
   ]);
 
   // Krīzes aizsardzība: safetyTriggered rezultāti nekad nekļūst par mārketinga
-  // segmentu — mārketinga piekrišana netiek reģistrēta un secība netiek veidota.
+  // segmentu - mārketinga piekrišana netiek reģistrēta un secība netiek veidota.
   // Rezultāta e-pasts (ar drošības bloku) tiek sūtīts neatkarīgi no piekrišanas.
   const marketingAllowed = payload.marketingConsent && !safetyTriggered;
   const consent = await prisma.identityEmailConsent.create({
@@ -221,7 +221,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
   return { ok: true, submissionId: submission.id };
 }
 
-/** Admin atkārtotai rezultāta sūtīšanai / lietotāja retry — atšifrē saglabātos portretus. */
+/** Admin atkārtotai rezultāta sūtīšanai / lietotāja retry - atšifrē saglabātos portretus. */
 export async function resendResultEmail(resultId: string): Promise<SubmitResult> {
   const result = await prisma.identityTestResult.findUnique({
     where: { id: resultId },
@@ -264,7 +264,7 @@ export async function resendResultEmail(resultId: string): Promise<SubmitResult>
   });
   if (!reserved.row) return { ok: false, reason: "email_failed", message: "reservation_failed" };
 
-  // Ja jau SENT — admin atkārtotai sūtīšanai atļauj jaunu piegādi ar atvasinātu requestId.
+  // Ja jau SENT - admin atkārtotai sūtīšanai atļauj jaunu piegādi ar atvasinātu requestId.
   if (reserved.row.status === "SENT") {
     const retry = await reserveDelivery({
       requestId: `result:${result.id}:retry:${Date.now()}`,

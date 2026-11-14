@@ -10,7 +10,7 @@ function clientIp(request: NextRequest): string {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
-/** POST {requestId} — lietotāja atkārtots mēģinājums pēc neveiksmīgas piegādes. */
+/** POST {requestId} - lietotāja atkārtots mēģinājums pēc neveiksmīgas piegādes. */
 export async function POST(request: NextRequest) {
   const limit = await checkRateLimit("api.general", `identity-retry:${clientIp(request)}`, {
     limit: 10,

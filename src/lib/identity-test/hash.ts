@@ -13,7 +13,7 @@ function getHashSecret(): string {
   return secret;
 }
 
-/** HMAC-SHA256 lookup hash — ļauj atrast ierakstu pēc e-pasta, neuzglabājot to atklāti. */
+/** HMAC-SHA256 lookup hash - ļauj atrast ierakstu pēc e-pasta, neuzglabājot to atklāti. */
 export function emailHash(email: string): string {
   return createHmac("sha256", getHashSecret())
     .update(normalizeEmail(email))

@@ -197,7 +197,7 @@ export async function seedDefaultOffers(): Promise<void> {
       slug: "aap-transformation-package",
       title: "5 × 45-minute Deep Transformation Package",
       description:
-        "A structured transformation process — not five separate appointments, but one connected journey designed to create meaningful, lasting change.",
+        "A structured transformation process - not five separate appointments, but one connected journey designed to create meaningful, lasting change.",
       detail:
         "Meaningful change usually requires more than a single conversation. Working across multiple sessions allows us to go deeper, track what shifts, and build momentum rather than starting from scratch each time.",
       offerType: "PACKAGE",

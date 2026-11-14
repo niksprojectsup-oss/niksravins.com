@@ -26,7 +26,7 @@ mock.module("next/cache" as any, {
 async function main() {
   const { prisma } = await import("../src/lib/db/prisma");
   const admin = await prisma.adminUser.findUnique({ where: { email: fakeSession.email } });
-  if (!admin) throw new Error("DEV admin user missing — run create-admin first");
+  if (!admin) throw new Error("DEV admin user missing - run create-admin first");
   fakeSession.id = admin.id; // changedById FK prasa reālu AdminUser
 
   const { getPublicTestContent } = await import("../src/lib/identity-test/repository");

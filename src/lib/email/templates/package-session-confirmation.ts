@@ -15,7 +15,7 @@ export function buildPackageSessionConfirmationEmail(input: {
   const sessionTime = formatSlotTime(input.scheduledAt, input.clientTimezone);
   const portalUrl = `${getAppBaseUrl()}/client/login`;
 
-  const subject = `Session ${input.sessionNumber} confirmed — ${sessionDate}`;
+  const subject = `Session ${input.sessionNumber} confirmed - ${sessionDate}`;
 
   const text = [
     `Dear ${input.clientFirstName},`,

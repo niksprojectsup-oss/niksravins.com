@@ -5,7 +5,7 @@ export const enStandaloneAboutBlocks: readonly CmsContentBlock[] = [
   { type: "heading", level: 1, text: "About" },
   {
     type: "paragraph",
-    text: "I work with people who already understand a lot about themselves — but whose automatic reactions have not necessarily changed.",
+    text: "I work with people who already understand a lot about themselves - but whose automatic reactions have not necessarily changed.",
   },
   {
     type: "paragraph",
@@ -30,7 +30,7 @@ export const enStandaloneAboutBlocks: readonly CmsContentBlock[] = [
   },
   {
     type: "paragraph",
-    text: "These rules may once have made sense. They can continue long after the circumstances that created them have changed — organizing reactions even when you consciously disagree with them.",
+    text: "These rules may once have made sense. They can continue long after the circumstances that created them have changed - organizing reactions even when you consciously disagree with them.",
   },
   {
     type: "paragraph",
@@ -39,16 +39,16 @@ export const enStandaloneAboutBlocks: readonly CmsContentBlock[] = [
   { type: "heading", level: 2, text: "How I work" },
   {
     type: "paragraph",
-    text: "In sessions, I use Adaptive Association Processing (AAP) — a structured therapeutic process within psychotherapy. AAP works with the learned association and lived experience that can keep an internal rule active: the link between a past experience and a present automatic reaction.",
+    text: "In sessions, I use Adaptive Association Processing (AAP) - a structured therapeutic process within psychotherapy. AAP works with the learned association and lived experience that can keep an internal rule active: the link between a past experience and a present automatic reaction.",
   },
   {
     type: "paragraph",
-    text: "We locate one specific reaction and work with what maintains it — emotionally, relationally, in the body. Not another explanation. Not a performance of insight. Direct work with what keeps the pattern alive in the present.",
+    text: "We locate one specific reaction and work with what maintains it - emotionally, relationally, in the body. Not another explanation. Not a performance of insight. Direct work with what keeps the pattern alive in the present.",
   },
   { type: "heading", level: 2, text: "How this developed" },
   {
     type: "paragraph",
-    text: "For years I watched the same thing repeat: clear insight, unchanged reaction. AAP grew from that observation and from my own experience of reactions that understanding alone could not reach — not from a theory I wanted to prove, but from a question that would not leave: if someone already knows why they react, what exactly still needs to change?",
+    text: "For years I watched the same thing repeat: clear insight, unchanged reaction. AAP grew from that observation and from my own experience of reactions that understanding alone could not reach - not from a theory I wanted to prove, but from a question that would not leave: if someone already knows why they react, what exactly still needs to change?",
   },
   {
     type: "paragraph",
@@ -98,7 +98,7 @@ export const enStandaloneAapBlocks: readonly CmsContentBlock[] = [
   },
   {
     type: "paragraph",
-    text: "For example: you may learn that expressing needs risks losing connection. The association — my needs create danger in relationships — can keep operating even when you rationally know you are safe. The internal rule follows: I have to be easy to love. So you learned to be the one who adapts.",
+    text: "For example: you may learn that expressing needs risks losing connection. The association - my needs create danger in relationships - can keep operating even when you rationally know you are safe. The internal rule follows: I have to be easy to love. So you learned to be the one who adapts.",
   },
   {
     type: "paragraph",
@@ -107,7 +107,7 @@ export const enStandaloneAapBlocks: readonly CmsContentBlock[] = [
   { type: "heading", level: 2, text: "What happens in a session" },
   {
     type: "paragraph",
-    text: "We locate one specific automatic reaction — the one that still arrives — and work with the association and lived experience connected to it.",
+    text: "We locate one specific automatic reaction - the one that still arrives - and work with the association and lived experience connected to it.",
   },
   {
     type: "paragraph",
@@ -117,10 +117,10 @@ export const enStandaloneAapBlocks: readonly CmsContentBlock[] = [
     type: "paragraph",
     text: "You do not need to know the underlying issue before you arrive. The session is designed to locate the reaction and follow it to what keeps it alive.",
   },
-  { type: "heading", level: 2, text: "Why the past may matter — without reliving it" },
+  { type: "heading", level: 2, text: "Why the past may matter - without reliving it" },
   {
     type: "paragraph",
-    text: "Associations are learned in experience, so the past can be relevant. We may briefly activate the emotional memory connected to your reaction — enough to access what maintains it today.",
+    text: "Associations are learned in experience, so the past can be relevant. We may briefly activate the emotional memory connected to your reaction - enough to access what maintains it today.",
   },
   {
     type: "paragraph",
@@ -133,7 +133,7 @@ export const enStandaloneAapBlocks: readonly CmsContentBlock[] = [
   },
   {
     type: "paragraph",
-    text: "This is not a promise. Clients often describe not becoming a different person, but experiencing daily life differently — less organized around the old rule, more able to stay connected to themselves without the same cost in guilt, control, or self-abandonment.",
+    text: "This is not a promise. Clients often describe not becoming a different person, but experiencing daily life differently - less organized around the old rule, more able to stay connected to themselves without the same cost in guilt, control, or self-abandonment.",
   },
 ];
 
@@ -143,12 +143,12 @@ export const enStandaloneFaqBlocks: readonly CmsContentBlock[] = [
   { type: "heading", level: 3, text: "What happens during a session?" },
   {
     type: "paragraph",
-    text: "We identify a specific automatic reaction and work with the association and lived experience connected to it. Sessions are structured and focused. You are not asked to perform or produce insight — the work happens through direct experience of the pattern, at the pace you can stay with.",
+    text: "We identify a specific automatic reaction and work with the association and lived experience connected to it. Sessions are structured and focused. You are not asked to perform or produce insight - the work happens through direct experience of the pattern, at the pace you can stay with.",
   },
   { type: "heading", level: 3, text: "What is Identity Re-coding?" },
   {
     type: "paragraph",
-    text: "Identity Re-coding is the name I use for the broader direction of this work: discovering the internal rules you learned to live by — who you learned you had to be in order to be loved, chosen, accepted, safe, or enough — and exploring what becomes possible when those rules no longer have to organize your reactions. It describes what the work is about, not a medical or neuroscience process.",
+    text: "Identity Re-coding is the name I use for the broader direction of this work: discovering the internal rules you learned to live by - who you learned you had to be in order to be loved, chosen, accepted, safe, or enough - and exploring what becomes possible when those rules no longer have to organize your reactions. It describes what the work is about, not a medical or neuroscience process.",
   },
   { type: "heading", level: 3, text: "What is AAP?" },
   {
@@ -163,7 +163,7 @@ export const enStandaloneFaqBlocks: readonly CmsContentBlock[] = [
   { type: "heading", level: 3, text: "What if I already understand my patterns?" },
   {
     type: "paragraph",
-    text: "That is often the starting point. Many people who come here can explain their patterns clearly — and still notice the same reaction arriving. This work addresses the gap between knowing and experiencing differently.",
+    text: "That is often the starting point. Many people who come here can explain their patterns clearly - and still notice the same reaction arriving. This work addresses the gap between knowing and experiencing differently.",
   },
   { type: "heading", level: 3, text: "What if I don't know what the underlying issue is?" },
   {
@@ -173,17 +173,17 @@ export const enStandaloneFaqBlocks: readonly CmsContentBlock[] = [
   { type: "heading", level: 3, text: "Do I have to talk about my childhood?" },
   {
     type: "paragraph",
-    text: "Not in the way most people imagine. The past can matter because associations are learned in experience. We may briefly activate the emotional memory connected to your reaction — enough to access what maintains it today. The aim is not to repeatedly revisit the past, but to work with what is keeping the response active now.",
+    text: "Not in the way most people imagine. The past can matter because associations are learned in experience. We may briefly activate the emotional memory connected to your reaction - enough to access what maintains it today. The aim is not to repeatedly revisit the past, but to work with what is keeping the response active now.",
   },
   { type: "heading", level: 3, text: "What if I have the same pattern in different relationships?" },
   {
     type: "paragraph",
-    text: "That is common. The same internal rule can produce different branches in different contexts — people-pleasing at work, jealousy in one relationship, withdrawal in another. One way of understanding this is to look for the trunk, not just the branch. That does not mean every reaction shares one hidden cause.",
+    text: "That is common. The same internal rule can produce different branches in different contexts - people-pleasing at work, jealousy in one relationship, withdrawal in another. One way of understanding this is to look for the trunk, not just the branch. That does not mean every reaction shares one hidden cause.",
   },
   { type: "heading", level: 3, text: "How many sessions do I need?" },
   {
     type: "paragraph",
-    text: "It varies. Some people work on a single pattern over several sessions. Others continue longer. There is no prescribed course length — we work until the reaction you came for has shifted enough to matter in your daily life.",
+    text: "It varies. Some people work on a single pattern over several sessions. Others continue longer. There is no prescribed course length - we work until the reaction you came for has shifted enough to matter in your daily life.",
   },
   { type: "heading", level: 3, text: "What is the difference between the initial session and the package?" },
   {
@@ -192,7 +192,7 @@ export const enStandaloneFaqBlocks: readonly CmsContentBlock[] = [
   },
   {
     type: "paragraph",
-    text: "The 5 × 45-minute Deep Transformation Package is a connected process rather than five separate appointments — one journey designed to go deeper, track what shifts, and build momentum. You book the first session at checkout; remaining sessions are scheduled one at a time through your Client Portal.",
+    text: "The 5 × 45-minute Deep Transformation Package is a connected process rather than five separate appointments - one journey designed to go deeper, track what shifts, and build momentum. You book the first session at checkout; remaining sessions are scheduled one at a time through your Client Portal.",
   },
   { type: "heading", level: 3, text: "Are sessions online?" },
   {

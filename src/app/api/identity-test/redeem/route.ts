@@ -7,7 +7,7 @@ import { DEFAULT_LOCALE } from "@/lib/i18n/config";
 
 export const dynamic = "force-dynamic";
 
-/** GET /api/identity-test/redeem?token=<t>&locale=<l> — beta uzaicinājuma aktivizēšana. */
+/** GET /api/identity-test/redeem?token=<t>&locale=<l> - beta uzaicinājuma aktivizēšana. */
 export async function GET(request: NextRequest) {
   const ip =
     request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
   );
 
   if (!(await redeemBetaToken(token))) {
-    // Nederīgs/novecojis tokens — cookie netiek iestatīts; lietotājs redz slēgtās beta paziņojumu.
+    // Nederīgs/novecojis tokens - cookie netiek iestatīts; lietotājs redz slēgtās beta paziņojumu.
     return NextResponse.redirect(target);
   }
   const res = NextResponse.redirect(target);

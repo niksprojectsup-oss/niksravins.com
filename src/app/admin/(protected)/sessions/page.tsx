@@ -51,7 +51,7 @@ export default async function AdminSessionsPage() {
           {
             key: "notes",
             header: "Notes",
-            cell: (row) => row.notes || "—",
+            cell: (row) => row.notes || "-",
             className: "max-w-xs",
           },
         ]}

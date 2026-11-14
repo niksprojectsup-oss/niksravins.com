@@ -56,9 +56,9 @@ function memoryCheck(scope: RateLimitScope, identifier: string, config: RateLimi
 
 /**
  * Kopīgs fixed-window rate limiter, kas glabā skaitītājus Postgres
- * (`SecurityRateLimitBucket`) — darbojas Vercel multi-instance vidē.
+ * (`SecurityRateLimitBucket`) - darbojas Vercel multi-instance vidē.
  * Upsert ir atomisks viens vaicājums: paralēli instance pieprasījumi
- * nezaudē skaitītāju. DB kļūdas gadījumā — in-memory rezerve
+ * nezaudē skaitītāju. DB kļūdas gadījumā - in-memory rezerve
  * (labāks par pilnu rate-limit atteikšanos).
  */
 export async function checkRateLimit(
@@ -96,12 +96,12 @@ export async function checkRateLimit(
       };
     }
   } catch {
-    // DB nepieejama — atgriežamies pie in-memory (attīstība/testi).
+    // DB nepieejama - atgriežamies pie in-memory (attīstība/testi).
   }
   return memoryCheck(scope, identifier, config);
 }
 
-/** Periodiskā tīrīšana — izsauc cron maršrutā. */
+/** Periodiskā tīrīšana - izsauc cron maršrutā. */
 export async function pruneRateLimitBuckets(): Promise<number> {
   const result = await prisma.securityRateLimitBucket.deleteMany({
     where: { resetAt: { lt: new Date() } },

@@ -289,7 +289,7 @@ export function TranslationManager({
               </div>
               <div className="flex flex-wrap gap-2">
                 {isCmsOwnedCatalogKey(row.key) ? (
-                  <AdminStatusBadge label="CMS — edit in Content" variant="muted" />
+                  <AdminStatusBadge label="CMS - edit in Content" variant="muted" />
                 ) : null}
                 {row.missing ? <AdminStatusBadge label="Missing" variant="warm" /> : null}
                 {row.untranslated ? <AdminStatusBadge label="English fallback" variant="muted" /> : null}

@@ -17,7 +17,7 @@ function htmlPage(title: string, body: string): Response {
   );
 }
 
-/** GET /api/identity-test/unsubscribe?token=... — atteikšanās bez logina (HMAC tokens). */
+/** GET /api/identity-test/unsubscribe?token=... - atteikšanās bez logina (HMAC tokens). */
 export async function GET(request: NextRequest) {
   const token = request.nextUrl.searchParams.get("token") ?? "";
   const consentId = verifyUnsubscribeToken(token);
@@ -28,11 +28,11 @@ export async function GET(request: NextRequest) {
 
   const ok = await withdrawConsent(consentId);
   if (!ok) {
-    return htmlPage("Ieraksts nav atrasts", "Piekrišanas ieraksts nav atrasts. Iespējams, tu jau esi atteicies. / Consent record not found — you may already be unsubscribed.");
+    return htmlPage("Ieraksts nav atrasts", "Piekrišanas ieraksts nav atrasts. Iespējams, tu jau esi atteicies. / Consent record not found - you may already be unsubscribed.");
   }
 
   return htmlPage(
     "Tu esi atteicies no turpmākiem e-pastiem",
-    "Tavs personīgais rezultāts paliek derīgs, bet mārketinga e-pasti vairs netiks sūtīti. / You are unsubscribed — no further marketing emails will be sent.",
+    "Tavs personīgais rezultāts paliek derīgs, bet mārketinga e-pasti vairs netiks sūtīti. / You are unsubscribed - no further marketing emails will be sent.",
   );
 }

@@ -78,7 +78,7 @@ export type DeliveryOutcome =
 /**
  * Nosūta sagatavotu e-pastu ar claim→send→mark plūsmu.
  * Ambiguāla iznākuma (timeout/5xx) gadījumā statuss paliek PENDING ar nextRetryAt.
- * E-pasta adrese/portreti nekad nenonāk žurnālos — tikai maskēta forma.
+ * E-pasta adrese/portreti nekad nenonāk žurnālos - tikai maskēta forma.
  */
 export async function deliverEmail(
   deliveryId: string,

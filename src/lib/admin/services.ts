@@ -1,5 +1,5 @@
 /**
- * Admin service layer — replace mock implementations with database/API calls.
+ * Admin service layer - replace mock implementations with database/API calls.
  */
 
 import type {

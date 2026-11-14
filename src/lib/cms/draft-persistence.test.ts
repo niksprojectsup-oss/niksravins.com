@@ -56,7 +56,7 @@ describe("cms draft persistence planning", () => {
     assert.equal(writes.find((write) => write.fieldKey === "hero.headline")?.sectionId, "hero-section");
   });
 
-  it("plans the same field set for Latvian and English — the failure is not locale-specific", () => {
+  it("plans the same field set for Latvian and English - the failure is not locale-specific", () => {
     const fields = Object.fromEntries(
       home.sections.flatMap((section) =>
         section.fields.map((field) => [field.key, createEmptyTiptapDocument(field.key)]),
@@ -118,7 +118,7 @@ describe("cms draft persistence SQL", () => {
     assert.doesNotMatch(sql, /INSERT INTO "CmsSection"/);
   });
 
-  it("parameterizes identifiers, locale, copy, and page id — user text never enters the SQL strings", () => {
+  it("parameterizes identifiers, locale, copy, and page id - user text never enters the SQL strings", () => {
     const write = draftWrite();
     const query = buildCmsDraftSaveQuery("page-1", [write]);
     const sql = cmsSqlText(query);

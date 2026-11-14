@@ -5,7 +5,7 @@ import { PrismaClient } from "@prisma/client";
 const env = readFileSync(".env", "utf8");
 const url = env.match(/^DATABASE_URL="?([^"\n]+)"?/m)?.[1];
 if (!url || !url.includes("ep-summer-poetry")) {
-  throw new Error(".env DATABASE_URL nav production endpoint — pārbaudi manuāli");
+  throw new Error(".env DATABASE_URL nav production endpoint - pārbaudi manuāli");
 }
 const p = new PrismaClient({ datasources: { db: { url } } });
 async function main() {

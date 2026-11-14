@@ -3,7 +3,7 @@ import type { AuditLogInput } from "@/lib/security/audit";
 
 export const ADMIN_PORTAL_PREVIEW_PATH = "/admin/portal-preview";
 
-export const ADMIN_PORTAL_PREVIEW_LABEL = "Administrator Preview — not a client session";
+export const ADMIN_PORTAL_PREVIEW_LABEL = "Administrator Preview - not a client session";
 
 export const ADMIN_PORTAL_PREVIEW_SECTIONS = [
   "home",

@@ -27,7 +27,7 @@ export default async function IdentityTestAdminPage() {
       <AdminPanel title="Publiskā piekļuve">
         <PublicAccessToggle enabled={publicAccess} />
         <p className="type-caption mt-3 text-ink-subtle">
-          Ieslēgts — tests pieejams ikvienam bez uzaicinājuma. Izslēgts — piekļuve tikai ar derīgu beta uzaicinājumu.
+          Ieslēgts - tests pieejams ikvienam bez uzaicinājuma. Izslēgts - piekļuve tikai ar derīgu beta uzaicinājumu.
         </p>
       </AdminPanel>
 

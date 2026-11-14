@@ -1,5 +1,5 @@
 /**
- * Future email reminder hooks — not sent in this release.
+ * Future email reminder hooks - not sent in this release.
  * @see requirements section 19
  */
 export type JourneyEmailReminderKind =

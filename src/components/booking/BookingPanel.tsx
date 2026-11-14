@@ -45,7 +45,7 @@ function ServiceList({ items }: { items: string[] }) {
       {items.map((item) => (
         <li key={item} className="flex gap-2.5 type-body text-ink-muted">
           <span className="text-accent shrink-0" aria-hidden>
-            —
+            -
           </span>
           <span>{item}</span>
         </li>

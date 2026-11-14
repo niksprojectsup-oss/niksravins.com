@@ -43,7 +43,7 @@ export const esContent: PublicContent = {
     name: "Niks Ravins",
     headline: "Entiendes la reacción. Aun así, ocurre.",
     explanation: [
-      "Puedes saber que estás a salvo, que eres suficiente, que puedes decir que no o que eres libre de ser tú — y aun así reaccionar como si nada de eso fuera cierto.",
+      "Puedes saber que estás a salvo, que eres suficiente, que puedes decir que no o que eres libre de ser tú - y aun así reaccionar como si nada de eso fuera cierto.",
       "La pregunta de fondo a menudo no es solo por qué reaccionas, sino qué aprendiste que tenías que ser para ser amado, elegido, aceptado, seguro o suficiente.",
       "Esa respuesta puede convertirse en una regla interna. Y la regla puede seguir organizando la reacción mucho después de que, de forma consciente, ya sepas otra cosa.",
     ],
@@ -106,7 +106,7 @@ export const esContent: PublicContent = {
     items: [
       {
         title: "Tu relación.",
-        body: "Quieres sentirte más conectado, seguro, amado o libre en tu relación — pero algo sigue interponiéndose.",
+        body: "Quieres sentirte más conectado, seguro, amado o libre en tu relación - pero algo sigue interponiéndose.",
       },
       {
         title: "Tu trabajo.",
@@ -122,7 +122,7 @@ export const esContent: PublicContent = {
       },
       {
         title: "Tus sueños.",
-        body: "Hay cosas que quieres crear, vivir o lograr — pero sigues frenándote, posponiendo o quedándote en lo que resulta familiar.",
+        body: "Hay cosas que quieres crear, vivir o lograr - pero sigues frenándote, posponiendo o quedándote en lo que resulta familiar.",
       },
       {
         title: "Tu vida.",
@@ -148,7 +148,7 @@ export const esContent: PublicContent = {
       {
         from: "No merezco algo mejor.",
         explanation:
-          "Puedes quedarte en un trabajo, una relación o una situación que ya no se siente bien — incluso cuando sabes que quieres más.",
+          "Puedes quedarte en un trabajo, una relación o una situación que ya no se siente bien - incluso cuando sabes que quieres más.",
         to: "Merezco algo mejor.",
       },
       {
@@ -160,7 +160,7 @@ export const esContent: PublicContent = {
       {
         from: "No puedo confiar en las personas.",
         explanation:
-          "Puede costarte abrirte, recibir apoyo o dejar que alguien se acerque de verdad — incluso cuando deseas profundamente la conexión.",
+          "Puede costarte abrirte, recibir apoyo o dejar que alguien se acerque de verdad - incluso cuando deseas profundamente la conexión.",
         to: "Puedo confiar.",
       },
       {
@@ -182,16 +182,16 @@ export const esContent: PublicContent = {
   },
   roots: {
     intro:
-      "Trabajamos con las creencias y las asociaciones emocionales que hay debajo — las que pueden dar forma a tus decisiones, tu conducta, tus relaciones y la manera en que te experimentas a ti mismo.",
+      "Trabajamos con las creencias y las asociaciones emocionales que hay debajo - las que pueden dar forma a tus decisiones, tu conducta, tus relaciones y la manera en que te experimentas a ti mismo.",
     headline:
       "Cuando cambia el fundamento interior,\ntambién puede cambiar el modo en que recorres la vida.",
   },
   trust: {
     statements: [
-      "Puedes entender por qué reaccionas — y seguir reaccionando.",
-      "Los celos, el control, la ansiedad, el repliegue, el deseo de agradar, el sobreesfuerzo, la dificultad para decir que no, el miedo al rechazo, la necesidad de demostrarte, perderte en las relaciones — pueden parecer problemas separados.",
+      "Puedes entender por qué reaccionas - y seguir reaccionando.",
+      "Los celos, el control, la ansiedad, el repliegue, el deseo de agradar, el sobreesfuerzo, la dificultad para decir que no, el miedo al rechazo, la necesidad de demostrarte, perderte en las relaciones - pueden parecer problemas separados.",
       "A menudo son ramas del mismo tronco: una regla interna sobre quién aprendiste que tenías que ser para permanecer conectado, seguro o valorado.",
-      "Este trabajo es para personas que ya tienen conciencia de sí — y notan que comprender por sí solo no ha cambiado necesariamente cómo se siente la reacción cuando llega.",
+      "Este trabajo es para personas que ya tienen conciencia de sí - y notan que comprender por sí solo no ha cambiado necesariamente cómo se siente la reacción cuando llega.",
     ],
   },
   about: {
@@ -199,15 +199,15 @@ export const esContent: PublicContent = {
     story: [
       [
         "Una forma de entender el patrón es una imagen sencilla.",
-        "El tronco es la regla interna — por ejemplo: tengo que ser fácil de amar.",
+        "El tronco es la regla interna - por ejemplo: tengo que ser fácil de amar.",
         "Las ramas son cómo se manifiesta: dificultad para decir que no, sobreadaptarte, miedo al conflicto, vigilar el humor de alguien, reprimir tus necesidades, sentirte culpable cuando te eliges a ti.",
-        "Podemos pasar años trabajando las ramas. El trabajo suele volverse más útil cuando miramos el tronco — porque cuando la regla de fondo empieza a desplazarse, las ramas también pueden empezar a cambiar.",
+        "Podemos pasar años trabajando las ramas. El trabajo suele volverse más útil cuando miramos el tronco - porque cuando la regla de fondo empieza a desplazarse, las ramas también pueden empezar a cambiar.",
       ],
       [
-        "La recodificación de identidad es de lo que trata este trabajo: descubrir las reglas internas según las cuales aprendiste a vivir — y explorar qué se vuelve posible cuando ya no tienen que organizar quién eres.",
+        "La recodificación de identidad es de lo que trata este trabajo: descubrir las reglas internas según las cuales aprendiste a vivir - y explorar qué se vuelve posible cuando ya no tienen que organizar quién eres.",
         "No es pensamiento positivo, afirmaciones forzadas ni una explicación más de tu patrón. No se trata de convertirte en otra persona. Se trata de vivir con menos necesidad de organizarte en torno a reglas antiguas sobre quién tenías que ser.",
       ],
-      "Trabajo con personas que ya se entienden bastante — y aun así notan que llega la misma reacción automática. Durante años vi una claridad nítida junto a una reacción intacta. En esa brecha vive este trabajo: no en más comprensión, sino en encontrarse con la regla interna en la experiencia — emocionalmente, relacionalmente, en el cuerpo.",
+      "Trabajo con personas que ya se entienden bastante - y aun así notan que llega la misma reacción automática. Durante años vi una claridad nítida junto a una reacción intacta. En esa brecha vive este trabajo: no en más comprensión, sino en encontrarse con la regla interna en la experiencia - emocionalmente, relacionalmente, en el cuerpo.",
     ],
   },
   aap: {
@@ -221,7 +221,7 @@ export const esContent: PublicContent = {
         title: "Qué significa «asociación» aquí",
         description: [
           "Una asociación es el vínculo aprendido entre una experiencia y una reacción presente.",
-          "Por ejemplo: puedes aprender que expresar necesidades pone en riesgo la conexión. La asociación — mis necesidades crean peligro — puede seguir operando incluso cuando sabes racionalmente que estás a salvo. Así aprendiste a ser quien se adapta. AAP trabaja directamente con ese vínculo, no solo con la historia sobre él.",
+          "Por ejemplo: puedes aprender que expresar necesidades pone en riesgo la conexión. La asociación - mis necesidades crean peligro - puede seguir operando incluso cuando sabes racionalmente que estás a salvo. Así aprendiste a ser quien se adapta. AAP trabaja directamente con ese vínculo, no solo con la historia sobre él.",
         ],
       },
       {
@@ -230,14 +230,14 @@ export const esContent: PublicContent = {
           "Localizamos una reacción automática concreta y trabajamos con la asociación y la experiencia vivida vinculadas a ella. Las sesiones son estructuradas y enfocadas. No se te pide actuar ni producir insight. El trabajo es experiencial: ocurre a través de lo que puedes sentir de verdad y sostener, no hablando del patrón de forma indefinida.",
       },
       {
-        title: "Por qué el pasado puede importar — sin revivirlo",
+        title: "Por qué el pasado puede importar - sin revivirlo",
         description:
-          "El pasado puede ser relevante porque las asociaciones se aprenden en la experiencia. Podemos activar brevemente la memoria emocional vinculada a tu reacción — lo suficiente para acceder a lo que la mantiene activa hoy. El objetivo no es revisitar la infancia una y otra vez, sino trabajar con lo que sostiene la respuesta ahora.",
+          "El pasado puede ser relevante porque las asociaciones se aprenden en la experiencia. Podemos activar brevemente la memoria emocional vinculada a tu reacción - lo suficiente para acceder a lo que la mantiene activa hoy. El objetivo no es revisitar la infancia una y otra vez, sino trabajar con lo que sostiene la respuesta ahora.",
       },
       {
         title: "Qué puede cambiar",
         description:
-          "Cuando una asociación se desplaza y una regla interna se afloja, la reacción que la seguía puede suavizarse o volverse menos necesaria. No es una promesa. Los clientes suelen describir no a una persona nueva, sino una experiencia distinta en la vida diaria — menos organizada en torno a la regla antigua, más capaces de permanecer en contacto consigo mismos sin pagar por ello con culpa, control o abandono de sí.",
+          "Cuando una asociación se desplaza y una regla interna se afloja, la reacción que la seguía puede suavizarse o volverse menos necesaria. No es una promesa. Los clientes suelen describir no a una persona nueva, sino una experiencia distinta en la vida diaria - menos organizada en torno a la regla antigua, más capaces de permanecer en contacto consigo mismos sin pagar por ello con culpa, control o abandono de sí.",
       },
     ],
   },
@@ -269,10 +269,10 @@ export const esContent: PublicContent = {
       {
         question: "¿Qué es la recodificación de identidad?",
         answer:
-          "La recodificación de identidad es el nombre que uso para la dirección más amplia de este trabajo: descubrir las reglas internas según las cuales aprendiste a vivir — quién aprendiste que tenías que ser para ser amado, elegido, aceptado, seguro o suficiente — y explorar qué se vuelve posible cuando esas reglas ya no tienen que organizar tus reacciones. Es un lenguaje conceptual para el trabajo, no una afirmación médica ni neurocientífica.",
+          "La recodificación de identidad es el nombre que uso para la dirección más amplia de este trabajo: descubrir las reglas internas según las cuales aprendiste a vivir - quién aprendiste que tenías que ser para ser amado, elegido, aceptado, seguro o suficiente - y explorar qué se vuelve posible cuando esas reglas ya no tienen que organizar tus reacciones. Es un lenguaje conceptual para el trabajo, no una afirmación médica ni neurocientífica.",
       },
       {
-        question: "¿Qué es AAP — y en qué se diferencia?",
+        question: "¿Qué es AAP - y en qué se diferencia?",
         answer:
           "Adaptive Association Processing (AAP) es el proceso terapéutico estructurado que uso dentro de la psicoterapia. Trabaja con la asociación aprendida y la experiencia vivida que pueden mantener activa una antigua regla interna. La recodificación de identidad describe de qué trata el trabajo; AAP es cómo ocurre en la sala. No son productos separados ni métodos en competencia.",
       },
@@ -284,13 +284,13 @@ export const esContent: PublicContent = {
       {
         question: "¿Y si ya entiendo mis patrones?",
         answer:
-          "Ese suele ser el punto de partida. Muchas personas aquí pueden explicar sus patrones con claridad — y aun así notan que llega la misma reacción. Este trabajo aborda la brecha entre saber y vivir de otra manera: no otra explicación, sino trabajar con lo que mantiene vivo el patrón en el presente.",
+          "Ese suele ser el punto de partida. Muchas personas aquí pueden explicar sus patrones con claridad - y aun así notan que llega la misma reacción. Este trabajo aborda la brecha entre saber y vivir de otra manera: no otra explicación, sino trabajar con lo que mantiene vivo el patrón en el presente.",
       },
       {
         question: "¿Cuál es la diferencia entre la sesión inicial y el paquete?",
         answer: [
           "La sesión inicial de 45 minutos es tu primer paso: exploramos tus patrones, entendemos qué los mantiene y determinamos el camino más eficaz.",
-          "El paquete Deep Transformation de 5 × 45 minutos es un proceso conectado — un recorrido a lo largo de las sesiones para profundizar y seguir lo que se desplaza. Reservas la primera sesión al pagar; las restantes se programan desde tu portal del cliente.",
+          "El paquete Deep Transformation de 5 × 45 minutos es un proceso conectado - un recorrido a lo largo de las sesiones para profundizar y seguir lo que se desplaza. Reservas la primera sesión al pagar; las restantes se programan desde tu portal del cliente.",
         ],
       },
       {
@@ -303,7 +303,7 @@ export const esContent: PublicContent = {
   finalCta: {
     lines: [
       "Quizá ya entiendas el patrón.",
-      "La pregunta más interesante puede ser qué aprendiste que tenías que ser —",
+      "La pregunta más interesante puede ser qué aprendiste que tenías que ser -",
       "y si esa regla todavía necesita organizar tu vida.",
     ],
     button: { label: "Reservar una sesión", href: "/book" },
@@ -312,7 +312,7 @@ export const esContent: PublicContent = {
     label: "Reserva",
     title: "Reservar una sesión",
     subtitle:
-      "Comienza el proceso de cambiar las reacciones automáticas que ya no te sirven. Clientes internacionales bienvenidos — las sesiones se realizan en inglés.",
+      "Comienza el proceso de cambiar las reacciones automáticas que ya no te sirven. Clientes internacionales bienvenidos - las sesiones se realizan en inglés.",
   },
   bookingOffers: {
     "initial-aap-session": {
@@ -325,7 +325,7 @@ export const esContent: PublicContent = {
     "aap-transformation-package": {
       title: "Paquete Deep Transformation de 5 × 45 minutos",
       description:
-        "Un proceso de transformación estructurado — no cinco citas separadas, sino un recorrido conectado pensado para un cambio significativo y duradero.",
+        "Un proceso de transformación estructurado - no cinco citas separadas, sino un recorrido conectado pensado para un cambio significativo y duradero.",
       detail:
         "Un cambio significativo suele requerir más que una sola conversación. Trabajar a lo largo de varias sesiones permite ir más profundo, seguir lo que se desplaza y generar impulso, en lugar de empezar de cero cada vez.",
       durationLabel: "5 sesiones · 45 minutos cada una",
@@ -371,7 +371,7 @@ export const esContent: PublicContent = {
       title: "Elige una hora",
       packageTitle: "Elige tu primera sesión",
       packageDescription:
-        "Reserva ahora tu primera sesión. Las sesiones 2–5 se pueden programar más adelante, de una en una, desde tu portal del cliente.",
+        "Reserva ahora tu primera sesión. Las sesiones 2-5 se pueden programar más adelante, de una en una, desde tu portal del cliente.",
       description:
         "Selecciona una sesión en línea disponible. Solo verás horarios en los que Niks está disponible para trabajo en línea.",
       loading: "Cargando horarios disponibles…",
@@ -386,7 +386,7 @@ export const esContent: PublicContent = {
       weekdays: ["lun", "mar", "mié", "jue", "vie", "sáb", "dom"],
       packageSessionNote: "Hoy estás reservando la sesión 1 de 5.",
       packageFollowUpNote:
-        "Las sesiones 2–5 se pueden programar más adelante, de una en una, desde tu portal del cliente.",
+        "Las sesiones 2-5 se pueden programar más adelante, de una en una, desde tu portal del cliente.",
       localTimeNote: "Los horarios se muestran en tu hora local ({timezone}).",
       previousMonth: "Mes anterior",
       nextMonth: "Mes siguiente",
@@ -473,7 +473,7 @@ export const esContent: PublicContent = {
       title: "Pago confirmado",
       errorTitle: "No se pudo verificar el pago",
       message:
-        "Gracias — tu pago se ha recibido correctamente. Tu reserva está confirmada y recibirás un correo de confirmación en breve.",
+        "Gracias - tu pago se ha recibido correctamente. Tu reserva está confirmada y recibirás un correo de confirmación en breve.",
       packageMessage:
         "Tu paquete de transformación está confirmado. Recibirás un correo con los detalles de la reserva y el acceso a tu portal del cliente.",
       courseMessage:
@@ -536,7 +536,7 @@ export const esContent: PublicContent = {
   },
   identityTest: {
     seo: {
-      title: "Identity Test — Niks Ravins",
+      title: "Identity Test - Niks Ravins",
       description:
         "Mark the inner beliefs you recognize and receive two personalized portraits: how these beliefs may shape your daily life, and what life could look like after working with them.",
     },
@@ -561,7 +561,7 @@ export const esContent: PublicContent = {
     },
     review: {
       heading: "Your selection",
-      subheading: "Review the marked statements — you can still edit.",
+      subheading: "Review the marked statements - you can still edit.",
       submitCta: "Get my personal result",
       back: "Back",
     },

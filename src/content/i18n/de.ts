@@ -43,7 +43,7 @@ export const deContent: PublicContent = {
     name: "Niks Ravins",
     headline: "Sie verstehen die Reaktion. Sie tritt trotzdem auf.",
     explanation: [
-      "Sie können wissen, dass Sie sicher sind, genug sind, Nein sagen dürfen oder Sie selbst sein können — und trotzdem so reagieren, als wäre nichts davon wahr.",
+      "Sie können wissen, dass Sie sicher sind, genug sind, Nein sagen dürfen oder Sie selbst sein können - und trotzdem so reagieren, als wäre nichts davon wahr.",
       "Die Frage darunter ist oft nicht nur, warum Sie reagieren, sondern was Sie gelernt haben zu sein, um geliebt, gewählt, angenommen, sicher oder genug zu sein.",
       "Diese Antwort kann zu einer inneren Regel werden. Und die Regel kann die Reaktion noch lange organisieren, nachdem Sie bewusst besser Bescheid wissen.",
     ],
@@ -106,7 +106,7 @@ export const deContent: PublicContent = {
     items: [
       {
         title: "Ihre Beziehung.",
-        body: "Sie wollen sich in Ihrer Beziehung verbundener, sicherer, geliebter oder freier fühlen — aber etwas stellt sich immer wieder in den Weg.",
+        body: "Sie wollen sich in Ihrer Beziehung verbundener, sicherer, geliebter oder freier fühlen - aber etwas stellt sich immer wieder in den Weg.",
       },
       {
         title: "Ihre Arbeit.",
@@ -122,7 +122,7 @@ export const deContent: PublicContent = {
       },
       {
         title: "Ihre Träume.",
-        body: "Es gibt Dinge, die Sie schaffen, erleben oder erreichen wollen — aber Sie halten sich zurück, schieben auf oder bleiben bei dem, was vertraut wirkt.",
+        body: "Es gibt Dinge, die Sie schaffen, erleben oder erreichen wollen - aber Sie halten sich zurück, schieben auf oder bleiben bei dem, was vertraut wirkt.",
       },
       {
         title: "Ihr Leben.",
@@ -148,7 +148,7 @@ export const deContent: PublicContent = {
       {
         from: "Ich verdiene nichts Besseres.",
         explanation:
-          "Sie bleiben vielleicht in einem Job, einer Beziehung oder einer Situation, die sich nicht mehr richtig anfühlt — obwohl Sie wissen, dass Sie mehr wollen.",
+          "Sie bleiben vielleicht in einem Job, einer Beziehung oder einer Situation, die sich nicht mehr richtig anfühlt - obwohl Sie wissen, dass Sie mehr wollen.",
         to: "Ich verdiene Besseres.",
       },
       {
@@ -160,7 +160,7 @@ export const deContent: PublicContent = {
       {
         from: "Ich kann Menschen nicht vertrauen.",
         explanation:
-          "Es fällt Ihnen vielleicht schwer, sich zu öffnen, Unterstützung anzunehmen oder jemanden wirklich nah heranzulassen — obwohl Sie sich Verbindung tief wünschen.",
+          "Es fällt Ihnen vielleicht schwer, sich zu öffnen, Unterstützung anzunehmen oder jemanden wirklich nah heranzulassen - obwohl Sie sich Verbindung tief wünschen.",
         to: "Ich kann vertrauen.",
       },
       {
@@ -182,16 +182,16 @@ export const deContent: PublicContent = {
   },
   roots: {
     intro:
-      "Wir arbeiten mit den Überzeugungen und emotionalen Verknüpfungen darunter — denen, die Ihre Entscheidungen, Ihr Verhalten, Ihre Beziehungen und die Art, wie Sie sich selbst erleben, prägen können.",
+      "Wir arbeiten mit den Überzeugungen und emotionalen Verknüpfungen darunter - denen, die Ihre Entscheidungen, Ihr Verhalten, Ihre Beziehungen und die Art, wie Sie sich selbst erleben, prägen können.",
     headline:
       "Wenn sich das innere Fundament verändert,\nkann sich auch verändern, wie Sie durchs Leben gehen.",
   },
   trust: {
     statements: [
-      "Sie können verstehen, warum Sie reagieren — und trotzdem weiter reagieren.",
-      "Eifersucht, Kontrolle, Angst, Rückzug, Gefallsucht, Überfunktionieren, Schwierigkeit, Nein zu sagen, Angst vor Ablehnung, der Drang, sich zu beweisen, sich in Beziehungen zu verlieren — das kann wie getrennte Probleme aussehen.",
+      "Sie können verstehen, warum Sie reagieren - und trotzdem weiter reagieren.",
+      "Eifersucht, Kontrolle, Angst, Rückzug, Gefallsucht, Überfunktionieren, Schwierigkeit, Nein zu sagen, Angst vor Ablehnung, der Drang, sich zu beweisen, sich in Beziehungen zu verlieren - das kann wie getrennte Probleme aussehen.",
       "Oft sind es Zweige desselben Stamms: eine innere Regel darüber, wer Sie sein mussten, um verbunden, sicher oder wertvoll zu bleiben.",
-      "Diese Arbeit ist für Menschen, die sich bereits selbst bewusst sind — und merken, dass Verstehen allein nicht unbedingt verändert hat, wie sich die Reaktion anfühlt, wenn sie kommt.",
+      "Diese Arbeit ist für Menschen, die sich bereits selbst bewusst sind - und merken, dass Verstehen allein nicht unbedingt verändert hat, wie sich die Reaktion anfühlt, wenn sie kommt.",
     ],
   },
   about: {
@@ -199,15 +199,15 @@ export const deContent: PublicContent = {
     story: [
       [
         "Eine Weise, das Muster zu verstehen, ist ein einfaches Bild.",
-        "Der Stamm ist die innere Regel — zum Beispiel: Ich muss leicht zu lieben sein.",
+        "Der Stamm ist die innere Regel - zum Beispiel: Ich muss leicht zu lieben sein.",
         "Die Zweige sind, wie sie sich zeigt: Schwierigkeit, Nein zu sagen, Überanpassung, Angst vor Konflikt, die Stimmung eines anderen überwachen, eigene Bedürfnisse unterdrücken, Schuldgefühle, wenn Sie sich selbst wählen.",
-        "Wir können Jahre an den Zweigen arbeiten. Die Arbeit wird oft nützlicher, wenn wir den Stamm anschauen — weil, wenn die zugrunde liegende Regel sich zu verschieben beginnt, sich auch die Zweige verändern können.",
+        "Wir können Jahre an den Zweigen arbeiten. Die Arbeit wird oft nützlicher, wenn wir den Stamm anschauen - weil, wenn die zugrunde liegende Regel sich zu verschieben beginnt, sich auch die Zweige verändern können.",
       ],
       [
-        "Identitäts-Recoding ist, worum es in dieser Arbeit geht: die inneren Regeln zu entdecken, nach denen Sie zu leben gelernt haben — und zu erkunden, was möglich wird, wenn sie nicht mehr organisieren müssen, wer Sie sind.",
+        "Identitäts-Recoding ist, worum es in dieser Arbeit geht: die inneren Regeln zu entdecken, nach denen Sie zu leben gelernt haben - und zu erkunden, was möglich wird, wenn sie nicht mehr organisieren müssen, wer Sie sind.",
         "Das ist kein positives Denken, keine erzwungenen Affirmationen und nicht noch eine Erklärung Ihres Musters. Es geht nicht darum, jemand anderes zu werden. Es geht darum, mit weniger Notwendigkeit zu leben, sich um alte Regeln darüber zu organisieren, wer Sie sein mussten.",
       ],
-      "Ich arbeite mit Menschen, die sich selbst schon viel verstehen — und trotzdem merken, dass dieselbe automatische Reaktion ankommt. Jahrelang habe ich klare Einsicht neben unveränderter Reaktion gesehen. In dieser Lücke lebt diese Arbeit: nicht in mehr Verstehen, sondern darin, der inneren Regel in der Erfahrung zu begegnen — emotional, relational, im Körper.",
+      "Ich arbeite mit Menschen, die sich selbst schon viel verstehen - und trotzdem merken, dass dieselbe automatische Reaktion ankommt. Jahrelang habe ich klare Einsicht neben unveränderter Reaktion gesehen. In dieser Lücke lebt diese Arbeit: nicht in mehr Verstehen, sondern darin, der inneren Regel in der Erfahrung zu begegnen - emotional, relational, im Körper.",
     ],
   },
   aap: {
@@ -221,23 +221,23 @@ export const deContent: PublicContent = {
         title: "Was „Verknüpfung“ hier bedeutet",
         description: [
           "Eine Verknüpfung ist die gelernte Verbindung zwischen einer Erfahrung und einer gegenwärtigen Reaktion.",
-          "Zum Beispiel: Sie können lernen, dass das Ausdrücken von Bedürfnissen die Verbindung gefährdet. Die Verknüpfung — meine Bedürfnisse erzeugen Gefahr — kann weiterwirken, selbst wenn Sie rational wissen, dass Sie sicher sind. So haben Sie gelernt, die Person zu sein, die sich anpasst. AAP arbeitet direkt mit dieser Verbindung, nicht nur mit der Geschichte darüber.",
+          "Zum Beispiel: Sie können lernen, dass das Ausdrücken von Bedürfnissen die Verbindung gefährdet. Die Verknüpfung - meine Bedürfnisse erzeugen Gefahr - kann weiterwirken, selbst wenn Sie rational wissen, dass Sie sicher sind. So haben Sie gelernt, die Person zu sein, die sich anpasst. AAP arbeitet direkt mit dieser Verbindung, nicht nur mit der Geschichte darüber.",
         ],
       },
       {
         title: "Was in einer Sitzung geschieht",
         description:
-          "Wir lokalisieren eine bestimmte automatische Reaktion und arbeiten mit der Verknüpfung und der gelebten Erfahrung, die damit verbunden ist. Sitzungen sind strukturiert und fokussiert. Sie werden nicht gebeten, zu performen oder Einsicht zu produzieren. Die Arbeit ist erfahrungsbezogen — sie geschieht durch das, was Sie tatsächlich fühlen und dabei bleiben können, nicht durch endloses Reden über das Muster.",
+          "Wir lokalisieren eine bestimmte automatische Reaktion und arbeiten mit der Verknüpfung und der gelebten Erfahrung, die damit verbunden ist. Sitzungen sind strukturiert und fokussiert. Sie werden nicht gebeten, zu performen oder Einsicht zu produzieren. Die Arbeit ist erfahrungsbezogen - sie geschieht durch das, was Sie tatsächlich fühlen und dabei bleiben können, nicht durch endloses Reden über das Muster.",
       },
       {
-        title: "Warum die Vergangenheit eine Rolle spielen kann — ohne sie noch einmal zu durchleben",
+        title: "Warum die Vergangenheit eine Rolle spielen kann - ohne sie noch einmal zu durchleben",
         description:
-          "Die Vergangenheit kann relevant sein, weil Verknüpfungen in der Erfahrung gelernt werden. Wir können kurz die emotionale Erinnerung aktivieren, die mit Ihrer Reaktion verbunden ist — genug, um zu erreichen, was sie heute aktiv hält. Ziel ist nicht, die Kindheit wiederholt aufzusuchen, sondern mit dem zu arbeiten, was die Reaktion jetzt aufrechterhält.",
+          "Die Vergangenheit kann relevant sein, weil Verknüpfungen in der Erfahrung gelernt werden. Wir können kurz die emotionale Erinnerung aktivieren, die mit Ihrer Reaktion verbunden ist - genug, um zu erreichen, was sie heute aktiv hält. Ziel ist nicht, die Kindheit wiederholt aufzusuchen, sondern mit dem zu arbeiten, was die Reaktion jetzt aufrechterhält.",
       },
       {
         title: "Was sich verändern kann",
         description:
-          "Wenn sich eine Verknüpfung verschiebt und eine innere Regel lockert, kann die Reaktion, die ihr folgte, weicher werden oder weniger notwendig sein. Das ist kein Versprechen. Klienten beschreiben oft nicht einen neuen Menschen, sondern eine andere Erfahrung im Alltag — weniger um die alte Regel organisiert, mehr in der Lage, bei sich zu bleiben, ohne dafür mit Schuld, Kontrolle oder Selbstaufgabe zu zahlen.",
+          "Wenn sich eine Verknüpfung verschiebt und eine innere Regel lockert, kann die Reaktion, die ihr folgte, weicher werden oder weniger notwendig sein. Das ist kein Versprechen. Klienten beschreiben oft nicht einen neuen Menschen, sondern eine andere Erfahrung im Alltag - weniger um die alte Regel organisiert, mehr in der Lage, bei sich zu bleiben, ohne dafür mit Schuld, Kontrolle oder Selbstaufgabe zu zahlen.",
       },
     ],
   },
@@ -269,28 +269,28 @@ export const deContent: PublicContent = {
       {
         question: "Was ist Identitäts-Recoding?",
         answer:
-          "Identitäts-Recoding ist der Name, den ich für die weitere Richtung dieser Arbeit verwende: die inneren Regeln zu entdecken, nach denen Sie zu leben gelernt haben — wer Sie sein mussten, um geliebt, gewählt, angenommen, sicher oder genug zu sein — und zu erkunden, was möglich wird, wenn diese Regeln Ihre Reaktionen nicht mehr organisieren müssen. Es ist begriffliche Sprache für die Arbeit, kein medizinischer oder neurowissenschaftlicher Anspruch.",
+          "Identitäts-Recoding ist der Name, den ich für die weitere Richtung dieser Arbeit verwende: die inneren Regeln zu entdecken, nach denen Sie zu leben gelernt haben - wer Sie sein mussten, um geliebt, gewählt, angenommen, sicher oder genug zu sein - und zu erkunden, was möglich wird, wenn diese Regeln Ihre Reaktionen nicht mehr organisieren müssen. Es ist begriffliche Sprache für die Arbeit, kein medizinischer oder neurowissenschaftlicher Anspruch.",
       },
       {
-        question: "Was ist AAP — und worin unterscheidet es sich?",
+        question: "Was ist AAP - und worin unterscheidet es sich?",
         answer:
           "Adaptive Association Processing (AAP) ist der strukturierte therapeutische Prozess, den ich innerhalb der Psychotherapie nutze. Er arbeitet mit der gelernten Verknüpfung und der gelebten Erfahrung, die eine alte innere Regel aktiv halten können. Identitäts-Recoding beschreibt, worum die Arbeit geht; AAP ist, wie sie im Raum geschieht. Es sind keine getrennten Angebote und keine konkurrierenden Methoden.",
       },
       {
         question: "Was geschieht während einer Sitzung?",
         answer:
-          "Wir identifizieren eine bestimmte automatische Reaktion und arbeiten mit der Verknüpfung und der gelebten Erfahrung, die damit verbunden ist. Sitzungen sind strukturiert, ruhig und fokussiert. Sie werden nicht gebeten, zu performen oder Einsicht zu produzieren — die Arbeit geschieht durch direkte Erfahrung des Musters, in dem Tempo, in dem Sie dabei bleiben können.",
+          "Wir identifizieren eine bestimmte automatische Reaktion und arbeiten mit der Verknüpfung und der gelebten Erfahrung, die damit verbunden ist. Sitzungen sind strukturiert, ruhig und fokussiert. Sie werden nicht gebeten, zu performen oder Einsicht zu produzieren - die Arbeit geschieht durch direkte Erfahrung des Musters, in dem Tempo, in dem Sie dabei bleiben können.",
       },
       {
         question: "Was, wenn ich meine Muster bereits verstehe?",
         answer:
-          "Das ist oft der Ausgangspunkt. Viele Menschen hier können ihre Muster klar erklären — und merken trotzdem, dass dieselbe Reaktion ankommt. Diese Arbeit adressiert die Lücke zwischen Wissen und anders Erleben: nicht noch eine Erklärung, sondern die Arbeit mit dem, was das Muster in der Gegenwart am Leben hält.",
+          "Das ist oft der Ausgangspunkt. Viele Menschen hier können ihre Muster klar erklären - und merken trotzdem, dass dieselbe Reaktion ankommt. Diese Arbeit adressiert die Lücke zwischen Wissen und anders Erleben: nicht noch eine Erklärung, sondern die Arbeit mit dem, was das Muster in der Gegenwart am Leben hält.",
       },
       {
         question: "Was ist der Unterschied zwischen der ersten Sitzung und dem Paket?",
         answer: [
           "Die 45-minütige Erstsitzung ist Ihr erster Schritt: Wir erkunden Ihre Muster, verstehen, was sie aufrechterhält, und klären den wirksamsten Weg weiter.",
-          "Das 5 × 45-Minuten Deep-Transformation-Paket ist ein zusammenhängender Prozess — eine Reise über Sitzungen hinweg, um tiefer zu gehen und zu verfolgen, was sich verschiebt. Sie buchen die erste Sitzung beim Checkout; die weiteren Sitzungen planen Sie über Ihr Klientenportal.",
+          "Das 5 × 45-Minuten Deep-Transformation-Paket ist ein zusammenhängender Prozess - eine Reise über Sitzungen hinweg, um tiefer zu gehen und zu verfolgen, was sich verschiebt. Sie buchen die erste Sitzung beim Checkout; die weiteren Sitzungen planen Sie über Ihr Klientenportal.",
         ],
       },
       {
@@ -303,7 +303,7 @@ export const deContent: PublicContent = {
   finalCta: {
     lines: [
       "Sie verstehen das Muster vielleicht bereits.",
-      "Die interessantere Frage mag sein, was Sie gelernt haben zu sein —",
+      "Die interessantere Frage mag sein, was Sie gelernt haben zu sein -",
       "und ob diese Regel Ihr Leben noch organisieren muss.",
     ],
     button: { label: "Sitzung buchen", href: "/book" },
@@ -312,7 +312,7 @@ export const deContent: PublicContent = {
     label: "Buchung",
     title: "Sitzung buchen",
     subtitle:
-      "Beginnen Sie den Prozess, automatische Reaktionen zu verändern, die Ihnen nicht mehr dienen. Internationale Klienten willkommen — Sitzungen werden auf Englisch durchgeführt.",
+      "Beginnen Sie den Prozess, automatische Reaktionen zu verändern, die Ihnen nicht mehr dienen. Internationale Klienten willkommen - Sitzungen werden auf Englisch durchgeführt.",
   },
   bookingOffers: {
     "initial-aap-session": {
@@ -325,7 +325,7 @@ export const deContent: PublicContent = {
     "aap-transformation-package": {
       title: "5 × 45-Minuten Deep-Transformation-Paket",
       description:
-        "Ein strukturierter Transformationsprozess — nicht fünf einzelne Termine, sondern eine zusammenhängende Reise, die auf nachhaltige Veränderung ausgelegt ist.",
+        "Ein strukturierter Transformationsprozess - nicht fünf einzelne Termine, sondern eine zusammenhängende Reise, die auf nachhaltige Veränderung ausgelegt ist.",
       detail:
         "Nachhaltige Veränderung braucht meist mehr als ein einzelnes Gespräch. Über mehrere Sitzungen können wir tiefer gehen, verfolgen, was sich verschiebt, und Schwung aufbauen, statt jedes Mal neu zu beginnen.",
       durationLabel: "5 Sitzungen · je 45 Minuten",
@@ -371,7 +371,7 @@ export const deContent: PublicContent = {
       title: "Zeit wählen",
       packageTitle: "Erste Sitzung wählen",
       packageDescription:
-        "Buchen Sie jetzt Ihre erste Sitzung. Sitzungen 2–5 können später einzeln über Ihr Klientenportal geplant werden.",
+        "Buchen Sie jetzt Ihre erste Sitzung. Sitzungen 2-5 können später einzeln über Ihr Klientenportal geplant werden.",
       description:
         "Wählen Sie eine verfügbare Online-Sitzung. Sie sehen nur Zeiten, zu denen Niks für Online-Arbeit verfügbar ist.",
       loading: "Verfügbare Zeiten werden geladen…",
@@ -386,7 +386,7 @@ export const deContent: PublicContent = {
       weekdays: ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"],
       packageSessionNote: "Sie buchen heute Sitzung 1 von 5.",
       packageFollowUpNote:
-        "Sitzungen 2–5 können später einzeln über Ihr Klientenportal geplant werden.",
+        "Sitzungen 2-5 können später einzeln über Ihr Klientenportal geplant werden.",
       localTimeNote: "Zeiten werden in Ihrer Ortszeit angezeigt ({timezone}).",
       previousMonth: "Vorheriger Monat",
       nextMonth: "Nächster Monat",
@@ -473,7 +473,7 @@ export const deContent: PublicContent = {
       title: "Zahlung bestätigt",
       errorTitle: "Zahlung konnte nicht verifiziert werden",
       message:
-        "Vielen Dank — Ihre Zahlung wurde erfolgreich empfangen. Ihre Buchung ist bestätigt und Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
+        "Vielen Dank - Ihre Zahlung wurde erfolgreich empfangen. Ihre Buchung ist bestätigt und Sie erhalten in Kürze eine Bestätigungs-E-Mail.",
       packageMessage:
         "Ihr Transformationspaket ist bestätigt. Sie erhalten eine E-Mail mit Ihren Buchungsdetails und Zugang zu Ihrem Klientenportal.",
       courseMessage:
@@ -536,7 +536,7 @@ export const deContent: PublicContent = {
   },
   identityTest: {
     seo: {
-      title: "Identity Test — Niks Ravins",
+      title: "Identity Test - Niks Ravins",
       description:
         "Mark the inner beliefs you recognize and receive two personalized portraits: how these beliefs may shape your daily life, and what life could look like after working with them.",
     },
@@ -561,7 +561,7 @@ export const deContent: PublicContent = {
     },
     review: {
       heading: "Your selection",
-      subheading: "Review the marked statements — you can still edit.",
+      subheading: "Review the marked statements - you can still edit.",
       submitCta: "Get my personal result",
       back: "Back",
     },

@@ -22,7 +22,7 @@ export function PublicAccessToggle({ enabled }: { enabled: boolean }) {
           aria-hidden
           className={`inline-block h-2 w-2 rounded-full ${enabled ? "bg-booking" : "bg-ink-muted"}`}
         />
-        {enabled ? "IESLĒGTS — publiski pieejams" : "IZSLĒGTS — nav pieejams apmeklētājiem"}
+        {enabled ? "IESLĒGTS - publiski pieejams" : "IZSLĒGTS - nav pieejams apmeklētājiem"}
       </span>
       <button
         type="button"
@@ -38,7 +38,7 @@ export function PublicAccessToggle({ enabled }: { enabled: boolean }) {
               await setIdentityPublicAccessAction(!enabled);
               router.refresh();
             } catch {
-              setError("Neizdevās saglabāt — pārbaudiet, vai DB migrācija ir izpildīta.");
+              setError("Neizdevās saglabāt - pārbaudiet, vai DB migrācija ir izpildīta.");
             }
           });
         }}

@@ -83,7 +83,7 @@ export function BetaInviteManager({ invites }: { invites: Invite[] }) {
         </div>
         {newUrl ? (
           <div className="mt-4 rounded-md border border-accent/40 bg-accent-soft/40 p-3">
-            <p className="type-caption mb-1 font-medium text-ink">Saites redzama tikai šo reizi — nokopē:</p>
+            <p className="type-caption mb-1 font-medium text-ink">Saites redzama tikai šo reizi - nokopē:</p>
             <code className="block break-all rounded bg-surface px-3 py-2 text-xs text-ink">{newUrl}</code>
             <button
               type="button"

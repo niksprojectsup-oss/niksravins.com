@@ -23,7 +23,7 @@ export function ClientOverview({ client }: { client: ClientWorkspace }) {
         </div>
         <div>
           <dt className="type-caption">Phone</dt>
-          <dd className="type-body mt-1 text-ink">{client.phone ?? "—"}</dd>
+          <dd className="type-body mt-1 text-ink">{client.phone ?? "-"}</dd>
         </div>
         <div>
           <dt className="type-caption">Country</dt>
@@ -46,7 +46,7 @@ export function ClientOverview({ client }: { client: ClientWorkspace }) {
           <dd className="type-body mt-1 text-ink">
             {client.firstSessionDate
               ? formatAdminDate(client.firstSessionDate)
-              : "—"}
+              : "-"}
           </dd>
         </div>
       </dl>

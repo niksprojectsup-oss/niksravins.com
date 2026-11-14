@@ -5,7 +5,7 @@
  * prisma/identity-test-content.json (10 tēmas × 5 apakštēmas × 4 uzskati).
  *
  * Principi:
- * - Importē tikai dokumentā apstiprināto saturu — neizdomā fragmentus.
+ * - Importē tikai dokumentā apstiprināto saturu - neizdomā fragmentus.
  * - Entītijas nonāk DRAFT statusā (administrators publicē).
  * - LV teksti no avota dokumenta → publishedValue + PUBLISHED tulkojuma statuss.
  * - EN tēmu nosaukumi no avota → PUBLISHED; viss pārējais EN → nav tulkots.
@@ -158,7 +158,7 @@ async function main() {
     });
   }
 
-  // E-pastu veidņu skelets — saturu aizpilda administrators.
+  // E-pastu veidņu skelets - saturu aizpilda administrators.
   for (const step of ["RESULT", "DAY_1", "DAY_3", "DAY_5"] as const) {
     await prisma.identityEmailTemplate.upsert({
       where: { step },

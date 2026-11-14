@@ -1,4 +1,4 @@
-// Publiskās pieejamības slēdzis — servera puses vārti.
+// Publiskās pieejamības slēdzis - servera puses vārti.
 // ON → tests pieejams ikvienam bez uzaicinājuma.
 // OFF → tikai derīgs beta invite cookie (testa fāze).
 // Fail-closed: ja iestatījumu tabula/rinda nav pieejama → piekļuve bloķēta.

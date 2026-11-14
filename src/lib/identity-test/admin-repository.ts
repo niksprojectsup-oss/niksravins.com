@@ -3,7 +3,7 @@ import { decryptField } from "@/lib/security/encryption";
 import { LOCALES } from "@/lib/i18n/config";
 import type { IdentityContentEntityType } from "@prisma/client";
 
-/** Satura pilnības matrica vienai entītijai — admin brīdinājumiem. */
+/** Satura pilnības matrica vienai entītijai - admin brīdinājumiem. */
 export async function getContentCoverage(entityType: IdentityContentEntityType, entityIds: string[]) {
   const rows = await prisma.identityContentTranslation.groupBy({
     by: ["entityId", "locale", "translationStatus"],

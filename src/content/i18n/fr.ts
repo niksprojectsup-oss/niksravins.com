@@ -43,7 +43,7 @@ export const frContent: PublicContent = {
     name: "Niks Ravins",
     headline: "Vous comprenez la réaction. Elle se produit quand même.",
     explanation: [
-      "Vous pouvez savoir que vous êtes en sécurité, que vous suffisez, que vous avez le droit de dire non, ou que vous êtes libre d’être vous-même — et réagir malgré tout comme si rien de tout cela n’était vrai.",
+      "Vous pouvez savoir que vous êtes en sécurité, que vous suffisez, que vous avez le droit de dire non, ou que vous êtes libre d’être vous-même - et réagir malgré tout comme si rien de tout cela n’était vrai.",
       "La question en dessous n’est souvent pas seulement pourquoi vous réagissez, mais ce que vous avez appris à devoir être pour être aimé, choisi, accepté, en sécurité ou assez.",
       "Cette réponse peut devenir une règle intérieure. Et la règle peut continuer d’organiser la réaction longtemps après que vous sachiez consciemment mieux.",
     ],
@@ -106,7 +106,7 @@ export const frContent: PublicContent = {
     items: [
       {
         title: "Votre relation.",
-        body: "Vous voulez vous sentir plus connecté, en sécurité, aimé ou libre dans votre relation — mais quelque chose continue de s’interposer.",
+        body: "Vous voulez vous sentir plus connecté, en sécurité, aimé ou libre dans votre relation - mais quelque chose continue de s’interposer.",
       },
       {
         title: "Votre travail.",
@@ -122,7 +122,7 @@ export const frContent: PublicContent = {
       },
       {
         title: "Vos rêves.",
-        body: "Il y a des choses que vous voulez créer, vivre ou accomplir — mais vous continuez de vous retenir, de reporter, ou de rester dans ce qui vous est familier.",
+        body: "Il y a des choses que vous voulez créer, vivre ou accomplir - mais vous continuez de vous retenir, de reporter, ou de rester dans ce qui vous est familier.",
       },
       {
         title: "Votre vie.",
@@ -148,7 +148,7 @@ export const frContent: PublicContent = {
       {
         from: "Je ne mérite pas mieux.",
         explanation:
-          "Vous pouvez rester dans un travail, une relation ou une situation qui ne vous convient plus — même lorsque vous savez que vous voulez davantage.",
+          "Vous pouvez rester dans un travail, une relation ou une situation qui ne vous convient plus - même lorsque vous savez que vous voulez davantage.",
         to: "Je mérite mieux.",
       },
       {
@@ -160,7 +160,7 @@ export const frContent: PublicContent = {
       {
         from: "Je ne peux pas faire confiance aux gens.",
         explanation:
-          "Vous pouvez avoir du mal à vous ouvrir, à recevoir du soutien ou à laisser vraiment quelqu’un s’approcher — même lorsque vous désirez profondément le lien.",
+          "Vous pouvez avoir du mal à vous ouvrir, à recevoir du soutien ou à laisser vraiment quelqu’un s’approcher - même lorsque vous désirez profondément le lien.",
         to: "Je peux faire confiance.",
       },
       {
@@ -182,16 +182,16 @@ export const frContent: PublicContent = {
   },
   roots: {
     intro:
-      "Nous travaillons avec les croyances et les associations émotionnelles en dessous — celles qui peuvent façonner vos choix, votre comportement, vos relations et la façon dont vous vous vivez.",
+      "Nous travaillons avec les croyances et les associations émotionnelles en dessous - celles qui peuvent façonner vos choix, votre comportement, vos relations et la façon dont vous vous vivez.",
     headline:
       "Quand le fondement intérieur change,\nla façon dont vous traversez la vie peut changer avec lui.",
   },
   trust: {
     statements: [
-      "Vous pouvez comprendre pourquoi vous réagissez — et continuer de réagir.",
-      "La jalousie, le contrôle, l’anxiété, le repli, le besoin de plaire, le sur-fonctionnement, la difficulté à dire non, la peur du rejet, le besoin de se prouver, se perdre dans les relations — tout cela peut sembler des problèmes séparés.",
+      "Vous pouvez comprendre pourquoi vous réagissez - et continuer de réagir.",
+      "La jalousie, le contrôle, l’anxiété, le repli, le besoin de plaire, le sur-fonctionnement, la difficulté à dire non, la peur du rejet, le besoin de se prouver, se perdre dans les relations - tout cela peut sembler des problèmes séparés.",
       "Souvent, ce sont les branches d’un même tronc : une règle intérieure sur qui vous avez appris à devoir être pour rester connecté, en sécurité ou valorisé.",
-      "Ce travail s’adresse à des personnes déjà lucides — qui constatent que la compréhension seule n’a pas nécessairement changé ce que la réaction fait ressentir lorsqu’elle arrive.",
+      "Ce travail s’adresse à des personnes déjà lucides - qui constatent que la compréhension seule n’a pas nécessairement changé ce que la réaction fait ressentir lorsqu’elle arrive.",
     ],
   },
   about: {
@@ -199,15 +199,15 @@ export const frContent: PublicContent = {
     story: [
       [
         "Une façon de comprendre le schéma est une image simple.",
-        "Le tronc est la règle intérieure — par exemple : je dois être facile à aimer.",
+        "Le tronc est la règle intérieure - par exemple : je dois être facile à aimer.",
         "Les branches sont la façon dont elle se manifeste : difficulté à dire non, sur-adaptation, peur du conflit, surveillance de l’humeur de l’autre, suppression de vos besoins, culpabilité lorsque vous vous choisissez.",
-        "On peut passer des années à travailler sur les branches. Le travail devient souvent plus utile lorsque l’on regarde le tronc — parce que lorsque la règle sous-jacente commence à se transformer, les branches peuvent commencer à changer aussi.",
+        "On peut passer des années à travailler sur les branches. Le travail devient souvent plus utile lorsque l’on regarde le tronc - parce que lorsque la règle sous-jacente commence à se transformer, les branches peuvent commencer à changer aussi.",
       ],
       [
-        "Le recodage identitaire, c’est le sens de ce travail : découvrir les règles intérieures selon lesquelles vous avez appris à vivre — et explorer ce qui devient possible lorsqu’elles n’ont plus à organiser qui vous êtes.",
+        "Le recodage identitaire, c’est le sens de ce travail : découvrir les règles intérieures selon lesquelles vous avez appris à vivre - et explorer ce qui devient possible lorsqu’elles n’ont plus à organiser qui vous êtes.",
         "Ce n’est pas de la pensée positive, des affirmations forcées, ni une explication de plus de votre schéma. Il ne s’agit pas de devenir quelqu’un d’autre. Il s’agit de vivre avec moins besoin de vous organiser autour d’anciennes règles sur qui vous deviez être.",
       ],
-      "Je travaille avec des personnes qui se comprennent déjà beaucoup — et qui voient pourtant la même réaction automatique arriver. Pendant des années, j’ai vu une lucidité claire associée à une réaction inchangée. C’est dans cet écart que vit ce travail : non pas dans plus de compréhension, mais dans la rencontre de la règle intérieure dans l’expérience — émotionnellement, relationnellement, dans le corps.",
+      "Je travaille avec des personnes qui se comprennent déjà beaucoup - et qui voient pourtant la même réaction automatique arriver. Pendant des années, j’ai vu une lucidité claire associée à une réaction inchangée. C’est dans cet écart que vit ce travail : non pas dans plus de compréhension, mais dans la rencontre de la règle intérieure dans l’expérience - émotionnellement, relationnellement, dans le corps.",
     ],
   },
   aap: {
@@ -221,23 +221,23 @@ export const frContent: PublicContent = {
         title: "Ce que « association » signifie ici",
         description: [
           "Une association est le lien appris entre une expérience et une réaction présente.",
-          "Par exemple : vous pouvez apprendre que exprimer vos besoins risque de faire perdre le lien. L’association — mes besoins créent un danger — peut continuer d’opérer même lorsque vous savez rationnellement que vous êtes en sécurité. Vous avez donc appris à être celui ou celle qui s’adapte. L’AAP travaille directement avec ce lien, pas seulement avec l’histoire à son sujet.",
+          "Par exemple : vous pouvez apprendre que exprimer vos besoins risque de faire perdre le lien. L’association - mes besoins créent un danger - peut continuer d’opérer même lorsque vous savez rationnellement que vous êtes en sécurité. Vous avez donc appris à être celui ou celle qui s’adapte. L’AAP travaille directement avec ce lien, pas seulement avec l’histoire à son sujet.",
         ],
       },
       {
         title: "Ce qui se passe pendant une séance",
         description:
-          "Nous localisons une réaction automatique précise et travaillons avec l’association et l’expérience vécue qui y sont liées. Les séances sont structurées et ciblées. On ne vous demande pas de performer ni de produire de l’insight. Le travail est expérientiel — il se fait à travers ce que vous pouvez réellement sentir et accompagner, non en parlant du schéma indéfiniment.",
+          "Nous localisons une réaction automatique précise et travaillons avec l’association et l’expérience vécue qui y sont liées. Les séances sont structurées et ciblées. On ne vous demande pas de performer ni de produire de l’insight. Le travail est expérientiel - il se fait à travers ce que vous pouvez réellement sentir et accompagner, non en parlant du schéma indéfiniment.",
       },
       {
-        title: "Pourquoi le passé peut importer — sans le revivre",
+        title: "Pourquoi le passé peut importer - sans le revivre",
         description:
-          "Le passé peut être pertinent parce que les associations s’apprennent dans l’expérience. Nous pouvons brièvement activer la mémoire émotionnelle liée à votre réaction — assez pour accéder à ce qui la maintient active aujourd’hui. L’objectif n’est pas de revisiter l’enfance de manière répétée, mais de travailler avec ce qui maintient la réponse maintenant.",
+          "Le passé peut être pertinent parce que les associations s’apprennent dans l’expérience. Nous pouvons brièvement activer la mémoire émotionnelle liée à votre réaction - assez pour accéder à ce qui la maintient active aujourd’hui. L’objectif n’est pas de revisiter l’enfance de manière répétée, mais de travailler avec ce qui maintient la réponse maintenant.",
       },
       {
         title: "Ce qui peut changer",
         description:
-          "Lorsqu’une association se transforme et qu’une règle intérieure se desserre, la réaction qui la suivait peut s’adoucir ou devenir moins nécessaire. Ce n’est pas une promesse. Les clients décrivent souvent non pas une nouvelle personne, mais une expérience différente au quotidien — moins organisée autour de l’ancienne règle, plus capables de rester en lien avec eux-mêmes sans payer cela en culpabilité, en contrôle ou en abandon de soi.",
+          "Lorsqu’une association se transforme et qu’une règle intérieure se desserre, la réaction qui la suivait peut s’adoucir ou devenir moins nécessaire. Ce n’est pas une promesse. Les clients décrivent souvent non pas une nouvelle personne, mais une expérience différente au quotidien - moins organisée autour de l’ancienne règle, plus capables de rester en lien avec eux-mêmes sans payer cela en culpabilité, en contrôle ou en abandon de soi.",
       },
     ],
   },
@@ -269,28 +269,28 @@ export const frContent: PublicContent = {
       {
         question: "Qu’est-ce que le recodage identitaire ?",
         answer:
-          "Le recodage identitaire est le nom que je donne à l’orientation plus large de ce travail : découvrir les règles intérieures selon lesquelles vous avez appris à vivre — qui vous avez appris à devoir être pour être aimé, choisi, accepté, en sécurité ou assez — et explorer ce qui devient possible lorsque ces règles n’ont plus à organiser vos réactions. C’est un langage conceptuel pour le travail, pas une affirmation médicale ou neuroscientifique.",
+          "Le recodage identitaire est le nom que je donne à l’orientation plus large de ce travail : découvrir les règles intérieures selon lesquelles vous avez appris à vivre - qui vous avez appris à devoir être pour être aimé, choisi, accepté, en sécurité ou assez - et explorer ce qui devient possible lorsque ces règles n’ont plus à organiser vos réactions. C’est un langage conceptuel pour le travail, pas une affirmation médicale ou neuroscientifique.",
       },
       {
-        question: "Qu’est-ce que l’AAP — et en quoi est-ce différent ?",
+        question: "Qu’est-ce que l’AAP - et en quoi est-ce différent ?",
         answer:
           "L’Adaptive Association Processing (AAP) est le processus thérapeutique structuré que j’utilise au sein de la psychothérapie. Il travaille avec l’association apprise et l’expérience vécue qui peuvent maintenir une ancienne règle intérieure active. Le recodage identitaire décrit ce dont il s’agit ; l’AAP est la façon dont cela se passe dans la séance. Ce ne sont pas des produits séparés ni des méthodes concurrentes.",
       },
       {
         question: "Que se passe-t-il pendant une séance ?",
         answer:
-          "Nous identifions une réaction automatique précise et travaillons avec l’association et l’expérience vécue qui y sont liées. Les séances sont structurées, calmes et ciblées. On ne vous demande pas de performer ni de produire de l’insight — le travail se fait par l’expérience directe du schéma, au rythme que vous pouvez accompagner.",
+          "Nous identifions une réaction automatique précise et travaillons avec l’association et l’expérience vécue qui y sont liées. Les séances sont structurées, calmes et ciblées. On ne vous demande pas de performer ni de produire de l’insight - le travail se fait par l’expérience directe du schéma, au rythme que vous pouvez accompagner.",
       },
       {
         question: "Et si je comprends déjà mes schémas ?",
         answer:
-          "C’est souvent le point de départ. Beaucoup de personnes ici peuvent expliquer clairement leurs schémas — et voient pourtant la même réaction arriver. Ce travail s’adresse à l’écart entre savoir et vivre autrement : non pas une autre explication, mais un travail avec ce qui maintient le schéma vivant dans le présent.",
+          "C’est souvent le point de départ. Beaucoup de personnes ici peuvent expliquer clairement leurs schémas - et voient pourtant la même réaction arriver. Ce travail s’adresse à l’écart entre savoir et vivre autrement : non pas une autre explication, mais un travail avec ce qui maintient le schéma vivant dans le présent.",
       },
       {
         question: "Quelle est la différence entre la première séance et le forfait ?",
         answer: [
           "La séance initiale de 45 minutes est votre premier pas : nous explorons vos schémas, comprenons ce qui les maintient, et déterminons la voie la plus efficace.",
-          "Le forfait Deep Transformation de 5 × 45 minutes est un processus relié — un parcours à travers les séances pour aller plus loin et suivre ce qui se transforme. Vous réservez la première séance au paiement ; les séances suivantes se planifient depuis votre espace client.",
+          "Le forfait Deep Transformation de 5 × 45 minutes est un processus relié - un parcours à travers les séances pour aller plus loin et suivre ce qui se transforme. Vous réservez la première séance au paiement ; les séances suivantes se planifient depuis votre espace client.",
         ],
       },
       {
@@ -303,7 +303,7 @@ export const frContent: PublicContent = {
   finalCta: {
     lines: [
       "Vous comprenez peut-être déjà le schéma.",
-      "La question plus intéressante peut être ce que vous avez appris à devoir être —",
+      "La question plus intéressante peut être ce que vous avez appris à devoir être -",
       "et si cette règle a encore besoin d’organiser votre vie.",
     ],
     button: { label: "Réserver une séance", href: "/book" },
@@ -312,7 +312,7 @@ export const frContent: PublicContent = {
     label: "Réservation",
     title: "Réserver une séance",
     subtitle:
-      "Commencez le processus de transformation des réactions automatiques qui ne vous servent plus. Clients internationaux bienvenus — les séances se déroulent en anglais.",
+      "Commencez le processus de transformation des réactions automatiques qui ne vous servent plus. Clients internationaux bienvenus - les séances se déroulent en anglais.",
   },
   bookingOffers: {
     "initial-aap-session": {
@@ -325,7 +325,7 @@ export const frContent: PublicContent = {
     "aap-transformation-package": {
       title: "Forfait Deep Transformation 5 × 45 minutes",
       description:
-        "Un processus de transformation structuré — non pas cinq rendez-vous séparés, mais un parcours relié conçu pour un changement durable et significatif.",
+        "Un processus de transformation structuré - non pas cinq rendez-vous séparés, mais un parcours relié conçu pour un changement durable et significatif.",
       detail:
         "Un changement durable demande généralement plus qu’une seule conversation. Travailler sur plusieurs séances permet d’aller plus loin, de suivre ce qui se transforme, et de créer un élan plutôt que de tout recommencer à chaque fois.",
       durationLabel: "5 séances · 45 minutes chacune",
@@ -474,7 +474,7 @@ export const frContent: PublicContent = {
       title: "Paiement confirmé",
       errorTitle: "Impossible de vérifier le paiement",
       message:
-        "Merci — votre paiement a bien été reçu. Votre réservation est confirmée et vous recevrez un e-mail de confirmation sous peu.",
+        "Merci - votre paiement a bien été reçu. Votre réservation est confirmée et vous recevrez un e-mail de confirmation sous peu.",
       packageMessage:
         "Votre parcours de transformation est confirmé. Vous recevrez un e-mail avec les détails de votre réservation et l’accès à votre espace client.",
       courseMessage:
@@ -537,7 +537,7 @@ export const frContent: PublicContent = {
   },
   identityTest: {
     seo: {
-      title: "Identity Test — Niks Ravins",
+      title: "Identity Test - Niks Ravins",
       description:
         "Mark the inner beliefs you recognize and receive two personalized portraits: how these beliefs may shape your daily life, and what life could look like after working with them.",
     },
@@ -562,7 +562,7 @@ export const frContent: PublicContent = {
     },
     review: {
       heading: "Your selection",
-      subheading: "Review the marked statements — you can still edit.",
+      subheading: "Review the marked statements - you can still edit.",
       submitCta: "Get my personal result",
       back: "Back",
     },

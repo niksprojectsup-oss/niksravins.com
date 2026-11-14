@@ -42,7 +42,7 @@ export const clientPortalContent = {
     checkoutError: "Unable to start checkout. Please try again.",
     processing: "Processing…",
     paymentSuccessNotice:
-      "Thank you — your payment was received. Your purchase will appear here shortly.",
+      "Thank you - your payment was received. Your purchase will appear here shortly.",
     emptyStore: "No products are available in the Store yet.",
     emptyPurchases: "You have not purchased any digital content yet.",
     contentComingSoon: "Content access will appear here when available.",

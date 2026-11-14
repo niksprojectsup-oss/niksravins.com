@@ -42,7 +42,7 @@ export default async function IdentityThemesPage() {
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader
         title="Tēmas un apakštēmas"
-        description="Struktūra, LV/EN nosaukumi un publikācijas statusi. Pārējās valodas — sadaļā Tulkojumi."
+        description="Struktūra, LV/EN nosaukumi un publikācijas statusi. Pārējās valodas - sadaļā Tulkojumi."
       />
       <ThemesManager themes={data} translations={translations} />
     </div>

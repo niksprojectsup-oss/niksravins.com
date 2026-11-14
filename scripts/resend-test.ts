@@ -16,7 +16,7 @@ async function main() {
   }
   const cfg = getEmailConfig();
   if (!cfg.isConfigured) {
-    console.error(`Trūkst env: ${cfg.missingVariables.join(", ")} — iestati .env.local vai komandas env.`);
+    console.error(`Trūkst env: ${cfg.missingVariables.join(", ")} - iestati .env.local vai komandas env.`);
     process.exit(1);
   }
 

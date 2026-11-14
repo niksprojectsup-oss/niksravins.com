@@ -85,7 +85,7 @@ export default async function AdminClientsPage({ searchParams }: AdminClientsPag
             key: "nextSession",
             header: "Next session",
             cell: (row) =>
-              row.nextSessionAt ? formatAdminDate(row.nextSessionAt) : "—",
+              row.nextSessionAt ? formatAdminDate(row.nextSessionAt) : "-",
           },
           {
             key: "status",

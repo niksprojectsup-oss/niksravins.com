@@ -38,11 +38,11 @@ export default async function IdentityEmailsPage() {
               {deliveries.map((d) => (
                 <tr key={d.id} className="border-t border-border-subtle">
                   <td className="px-2 py-1.5">{d.emailKind}</td>
-                  <td className="px-2 py-1.5">{d.step ?? "—"}</td>
+                  <td className="px-2 py-1.5">{d.step ?? "-"}</td>
                   <td className="px-2 py-1.5">{mask(d.recipient)}</td>
                   <td className="px-2 py-1.5">{d.status}</td>
                   <td className="px-2 py-1.5">{d.attemptCount}</td>
-                  <td className="max-w-xs truncate px-2 py-1.5 text-ink-faint">{d.lastError ?? "—"}</td>
+                  <td className="max-w-xs truncate px-2 py-1.5 text-ink-faint">{d.lastError ?? "-"}</td>
                   <td className="px-2 py-1.5">
                     <DeliveryActions id={d.id} canResend={d.status === "FAILED"} />
                   </td>
