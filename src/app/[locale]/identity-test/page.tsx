@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicIdentityTestPage } from "@/components/public/PublicIdentityTestPage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
@@ -39,8 +39,12 @@ export default async function LocaleIdentityTestPage({ params }: LocaleIdentityT
   const { locale: localeParam } = await params;
   const locale = parseLocaleParam(localeParam);
 
-  if (!locale || !(ENABLED_LOCALES as readonly string[]).includes(locale)) {
+  if (!locale) {
     notFound();
+  }
+  // Tests ir LV un EN; pārējās valodas ved uz EN versiju (EN = root locale).
+  if (!(ENABLED_LOCALES as readonly string[]).includes(locale)) {
+    redirect("/identity-test");
   }
 
   const [content, tree, consentText] = await Promise.all([

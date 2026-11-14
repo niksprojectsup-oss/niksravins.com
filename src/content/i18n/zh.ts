@@ -37,6 +37,7 @@ export const zhContent: PublicContent = {
     { label: "身份转变", href: "#identity-shifts" },
     { label: "FAQ", href: "#faq" },
     { label: "联系", href: "#contact" },
+    { label: "Identity Test", href: "/identity-test" },
   ],
   hero: {
     name: "Niks Ravins",

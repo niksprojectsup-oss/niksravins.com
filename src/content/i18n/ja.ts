@@ -37,6 +37,7 @@ export const jaContent: PublicContent = {
     { label: "アイデンティティの変化", href: "#identity-shifts" },
     { label: "よくある質問", href: "#faq" },
     { label: "お問い合わせ", href: "#contact" },
+    { label: "Identity Test", href: "/identity-test" },
   ],
   hero: {
     name: "Niks Ravins",

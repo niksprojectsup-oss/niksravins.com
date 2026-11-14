@@ -37,6 +37,7 @@ export const esContent: PublicContent = {
     { label: "Cambios de identidad", href: "#identity-shifts" },
     { label: "FAQ", href: "#faq" },
     { label: "Contacto", href: "#contact" },
+    { label: "Identity Test", href: "/identity-test" },
   ],
   hero: {
     name: "Niks Ravins",
