@@ -526,7 +526,6 @@ export async function previewCompositionAction(input: {
     };
   });
 
-  const safetyBlock = draftOrPublished("crisis-block", "body");
   const { portraitNow, portraitFuture } = composePortraits({
     beliefs: resolved,
     connectors: {
@@ -537,7 +536,6 @@ export async function previewCompositionAction(input: {
       closing: connectorTexts["closing"],
       closingFuture: connectorTexts["closing-future"],
     },
-    safetyBlock: safetyBlock || undefined,
   });
 
   return { ok: true, portraitNow, portraitFuture, warnings };

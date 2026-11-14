@@ -109,14 +109,14 @@ describe("composePortraits", () => {
     assert.equal(portraitNow.match(/Vienāds teksts\./g)?.length, 1);
   });
 
-  it("CRISIS karogs pievieno drošības bloku un atgriež safetyTriggered", () => {
+  it("CRISIS karogs atgriež safetyTriggered, bet drošības teksts nenonāk rezultāta tekstā", () => {
     const { portraitNow, safetyTriggered } = composePortraits({
       beliefs: [belief({ safetyFlags: ["CRISIS"] })],
       connectors,
-      safetyBlock: "Zvani 112 vai 113.",
     });
     assert.equal(safetyTriggered, true);
-    assert.ok(portraitNow.includes("Zvani 112 vai 113."));
+    assert.ok(!portraitNow.includes("112"));
+    assert.ok(!portraitNow.includes("113"));
   });
 });
 

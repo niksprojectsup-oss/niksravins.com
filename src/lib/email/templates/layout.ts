@@ -10,7 +10,10 @@ const COLORS = {
   accent: "#4f6b62",
 } as const;
 
-export function wrapEmailHtml(body: string): string {
+export function wrapEmailHtml(
+  body: string,
+  opts?: { hideSignature?: boolean },
+): string {
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,11 +25,15 @@ export function wrapEmailHtml(body: string): string {
   <div style="max-width:560px;margin:0 auto;background-color:${COLORS.surface};border:1px solid ${COLORS.border};border-radius:12px;padding:32px 28px;">
     <p style="margin:0 0 24px;font-size:13px;letter-spacing:0.04em;text-transform:uppercase;color:${COLORS.accent};">${siteConfig.name}</p>
     ${body}
-    <hr style="margin:32px 0 20px;border:none;border-top:1px solid ${COLORS.border};" />
+    ${
+      opts?.hideSignature
+        ? ""
+        : `<hr style="margin:32px 0 20px;border:none;border-top:1px solid ${COLORS.border};" />
     <p style="margin:0;font-size:13px;color:${COLORS.inkSubtle};">
       ${siteConfig.method}<br />
       ${siteConfig.availability}
-    </p>
+    </p>`
+    }
   </div>
 </body>
 </html>`;

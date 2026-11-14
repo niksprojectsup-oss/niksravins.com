@@ -85,7 +85,6 @@ function clusterParagraph(
 export function composePortraits(input: {
   beliefs: ResolvedBeliefContent[];
   connectors: ConnectorTexts;
-  safetyBlock?: string;
 }): { portraitNow: string; portraitFuture: string; safetyTriggered: boolean } {
   const { beliefs, connectors } = input;
   const clusters = clusterBeliefs(beliefs);
@@ -110,10 +109,9 @@ export function composePortraits(input: {
     connectors.closingFuture ?? connectors.closing ?? "",
   ].filter(Boolean).join("\n\n");
 
+  // Krīzes karogs paliek servera pusē (mārketinga nomākšana, audits) -
+  // drošības teksts netiek ievietots lietotājam sūtītajā rezultāta e-pastā.
   const safetyTriggered = beliefs.some((b) => b.safetyFlags.includes("CRISIS"));
-  const now = safetyTriggered && input.safetyBlock
-    ? `${portraitNow}\n\n${input.safetyBlock}`
-    : portraitNow;
 
-  return { portraitNow: now, portraitFuture, safetyTriggered };
+  return { portraitNow, portraitFuture, safetyTriggered };
 }

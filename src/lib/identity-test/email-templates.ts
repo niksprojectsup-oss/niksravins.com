@@ -32,7 +32,6 @@ export function buildResultEmail(input: {
   locale: string;
   portraitNow: string;
   portraitFuture: string;
-  safetyBlock?: string;
   bookingUrl?: string;
   /** true → rezultāta beigās nav rezervācijas bloka (LV slēgts pēc produkta lēmuma). */
   hideBookingCta?: boolean;
@@ -48,15 +47,11 @@ export function buildResultEmail(input: {
   };
 }): { html: string; text: string } {
   const bookingUrl = input.bookingUrl ?? BOOKING_FALLBACK;
-  const safety = input.safetyBlock
-    ? `<div style="margin:24px 0;padding:16px 18px;background-color:#f3ebe3;border-left:3px solid #9a7b5c;border-radius:6px;">${paragraphs(input.safetyBlock)}</div>`
-    : "";
 
   const body = `
     <p style="margin:0 0 16px;font-size:15px;color:#4a4743;">${escapeHtml(input.texts.greeting)}</p>
     <p style="margin:0 0 8px;font-size:15px;line-height:1.7;color:#4a4743;">${escapeHtml(input.texts.intro)}</p>
     ${section(input.texts.nowTitle, input.portraitNow)}
-    ${safety}
     ${section(input.texts.futureTitle, input.portraitFuture)}
     <p style="margin:24px 0 8px;font-size:13px;line-height:1.6;color:#7a756d;">${escapeHtml(input.texts.disclaimer)}</p>
     ${
@@ -77,7 +72,6 @@ export function buildResultEmail(input: {
     input.texts.nowTitle,
     input.portraitNow,
     "",
-    input.safetyBlock ?? "",
     input.texts.futureTitle,
     input.portraitFuture,
     "",
@@ -87,7 +81,7 @@ export function buildResultEmail(input: {
     input.texts.privacyNote,
   ].filter((line) => line !== undefined).join("\n");
 
-  return { html: wrapEmailHtml(body), text };
+  return { html: wrapEmailHtml(body, { hideSignature: true }), text };
 }
 
 export function buildSequenceEmail(input: {
@@ -103,5 +97,5 @@ export function buildSequenceEmail(input: {
       <a href="${input.unsubscribeUrl}" style="color:#7a756d;">${escapeHtml(input.unsubscribeLabel)}</a>
     </p>`;
   const text = `${input.bodyText}\n\n${input.unsubscribeLabel}: ${input.unsubscribeUrl}`;
-  return { html: wrapEmailHtml(body), text };
+  return { html: wrapEmailHtml(body, { hideSignature: true }), text };
 }

@@ -94,7 +94,6 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
   const { portraitNow, portraitFuture, safetyTriggered } = composePortraits({
     beliefs,
     connectors,
-    safetyBlock: safetyBlock ?? undefined,
   });
 
   const snapshot = buildSnapshot({
@@ -178,7 +177,6 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     locale: payload.locale,
     portraitNow,
     portraitFuture,
-    safetyBlock: safetyTriggered ? (safetyBlock ?? undefined) : undefined,
     bookingUrl,
     hideBookingCta: payload.locale === "lv",
     texts: {

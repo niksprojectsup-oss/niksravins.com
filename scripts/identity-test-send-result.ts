@@ -10,7 +10,6 @@ import { buildResultEmail } from "../src/lib/identity-test/email-templates";
 import {
   loadBeliefsForGeneration,
   loadConnectors,
-  loadSafetyBlock,
 } from "../src/lib/identity-test/repository";
 import { getAppBaseUrl } from "../src/lib/url";
 import { randomUUID } from "node:crypto";
@@ -40,13 +39,12 @@ async function main() {
   });
   if (beliefs.length !== 4) throw new Error(`expected 4 beliefs, got ${beliefs.length}`);
 
-  const [resolved, { texts: connectors }, safetyBlock] = await Promise.all([
+  const [resolved, { texts: connectors }] = await Promise.all([
     loadBeliefsForGeneration(beliefs.map((b) => b.id), locale),
     loadConnectors(locale),
-    loadSafetyBlock(locale),
   ]);
   const { portraitNow, portraitFuture } = composePortraits({
-    beliefs: resolved, connectors, safetyBlock: safetyBlock ?? undefined,
+    beliefs: resolved, connectors,
   });
   if (portraitNow.length < 100 || portraitFuture.length < 100) {
     throw new Error("portraits too short - content problem");
