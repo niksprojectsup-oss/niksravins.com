@@ -14,6 +14,7 @@ const SECTIONS = [
   { href: "/admin/identity-test/translations", label: "Tulkojumi" },
   { href: "/admin/identity-test/emails", label: "E-pasti un secības" },
   { href: "/admin/identity-test/submissions", label: "Iesniegumi un piegādes" },
+  { href: "/admin/identity-test/sent", label: "Nosūtītie (e-pasta adreses)" },
   { href: "/admin/identity-test/versions", label: "Versiju vēsture" },
   { href: "/admin/identity-test/beta", label: "Beta piekļuve" },
 ];
