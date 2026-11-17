@@ -583,7 +583,7 @@ export const frContent: PublicContent = {
       spamNote: "Please check your spam folder as well.",
       sessionLead:
         "If you recognized your daily patterns in this description, it may be time to look at the beliefs that keep them going. In an individual session we can explore which of these beliefs matter most to you and how to work with them.",
-      sessionCta: "Book an individual session",
+      sessionCta: "Book your first session",
     },
     crisis: {
       heading: "Support is available",

@@ -1,4 +1,4 @@
-import type { Locale } from "@/lib/i18n/config";
+import { LOCALIZED_PUBLIC_PAGES, type Locale, type LocalizedPublicPage } from "@/lib/i18n/config";
 import { localizedPath } from "@/lib/i18n/paths";
 import { deContent } from "./de";
 import { enContent } from "./en";
@@ -21,9 +21,14 @@ const CONTENT_BY_LOCALE: Record<Locale, PublicContent> = {
   zh: zhContent,
 };
 
-function localizeHomeSectionHref(href: string, homePath: string): string {
+function localizeHomeSectionHref(href: string, homePath: string, locale: Locale): string {
   if (href.startsWith("#")) {
     return `${homePath}${href}`;
+  }
+  // Kaili publisko lapu ceļi ("/identity-test", "/book", "/legal") → uz apmeklētāja valodas ceļu.
+  const page = href.startsWith("/") ? href.slice(1) : null;
+  if (page && (LOCALIZED_PUBLIC_PAGES as readonly string[]).includes(page)) {
+    return localizedPath(locale, page as LocalizedPublicPage);
   }
 
   return href;
@@ -49,18 +54,18 @@ export function applyLocalizedPaths(content: PublicContent, locale: Locale): Pub
     },
     navigation: content.navigation.map((item) => ({
       ...item,
-      href: localizeHomeSectionHref(item.href, homePath),
+      href: localizeHomeSectionHref(item.href, homePath, locale),
     })),
     hero: {
       ...content.hero,
       primaryCta: { ...content.hero.primaryCta, href: bookPath },
       secondaryCta: {
         ...content.hero.secondaryCta,
-        href: localizeHomeSectionHref(content.hero.secondaryCta.href, homePath),
+        href: localizeHomeSectionHref(content.hero.secondaryCta.href, homePath, locale),
       },
       tertiaryCta: {
         ...content.hero.tertiaryCta,
-        href: localizeHomeSectionHref(content.hero.tertiaryCta.href, homePath),
+        href: localizeHomeSectionHref(content.hero.tertiaryCta.href, homePath, locale),
       },
     },
     finalCta: {

@@ -68,6 +68,8 @@ describe("i18n paths", () => {
     assert.equal(languages.en?.endsWith("/book"), true);
     assert.equal(languages.de?.endsWith("/de/book"), true);
     assert.ok(getPublishedLocalesForPage("").includes("lv"));
+    // Identity Test ir pieejams katrai vietnes valodai (satura valoda: lv vai en).
+    assert.deepEqual([...getPublishedLocalesForPage("identity-test")].sort(), [...LOCALES].sort());
 
     const english = buildPublicMetadata({
       locale: "en",

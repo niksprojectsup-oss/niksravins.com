@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import { getResolvedPublicContent } from "@/lib/i18n/resolve-public-content";
 import { PublicIdentityTestPage } from "@/components/public/PublicIdentityTestPage";
 import { parseLocaleParam } from "@/lib/i18n/locales";
@@ -10,9 +10,6 @@ import { IdentityTestClosedNotice } from "@/components/public/IdentityTestClosed
 import { localizedPath } from "@/lib/i18n/paths";
 
 export const dynamic = "force-dynamic";
-
-// Pagaidām publicēts tikai LV/EN (satura apstiprināšanas process).
-const ENABLED_LOCALES = ["lv", "en"] as const;
 
 type LocaleIdentityTestPageProps = {
   params: Promise<{ locale: string }>;
@@ -42,10 +39,8 @@ export default async function LocaleIdentityTestPage({ params }: LocaleIdentityT
   if (!locale) {
     notFound();
   }
-  // Tests ir LV un EN; pārējās valodas ved uz EN versiju (EN = root locale).
-  if (!(ENABLED_LOCALES as readonly string[]).includes(locale)) {
-    redirect("/identity-test");
-  }
+  // Testa saturs ir LV/EN; pārējo valodu lapas rāda EN testu, saglabājot vietnes valodas apvalku.
+  // Saturs (jautājumi, portreti, piekrišanas teksts) iet caur localeFallbackChain: locale → en → lv.
 
   const [content, tree, consentText] = await Promise.all([
     getResolvedPublicContent(locale),

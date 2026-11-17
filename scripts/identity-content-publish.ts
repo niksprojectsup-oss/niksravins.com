@@ -96,7 +96,7 @@ async function main() {
     futureTitle: { lv: "Kā dzīve varētu izskatīties bez tiem", en: "How life could look without them" },
     disclaimer: { lv: "Šis nav medicīnisks vai psiholoģisks slēdziens - tas ir reflektīvs materiāls, kas apraksta iespējamos uzskatu izpausmes veidus.", en: "This is not a medical or psychological assessment - it is a reflective material describing possible ways these beliefs may manifest." },
     sessionLead: { lv: "Ja vēlies izpētīt savus uzskatus individuālā darbā ar speciālistu - rezervē sesiju:", en: "If you would like to explore your beliefs in individual work with a specialist - book a session:" },
-    sessionCta: { lv: "Rezervēt sesiju", en: "Book a session" },
+    sessionCta: { lv: "Rezervēt sesiju", en: "Book your first session" },
     privacyNote: { lv: "Šis e-pasts tika nosūtīts uz Tavu norādīto adresi. Tavas atbildes ir šifrētas un netiek izmantotas citos nolūkos.", en: "This email was sent to the address you provided. Your answers are encrypted and are not used for other purposes." },
   });
   await tpl("DAY_1", {

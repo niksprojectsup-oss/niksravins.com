@@ -47,13 +47,6 @@ export function isLocalizedPublicPage(path: string): path is `/${LocalizedPublic
 }
 
 export function getPublishedLocalesForPage(page: LocalizedPublicPage): Locale[] {
-  return PUBLISHED_LOCALES.filter((locale) => localeHasPage(locale, page));
-}
-
-export function localeHasPage(_locale: Locale, _page: LocalizedPublicPage): boolean {
-  // Identity test pagaidām publicēts tikai LV/EN - pārējās valodas pēc satura apstiprināšanas.
-  if (_page === "identity-test") {
-    return _locale === "en" || _locale === "lv";
-  }
-  return PUBLISHED_LOCALES.includes(_locale);
+  void page;
+  return [...PUBLISHED_LOCALES];
 }
