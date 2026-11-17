@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { requireClientAccess } from "@/lib/auth/guards";
 import { prisma } from "@/lib/db/prisma";
+import { logAuditEvent } from "@/lib/security/audit";
 
 type ActionResult = { ok: true } | { ok: false; error: string };
 
@@ -51,6 +52,7 @@ export async function addTrunkFromLibrary(input: {
           clientId: input.clientId,
           libraryTrunkId: lib.id,
           beliefId: input.beliefId ?? null,
+          beliefIds: input.beliefId ? [input.beliefId] : [],
           origin: "LIBRARY",
           titleLv: lib.titleLv,
           titleEn: lib.titleEn,
@@ -92,6 +94,7 @@ export async function addCustomTrunk(input: {
         data: {
           clientId: input.clientId,
           beliefId: input.beliefId ?? null,
+          beliefIds: input.beliefId ? [input.beliefId] : [],
           origin: "CUSTOM",
           titleLv: input.titleLv.trim(),
           titleEn: input.titleEn?.trim() ?? "",
@@ -139,7 +142,12 @@ export async function setBranchDone(input: {
       }
       await tx.clientDevelopmentBranch.update({
         where: { id: branch.id },
-        data: { done: input.done, doneAt: input.done ? new Date() : null },
+        data: {
+          done: input.done,
+          doneAt: input.done ? new Date() : null,
+          doneByAdminId: input.done ? session.id : null,
+          doneSessionId: input.done ? (trunk.sessionId ?? null) : null,
+        },
       });
       const newStatus = trunk.status === "COMPLETED" ? "COMPLETED" : "IN_PROGRESS";
       if (trunk.status !== newStatus) {
@@ -310,6 +318,25 @@ export async function linkBeliefToLibraryTrunk(input: {
       },
       update: {},
     });
+    await logAuditEvent({
+      action: "belief_link.create",
+      resource: "belief_trunk_link",
+      resourceId: `${input.beliefId}→${input.libraryTrunkId}`,
+      actorAdminId: session.id,
+      actorRole: session.role,
+    });
+    // Apstiprināta atbilstība - automātiski papildina visu skarto
+    // klientu darba plānus (idempotentisks, esošo darbu nedzēš).
+    const { clientsForBelief, provisionDevelopmentPlan } = await import(
+      "@/lib/development/plan"
+    );
+    for (const cid of await clientsForBelief(input.beliefId)) {
+      try {
+        await provisionDevelopmentPlan(cid, session.id);
+      } catch (e) {
+        console.error("[development] re-provision failed for client", cid, e);
+      }
+    }
     revalidatePath(`/admin/clients/${input.clientId}`);
     return { ok: true };
   } catch (e) { return err(e); }
@@ -325,6 +352,15 @@ export async function unlinkBeliefFromLibraryTrunk(input: {
     await prisma.beliefTrunkLink.delete({
       where: { beliefId_trunkId: { beliefId: input.beliefId, trunkId: input.libraryTrunkId } },
     });
+    await logAuditEvent({
+      action: "belief_link.delete",
+      resource: "belief_trunk_link",
+      resourceId: `${input.beliefId}→${input.libraryTrunkId}`,
+      actorAdminId: session.id,
+      actorRole: session.role,
+    });
+    // Klienta jau izveidotais darbs netiek dzēsts - atsaiste ietekmē
+    // tikai turpmāko automātisko plāna sagatavošanu.
     revalidatePath(`/admin/clients/${input.clientId}`);
     return { ok: true };
   } catch (e) { return err(e); }
@@ -403,6 +439,14 @@ export async function linkSubmissionToClient(input: {
         actorAdminId: session.id,
       },
     });
+    // Manuāli piesaistīts (vēsturisks) iesniegums - tā pati automātiskā
+    // darba plāna sagatavošana kā auto-saistei.
+    try {
+      const { provisionDevelopmentPlan } = await import("@/lib/development/plan");
+      await provisionDevelopmentPlan(input.clientId, session.id);
+    } catch (e) {
+      console.error("[development] provision after manual link failed", e);
+    }
     revalidatePath(`/admin/clients/${input.clientId}`);
     revalidatePath("/admin/identity-test/sent");
     return { ok: true };

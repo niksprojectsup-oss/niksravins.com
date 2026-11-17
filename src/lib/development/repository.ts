@@ -1,8 +1,9 @@
 /**
  * Klienta attīstības darba kartes datu slānis.
- * Admin skats satur speciālista materiālus (pozitīvie stumbri/zari, profesionālās piezīmes).
- * Klienta skats (`getClientBranchesView`) NEKAD neatgriež pozitīvo saturu - tas
- * netiek ielasīts no DB klienta ceļā, nevis paslēpts UI.
+ * Admin skats satur speciālista materiālus (visi pozitīvie stumbri/zari, piezīmes).
+ * Klienta skats (`getClientBranchesView`) atgriež TIKAI speciālista apstiprinātu
+ * pozitīvo saturu: COMPLETED stumbrus + izstrādātos zarus. Neapstiprināts pozitīvais
+ * saturs un profesionālās piezīmes netiek ielasītas klienta ceļā vispār.
  */
 import { prisma } from "@/lib/db/prisma";
 import { resolveTranslation } from "@/lib/identity-test/content";
@@ -156,7 +157,9 @@ export async function getAdminDevelopmentCard(clientId: string): Promise<AdminDe
   });
   const beliefMap = new Map(beliefs.map((b) => [b.id, b]));
   const linksByBelief = new Map(trunkLinks.map((l) => [l.beliefId, l.trunk]));
-  const plannedBeliefIds = new Set(devTrunks.map((t) => t.beliefId).filter(Boolean));
+  const plannedBeliefIds = new Set(
+    devTrunks.flatMap((t) => [t.beliefId, ...t.beliefIds]).filter(Boolean) as string[],
+  );
 
   // Teksti: uzskati + tēmu/apakštēmu nosaukumi
   const textRefs = beliefs.flatMap((b) => [
@@ -270,25 +273,59 @@ export type ClientBeliefGroup = {
   beliefs: { text: string }[];
 };
 
+/** Publicētais saturs - tikai speciālista APSTIPRINĀTI (COMPLETED) stumbri. */
+export type ClientCompletedTrunk = {
+  id: string;
+  title: string;
+  completedAt: Date | null;
+  branches: { text: string; doneAt: Date | null }[];
+};
+
 export type ClientBranchesView = {
   progress: DevelopmentProgress;
   groups: ClientBeliefGroup[];
+  completedTrunks: ClientCompletedTrunk[];
   hasTest: boolean;
 };
 
 export async function getClientBranchesView(clientId: string, locale: string): Promise<ClientBranchesView> {
-  const [progress, submissions] = await Promise.all([
+  const isEn = locale.startsWith("en");
+  const [progress, submissions, completedTrunks] = await Promise.all([
     getClientDevelopmentProgress(clientId),
     prisma.identityTestSubmission.findMany({
       where: { clientId },
       orderBy: { createdAt: "asc" },
       select: { selectedBeliefIds: true },
     }),
+    // Tikai COMPLETED - publicētais, speciālista apstiprinātais saturs.
+    // Atvērts stumbrs (NEEDS_SUPPLEMENT) vairs nav redzams kā pabeigts.
+    prisma.clientDevelopmentTrunk.findMany({
+      where: { clientId, status: "COMPLETED" },
+      orderBy: { completedAt: "asc" },
+      select: {
+        id: true, titleLv: true, titleEn: true, completedAt: true,
+        branches: {
+          where: { done: true },
+          orderBy: { sortOrder: "asc" },
+          select: { textLv: true, textEn: true, doneAt: true },
+        },
+      },
+    }),
   ]);
+
+  const mappedTrunks: ClientCompletedTrunk[] = completedTrunks.map((t) => ({
+    id: t.id,
+    title: (isEn ? t.titleEn || t.titleLv : t.titleLv || t.titleEn),
+    completedAt: t.completedAt,
+    branches: t.branches.map((b) => ({
+      text: (isEn ? b.textEn || b.textLv : b.textLv || b.textEn),
+      doneAt: b.doneAt,
+    })),
+  }));
 
   const beliefIds = [...new Set(submissions.flatMap((s) => s.selectedBeliefIds))];
   if (beliefIds.length === 0) {
-    return { progress, groups: [], hasTest: submissions.length > 0 };
+    return { progress, groups: [], completedTrunks: mappedTrunks, hasTest: submissions.length > 0 };
   }
 
   const beliefs = await prisma.identityBelief.findMany({
@@ -315,5 +352,5 @@ export async function getClientBranchesView(clientId: string, locale: string): P
     }
   }
   const groups = [...groupMap.values()].sort((a, b) => a.themeSort - b.themeSort);
-  return { progress, groups, hasTest: true };
+  return { progress, groups, completedTrunks: mappedTrunks, hasTest: true };
 }

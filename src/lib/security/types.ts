@@ -46,7 +46,9 @@ export type AuditAction =
   | "identity_test.delete"
   | "identity_test.resend"
   | "identity_test.cancel"
-  | "identity_test.restore";
+  | "identity_test.restore"
+  | "belief_link.create"
+  | "belief_link.delete";
 
 export type AuditResource =
   | "auth"
@@ -63,7 +65,8 @@ export type AuditResource =
   | "cms_page"
   | "translation"
   | "portal"
-  | "identity_test";
+  | "identity_test"
+  | "belief_trunk_link";
 
 export type RateLimitScope =
   | "auth.login"

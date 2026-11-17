@@ -4,6 +4,7 @@
  */
 import { prisma } from "@/lib/db/prisma";
 import { emailHash, normalizeEmail } from "@/lib/identity-test/hash";
+import { provisionDevelopmentPlan } from "@/lib/development/plan";
 
 /**
  * Sasaista visus testa iesniegumus, kuru rezultāta/consent e-pasta hash
@@ -62,6 +63,17 @@ export async function linkIdentityTestSubmissionsForClient(input: {
       data: { linkStatus: "REVIEW" },
     }),
   ]);
+
+  // Jaunpiesaistītiem iesniegumiem - automātiska darba plāna sagatavošana
+  // no speciālista apstiprinātajām BeliefTrunkLink atbilstībām.
+  // Kļūda nebloķē pašu saisti (iesniegums jau piesaistīts).
+  if (toLink.length > 0) {
+    try {
+      await provisionDevelopmentPlan(input.clientId);
+    } catch (e) {
+      console.error("[linking] development plan provision failed", e);
+    }
+  }
 
   return {
     linked: toLink.length,

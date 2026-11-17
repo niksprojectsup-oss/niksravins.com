@@ -24,6 +24,7 @@ let clientBId = "";
 const subIds: string[] = [];
 let trunkId = "";
 const branchIds: string[] = [];
+const linkKeys: { beliefId: string; trunkId: string }[] = [];
 
 function check(name: string, cond: boolean, extra = "") {
   console.log(`${cond ? "✓" : "✗ FAIL"} ${name}${extra ? " - " + extra : ""}`);
@@ -212,6 +213,103 @@ async function main() {
   const sub12row = await prisma.identityTestSubmission.findUnique({ where: { id: sub12.id } });
   check("S12: iesniegums paliek UNLINKED", sub12row!.linkStatus === "UNLINKED" && sub12row!.clientId === null);
 
+  // ── S13: automātiskā darba plāna sagatavošana pēc saistes ──
+  // BeliefTrunkLink (speciālista apstiprinājums) → provision izveido
+  // ClientDevelopmentTrunk + visus kartotēkas zarus.
+  const { provisionDevelopmentPlan, clientsForBelief } = await import("../src/lib/development/plan");
+  const libTrunk2 = await prisma.beliefLibraryTrunk.findFirst({
+    where: { libraryKey: "1.2" }, include: { branches: true },
+  });
+  await prisma.beliefTrunkLink.create({
+    data: { beliefId: belief.id, trunkId: libTrunk2!.id },
+  });
+  linkKeys.push({ beliefId: belief.id, trunkId: libTrunk2!.id });
+  const before13 = await prisma.clientDevelopmentTrunk.count({ where: { clientId: clientAId } });
+  const prov = await provisionDevelopmentPlan(clientAId);
+  const autoTrunk = await prisma.clientDevelopmentTrunk.findFirst({
+    where: { clientId: clientAId, libraryTrunkId: libTrunk2!.id },
+    include: { branches: true },
+  });
+  check("S13: provision pievienoja 1 stumbru", prov.added === 1, JSON.stringify(prov));
+  check("S13: auto-stumbrs satur visus kartotēkas zarus",
+    autoTrunk !== null && autoTrunk.branches.length === libTrunk2!.branches.length,
+    `${autoTrunk?.branches.length}/${libTrunk2!.branches.length}`);
+  check("S13: beliefIds saglabā sasaisti", autoTrunk!.beliefIds.includes(belief.id));
+  const after13 = await prisma.clientDevelopmentTrunk.count({ where: { clientId: clientAId } });
+  check("S13: stumbru skaits +1", after13 === before13 + 1);
+
+  // ── S14: divi uzskati → viens stumbrs, bez dublikāta ──
+  const belief2 = await prisma.identityBelief.findFirst({
+    where: { status: "PUBLISHED", id: { not: belief.id } },
+  });
+  await prisma.beliefTrunkLink.create({
+    data: { beliefId: belief2!.id, trunkId: libTrunk2!.id },
+  });
+  linkKeys.push({ beliefId: belief2!.id, trunkId: libTrunk2!.id });
+  const sub14 = await prisma.identityTestSubmission.create({
+    data: { selectedBeliefIds: [belief2!.id], locale: "lv", requestId: `${MARK}-14`, clientId: clientAId, linkStatus: "LINKED" },
+  });
+  subIds.push(sub14.id);
+  const prov14 = await provisionDevelopmentPlan(clientAId);
+  const trunk14 = await prisma.clientDevelopmentTrunk.findFirst({
+    where: { clientId: clientAId, libraryTrunkId: libTrunk2!.id },
+  });
+  check("S14: otrs uzskats uz to pašu stumbru → nav jauna stumbra", prov14.added === 0, JSON.stringify(prov14));
+  check("S14: beliefIds satur abus uzskatus",
+    trunk14!.beliefIds.includes(belief.id) && trunk14!.beliefIds.includes(belief2!.id));
+
+  // ── S15: idempotentums - atkārtots provision neko nepievieno ──
+  const prov15 = await provisionDevelopmentPlan(clientAId);
+  check("S15: atkārtots provision → added 0", prov15.added === 0);
+
+  // ── S16: uzskats BEZ apstiprinātas atbilstības → neko neveido ──
+  const belief3 = await prisma.identityBelief.findFirst({
+    where: { status: "PUBLISHED", id: { notIn: [belief.id, belief2!.id] } },
+  });
+  const sub16 = await prisma.identityTestSubmission.create({
+    data: { selectedBeliefIds: [belief3!.id], locale: "lv", requestId: `${MARK}-16`, clientId: clientAId, linkStatus: "LINKED" },
+  });
+  subIds.push(sub16.id);
+  const prov16 = await provisionDevelopmentPlan(clientAId);
+  check("S16: neatrisināts uzskats → added 0", prov16.added === 0);
+  const card16 = await getAdminDevelopmentCard(clientAId);
+  check("S16: neatrisinātais uzskats redzams admin kartē kā nesasaistīts",
+    card16.submissions.some((s) => s.beliefs.some((b) => b.beliefId === belief3!.id && !b.linkedLibraryTrunk)));
+
+  // ── S17: vēlāka atbilstības apstiprināšana → skarto klientu re-provision ──
+  const libTrunk3 = await prisma.beliefLibraryTrunk.findFirst({
+    where: { libraryKey: "1.3" },
+  });
+  await prisma.beliefTrunkLink.create({
+    data: { beliefId: belief3!.id, trunkId: libTrunk3!.id },
+  });
+  linkKeys.push({ beliefId: belief3!.id, trunkId: libTrunk3!.id });
+  const affected = await clientsForBelief(belief3!.id);
+  check("S17: clientsForBelief atrod klientu A", affected.includes(clientAId));
+  for (const cid of affected) await provisionDevelopmentPlan(cid);
+  const trunk17 = await prisma.clientDevelopmentTrunk.findFirst({
+    where: { clientId: clientAId, libraryTrunkId: libTrunk3!.id },
+  });
+  check("S17: pēc apstiprināšanas stumbrs automātiski pievienots", trunk17 !== null);
+
+  // ── S18: publicēšana klienta portālā ──
+  // Pabeigts stumbrs (1.1 no S5/S6) ir COMPLETED → redzams klientam.
+  const view18 = await getClientBranchesView(clientAId, "lv");
+  const published = view18.completedTrunks.find((t) => t.title === libTrunk!.titleLv);
+  check("S18: COMPLETED stumbrs publicēts klientam", published !== undefined);
+  check("S18: publicētajam ir pabeigšanas datums", published?.completedAt instanceof Date);
+  check("S18: redzami tikai done zari", (published?.branches.length ?? 0) === libTrunk!.branches.length);
+  // Atvērts stumbrs pazūd no publicētā saraksta (vēsture paliek adminam)
+  await prisma.clientDevelopmentTrunk.update({
+    where: { id: trunkId }, data: { status: "NEEDS_SUPPLEMENT" },
+  });
+  const view18b = await getClientBranchesView(clientAId, "lv");
+  check("S18: atvērts stumbrs vairs nav publicēts",
+    !view18b.completedTrunks.some((t) => t.id === trunkId));
+  await prisma.clientDevelopmentTrunk.update({
+    where: { id: trunkId }, data: { status: "COMPLETED" },
+  });
+
   console.log(process.exitCode ? "\n== IR KĻŪDAS ==" : "\n== VISI SCENĀRIJI OK ==");
 }
 
@@ -220,6 +318,11 @@ main()
   .finally(async () => {
     // cleanup fixtures
     try {
+      for (const k of linkKeys) {
+        await prisma.beliefTrunkLink.deleteMany({
+          where: { beliefId: k.beliefId, trunkId: k.trunkId },
+        });
+      }
       await prisma.clientDevelopmentEvent.deleteMany({ where: { clientId: { in: [clientAId, clientBId] } } });
       await prisma.clientDevelopmentTrunk.deleteMany({ where: { clientId: { in: [clientAId, clientBId] } } });
       await prisma.identityTestResult.deleteMany({ where: { submissionId: { in: subIds } } });

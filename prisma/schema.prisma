@@ -1231,6 +1231,7 @@ model ClientDevelopmentTrunk {
   clientId           String
   libraryTrunkId     String?
   beliefId           String?
+  beliefIds          String[] @default([]) // visas saistītās negatīvās atbilstības
   origin             DevelopmentTrunkOrigin @default(LIBRARY)
   titleLv            String  @db.Text
   titleEn            String  @default("") @db.Text
@@ -1262,6 +1263,8 @@ model ClientDevelopmentBranch {
   textEn          String  @default("") @db.Text
   done            Boolean @default(false)
   doneAt          DateTime?
+  doneByAdminId   String?
+  doneSessionId   String?
   sortOrder       Int     @default(0)
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt

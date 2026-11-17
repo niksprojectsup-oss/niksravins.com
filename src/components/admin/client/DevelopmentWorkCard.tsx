@@ -80,19 +80,28 @@ function TrunkCard({
         </div>
         <div className="flex flex-col items-end gap-2">
           {trunk.status !== "COMPLETED" && (
-            <button
-              type="button"
-              disabled={isPending || undone > 0}
-              title={undone > 0 ? `Neizstrādāti ${undone} zari` : ""}
-              onClick={() =>
-                run(() =>
-                  completeTrunk({ clientId, clientTrunkId: trunk.id, sessionId: trunk.sessionId }),
-                )
-              }
-              className="rounded-lg bg-accent px-3 py-1.5 text-sm text-white disabled:opacity-40"
-            >
-              Atzīmēt stumbru kā pabeigtu{undone > 0 ? ` (${undone} zari atlikuši)` : ""}
-            </button>
+            <div className="flex flex-col items-end gap-1">
+              <button
+                type="button"
+                disabled={isPending || undone > 0}
+                title={undone > 0 ? `Neizstrādāti ${undone} zari` : ""}
+                onClick={() =>
+                  run(() =>
+                    completeTrunk({ clientId, clientTrunkId: trunk.id, sessionId: trunk.sessionId }),
+                  )
+                }
+                className={`rounded-lg px-3 py-1.5 text-sm text-white disabled:opacity-40 ${
+                  undone === 0 ? "bg-emerald-600" : "bg-accent"
+                }`}
+              >
+                Atzīmēt stumbru kā pabeigtu{undone > 0 ? ` (${undone} zari atlikuši)` : ""}
+              </button>
+              {undone === 0 && trunk.branches.length > 0 && (
+                <span className="type-caption text-emerald-700">
+                  Visi zari izstrādāti - gatavs apstiprināšanai
+                </span>
+              )}
+            </div>
           )}
           {trunk.status === "COMPLETED" && (
             <button
@@ -392,7 +401,7 @@ export function DevelopmentWorkCard({
                               }}
                               className="max-w-[220px] rounded border border-amber-300 px-1.5 py-0.5 text-xs text-amber-800"
                             >
-                              <option value="">nav sasaistīts - izvēlies...</option>
+                              <option value="">Nepieciešama speciālista izvēle...</option>
                               {card.libraryTrunks.map((t) => (
                                 <option key={t.id} value={t.id}>
                                   {t.libraryKey} {t.titleLv.slice(0, 60)}

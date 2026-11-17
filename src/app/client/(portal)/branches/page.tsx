@@ -17,6 +17,8 @@ export default async function ClientBranchesPage() {
     remaining: lv ? "atlikušas" : "remaining",
     units: lv ? "darba vienības" : "work units",
     structure: lv ? "Mani izaicinājumi no Identitātes testa" : "My patterns from the Identity Test",
+    developed: lv ? "Izstrādātie pozitīvie uzskati" : "Developed positive beliefs",
+    completedOn: lv ? "Pabeigts" : "Completed",
     noPlan: lv
       ? "Speciālists vēl nav izveidojis tavu darba plānu - progress parādīsies, kad tas būs gatavs."
       : "Your practitioner has not created your work plan yet - progress will appear once it is ready.",
@@ -55,6 +57,35 @@ export default async function ClientBranchesPage() {
           </p>
         )}
       </div>
+
+      {view.completedTrunks.length > 0 && (
+        <div className="portal-card p-5 md:p-6">
+          <h2 className="text-lg font-semibold text-[#2c2824]">{labels.developed}</h2>
+          <div className="mt-4 space-y-5">
+            {view.completedTrunks.map((t) => (
+              <div key={t.id} className="rounded-xl border border-[#e8e0d5] p-4">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="font-medium text-[#2c2824]">{t.title}</h3>
+                  {t.completedAt && (
+                    <span className="shrink-0 text-xs text-[#8a8378]">
+                      {labels.completedOn}{" "}
+                      {new Date(t.completedAt).toLocaleDateString(lv ? "lv-LV" : "en-GB")}
+                    </span>
+                  )}
+                </div>
+                <ul className="mt-2 space-y-1.5">
+                  {t.branches.map((b, i) => (
+                    <li key={i} className="flex gap-2 text-[#3d3831]">
+                      <span className="text-[#7a8b6f]">✓</span>
+                      <span>{b.text}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {view.groups.length > 0 && (
         <div className="portal-card p-5 md:p-6">
