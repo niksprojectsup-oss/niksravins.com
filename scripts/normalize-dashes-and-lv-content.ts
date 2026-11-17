@@ -2,9 +2,11 @@
  * DEV/Production satura normalizācija:
  * 1) Atjaunina LV portretu fragmentus no prisma/identity-portraits-lv.jsonl.
  * 2) Normalizē domuzīmes uz "-" (em/en dash) visos lietotājam redzamajos DB laukos.
- * Palaišana: npx tsx scripts/normalize-dashes-and-lv-content.ts
- * PIESARDZĪGI: pirms Production palaišanas pārbaudīt DATABASE_URL hostu.
+ *
+ *   npx tsx scripts/normalize-dashes-and-lv-content.ts          # DEV (noklusējums)
+ *   npx tsx scripts/normalize-dashes-and-lv-content.ts --prod   # PROD (apzināts)
  */
+import { config } from "dotenv";
 import { readFileSync } from "node:fs";
 import { prisma } from "../src/lib/db/prisma";
 
@@ -13,10 +15,42 @@ const EN = "\u2013";
 const fix = (s: string | null | undefined) =>
   s == null ? s : s.split(EM).join("-").split(EN).join("-");
 
+// Vides aizsardzība: noklusējumā strādā tikai DEV (.env.local).
+// PROD pieļaujams tikai ar --prod un pārbaudītu PROD hostu.
+const PROD_FLAG = process.argv.includes("--prod");
+const PROD_HOST = "ep-summer-poetry";
+if (PROD_FLAG) {
+  config({ path: ".env" });
+} else {
+  config({ path: ".env.local", override: true });
+}
+const dbUrl = process.env.DATABASE_URL;
+if (!dbUrl) {
+  console.error("DATABASE_URL nav iestatīts. Apturēts pirms jebkāda savienojuma.");
+  process.exit(1);
+}
+let dbHost: string;
+try {
+  dbHost = new URL(dbUrl).host;
+} catch {
+  console.error("DATABASE_URL nav derīgs URL. Apturēts.");
+  process.exit(1);
+}
+if (PROD_FLAG && !dbHost.startsWith(PROD_HOST)) {
+  console.error(`--prod režīms, bet DATABASE_URL nav PROD (hosts: ${dbHost})`);
+  process.exit(1);
+}
+if (!PROD_FLAG && dbHost.includes(PROD_HOST)) {
+  console.error(`DEV režīms, bet DATABASE_URL norāda uz PROD (${dbHost}). Apturēts.`);
+  process.exit(1);
+}
+console.log(`MĒRĶIS: ${dbHost} [${PROD_FLAG ? "PROD" : "DEV"}]`);
+
 async function main() {
   // 1) LV portreti no jsonl
   const rows = readFileSync("prisma/identity-portraits-lv.jsonl", "utf-8")
     .split("\n").filter(Boolean).map((l) => JSON.parse(l));
+  console.log(`plānotais apjoms: ${rows.length * 2} LV portretu lauki (${rows.length} uzskati x 2) + domuzimju normalizacija`);
   let updated = 0;
   for (const r of rows) {
     const belief = await prisma.identityBelief.findUnique({ where: { stableKey: r.key }, select: { id: true } });
@@ -38,6 +72,7 @@ async function main() {
                   { publishedValue: { contains: EM } }, { publishedValue: { contains: EN } }] },
     select: { id: true, draftValue: true, publishedValue: true },
   });
+  console.log(`domuzimju normalizacija: ${tr.length} tulkojumu rindas`);
   for (const t of tr) {
     await prisma.identityContentTranslation.update({
       where: { id: t.id },
@@ -51,6 +86,7 @@ async function main() {
     where: { OR: [{ plainText: { contains: EM } }, { plainText: { contains: EN } }] },
     select: { id: true, sectionId: true, locale: true, fieldKey: true, plainText: true },
   });
+  console.log(`cms kandidati ar domuzimem plainText: ${cms.length}`);
   const fixJson = (v: unknown): unknown =>
     typeof v === "string" ? fix(v)
     : Array.isArray(v) ? v.map(fixJson)
