@@ -11,7 +11,10 @@ export default async function IdentitySentPage() {
     include: {
       submission: {
         select: {
+          id: true,
           locale: true,
+          linkStatus: true,
+          clientId: true,
           result: { select: { id: true } },
           deliveries: { orderBy: { createdAt: "desc" } },
         },
@@ -29,7 +32,7 @@ export default async function IdentitySentPage() {
         <table className="w-full text-left text-sm">
           <thead className="bg-surface-subtle">
             <tr>
-              {["Laiks", "E-pasts", "Valoda", "Mārketings", "Piegādes"].map((h) => (
+              {["Laiks", "E-pasts", "Valoda", "Mārketings", "Saite", "Piegādes"].map((h) => (
                 <th key={h} className="type-caption px-3 py-2 text-ink-subtle">{h}</th>
               ))}
             </tr>
@@ -40,10 +43,35 @@ export default async function IdentitySentPage() {
                 <td className="px-3 py-1.5 whitespace-nowrap">
                   {c.createdAt.toISOString().replace("T", " ").slice(0, 16)}
                 </td>
-                <td className="px-3 py-1.5">{decryptField(c.email)}</td>
+                <td className="px-3 py-1.5">
+                  {c.submission ? (
+                    <a
+                      href={`/admin/identity-test/submissions/${c.submission.id}`}
+                      className="text-accent underline"
+                    >
+                      {decryptField(c.email)}
+                    </a>
+                  ) : (
+                    decryptField(c.email)
+                  )}
+                </td>
                 <td className="px-3 py-1.5">{c.submission?.locale ?? "-"}</td>
                 <td className="px-3 py-1.5">
                   {c.withdrawalTimestamp ? "atcelta" : c.marketingConsent ? "jā" : "nē"}
+                </td>
+                <td className="px-3 py-1.5 whitespace-nowrap">
+                  {c.submission?.clientId ? (
+                    <a
+                      href={`/admin/clients/${c.submission.clientId}`}
+                      className="text-accent underline"
+                    >
+                      klients →
+                    </a>
+                  ) : c.submission?.linkStatus === "REVIEW" ? (
+                    <span className="text-amber-700">pārbaude</span>
+                  ) : (
+                    <span className="text-ink-subtle">nav klienta</span>
+                  )}
                 </td>
                 <td className="px-3 py-1.5">
                   {(c.submission?.deliveries ?? [])

@@ -233,6 +233,9 @@ model Client {
   finalReflections      JourneyFinalReflection[]
   testimonials          Testimonial[]
   purchases               Purchase[]
+  identitySubmissions       IdentityTestSubmission[]
+  developmentTrunks         ClientDevelopmentTrunk[]
+  developmentEvents         ClientDevelopmentEvent[]
 
   @@index([status])
   @@index([lastName, firstName])
@@ -301,6 +304,9 @@ model Session {
   booking       Booking?
   reflection    SessionReflection?
   preparation   SessionPreparation?
+
+  devTrunksInProgress ClientDevelopmentTrunk[] @relation("DevelopmentWorkSession")
+  devTrunksCompleted  ClientDevelopmentTrunk[] @relation("DevelopmentCompletedSession")
 
   @@index([clientId, scheduledAt])
   @@index([packageId, sessionNumber])
@@ -864,6 +870,8 @@ model IdentityBelief {
   subcategory IdentityTestSubcategory    @relation(fields: [subcategoryId], references: [id], onDelete: Restrict)
   trunk       IdentityPositiveTrunk?
   mechanisms  IdentityBeliefMechanism[]
+  trunkLinks  BeliefTrunkLink[]
+  developmentTrunks ClientDevelopmentTrunk[]
 
   @@index([subcategoryId, sortOrder])
   @@index([status])
@@ -953,15 +961,21 @@ model IdentityTestSubmission {
   validationNote    String?                   @db.Text
   safetyTriggered   Boolean                   @default(false)
   retainUntil       DateTime?
+  clientId          String?
+  linkStatus        IdentitySubmissionLinkStatus @default(UNLINKED)
+  linkedAt          DateTime?
+  linkMethod        IdentitySubmissionLinkMethod?
   createdAt         DateTime                  @default(now())
   updatedAt         DateTime                  @updatedAt
 
+  client     Client?                          @relation(fields: [clientId], references: [id], onDelete: SetNull)
   result     IdentityTestResult?
   consents   IdentityEmailConsent[]
   sequences  IdentityEmailSequence[]
   deliveries IdentityEmailDelivery[]
 
   @@index([status, createdAt])
+  @@index([clientId, linkStatus])
 }
 
 model IdentityTestResult {
@@ -1115,4 +1129,163 @@ model IdentityTestSettings {
   id                  String   @id @default("default")
   publicAccessEnabled Boolean  @default(false)
   updatedAt           DateTime @updatedAt
+}
+
+// ─── Klienta attīstības karte: kartotēka, stumbri, zari, progress ───
+
+enum IdentitySubmissionLinkStatus {
+  UNLINKED
+  LINKED
+  REVIEW
+}
+
+enum IdentitySubmissionLinkMethod {
+  AUTO
+  MANUAL
+}
+
+enum DevelopmentTrunkOrigin {
+  LIBRARY
+  CUSTOM
+}
+
+enum DevelopmentTrunkStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  NEEDS_SUPPLEMENT
+}
+
+// Kartotēkas tēma (Dokuments B) — bibliotēkas līmenis, ne klienta kopija.
+model BeliefLibraryTheme {
+  id                String  @id @default(cuid())
+  libraryKey        String  @unique // "01".."10"
+  sortOrder         Int     @default(0)
+  titleLv           String
+  titleEn           String  @default("")
+  descriptionLv     String  @default("") @db.Text
+  exploreQuestions  String  @default("") @db.Text // speciālista materiāls
+  professionalNotes String  @default("") @db.Text // speciālista materiāls
+  isSensitive       Boolean @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  trunks BeliefLibraryTrunk[]
+}
+
+// Pozitīvais stumbrs no kartotēkas (bibliotēka, redakcionāls saturs).
+model BeliefLibraryTrunk {
+  id             String  @id @default(cuid())
+  libraryKey     String  @unique // "1.1".."10.5"
+  themeId        String
+  sortOrder      Int     @default(0)
+  titleLv        String  @db.Text
+  titleEn        String  @default("") @db.Text
+  negativeBelief String  @default("") @db.Text // sasaistes formulējums (LV)
+  status         IdentityContentStatus @default(PUBLISHED)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  theme         BeliefLibraryTheme     @relation(fields: [themeId], references: [id], onDelete: Restrict)
+  branches      BeliefLibraryBranch[]
+  beliefLinks   BeliefTrunkLink[]
+  clientTrunks  ClientDevelopmentTrunk[]
+
+  @@index([themeId, sortOrder])
+}
+
+model BeliefLibraryBranch {
+  id        String  @id @default(cuid())
+  trunkId   String
+  sortOrder Int     @default(0)
+  textLv    String  @db.Text
+  textEn    String  @default("") @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  trunk          BeliefLibraryTrunk      @relation(fields: [trunkId], references: [id], onDelete: Cascade)
+  clientBranches ClientDevelopmentBranch[]
+
+  @@index([trunkId, sortOrder])
+}
+
+// Redakcionāli apstiprināta sasaiste: testa uzskats ↔ kartotēkas stumbrs.
+model BeliefTrunkLink {
+  id               String  @id @default(cuid())
+  beliefId         String
+  trunkId          String
+  note             String  @default("")
+  createdByAdminId String?
+  createdAt        DateTime @default(now())
+
+  belief IdentityBelief     @relation(fields: [beliefId], references: [id], onDelete: Cascade)
+  trunk  BeliefLibraryTrunk @relation(fields: [trunkId], references: [id], onDelete: Cascade)
+
+  @@unique([beliefId, trunkId])
+  @@index([trunkId])
+}
+
+// Klienta darba vienība: viens stumbrs ar visiem zariem = viena sesija.
+model ClientDevelopmentTrunk {
+  id                 String  @id @default(cuid())
+  clientId           String
+  libraryTrunkId     String?
+  beliefId           String?
+  origin             DevelopmentTrunkOrigin @default(LIBRARY)
+  titleLv            String  @db.Text
+  titleEn            String  @default("") @db.Text
+  status             DevelopmentTrunkStatus @default(NOT_STARTED)
+  sessionId          String?
+  completedSessionId String?
+  completedAt        DateTime?
+  completedByAdminId String?
+  sortOrder          Int     @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  client           Client                @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  libraryTrunk     BeliefLibraryTrunk?   @relation(fields: [libraryTrunkId], references: [id], onDelete: SetNull)
+  belief           IdentityBelief?       @relation(fields: [beliefId], references: [id], onDelete: SetNull)
+  session          Session?              @relation("DevelopmentWorkSession", fields: [sessionId], references: [id], onDelete: SetNull)
+  completedSession Session?              @relation("DevelopmentCompletedSession", fields: [completedSessionId], references: [id], onDelete: SetNull)
+  branches         ClientDevelopmentBranch[]
+
+  @@index([clientId, status])
+  @@index([completedSessionId])
+}
+
+model ClientDevelopmentBranch {
+  id              String  @id @default(cuid())
+  clientTrunkId   String
+  libraryBranchId String?
+  textLv          String  @db.Text
+  textEn          String  @default("") @db.Text
+  done            Boolean @default(false)
+  doneAt          DateTime?
+  sortOrder       Int     @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  clientTrunk    ClientDevelopmentTrunk @relation(fields: [clientTrunkId], references: [id], onDelete: Cascade)
+  libraryBranch  BeliefLibraryBranch?   @relation(fields: [libraryBranchId], references: [id], onDelete: SetNull)
+
+  @@index([clientTrunkId, sortOrder])
+}
+
+// Darba kartes izmaiņu vēsture (audits) — nekad nedzēst.
+model ClientDevelopmentEvent {
+  id           String  @id @default(cuid())
+  clientId     String
+  trunkId      String?
+  branchId     String?
+  action       String
+  prevStatus   String?
+  newStatus    String?
+  detail       String  @default("") @db.Text
+  actorAdminId String?
+  createdAt    DateTime @default(now())
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@index([clientId, createdAt])
 }

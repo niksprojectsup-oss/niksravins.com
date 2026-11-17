@@ -153,6 +153,33 @@ export async function ensureClientPortalAccount(input: {
   clientId: string;
   email: string;
 }): Promise<EnsurePortalAccountResult | null> {
+  const result = await ensureClientPortalAccountInternal(input);
+  if (result) {
+    try {
+      const { linkIdentityTestSubmissionsForClient } = await import(
+        "@/lib/development/linking"
+      );
+      const linked = await linkIdentityTestSubmissionsForClient({
+        clientId: input.clientId,
+        email: input.email,
+      });
+      if (linked.linked > 0 || linked.review > 0) {
+        console.info("[portal] identity test submissions linked", {
+          clientId: input.clientId,
+          ...linked,
+        });
+      }
+    } catch (error) {
+      console.error("[portal] identity test linking failed", error);
+    }
+  }
+  return result;
+}
+
+async function ensureClientPortalAccountInternal(input: {
+  clientId: string;
+  email: string;
+}): Promise<EnsurePortalAccountResult | null> {
   requireDatabase();
 
   const normalizedEmail = input.email.trim().toLowerCase();

@@ -1,0 +1,1509 @@
+{
+  "themes": [
+    {
+      "libraryKey": "01",
+      "sortOrder": 0,
+      "titleLv": "Pašvērtība un identitāte",
+      "titleEn": "Self-Worth and Identity",
+      "descriptionLv": "Cilvēka vērtības izjūta, attieksme pret sevi, identitāte un tiesības būt pašam. Izpētē nošķir pašvērtību no pašpārliecinātības, sasniegumiem, sociālajām lomām un citu cilvēku vērtējuma.",
+      "exploreQuestions": "Kas, tavuprāt, padara cilvēku vērtīgu?\nKas notiek ar tavu pašvērtējumu, kad kļūdies vai neizdodas?\nKurās situācijās tu visbiežāk pielāgojies vai izliecies?\nCik lielā mērā tava pašsajūta ir atkarīga no citu vērtējuma?\nKas tavā dzīvē mainītos, ja tev nebūtu jāpierāda sava vērtība?",
+      "professionalNotes": "Vēlme sasniegt, attīstīties, palīdzēt vai saņemt atzinību pati par sevi neliecina par zemu pašvērtību. Izpēti, vai tā ir brīva izvēle vai priekšnoteikums, lai cilvēks justos pietiekams.",
+      "trunks": [
+        {
+          "libraryKey": "1.1",
+          "sortOrder": 1,
+          "titleLv": "ES ESMU VĒRTĪGS NEATKARĪGI NO SAVIEM SASNIEGUMIEM.",
+          "titleEn": "I am valuable regardless of my achievements.",
+          "negativeBelief": "Mana vērtība ir atkarīga no tā, ko sasniedzu.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jānopelna sava vērtība ar panākumiem.",
+              "textEn": "I do not have to earn my worth through success."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Mana vērtība nemazinās, ja kaut kas neizdodas.",
+              "textEn": "My worth does not diminish when something goes wrong."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu atpūsties, nezaudējot savu vērtību.",
+              "textEn": "I am allowed to rest without losing my worth."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav nepārtraukti jāpierāda, ka esmu pietiekams.",
+              "textEn": "I do not have to constantly prove that I am enough."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu lepoties ar paveikto, nebalstot tajā visu savu vērtību.",
+              "textEn": "I can take pride in what I do without basing all my worth on it."
+            }
+          ]
+        },
+        {
+          "libraryKey": "1.2",
+          "sortOrder": 2,
+          "titleLv": "ES DRĪKSTU PIEŅEMT SEVI TĀDU, KĀDS ESMU.",
+          "titleEn": "I am allowed to accept myself as I am.",
+          "negativeBelief": "Es nevaru pieņemt sevi tādu, kāds esmu.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jābūt perfektam, lai pieņemtu sevi.",
+              "textEn": "I do not have to be perfect to accept myself."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu atzīt savas nepilnības bez pašnosodījuma.",
+              "textEn": "I can acknowledge my imperfections without condemning myself."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu būt atšķirīgs no citiem.",
+              "textEn": "I am allowed to be different from others."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu mainīties, nenoraidot sevi šodien.",
+              "textEn": "I can change without rejecting who I am today."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jākaunas par to, kas es esmu.",
+              "textEn": "I do not have to be ashamed of who I am."
+            }
+          ]
+        },
+        {
+          "libraryKey": "1.3",
+          "sortOrder": 3,
+          "titleLv": "ES DRĪKSTU BŪT ES PATS, NEIZLIEKOTIES.",
+          "titleEn": "I am allowed to be myself without pretending.",
+          "negativeBelief": "Man jābūt tādam, kādu mani vēlas redzēt citi.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāspēlē loma, lai mani pieņemtu.",
+              "textEn": "I do not have to play a role to be accepted."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu paust savu patieso viedokli.",
+              "textEn": "I am allowed to express my true opinion."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāpielāgojas visiem apkārtējiem.",
+              "textEn": "I do not have to adapt to everyone around me."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu atšķirties no citu gaidām.",
+              "textEn": "I am allowed to differ from other people's expectations."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu piederēt, neatsakoties no sevis.",
+              "textEn": "I can belong without giving myself up."
+            }
+          ]
+        },
+        {
+          "libraryKey": "1.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU UZTICĒTIES SEV UN SAVIEM LĒMUMIEM.",
+          "titleEn": "I can trust myself and my decisions.",
+          "negativeBelief": "Es nevaru uzticēties sev un saviem lēmumiem.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu paļauties uz savu spriestspēju.",
+              "textEn": "I am allowed to rely on my own judgment."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav vajadzīgs citu apstiprinājums katrai izvēlei.",
+              "textEn": "I do not need others' approval for every choice."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu izlemt arī bez pilnīgas pārliecības.",
+              "textEn": "I am allowed to decide without complete certainty."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Ja kļūdos, es spēju no tā mācīties.",
+              "textEn": "If I make a mistake, I can learn from it."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu mainīt lēmumu, kad mainās apstākļi.",
+              "textEn": "I am allowed to change my decision when circumstances change."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "02",
+      "sortOrder": 1,
+      "titleLv": "Attiecības, tuvība un piesaiste",
+      "titleEn": "Relationships, Intimacy and Attachment",
+      "descriptionLv": "Tuvības, piederības, uzticēšanās, atstumšanas baiļu un emocionālās drošības pieredze. Attiecību grūtības vērtē kontekstā: savstarpējā uzvedība, saderība, komunikācija un drošība ir tikpat būtiskas kā iekšējie uzskati.",
+      "exploreQuestions": "Ko tev nozīmē drošas un savstarpējas attiecības?\nKo tu parasti nodomā, kad otrs neatbild vai attālinās?\nKā tu nosaki, cik daudz uzticēties konkrētam cilvēkam?\nVai tu attiecībās vari paust savas vajadzības un nepiekrist?\nVai attiecībās ir bailes, draudi, kontrole vai pazemošana?",
+      "professionalNotes": "Nepārvērt reālu attiecību problēmu par klienta iekšēju uzskatu. Ja ir vardarbība, draudi, piespiešana vai kontrole, prioritāte ir drošība un atbilstošs atbalsts. Pieķeršanās stili nav diagnozes.",
+      "trunks": [
+        {
+          "libraryKey": "2.1",
+          "sortOrder": 1,
+          "titleLv": "ES VARU BŪT MĪLĒTS, PALIEKOT ES PATS.",
+          "titleEn": "I can be loved while remaining myself.",
+          "negativeBelief": "Lai mani mīlētu, man jāizpatīk un jāpielāgojas.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāatsakās no savām vajadzībām, lai saglabātu tuvību.",
+              "textEn": "I do not have to give up my needs to maintain closeness."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu paust atšķirīgu viedokli un palikt attiecībās.",
+              "textEn": "I can express a different opinion and remain in the relationship."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāizpelnās mīlestība ar nemitīgu izpatikšanu.",
+              "textEn": "I do not have to earn love by constantly pleasing others."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu būt tuvs, nezaudējot savu individualitāti.",
+              "textEn": "I can be close without losing my individuality."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man ir tiesības uz savstarpēju cieņu.",
+              "textEn": "I have a right to mutual respect."
+            }
+          ]
+        },
+        {
+          "libraryKey": "2.2",
+          "sortOrder": 2,
+          "titleLv": "ES VARU SAGLABĀT IEKŠĒJU STABILITĀTI ATTIECĪBU PĀRMAIŅĀS.",
+          "titleEn": "I can remain grounded through changes in a relationship.",
+          "negativeBelief": "Ja otrs attālinās, es tikšu pamests.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Otra cilvēka vajadzība pēc telpas automātiski nenozīmē atraidījumu.",
+              "textEn": "Another person's need for space does not automatically mean rejection."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu izturēt nenoteiktību, nesteidzoties izdarīt secinājumus.",
+              "textEn": "I can tolerate uncertainty without rushing to conclusions."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu tieši pajautāt, kas notiek starp mums.",
+              "textEn": "I am allowed to ask directly what is happening between us."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu parūpēties par sevi, kamēr gaidu skaidrību.",
+              "textEn": "I can take care of myself while waiting for clarity."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Attiecību pārmaiņas nenosaka manu personīgo vērtību.",
+              "textEn": "Changes in a relationship do not define my personal worth."
+            }
+          ]
+        },
+        {
+          "libraryKey": "2.3",
+          "sortOrder": 3,
+          "titleLv": "ES VARU UZTICĒTIES PAKĀPENISKI UN APDOMĪGI.",
+          "titleEn": "I can build trust gradually and thoughtfully.",
+          "negativeBelief": "Man jāuzticas uzreiz vai arī jānoslēdzas pilnībā.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Uzticēšanās var veidoties caur otra cilvēka konsekventu rīcību.",
+              "textEn": "Trust can grow through another person's consistent actions."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu dalīties personīgajā pakāpeniski.",
+              "textEn": "I am allowed to share personal things gradually."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu būt atvērts, vienlaikus ievērojot savas robežas.",
+              "textEn": "I can be open while maintaining my boundaries."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jāignorē brīdinājuma signāli, lai saglabātu attiecības.",
+              "textEn": "I do not have to ignore warning signs to preserve a relationship."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu pārskatīt uzticēšanos, ja mainās otra rīcība.",
+              "textEn": "I am allowed to reconsider trust when the other person's behavior changes."
+            }
+          ]
+        },
+        {
+          "libraryKey": "2.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU BŪT LĪDZĀS, NEUZŅEMOTIES CITA ATBILDĪBU.",
+          "titleEn": "I can be supportive without taking responsibility for another person.",
+          "negativeBelief": "Man jāuzņemas atbildība par otra cilvēka emocijām.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es varu uzklausīt, nemēģinot visu atrisināt.",
+              "textEn": "I can listen without trying to solve everything."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Otra cilvēka emocijas nav pilnībā manā kontrolē.",
+              "textEn": "Another person's emotions are not fully within my control."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu pateikt, ko spēju un ko nespēju dot.",
+              "textEn": "I am allowed to say what I can and cannot offer."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Līdzjūtība nenozīmē atteikšanos no savām vajadzībām.",
+              "textEn": "Compassion does not mean abandoning my own needs."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Katrs pieaugušais ir atbildīgs arī par savu rīcību.",
+              "textEn": "Every adult is also responsible for their own actions."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "03",
+      "sortOrder": 2,
+      "titleLv": "Ģimene, bērnība un vecāku ietekme",
+      "titleEn": "Family, Childhood and Parental Influence",
+      "descriptionLv": "Ģimenē apgūtie noteikumi, piederības izjūta, lojalitāte, vecāku gaidas un agrīnās pieredzes iespējamā ietekme uz pašreizējo dzīvi. Pagātne var sniegt kontekstu, bet ne vienmēr izskaidro tagadnes grūtības.",
+      "exploreQuestions": "Kādi neizteikti noteikumi valdīja tavā ģimenē?\nKas notika, ja bērnībā tu nepiekriti vai paudi savas vajadzības?\nKādas ģimenes gaidas tu joprojām izjūti kā savas?\nPar ko tu šobrīd uzņemies atbildību, kas varētu nebūt tikai tava?\nKurus ģimenes modeļus tu vēlies turpināt un kurus mainīt?",
+      "professionalNotes": "Neizdari secinājumus par traumu vai vecāku vainu tikai no viena stāsta. Atmiņas, ģimenes dinamika un pašreizējie apstākļi ir jāizpēta uzmanīgi. Smagas bērnības pieredzes apstrādei var būt vajadzīgs psihoterapeita atbalsts.",
+      "trunks": [
+        {
+          "libraryKey": "3.1",
+          "sortOrder": 1,
+          "titleLv": "ES DRĪKSTU IZVĒLĒTIES SAVU DZĪVES CEĻU.",
+          "titleEn": "I am allowed to choose my own path in life.",
+          "negativeBelief": "Man jāizpilda ģimenes gaidas, lai būtu labs bērns.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es varu cienīt ģimeni, nepiekrītot visam.",
+              "textEn": "I can respect my family without agreeing with everything."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jādzīvo vecāku nepiepildīto sapņu vietā.",
+              "textEn": "I do not have to live out my parents' unfulfilled dreams."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu pieņemt sev piemērotus lēmumus.",
+              "textEn": "I am allowed to make decisions that suit me."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Atšķirīga izvēle nenozīmē ģimenes nodevību.",
+              "textEn": "Making a different choice does not mean betraying my family."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu veidot savu dzīvi, saglabājot saikni sev vēlamā veidā.",
+              "textEn": "I can build my own life while maintaining connection in a way that works for me."
+            }
+          ]
+        },
+        {
+          "libraryKey": "3.2",
+          "sortOrder": 2,
+          "titleLv": "ES VARU MĪLĒT SAVU ĢIMENI, NEUZŅEMOTIES VISU ATBILDĪBU.",
+          "titleEn": "I can love my family without taking responsibility for everything.",
+          "negativeBelief": "Man jābūt atbildīgam par ģimenes mieru un labklājību.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es neesmu atbildīgs par visu ģimenes locekļu emocijām.",
+              "textEn": "I am not responsible for every family member's emotions."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jābūt starpniekam katrā konfliktā.",
+              "textEn": "I do not have to mediate every conflict."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu atteikties no pienākumiem, kas nav mani.",
+              "textEn": "I am allowed to decline responsibilities that are not mine."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Palīdzēt ģimenei nenozīmē sevi izsmelt.",
+              "textEn": "Helping my family does not mean exhausting myself."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Katrs ģimenes loceklis var uzņemties atbildību par savu rīcību.",
+              "textEn": "Each family member can take responsibility for their own actions."
+            }
+          ]
+        },
+        {
+          "libraryKey": "3.3",
+          "sortOrder": 3,
+          "titleLv": "MANAS VAJADZĪBAS IR SVARĪGAS ARĪ ĢIMENĒ.",
+          "titleEn": "My needs matter within my family too.",
+          "negativeBelief": "Manas vajadzības ģimenē nav svarīgas.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu runāt par to, kas man nepieciešams.",
+              "textEn": "I am allowed to speak about what I need."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jāklusē, lai mājās būtu miers.",
+              "textEn": "I do not have to stay silent to keep the peace at home."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu lūgt taisnīgu pienākumu sadali.",
+              "textEn": "I am allowed to ask for a fair sharing of responsibilities."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Manas jūtas ir pelnījušas uzklausīšanu.",
+              "textEn": "My feelings deserve to be heard."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu noteikt robežas arī ar tuviniekiem.",
+              "textEn": "I am allowed to set boundaries with family members too."
+            }
+          ]
+        },
+        {
+          "libraryKey": "3.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU VEIDOT SAVU DZĪVI, IZMANTOJOT ŠODIENAS IZVĒLES.",
+          "titleEn": "I can shape my life through the choices available to me today.",
+          "negativeBelief": "Tas, kas notika bērnībā, nosaka visu manu dzīvi.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Mana pagātne ir daļa no manis, bet ne visa mana identitāte.",
+              "textEn": "My past is part of me, but it is not my whole identity."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu pamanīt agrāk apgūtus modeļus un izvēlēties citādi.",
+              "textEn": "I can notice learned patterns and choose differently."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāatkārto ģimenes attiecību scenāriji.",
+              "textEn": "I do not have to repeat family relationship patterns."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu meklēt atbalstu, lai saprastu savu pieredzi.",
+              "textEn": "I am allowed to seek support to understand my experience."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Pārmaiņas var notikt pakāpeniski, manā tempā.",
+              "textEn": "Change can happen gradually, at my own pace."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "04",
+      "sortOrder": 3,
+      "titleLv": "Drošība, kontrole un bailes",
+      "titleEn": "Safety, Control and Fear",
+      "descriptionLv": "Drošības izjūta, nenoteiktības panesība, kontroles vajadzība, kļūdu un zaudējuma bailes. Nošķir iekšēju trauksmi no reāliem ārējiem riskiem, kur nepieciešama praktiska rīcība.",
+      "exploreQuestions": "Kas tieši, tavuprāt, varētu notikt, ja tu nekontrolētu situāciju?\nKā tu atšķir reālu apdraudējumu no satraukuma par iespējamo?\nKuras lietas šobrīd ir tavā ietekmē un kuras nav?\nKo tu dari, lai iegūtu īslaicīgu drošības sajūtu?\nKāds būtu mazs, drošs solis, ko vari izvēlēties pats?",
+      "professionalNotes": "Nesajauc trauksmi ar reālu apdraudējumu. Ja pastāv vardarbība, vajāšana, nedroša vide vai veselības risks, vispirms vajadzīga praktiska drošības rīcība. Spēcīgu vai ilgstošu trauksmi izvērtē kopā ar atbilstošu veselības speciālistu.",
+      "trunks": [
+        {
+          "libraryKey": "4.1",
+          "sortOrder": 1,
+          "titleLv": "ES VARU JUSTIES DROŠĀK, NEKONTROLĒJOT VISU.",
+          "titleEn": "I can feel safer without controlling everything.",
+          "negativeBelief": "Es būšu drošībā tikai tad, ja visu kontrolēšu.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es varu atšķirt to, ko spēju ietekmēt, no tā, ko nespēju.",
+              "textEn": "I can distinguish what I can influence from what I cannot."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jāparedz visi iespējamie scenāriji.",
+              "textEn": "I do not have to anticipate every possible scenario."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu rīkoties, kad rodas konkrēta vajadzība.",
+              "textEn": "I can act when a specific need arises."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Nenoteiktība ne vienmēr nozīmē briesmas.",
+              "textEn": "Uncertainty does not always mean danger."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu lūgt palīdzību situācijās, kuras nevaru kontrolēt.",
+              "textEn": "I am allowed to ask for help in situations I cannot control."
+            }
+          ]
+        },
+        {
+          "libraryKey": "4.2",
+          "sortOrder": 2,
+          "titleLv": "ES VARU KĻŪDĪTIES UN ATRAST RISINĀJUMU.",
+          "titleEn": "I can make mistakes and find a way forward.",
+          "negativeBelief": "Ja kļūdīšos, notiks kaut kas slikts.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Kļūda ne vienmēr rada neatgriezeniskas sekas.",
+              "textEn": "A mistake does not always lead to irreversible consequences."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu izvērtēt situāciju un labot, ko iespējams.",
+              "textEn": "I can assess the situation and repair what can be repaired."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāpieņem perfekts lēmums katru reizi.",
+              "textEn": "I do not have to make a perfect decision every time."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu mācīties no pieredzes, nevis sevi sodīt.",
+              "textEn": "I am allowed to learn from experience instead of punishing myself."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu izturēt vilšanos un turpināt rīkoties.",
+              "textEn": "I can tolerate disappointment and keep moving forward."
+            }
+          ]
+        },
+        {
+          "libraryKey": "4.3",
+          "sortOrder": 3,
+          "titleLv": "ES VARU MEKLĒT ATBALSTU UN RISINĀJUMUS GRŪTĪBĀS.",
+          "titleEn": "I can seek support and solutions in difficult situations.",
+          "negativeBelief": "Es nevaru tikt galā, ja notiks neparedzētais.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāzina visi risinājumi jau iepriekš.",
+              "textEn": "I do not have to know every solution in advance."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu risināt problēmas pa vienam solim.",
+              "textEn": "I can address problems one step at a time."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu paļauties arī uz citiem cilvēkiem.",
+              "textEn": "I am allowed to rely on other people too."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Grūtības nenozīmē, ka esmu bezspēcīgs.",
+              "textEn": "Difficulties do not mean I am powerless."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu pārskatīt plānu, ja apstākļi mainās.",
+              "textEn": "I can revise the plan when circumstances change."
+            }
+          ]
+        },
+        {
+          "libraryKey": "4.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU IZVĒLĒTIES RĪCĪBU, ŅEMOT VĒRĀ SAVAS BAILES.",
+          "titleEn": "I can choose how to act while acknowledging my fears.",
+          "negativeBelief": "Bailes nozīmē, ka man jāatkāpjas.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es varu pamanīt bailes, nesteidzoties tām paklausīt.",
+              "textEn": "I can notice fear without automatically obeying it."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu virzīties uz priekšu maziem soļiem.",
+              "textEn": "I am allowed to move forward in small steps."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu pārbaudīt, vai briesmas ir reālas un pašreizējas.",
+              "textEn": "I can check whether the danger is real and present."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jāpiespiež sevi situācijās, kas nav drošas.",
+              "textEn": "I do not have to force myself into unsafe situations."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Drosme var pastāvēt arī līdzās bailēm.",
+              "textEn": "Courage can exist alongside fear."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "05",
+      "sortOrder": 4,
+      "titleLv": "Emocijas un iekšējā pasaule",
+      "titleEn": "Emotions and Inner World",
+      "descriptionLv": "Spēja pamanīt, nosaukt, pieņemt un regulēt emocijas, kā arī būt kontaktā ar savām vajadzībām un ķermeņa signāliem. Mērķis nav vienmēr justies labi, bet veidot elastīgāku attieksmi pret iekšējo pieredzi.",
+      "exploreQuestions": "Kuras emocijas tev ir visgrūtāk atzīt vai izrādīt?\nKo tu parasti dari, kad izjūti spēcīgas emocijas?\nVai tu mēdz justies vainīgs par savām sajūtām?\nKā tu pamani, ka esi noguris, saspringts vai pārkāpis savas robežas?\nKas palīdz tev justies pietiekami droši, lai pievērstos savai iekšējai pieredzei?",
+      "professionalNotes": "Neuzspied emociju izjušanu un neinterpretē nejutīgumu automātiski kā apspiešanu. Ilgstoša emocionāla nejutība, disociācija, panika vai būtiski ikdienas funkcionēšanas traucējumi var prasīt psihiskās veselības speciālista izvērtējumu.",
+      "trunks": [
+        {
+          "libraryKey": "5.1",
+          "sortOrder": 1,
+          "titleLv": "ES DRĪKSTU JUST UN PIEŅEMT SAVAS EMOCIJAS.",
+          "titleEn": "I am allowed to feel and accept my emotions.",
+          "negativeBelief": "Manas emocijas ir nepareizas vai nepieņemamas.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Manas emocijas ir informācija, nevis pavēle rīkoties.",
+              "textEn": "My emotions are information, not commands to act."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu just dusmas, nekaitējot sev vai citiem.",
+              "textEn": "I am allowed to feel anger without harming myself or others."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jākaunas par savām skumjām.",
+              "textEn": "I do not have to be ashamed of my sadness."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu nosaukt savas emocijas un mēģināt tās saprast.",
+              "textEn": "I can name my emotions and try to understand them."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jāattaisno katra sajūta, lai to atzītu.",
+              "textEn": "I do not have to justify every feeling in order to acknowledge it."
+            }
+          ]
+        },
+        {
+          "libraryKey": "5.2",
+          "sortOrder": 2,
+          "titleLv": "ES VARU PAKĀPENISKI BŪT KONTAKTĀ AR SAVĀM SAJŪTĀM.",
+          "titleEn": "I can gradually stay in contact with my feelings.",
+          "negativeBelief": "Ja sākšu just, emocijas mani pārņems.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu pievērsties emocijām sev piemērotā tempā.",
+              "textEn": "I am allowed to approach emotions at my own pace."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu paņemt pauzi, ja kļūst par daudz.",
+              "textEn": "I can take a pause when it becomes overwhelming."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāizjūt viss uzreiz.",
+              "textEn": "I do not have to feel everything all at once."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu meklēt atbalstu, kad emocijas ir grūti izturēt.",
+              "textEn": "I can seek support when emotions are difficult to bear."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Sajūtas var mainīties, un man nav tās jāsteidzina.",
+              "textEn": "Feelings can change, and I do not have to rush them."
+            }
+          ]
+        },
+        {
+          "libraryKey": "5.3",
+          "sortOrder": 3,
+          "titleLv": "ES DRĪKSTU BŪT IEVAINOJAMS UN MEKLĒT ATBALSTU.",
+          "titleEn": "I am allowed to be vulnerable and seek support.",
+          "negativeBelief": "Man vienmēr jābūt stipram un jātiek galā pašam.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāslēpj, ka man ir grūti.",
+              "textEn": "I do not have to hide that I am struggling."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Lūgt palīdzību nav vājuma pazīme.",
+              "textEn": "Asking for help is not a sign of weakness."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu dalīties ar savām sajūtām uzticamā vidē.",
+              "textEn": "I am allowed to share my feelings in a trusted setting."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jāuzņemas viss vienatnē.",
+              "textEn": "I do not have to carry everything alone."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu būt stiprs un vienlaikus atzīt savas robežas.",
+              "textEn": "I can be strong while acknowledging my limits."
+            }
+          ]
+        },
+        {
+          "libraryKey": "5.4",
+          "sortOrder": 4,
+          "titleLv": "ES DRĪKSTU IEKLAUSĪTIES SEV UN SAVĀ ĶERMENĪ.",
+          "titleEn": "I am allowed to listen to myself and my body.",
+          "negativeBelief": "Man jāignorē savas vajadzības un ķermeņa signāli.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu pamanīt nogurumu un atpūsties.",
+              "textEn": "I am allowed to notice fatigue and rest."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Manas ķermeņa sajūtas ir pelnījušas uzmanību.",
+              "textEn": "My bodily sensations deserve attention."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu ievērot savas vajadzības, pirms esmu izsmelts.",
+              "textEn": "I can attend to my needs before I am exhausted."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jāignorē diskomforts, lai izpatiktu citiem.",
+              "textEn": "I do not have to ignore discomfort to please others."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu rūpēties par sevi arī ikdienas sīkumos.",
+              "textEn": "I can care for myself in everyday small ways."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "06",
+      "sortOrder": 5,
+      "titleLv": "Darbs, karjera un pašrealizācija",
+      "titleEn": "Work, Career and Self-Realization",
+      "descriptionLv": "Attiecības ar darbu, kompetenci, sasniegumiem, aicinājumu, produktivitāti un profesionālo identitāti. Atšķir paša cilvēka vēlmes no ārējām gaidām un pašuzspiestām prasībām.",
+      "exploreQuestions": "Ko tev nozīmē būt veiksmīgam profesionālajā dzīvē?\nKas notiktu ar tavu pašvērtējumu, ja darba rezultāti pasliktinātos?\nVai tavs darba temps atbilst tavām vajadzībām un resursiem?\nKuras profesionālās vēlmes ir patiesi tavas, bet kuras nāk no ārējām gaidām?\nKo tu darītu, ja tev nebūtu jāpierāda sava kompetence?",
+      "professionalNotes": "Ne katra intensīva darba slodze ir identitātes uzskata sekas; izvērtē darba vidi, finansiālos apstākļus, vadības prasības un resursus. Izdegšanas vai depresijas pazīmes nevajadzētu reducēt uz uzskatu maiņu.",
+      "trunks": [
+        {
+          "libraryKey": "6.1",
+          "sortOrder": 1,
+          "titleLv": "ES ESMU VĒRTĪGS ARĪ ĀRPUS SAVA DARBA.",
+          "titleEn": "I am valuable beyond my work.",
+          "negativeBelief": "Mana vērtība ir atkarīga no darba rezultātiem.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Darba rezultāti nenosaka visu manu identitāti.",
+              "textEn": "Work results do not define my entire identity."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu atpūsties, nezaudējot profesionālo vērtību.",
+              "textEn": "I am allowed to rest without losing my professional worth."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jābūt produktīvam katru brīdi.",
+              "textEn": "I do not have to be productive every moment."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu kļūdīties un joprojām būt kompetents.",
+              "textEn": "I can make mistakes and still be competent."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man ir dzīve un intereses ārpus profesionālajiem pienākumiem.",
+              "textEn": "I have a life and interests beyond my professional responsibilities."
+            }
+          ]
+        },
+        {
+          "libraryKey": "6.2",
+          "sortOrder": 2,
+          "titleLv": "ES DRĪKSTU MEKLĒT SAVU CEĻU SAVĀ TEMPĀ.",
+          "titleEn": "I am allowed to find my path at my own pace.",
+          "negativeBelief": "Man jāzina savs aicinājums un jāizmanto viss potenciāls.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāzina visas atbildes par savu nākotni.",
+              "textEn": "I do not have to know all the answers about my future."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu izmēģināt dažādus virzienus.",
+              "textEn": "I am allowed to explore different directions."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Mana dzīve nav nepārtraukts pašrealizācijas projekts.",
+              "textEn": "My life does not have to be a constant self-improvement project."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu izvēlēties vienkāršāku ceļu, ja tas man der.",
+              "textEn": "I can choose a simpler path if it suits me."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu mainīt profesionālos mērķus.",
+              "textEn": "I am allowed to change my professional goals."
+            }
+          ]
+        },
+        {
+          "libraryKey": "6.3",
+          "sortOrder": 3,
+          "titleLv": "ES VARU BŪT ATBILDĪGS, SAGLABĀJOT LĪDZSVARU.",
+          "titleEn": "I can be responsible while maintaining balance.",
+          "negativeBelief": "Man jāstrādā vairāk, lai būtu pietiekami labs.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāpārslogo sevi, lai pierādītu centību.",
+              "textEn": "I do not have to overwork to prove my dedication."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu noteikt darba laika un pieejamības robežas.",
+              "textEn": "I am allowed to set boundaries around working hours and availability."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Atpūta palīdz uzturēt ilgtspējīgu darba spēju.",
+              "textEn": "Rest helps sustain my ability to work."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu izvērtēt, kas patiešām ir prioritāte.",
+              "textEn": "I can assess what is truly a priority."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jāuzņemas visi uzdevumi.",
+              "textEn": "I do not have to take on every task."
+            }
+          ]
+        },
+        {
+          "libraryKey": "6.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU MĀCĪTIES NO ATGRIEZENISKĀS SAITES.",
+          "titleEn": "I can learn from feedback.",
+          "negativeBelief": "Kritika un neveiksme pierāda, ka neesmu spējīgs.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Kritika par darbu nav spriedums par mani kā cilvēku.",
+              "textEn": "Criticism of my work is not a judgment of me as a person."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu izvērtēt, kura atgriezeniskā saite ir noderīga.",
+              "textEn": "I can assess which feedback is useful."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Neveiksme var sniegt informāciju nākamajam mēģinājumam.",
+              "textEn": "A setback can provide information for the next attempt."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jāzina viss, lai sāktu.",
+              "textEn": "I do not have to know everything to begin."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu lūgt skaidrību un atbalstu darbā.",
+              "textEn": "I am allowed to ask for clarity and support at work."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "07",
+      "sortOrder": 6,
+      "titleLv": "Nauda, materiālā drošība un labklājība",
+      "titleEn": "Money, Material Security and Well-Being",
+      "descriptionLv": "Naudas nozīme, drošības izjūta, pelnīšana, saņemšana, tērēšana, uzkrāšana un finansiālā patstāvība. Naudas uzskati mijiedarbojas ar reāliem ienākumiem, iespējām, ekonomisko vidi un praktiskām prasmēm.",
+      "exploreQuestions": "Ko nauda tev nozīmē: drošību, brīvību, statusu, izvēli vai ko citu?\nKā tu jūties, kad saņem naudu, prasi samaksu vai pieņem palīdzību?\nKādi ģimenes vēstījumi par naudu tev palikuši atmiņā?\nKuras finansiālās bažas balstās reālos apstākļos un kuras iespējamās prognozēs?\nKā tu vari palielināt savu finansiālo skaidrību ar vienu praktisku soli?",
+      "professionalNotes": "Neuztver finansiālas grūtības kā domāšanas problēmu. Ņem vērā ienākumus, parādsaistības, darba tirgu, aprūpes pienākumus un ekonomisko situāciju. Investīciju, nodokļu un parādu jautājumos vajadzīgs atbilstošs finanšu vai juridiskais speciālists.",
+      "trunks": [
+        {
+          "libraryKey": "7.1",
+          "sortOrder": 1,
+          "titleLv": "ES VARU VEIDOT FINANSIĀLU DROŠĪBU SOLI PA SOLIM.",
+          "titleEn": "I can build financial security step by step.",
+          "negativeBelief": "Man nekad nebūs pietiekami daudz naudas, lai justos droši.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es varu apzināt savus ienākumus, izdevumus un iespējas.",
+              "textEn": "I can understand my income, expenses and options."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jāatrisina visa finansiālā nākotne uzreiz.",
+              "textEn": "I do not have to solve my entire financial future at once."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu veidot uzkrājumu atbilstoši savām iespējām.",
+              "textEn": "I am allowed to build savings within my means."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu meklēt praktiskus risinājumus finansiālām grūtībām.",
+              "textEn": "I can seek practical solutions to financial difficulties."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Mana vērtība nav atkarīga no manas turības.",
+              "textEn": "My worth does not depend on my wealth."
+            }
+          ]
+        },
+        {
+          "libraryKey": "7.2",
+          "sortOrder": 2,
+          "titleLv": "ES DRĪKSTU PELNĪT, SAGLABĀJOT VESELĪGU LĪDZSVARU.",
+          "titleEn": "I am allowed to earn while maintaining a healthy balance.",
+          "negativeBelief": "Man ir jāstrādā līdz spēku izsīkumam, lai nopelnītu.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jānopelna nauda ar sevis izsmelšanu.",
+              "textEn": "I do not have to earn money by exhausting myself."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu prasīt taisnīgu samaksu par savu darbu.",
+              "textEn": "I am allowed to ask for fair payment for my work."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man ir tiesības izvērtēt, vai darba samaksa atbilst ieguldījumam.",
+              "textEn": "I have the right to assess whether pay reflects my contribution."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu attīstīt ienākumus, rūpējoties par saviem resursiem.",
+              "textEn": "I can grow my income while caring for my resources."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Atpūta un finansiāla atbildība var pastāvēt līdzās.",
+              "textEn": "Rest and financial responsibility can coexist."
+            }
+          ]
+        },
+        {
+          "libraryKey": "7.3",
+          "sortOrder": 3,
+          "titleLv": "ES VARU SAŅEMT GODĪGU ATLĪDZĪBU UN PALĪDZĪBU.",
+          "titleEn": "I can receive fair payment and support.",
+          "negativeBelief": "Saņemt naudu vai palīdzību nozīmē kļūt parādā.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu saņemt samaksu par sniegto vērtību.",
+              "textEn": "I am allowed to receive payment for the value I provide."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Palīdzības pieņemšana automātiski nerada parādu.",
+              "textEn": "Accepting help does not automatically create a debt."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu vienoties par skaidriem savstarpējiem nosacījumiem.",
+              "textEn": "I can agree on clear mutual terms."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jājūtas vainīgam par godīgi nopelnītu naudu.",
+              "textEn": "I do not have to feel guilty about money I have fairly earned."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu novērtēt savu darbu un laiku.",
+              "textEn": "I am allowed to value my work and time."
+            }
+          ]
+        },
+        {
+          "libraryKey": "7.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU VEIDOT ATTIECĪBAS, SAGLABĀJOT FINANSIĀLU PATSTĀVĪBU.",
+          "titleEn": "I can build relationships while maintaining financial independence.",
+          "negativeBelief": "Finansiāla tuvība nozīmē zaudēt neatkarību.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu runāt par naudu atklāti un cieņpilni.",
+              "textEn": "I am allowed to talk about money openly and respectfully."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu vienoties par taisnīgu kopīgo izdevumu sadali.",
+              "textEn": "I can agree on a fair sharing of shared expenses."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Tuvība nenozīmē atteikšanos no savas finansiālās balss.",
+              "textEn": "Intimacy does not mean giving up my financial voice."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu veidot savus uzkrājumus un finanšu plānus.",
+              "textEn": "I am allowed to build my own savings and financial plans."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Savstarpēja uzticēšanās var ietvert skaidras vienošanās.",
+              "textEn": "Mutual trust can include clear agreements."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "08",
+      "sortOrder": 7,
+      "titleLv": "Dzīves jēga, pārmaiņas un izvēles",
+      "titleEn": "Meaning, Change and Choices",
+      "descriptionLv": "Dzīves virziens, jēgas izjūta, izvēļu izdarīšana, pārmaiņu pieņemšana un attiecības ar nenoteiktību. Jēga var veidoties arī ikdienas attiecībās, rūpēs, darbībās un mazās izvēlēs, ne tikai vienā lielā aicinājumā.",
+      "exploreQuestions": "Kas šobrīd piešķir tavai dzīvei jēgu, pat ja tas šķiet mazs?\nKā tu pieņem lēmumus, ja nav iespējams zināt iznākumu?\nKādas pārmaiņas tu vēlies un no kurām baidies?\nVai tu salīdzini savu dzīves tempu ar citu cilvēku dzīvi?\nKāds būtu viens mazs solis virzienā, kas tev šķiet nozīmīgs?",
+      "professionalNotes": "Neuzspied pozitīvu jēgas meklēšanu cilvēkam, kurš piedzīvo zaudējumu vai krīzi. Ilgstoša bezcerība, intereses zudums vai domas par paškaitējumu prasa tiešu uzmanību un profesionālu atbalstu.",
+      "trunks": [
+        {
+          "libraryKey": "8.1",
+          "sortOrder": 1,
+          "titleLv": "ES VARU RADĪT JĒGU SAVĀ IKDIENAS DZĪVĒ.",
+          "titleEn": "I can create meaning in my everyday life.",
+          "negativeBelief": "Man jāzina savas dzīves lielais mērķis, lai dzīvotu jēgpilni.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāatrod viens galīgs dzīves aicinājums.",
+              "textEn": "I do not have to find one ultimate life calling."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Arī mazi ikdienas soļi var būt nozīmīgi.",
+              "textEn": "Small everyday steps can also be meaningful."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu mainīt to, kas man šķiet svarīgs.",
+              "textEn": "I am allowed to change what matters to me."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Mana dzīve var būt jēgpilna arī nenoteiktības laikā.",
+              "textEn": "My life can be meaningful even in times of uncertainty."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu novērtēt to, kas man jau ir.",
+              "textEn": "I am allowed to appreciate what I already have."
+            }
+          ]
+        },
+        {
+          "libraryKey": "8.2",
+          "sortOrder": 2,
+          "titleLv": "ES VARU IZDARĪT IZVĒLI UN PIELĀGOTIES TĀLĀK.",
+          "titleEn": "I can make a choice and adapt as I go.",
+          "negativeBelief": "Nepareiza izvēle var sabojāt manu dzīvi.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāparedz visas izvēles sekas.",
+              "textEn": "I do not have to predict every consequence of a choice."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu pieņemt lēmumu, balstoties uz šobrīd zināmo.",
+              "textEn": "I can decide based on what I know now."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu pārskatīt savu izvēli.",
+              "textEn": "I am allowed to reconsider my choice."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Arī neideāla izvēle var sniegt vērtīgu pieredzi.",
+              "textEn": "An imperfect choice can still provide valuable experience."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jāgaida pilnīga pārliecība, lai sāktu.",
+              "textEn": "I do not have to wait for complete certainty to begin."
+            }
+          ]
+        },
+        {
+          "libraryKey": "8.3",
+          "sortOrder": 3,
+          "titleLv": "ES VARU PAKĀPENISKI PIELĀGOTIES PĀRMAIŅĀM.",
+          "titleEn": "I can adapt to change gradually.",
+          "negativeBelief": "Pārmaiņas apdraud manu stabilitāti.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu dot sev laiku pārmaiņu laikā.",
+              "textEn": "I am allowed to give myself time during change."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jāzina, kā viss beigsies.",
+              "textEn": "I do not have to know how everything will turn out."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu saglabāt sev svarīgo, mainoties apstākļiem.",
+              "textEn": "I can preserve what matters to me as circumstances change."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu lūgt atbalstu pārejas posmā.",
+              "textEn": "I am allowed to ask for support during a transition."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Pārmaiņas var nest arī jaunas iespējas.",
+              "textEn": "Change can also bring new opportunities."
+            }
+          ]
+        },
+        {
+          "libraryKey": "8.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU DZĪVOT SAVĀ TEMPĀ UN SAVĀ LAIKĀ.",
+          "titleEn": "I can live at my own pace and in my own time.",
+          "negativeBelief": "Es atpalieku no citiem un esmu nokavējis savu iespēju.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāseko citu cilvēku dzīves grafikam.",
+              "textEn": "I do not have to follow other people's timelines."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu sākt no jauna jebkurā dzīves posmā.",
+              "textEn": "I am allowed to begin again at any stage of life."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Mana dzīve nav sacensība ar citiem.",
+              "textEn": "My life is not a competition with others."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu novērtēt savu ceļu, arī ja tas atšķiras.",
+              "textEn": "I can value my path even when it is different."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jāsteidzas tikai tāpēc, ka citi steidzas.",
+              "textEn": "I do not have to hurry just because others do."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "09",
+      "sortOrder": 8,
+      "titleLv": "Robežas, vara un atbildība",
+      "titleEn": "Boundaries, Agency and Responsibility",
+      "descriptionLv": "Personīgās robežas, spēja izvēlēties, teikt nē, uzņemties savu atbildību un atšķirt to no citu cilvēku atbildības. Robežas nav veids, kā kontrolēt citus, bet skaidrība par savu rīcību un pieļaujamo attieksmi.",
+      "exploreQuestions": "Kurās situācijās tev ir visgrūtāk pateikt nē?\nKā tu atšķir savu atbildību no otra cilvēka atbildības?\nKas, tavuprāt, notiks, ja skaidri paudīsi savas robežas?\nVai tu mēģini kontrolēt citu rīcību, lai justos drošāk?\nKā izskatītos noteikta, bet cieņpilna rīcība šajā situācijā?",
+      "professionalNotes": "Robežu noteikšana ne vienmēr ir droša vai iespējama attiecībās ar vardarbīgu vai kontrolējošu cilvēku. Šādās situācijās jāizvērtē risks un jāmeklē atbilstošs atbalsts. Atbildības nodalīšana nenozīmē izvairīšanos no paša rīcības sekām.",
+      "trunks": [
+        {
+          "libraryKey": "9.1",
+          "sortOrder": 1,
+          "titleLv": "ES DRĪKSTU TEIKT NĒ, SAGLABĀJOT CIEŅU.",
+          "titleEn": "I am allowed to say no while remaining respectful.",
+          "negativeBelief": "Man nav tiesību atteikt, jo citi būs vīlušies.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Atteikums nenozīmē, ka esmu slikts cilvēks.",
+              "textEn": "Saying no does not mean I am a bad person."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu izvērtēt, vai man ir resursu palīdzēt.",
+              "textEn": "I am allowed to assess whether I have the capacity to help."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāsniedz gari paskaidrojumi par katru atteikumu.",
+              "textEn": "I do not have to give lengthy explanations for every refusal."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Citu vilšanās ne vienmēr nozīmē, ka esmu rīkojies nepareizi.",
+              "textEn": "Another person's disappointment does not always mean I acted wrongly."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu būt laipns un vienlaikus noteikts.",
+              "textEn": "I can be kind and firm at the same time."
+            }
+          ]
+        },
+        {
+          "libraryKey": "9.2",
+          "sortOrder": 2,
+          "titleLv": "ES VARU PIEŅEMT SAVUS LĒMUMUS UN UZŅEMTIES PAR TIEM ATBILDĪBU.",
+          "titleEn": "I can make my own decisions and take responsibility for them.",
+          "negativeBelief": "Citiem ir tiesības noteikt, kā man jādzīvo.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu izvēlēties, kas man ir piemērots.",
+              "textEn": "I am allowed to choose what is right for me."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu uzklausīt padomu, nezaudējot savu lēmuma brīvību.",
+              "textEn": "I can listen to advice without losing my freedom to decide."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāatdod citiem kontrole pār savu dzīvi.",
+              "textEn": "I do not have to give others control over my life."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es varu uzņemties savas izvēles sekas, sevi nenosodot.",
+              "textEn": "I can take responsibility for my choices without condemning myself."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es drīkstu mainīt vienošanos, ja apstākļi būtiski mainās.",
+              "textEn": "I am allowed to revisit an agreement when circumstances change significantly."
+            }
+          ]
+        },
+        {
+          "libraryKey": "9.3",
+          "sortOrder": 3,
+          "titleLv": "ES VARU UZŅEMTIES SAVU, ATSTĀJOT CITIEM VIŅU ATBILDĪBU.",
+          "titleEn": "I can take responsibility for my part and leave others theirs.",
+          "negativeBelief": "Es esmu atbildīgs par citu cilvēku rīcību un izvēlēm.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es atbildu par savu rīcību, nevis par visu citu izvēlēm.",
+              "textEn": "I am responsible for my actions, not everyone else's choices."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es nevaru piespiest citu cilvēku mainīties.",
+              "textEn": "I cannot force another person to change."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu noteikt, kā reaģēšu uz citu rīcību.",
+              "textEn": "I am allowed to decide how I respond to others' behavior."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Palīdzība nenozīmē pārņemt otra cilvēka pienākumus.",
+              "textEn": "Helping does not mean taking over another person's responsibilities."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu atvainoties par savu daļu, neuzņemoties svešu vainu.",
+              "textEn": "I can apologize for my part without taking on someone else's blame."
+            }
+          ]
+        },
+        {
+          "libraryKey": "9.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU BŪT NOTEIKTS, NEKONTROLĒJOT CITUS.",
+          "titleEn": "I can be assertive without controlling others.",
+          "negativeBelief": "Lai mani respektētu, man jābūt stingram vai jādominē.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu skaidri paust savas robežas.",
+              "textEn": "I am allowed to state my boundaries clearly."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man nav jāiebiedē citi, lai mani sadzirdētu.",
+              "textEn": "I do not have to intimidate others to be heard."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es varu aizstāvēt sevi, saglabājot cieņu.",
+              "textEn": "I can stand up for myself while remaining respectful."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu pārtraukt sarunu, kurā mani pazemo.",
+              "textEn": "I am allowed to end a conversation in which I am being humiliated."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Cieņa attiecībās ir abpusēja, nevis izcīnīta ar varu.",
+              "textEn": "Respect in relationships is mutual, not won through power."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "libraryKey": "10",
+      "sortOrder": 9,
+      "titleLv": "Krīzes, traumatiska pieredze un smagi dzīves notikumi",
+      "titleEn": "Crisis, Traumatic Experiences and Severe Life Events",
+      "descriptionLv": "Šī nodaļa ir orientējošs materiāls, nevis trauma vai psihiskās veselības stāvokļu ārstēšanas protokols. Vispirms izvērtē pašreizējo drošību, vajadzības un profesionālā atbalsta pieejamību. Vardarbības un kara gadījumā atbildība par nodarīto pieder varmākam vai agresoram, nevis cietušajam.",
+      "exploreQuestions": "Vai šobrīd esi drošībā? Vai kāds turpina tevi apdraudēt?\nVai tev ir domas par pašnāvību vai paškaitējumu? Vai ir plāns, nodoms vai pieejami līdzekļi?\nKas šobrīd palīdz tev palikt drošībā un kurš var būt tev blakus?\nVai tev ir pieejams psihologs, psihoterapeits, psihiatrs, ārsts vai krīzes atbalsts?\nKāds ir viens praktisks solis, kas palielinātu drošību šodien?",
+      "professionalNotes": "Fiziska un seksuāla vardarbība: prioritāte ir tūlītēja drošība, medicīniska palīdzība un specializēts atbalsts. Pašnāvnieciskas domas: uzdod tiešus jautājumus un nepaļaujies uz uzskatu maiņu kā krīzes risinājumu. Ja pastāv tūlītējs risks, neatstāj cilvēku vienu, iesaisti neatliekamo palīdzību (Latvijā 112 vai 113) un uzticamu atbalsta personu. Kara pieredze un depresija var prasīt traumas un psihiskās veselības speciālistu iesaisti. Neveic piespiedu atmiņu atgūšanu, ekspozīciju vai traumas apstrādi ārpus savas kompetences.",
+      "trunks": [
+        {
+          "libraryKey": "10.1",
+          "sortOrder": 1,
+          "titleLv": "MAN IR TIESĪBAS UZ DROŠĪBU UN AIZSARDZĪBU.",
+          "titleEn": "I have the right to safety and protection.",
+          "negativeBelief": "Es neesmu drošībā un nespēju sevi aizsargāt.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Notikušajā vardarbībā es neesmu vainīgs.",
+              "textEn": "I am not to blame for the abuse that happened."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man ir tiesības meklēt drošu vietu un atbalstu.",
+              "textEn": "I have the right to seek safety and support."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu noteikt, kam uzticēt savu stāstu.",
+              "textEn": "I am allowed to choose whom I tell my story to."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav pienākuma uzturēt kontaktu ar cilvēku, kurš mani apdraud.",
+              "textEn": "I am not obliged to stay in contact with someone who puts me at risk."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Mana drošība ir svarīgāka par citu cilvēku ērtībām.",
+              "textEn": "My safety matters more than other people's convenience."
+            }
+          ]
+        },
+        {
+          "libraryKey": "10.2",
+          "sortOrder": 2,
+          "titleLv": "VARDARBĪBA NAV MANA VAINA.",
+          "titleEn": "The abuse was not my fault.",
+          "negativeBelief": "Notikušajā seksuālajā vardarbībā esmu vainīgs vai vainīga.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Piekrišanai jābūt brīvai un nepiespiestai.",
+              "textEn": "Consent must be freely given and uncoerced."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man ir tiesības uz ķermeņa autonomiju.",
+              "textEn": "I have the right to bodily autonomy."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Mana reakcija notikuma brīdī nenosaka manu vainu.",
+              "textEn": "My reaction during the event does not determine my responsibility."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es drīkstu noteikt savas robežas un tempu.",
+              "textEn": "I am allowed to set my boundaries and pace."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jāstāsta detaļas, lai mana pieredze tiktu uztverta nopietni.",
+              "textEn": "I do not have to share details for my experience to be taken seriously."
+            }
+          ]
+        },
+        {
+          "libraryKey": "10.3",
+          "sortOrder": 3,
+          "titleLv": "ES DRĪKSTU MEKLĒT PALĪDZĪBU UN PIEŅEMT ATBALSTU.",
+          "titleEn": "I am allowed to seek help and accept support.",
+          "negativeBelief": "Es esmu viens un man nav palīdzības iespēju.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Man nav jāpaliek vienam ar smagām domām.",
+              "textEn": "I do not have to face overwhelming thoughts alone."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es varu pateikt uzticamam cilvēkam, ka man ir grūti.",
+              "textEn": "I can tell someone I trust that I am struggling."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Palīdzības lūgšana ir iespējams nākamais solis.",
+              "textEn": "Asking for help can be a next step."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Man nav jāatrisina viss vienā brīdī.",
+              "textEn": "I do not have to solve everything at once."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Mana dzīvība un drošība ir svarīga arī krīzes brīdī.",
+              "textEn": "My life and safety matter, even in a crisis."
+            }
+          ]
+        },
+        {
+          "libraryKey": "10.4",
+          "sortOrder": 4,
+          "titleLv": "ES VARU MEKLĒT DROŠĪBU ŠODIENAS REALITĀTĒ.",
+          "titleEn": "I can seek safety in the reality of today.",
+          "negativeBelief": "Pēc kara pieredzes pasaule vienmēr būs nedroša.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Es drīkstu atšķirt pašreizējo apdraudējumu no pagātnes atmiņām.",
+              "textEn": "I am allowed to distinguish present danger from memories of the past."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Man ir tiesības uz praktisku aizsardzību un atbalstu.",
+              "textEn": "I have the right to practical protection and support."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Es drīkstu atjaunot ikdienas ritmu savā tempā.",
+              "textEn": "I am allowed to rebuild daily routines at my own pace."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Es neesmu vainīgs par to, ka izdzīvoju.",
+              "textEn": "I am not to blame for surviving."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Man nav jābūt stipram visu laiku.",
+              "textEn": "I do not have to be strong all the time."
+            }
+          ]
+        },
+        {
+          "libraryKey": "10.5",
+          "sortOrder": 5,
+          "titleLv": "ES VARU PIEŅEMT ATBALSTU UN VIRZĪTIES MAZIEM SOĻIEM.",
+          "titleEn": "I can accept support and move forward one step at a time.",
+          "negativeBelief": "Es nekad vairs nejutīšos labāk.",
+          "branches": [
+            {
+              "sortOrder": 1,
+              "textLv": "Tas, ka šobrīd ir grūti, nenosaka visu manu nākotni.",
+              "textEn": "The fact that things are hard now does not define my entire future."
+            },
+            {
+              "sortOrder": 2,
+              "textLv": "Es drīkstu meklēt profesionālu palīdzību.",
+              "textEn": "I am allowed to seek professional help."
+            },
+            {
+              "sortOrder": 3,
+              "textLv": "Man nav jāizliekas, ka jūtos labi.",
+              "textEn": "I do not have to pretend that I am okay."
+            },
+            {
+              "sortOrder": 4,
+              "textLv": "Atveseļošanās nav sacensība un tai nav viena termiņa.",
+              "textEn": "Recovery is not a race and has no single deadline."
+            },
+            {
+              "sortOrder": 5,
+              "textLv": "Es varu pieņemt vienu mazu atbalstošu soli šodien.",
+              "textEn": "I can take one small supportive step today."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "trunkCount": 41
+}

@@ -139,6 +139,18 @@ export async function clientSetPasswordAction(
     return { error: copy.signInFailed };
   }
 
+  try {
+    const { linkIdentityTestSubmissionsForClient } = await import(
+      "@/lib/development/linking"
+    );
+    await linkIdentityTestSubmissionsForClient({
+      clientId: user.clientId,
+      email: result.email,
+    });
+  } catch (error) {
+    console.error("[portal] identity test linking failed", error);
+  }
+
   await establishClientSession(user);
   redirect("/client/dashboard");
 }

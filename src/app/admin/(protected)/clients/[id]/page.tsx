@@ -5,6 +5,8 @@ import { BookingHistorySection } from "@/components/admin/client/BookingHistoryS
 import { ClientManagementPanel } from "@/components/admin/client/ClientManagementPanel";
 import { ClientOverview, ClientProfileHeader } from "@/components/admin/client/ClientOverview";
 import { ClientTimelineSection } from "@/components/admin/client/ClientTimelineSection";
+import { DevelopmentWorkCard } from "@/components/admin/client/DevelopmentWorkCard";
+import { getAdminDevelopmentCard } from "@/lib/development/repository";
 import { PractitionerNotesSection } from "@/components/admin/client/PractitionerNotesSection";
 import { ProgressTrackingSection } from "@/components/admin/client/ProgressTrackingSection";
 import { ReactionAnalysisSection } from "@/components/admin/client/ReactionAnalysisSection";
@@ -29,9 +31,10 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
     notFound();
   }
 
-  const [transformationOverview, sharedReflections] = await Promise.all([
+  const [transformationOverview, sharedReflections, developmentCard] = await Promise.all([
     getAdminTransformationOverview(id),
     getAdminSharedSessionReflections(id),
+    getAdminDevelopmentCard(id),
   ]);
 
   return (
@@ -40,6 +43,7 @@ export default async function ClientProfilePage({ params }: ClientProfilePagePro
       <ClientManagementPanel client={client} />
       <ClientOverview client={client} />
       <TransformationOverviewSection overview={transformationOverview} />
+      <DevelopmentWorkCard clientId={client.id} card={developmentCard} />
       <PackageManagementSection clientId={client.id} packages={client.packages} />
       <BookingHistorySection bookings={client.bookings} />
       <ClientSessionsSection
