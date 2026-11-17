@@ -64,6 +64,15 @@ function joinParagraphs(parts: string[], joiner?: string): string {
   return cleaned.join(` ${joiner ?? ""} `).replace(/\s+/g, " ").trim();
 }
 
+/**
+ * Apvieno vairākus apstiprinātus portretu fragmentus vienā rindkopā:
+ * deduplicē normalizētus tekstus un savieno ar atstarpi. Jaunu saturu
+ * neizdod - tukši fragmenti vienkārši izkrīt.
+ */
+export function composeFragments(texts: string[]): string {
+  return joinParagraphs(dedupe(texts, (t) => t));
+}
+
 function clusterParagraph(
   cluster: Cluster,
   field: "portraitNow" | "portraitFuture",

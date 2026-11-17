@@ -9,7 +9,6 @@ import {
   loadBeliefsForGeneration,
   loadConnectors,
   loadConsentText,
-  loadLinkedTrunks,
   loadSafetyBlock,
 } from "./repository";
 import { buildResultEmail, buildEmailThemeSections } from "./email-templates";
@@ -84,13 +83,12 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     where: { id: submission.id }, data: { status: "VALIDATED" },
   });
 
-  const [beliefs, { texts: connectors, snapshot: connectorSnapshot }, safetyBlock, consentText, linkedTrunks] =
+  const [beliefs, { texts: connectors, snapshot: connectorSnapshot }, safetyBlock, consentText] =
     await Promise.all([
       loadBeliefsForGeneration(payload.beliefIds, payload.locale),
       loadConnectors(payload.locale),
       loadSafetyBlock(payload.locale),
       loadConsentText(payload.locale),
-      loadLinkedTrunks(payload.beliefIds, payload.locale),
     ]);
 
   const { portraitNow, portraitFuture, safetyTriggered } = composePortraits({
@@ -98,15 +96,20 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     connectors,
   });
 
-  // Tēmu sadaļas atrisinātas ģenerēšanas brīdī un saglabātas snapshotā -
-  // atkārtota nosūtīšana neatkarīgi no vēlākām kartējuma izmaiņām.
+  // Tēmu portreti no apstiprinātajiem portrait fragmentiem - saglabājas
+  // snapshotā, lai atkārtotā sūtīšana atgrieztu identisku saturu.
   const emailThemes = buildEmailThemeSections(
     beliefs.map((b) => ({
       themeName: b.themeName,
-      statement: b.negativeBelief,
-      directions: linkedTrunks.get(b.id) ?? [],
+      portraitNow: b.portraitNow,
+      portraitFuture: b.portraitFuture,
     })),
   );
+  for (const b of beliefs) {
+    if (!b.portraitNow || !b.portraitFuture) {
+      console.warn("[identity] missing portrait fragment", { beliefId: b.id, stableKey: b.stableKey });
+    }
+  }
 
   const snapshot = buildSnapshot({
     locale: payload.locale,
@@ -265,17 +268,11 @@ export async function resendResultEmail(resultId: string): Promise<SubmitResult>
   const portraitNow = decryptField(result.portraitNow);
   const portraitFuture = decryptField(result.portraitFuture);
   const bookingPath = result.locale === "en" ? "/book" : `/${result.locale}/book`;
-  // Tēmu pārskats: jaunajiem rezultātiem no snapshot (identiski oriģinālam,
-  // neatkarīgi no vēlākām kartējuma izmaiņām); vecajiem bez emailThemes -
-  // fallback uz pašreizējo BeliefTrunkLink kartējumu.
+  // Tēmu pārskats: jaunajiem rezultātiem no snapshot (identiski oriģinālam);
+  // vecajiem bez emailThemes - atjaunojam no snapshot saglabātajiem
+  // portretu fragmentiem (nekādas dzīvās vaicājumu atkarības).
   const snapshot = result.snapshot as GenerationSnapshot | null;
   const snapshotBeliefs = snapshot?.beliefs ?? [];
-  const resendTrunks = snapshot?.emailThemes
-    ? null
-    : await loadLinkedTrunks(
-        snapshotBeliefs.map((b) => b.beliefId),
-        result.locale,
-      );
   const emailContent = buildResultEmail({
     locale: result.locale,
     portraitNow,
@@ -288,8 +285,8 @@ export async function resendResultEmail(resultId: string): Promise<SubmitResult>
         ? buildEmailThemeSections(
             snapshotBeliefs.map((b) => ({
               themeName: b.theme.name,
-              statement: b.negativeBelief,
-              directions: resendTrunks?.get(b.beliefId) ?? [],
+              portraitNow: b.portraitNow,
+              portraitFuture: b.portraitFuture,
             })),
           )
         : undefined),

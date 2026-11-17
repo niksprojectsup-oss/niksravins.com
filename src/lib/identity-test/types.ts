@@ -65,16 +65,13 @@ export type ConnectorTexts = {
   closingFuture?: string;
 };
 
-/** Pozitīvais pamatuzskats + attīstības zari (no BeliefTrunkLink kartējuma). */
-export type EmailDirection = { trunkId: string; title: string; branches: string[] };
-
 /** Rezultāta e-pasta tēmu līmeņa pārskata sadaļa. */
 export type EmailThemeSection = {
   name: string;
-  /** Lietotāja izvēlētie apgalvojumi šajā tēmā (now karte). */
-  statements: string[];
-  /** Pozitīvie pamatuzskati + attīstības zari šajā tēmā (future karte). */
-  directions: EmailDirection[];
+  /** Apvienots portreta apraksts no tēmas izvēlēto apgalvojumu portraitNow fragmentiem. */
+  now: string;
+  /** Apvienots apraksts no tēmas izvēlēto apgalvojumu portraitFuture fragmentiem. */
+  future: string;
 };
 
 export type GenerationSnapshot = {

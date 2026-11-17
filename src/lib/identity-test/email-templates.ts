@@ -1,9 +1,10 @@
 import { wrapEmailHtml } from "@/lib/email/templates/layout";
 import { getAppBaseUrl } from "@/lib/url";
 import { siteConfig } from "@/content/site";
-import type { EmailDirection, EmailThemeSection } from "./types";
+import type { EmailThemeSection } from "./types";
+import { composeFragments } from "./compose";
 
-export type { EmailDirection, EmailThemeSection };
+export type { EmailThemeSection };
 
 const BOOKING_FALLBACK = "/book";
 
@@ -30,28 +31,19 @@ const SANS = "'Helvetica Neue',Arial,Helvetica,sans-serif";
 // Rezultāta e-pasts iet tikai `lv` vai `en` - localeFallbackChain → [locale, en, lv].
 const CHROME: Record<
   string,
-  {
-    eyebrow: string; heading: string; sessionHeading: string; signoff: string;
-    nowThemesLabel: string; futureThemesLabel: string; directionsMoreNote: string;
-  }
+  { eyebrow: string; heading: string; sessionHeading: string; signoff: string }
 > = {
   lv: {
     eyebrow: "TAVS PERSONĪGAIS REZULTĀTS",
     heading: "Ieraudzīt, kas tevi vada.",
     sessionHeading: "Vai esi gatavs spert nākamo soli?",
     signoff: "Ar sirsnīgiem sveicieniem,",
-    nowThemesLabel: "Tēmas, kurās tu sevi atpazini",
-    futureThemesLabel: "Tavi iespējamie attīstības virzieni",
-    directionsMoreNote: "Parādīti daži no saistītajiem attīstības virzieniem.",
   },
   en: {
     eyebrow: "YOUR PERSONAL RESULT",
     heading: "See what drives you.",
     sessionHeading: "Ready to take the next step?",
     signoff: "With warm regards,",
-    nowThemesLabel: "Themes where you recognized yourself",
-    futureThemesLabel: "Your possible directions of growth",
-    directionsMoreNote: "A few of the related growth directions are shown.",
   },
 };
 
@@ -75,101 +67,49 @@ function paragraphs(text: string): string {
     .join("");
 }
 
-function portraitParagraphs(text: string): string {
-  return text
-    .split(/\n{2,}/)
-    .map((p) => p.trim())
-    .filter(Boolean)
-    .map(
-      (p) =>
-        `<p style="margin:14px 0 0;font-family:${SERIF};font-size:16.5px;line-height:1.85;color:${E.ink};">${escapeHtml(p).replace(/\n/g, "<br />")}</p>`,
-    )
-    .join("");
-}
-
 /**
- * Grupē izvēlētos uzskatus pa tēmām rezultāta e-pasta tēmu sadaļām.
- * Pozitīvie pamatuzskati deduplicēti globāli pēc trunkId (vairāki izvēlēti
- * uzskati var vest pie viena stumbra).
+ * Grupē izvēlētos uzskatus pa tēmām un no apstiprinātajiem portretu
+ * fragmentiem (portraitNow/portraitFuture) apvieno vienu aprakstu katrai
+ * kartei. Jaunu interpretāciju neveido - tikai esošu fragmentu dedupe+join.
+ * Tukši fragmenti izkrīt; tēma bez satura sadaļā nerāda.
  */
 export function buildEmailThemeSections(
-  beliefs: { themeName: string; statement: string; directions: EmailDirection[] }[],
+  beliefs: { themeName: string; portraitNow: string; portraitFuture: string }[],
 ): EmailThemeSection[] {
-  const byTheme = new Map<string, EmailThemeSection>();
-  const seenTrunks = new Set<string>();
+  const byTheme = new Map<string, { name: string; nows: string[]; futures: string[] }>();
   for (const b of beliefs) {
     let sec = byTheme.get(b.themeName);
     if (!sec) {
-      sec = { name: b.themeName, statements: [], directions: [] };
+      sec = { name: b.themeName, nows: [], futures: [] };
       byTheme.set(b.themeName, sec);
     }
-    if (b.statement && !sec.statements.includes(b.statement)) {
-      sec.statements.push(b.statement);
-    }
-    for (const d of b.directions) {
-      if (seenTrunks.has(d.trunkId)) continue;
-      seenTrunks.add(d.trunkId);
-      sec.directions.push(d);
-    }
+    if (b.portraitNow) sec.nows.push(b.portraitNow);
+    if (b.portraitFuture) sec.futures.push(b.portraitFuture);
   }
-  return [...byTheme.values()];
+  return [...byTheme.values()]
+    .map((t) => ({ name: t.name, now: composeFragments(t.nows), future: composeFragments(t.futures) }))
+    .filter((t) => t.now || t.future);
 }
 
 function themeSectionHtml(input: {
-  label: string;
   themes: EmailThemeSection[];
   mode: "now" | "future";
-  moreNote?: string;
 }): string {
-  const items = input.themes
+  return input.themes
     .map((t) => {
-      const rows =
-        input.mode === "now"
-          ? t.statements
-              .map(
-                (s) =>
-                  `<p style="margin:8px 0 0;font-family:${SERIF};font-size:14px;line-height:1.7;font-style:italic;color:${E.inkMuted};">${escapeHtml(s)}</p>`,
-              )
-              .join("")
-          : t.directions
-              .map(
-                (d) =>
-                  `<p style="margin:10px 0 0;font-family:${SERIF};font-size:14.5px;line-height:1.7;color:${E.ink};">${escapeHtml(d.title)}</p>` +
-                  d.branches
-                    .slice(0, 3)
-                    .map(
-                      (br) =>
-                        `<p style="margin:4px 0 0;font-family:${SANS};font-size:13px;line-height:1.65;color:${E.inkMuted};">&middot;&nbsp;&nbsp;${escapeHtml(br)}</p>`,
-                    )
-                    .join(""),
-              )
-              .join("");
-      if (!rows) return "";
-      return `<div style="margin-top:18px;">
-        <p style="margin:0;font-family:${SERIF};font-size:14.5px;font-weight:600;color:${E.ink};">${escapeHtml(t.name)}</p>
-        ${rows}
+      const body = input.mode === "now" ? t.now : t.future;
+      if (!body) return "";
+      return `<div style="margin-top:20px;">
+        <p style="margin:0;font-family:${SERIF};font-size:15px;font-weight:600;color:${E.ink};">${escapeHtml(t.name)}</p>
+        <p style="margin:9px 0 0;font-family:${SERIF};font-size:15px;line-height:1.8;color:${E.ink};">${escapeHtml(body)}</p>
       </div>`;
     })
     .filter(Boolean)
     .join("");
-  if (!items) return "";
-  const hasMore =
-    input.mode === "future" &&
-    input.themes.some((t) => t.directions.some((d) => d.branches.length > 3));
-  const moreNote =
-    hasMore && input.moreNote
-      ? `<p style="margin:18px 0 0;font-family:${SERIF};font-size:12.5px;font-style:italic;line-height:1.7;color:${E.inkSubtle};">${escapeHtml(input.moreNote)}</p>`
-      : "";
-  return `
-        <div style="margin-top:26px;padding-top:24px;border-top:1px solid ${E.cardBorder};">
-          <div style="font-family:${SANS};font-size:10px;font-weight:700;letter-spacing:2.8px;color:${E.accent};">${escapeHtml(input.label)}</div>
-          ${items}${moreNote}
-        </div>`;
 }
 
 function portraitCard(input: {
   label: string;
-  body: string;
   iconUrl: string;
   iconBg: string;
   cardBg: string;
@@ -189,7 +129,7 @@ function portraitCard(input: {
       </td>
       <td valign="top" style="padding:32px 34px 34px 26px;border-left:1px solid ${E.cardBorder};">
         <div style="font-family:${SANS};font-size:10px;font-weight:700;letter-spacing:2.8px;color:${E.accent};">${escapeHtml(input.label)}</div>
-        ${portraitParagraphs(input.body)}${input.extra ?? ""}
+        ${input.extra ?? ""}
       </td>
     </tr>
   </table>`;
@@ -272,11 +212,10 @@ export function buildResultEmail(input: {
       <td style="padding:44px 0 0;">
         ${portraitCard({
           label: input.texts.nowTitle,
-          body: input.portraitNow,
           iconUrl: `${base}/email/icon-portrait-now.png`,
           iconBg: E.iconNowBg,
           cardBg: E.surface,
-          extra: themeSectionHtml({ label: chrome.nowThemesLabel, themes: input.themes ?? [], mode: "now" }),
+          extra: themeSectionHtml({ themes: input.themes ?? [], mode: "now" }),
         })}
       </td>
     </tr>
@@ -285,16 +224,10 @@ export function buildResultEmail(input: {
       <td>
         ${portraitCard({
           label: input.texts.futureTitle,
-          body: input.portraitFuture,
           iconUrl: `${base}/email/icon-portrait-future.png`,
           iconBg: E.iconFutureBg,
           cardBg: E.futureCard,
-          extra: themeSectionHtml({
-            label: chrome.futureThemesLabel,
-            themes: input.themes ?? [],
-            mode: "future",
-            moreNote: chrome.directionsMoreNote,
-          }),
+          extra: themeSectionHtml({ themes: input.themes ?? [], mode: "future" }),
         })}
       </td>
     </tr>
@@ -336,16 +269,13 @@ export function buildResultEmail(input: {
     </tr>`;
 
   const themes = input.themes ?? [];
-  const nowThemesText = themes
-    .map((t) => [t.name, ...t.statements.map((s) => `- ${s}`)].join("\n"))
-    .join("\n\n");
-  const futureThemesText = themes
-    .map((t) => [
-      t.name,
-      ...t.directions.map((d) => [d.title, ...d.branches.slice(0, 3).map((br) => `  - ${br}`)].join("\n")),
-    ].join("\n"))
-    .join("\n\n");
-  const futureHasMore = themes.some((t) => t.directions.some((d) => d.branches.length > 3));
+  const themeBlock = (field: "now" | "future") =>
+    themes
+      .map((t) => (t[field] ? `${t.name}\n${t[field]}` : ""))
+      .filter(Boolean)
+      .join("\n\n");
+  const nowThemesText = themeBlock("now");
+  const futureThemesText = themeBlock("future");
 
   const text = [
     input.texts.greeting,
@@ -353,14 +283,10 @@ export function buildResultEmail(input: {
     input.texts.intro,
     "",
     input.texts.nowTitle,
-    input.portraitNow,
-    ...(nowThemesText ? ["", chrome.nowThemesLabel, nowThemesText] : []),
+    nowThemesText,
     "",
     input.texts.futureTitle,
-    input.portraitFuture,
-    ...(futureThemesText
-      ? ["", chrome.futureThemesLabel, futureThemesText, ...(futureHasMore ? [chrome.directionsMoreNote] : [])]
-      : []),
+    futureThemesText,
     "",
     input.texts.disclaimer,
     "",

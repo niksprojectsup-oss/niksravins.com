@@ -128,34 +128,6 @@ export async function loadBeliefsForGeneration(
   });
 }
 
-/**
- * Apstiprinātās BeliefTrunkLink sasaistes: uzskats → kartotēkas pozitīvais
- * stumbrs + zari. Rezultāta e-pasta "attīstības virzieni" sadaļai.
- * Locale: lv → titleLv/textLv; citas → titleEn/textEn ar LV fallback.
- */
-export async function loadLinkedTrunks(
-  beliefIds: string[],
-  locale: string,
-): Promise<Map<string, { trunkId: string; title: string; branches: string[] }[]>> {
-  if (beliefIds.length === 0) return new Map();
-  const links = await prisma.beliefTrunkLink.findMany({
-    where: { beliefId: { in: beliefIds } },
-    include: { trunk: { include: { branches: { orderBy: { sortOrder: "asc" } } } } },
-  });
-  const pick = (lv: string, en: string) => (locale === "lv" ? lv : en || lv);
-  const map = new Map<string, { trunkId: string; title: string; branches: string[] }[]>();
-  for (const l of links) {
-    const list = map.get(l.beliefId) ?? [];
-    list.push({
-      trunkId: l.trunkId,
-      title: pick(l.trunk.titleLv, l.trunk.titleEn),
-      branches: l.trunk.branches.map((br) => pick(br.textLv, br.textEn)).filter(Boolean),
-    });
-    map.set(l.beliefId, list);
-  }
-  return map;
-}
-
 /** Savienotājfrāzes (PUBLISHED) ar locale fallback. */
 export async function loadConnectors(locale: string): Promise<{ texts: ConnectorTexts; snapshot: Record<string, string> }> {
   const connectors = await prisma.identityConnector.findMany({
