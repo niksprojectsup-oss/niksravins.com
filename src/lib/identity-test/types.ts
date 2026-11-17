@@ -65,10 +65,28 @@ export type ConnectorTexts = {
   closingFuture?: string;
 };
 
+/** Pozitīvais pamatuzskats + attīstības zari (no BeliefTrunkLink kartējuma). */
+export type EmailDirection = { trunkId: string; title: string; branches: string[] };
+
+/** Rezultāta e-pasta tēmu līmeņa pārskata sadaļa. */
+export type EmailThemeSection = {
+  name: string;
+  /** Lietotāja izvēlētie apgalvojumi šajā tēmā (now karte). */
+  statements: string[];
+  /** Pozitīvie pamatuzskati + attīstības zari šajā tēmā (future karte). */
+  directions: EmailDirection[];
+};
+
 export type GenerationSnapshot = {
   generatedAt: string;
   locale: string;
   contentVersion: number;
+  /**
+   * Ģenerēšanas brīdī atrisinātās e-pasta tēmu sadaļas. Saglabātas snapshotā,
+   * lai vēsturiskā rezultāta atkārtotā sūtīšana neatkarīgā no vēlākām
+   * BeliefTrunkLink kartējuma izmaiņām atgrieztu identisku saturu.
+   */
+  emailThemes?: EmailThemeSection[];
   beliefs: {
     beliefId: string;
     stableKey: string;

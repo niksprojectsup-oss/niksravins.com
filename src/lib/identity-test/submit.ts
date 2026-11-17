@@ -9,13 +9,14 @@ import {
   loadBeliefsForGeneration,
   loadConnectors,
   loadConsentText,
+  loadLinkedTrunks,
   loadSafetyBlock,
 } from "./repository";
-import { buildResultEmail } from "./email-templates";
+import { buildResultEmail, buildEmailThemeSections } from "./email-templates";
 import { validateBeliefSelection, validateSubmitPayload } from "./validate";
 import { LOCALES } from "@/lib/i18n/config";
 import { getAppBaseUrl } from "@/lib/url";
-import type { SubmitPayload, SubmitResult } from "./types";
+import type { GenerationSnapshot, SubmitPayload, SubmitResult } from "./types";
 
 const RESULT_TEXT_FIELDS = [
   "subject", "greeting", "intro", "nowTitle", "futureTitle",
@@ -83,12 +84,13 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     where: { id: submission.id }, data: { status: "VALIDATED" },
   });
 
-  const [beliefs, { texts: connectors, snapshot: connectorSnapshot }, safetyBlock, consentText] =
+  const [beliefs, { texts: connectors, snapshot: connectorSnapshot }, safetyBlock, consentText, linkedTrunks] =
     await Promise.all([
       loadBeliefsForGeneration(payload.beliefIds, payload.locale),
       loadConnectors(payload.locale),
       loadSafetyBlock(payload.locale),
       loadConsentText(payload.locale),
+      loadLinkedTrunks(payload.beliefIds, payload.locale),
     ]);
 
   const { portraitNow, portraitFuture, safetyTriggered } = composePortraits({
@@ -96,12 +98,23 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     connectors,
   });
 
+  // Tēmu sadaļas atrisinātas ģenerēšanas brīdī un saglabātas snapshotā -
+  // atkārtota nosūtīšana neatkarīgi no vēlākām kartējuma izmaiņām.
+  const emailThemes = buildEmailThemeSections(
+    beliefs.map((b) => ({
+      themeName: b.themeName,
+      statement: b.negativeBelief,
+      directions: linkedTrunks.get(b.id) ?? [],
+    })),
+  );
+
   const snapshot = buildSnapshot({
     locale: payload.locale,
     beliefs,
     connectors: connectorSnapshot,
     safetyBlock: safetyBlock ?? undefined,
     sourceVersions: [1],
+    emailThemes,
   });
 
   const [result] = await prisma.$transaction([
@@ -196,6 +209,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     portraitFuture,
     bookingUrl,
     hideBookingCta: payload.locale === "lv",
+    themes: emailThemes,
     texts: {
       greeting: resolved.values.greeting ?? "",
       intro: resolved.values.intro ?? "",
@@ -251,12 +265,34 @@ export async function resendResultEmail(resultId: string): Promise<SubmitResult>
   const portraitNow = decryptField(result.portraitNow);
   const portraitFuture = decryptField(result.portraitFuture);
   const bookingPath = result.locale === "en" ? "/book" : `/${result.locale}/book`;
+  // Tēmu pārskats: jaunajiem rezultātiem no snapshot (identiski oriģinālam,
+  // neatkarīgi no vēlākām kartējuma izmaiņām); vecajiem bez emailThemes -
+  // fallback uz pašreizējo BeliefTrunkLink kartējumu.
+  const snapshot = result.snapshot as GenerationSnapshot | null;
+  const snapshotBeliefs = snapshot?.beliefs ?? [];
+  const resendTrunks = snapshot?.emailThemes
+    ? null
+    : await loadLinkedTrunks(
+        snapshotBeliefs.map((b) => b.beliefId),
+        result.locale,
+      );
   const emailContent = buildResultEmail({
     locale: result.locale,
     portraitNow,
     portraitFuture,
     bookingUrl: `${getAppBaseUrl()}${bookingPath}`,
     hideBookingCta: result.locale === "lv",
+    themes:
+      snapshot?.emailThemes ??
+      (snapshotBeliefs.length
+        ? buildEmailThemeSections(
+            snapshotBeliefs.map((b) => ({
+              themeName: b.theme.name,
+              statement: b.negativeBelief,
+              directions: resendTrunks?.get(b.beliefId) ?? [],
+            })),
+          )
+        : undefined),
     texts: {
       greeting: resolved.values.greeting ?? "",
       intro: resolved.values.intro ?? "",
