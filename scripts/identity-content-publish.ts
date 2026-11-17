@@ -89,14 +89,14 @@ async function main() {
     return t.id;
   };
   await tpl("RESULT", {
-    subject: { lv: "Tavs Identitātes testa rezultāts - divi portreti", en: "Your Identity Test results - two portraits" },
+    subject: { lv: "Tavs Identitātes testa rezultāts - pirmais solis reālām pārmaiņām", en: "Your Identity Test results - the first step toward real change" },
     greeting: { lv: "Sveiki,", en: "Hello," },
-    intro: { lv: "Paldies, ka aizpildīji Identitātes testu. Zemāk ir divi personalizēti portreti, kas izveidoti no uzskatiem, kurus tu izvēlējies.", en: "Thank you for completing the Identity Test. Below are two personalized portraits created from the beliefs you selected." },
+    intro: { lv: "Paldies, ka aizpildīji identitātes testu. Zemāk ir tavs personīgais rezultāts - divi portreti, kas veidoti no uzskatiem, kurus atzīmēji. Tests palīdz atpazīt, kas tevi vada. Nākamais solis ir strukturēts darbs individuālajās sesijās, kurās tu strādā ar šiem uzskatiem un to ietekmi uz savu ikdienas dzīvi.", en: "Thank you for completing the Identity Test. Below is your personal result - two portraits built from the beliefs you selected. The test helps you recognize what drives you. The next step is structured work in individual sessions, where you work on these beliefs and their influence on your everyday life." },
     nowTitle: { lv: "Kā šie uzskati var izpausties šodien", en: "How these beliefs may show up today" },
-    futureTitle: { lv: "Kā dzīve varētu izskatīties bez tiem", en: "How life could look without them" },
-    disclaimer: { lv: "Šis nav medicīnisks vai psiholoģisks slēdziens - tas ir reflektīvs materiāls, kas apraksta iespējamos uzskatu izpausmes veidus.", en: "This is not a medical or psychological assessment - it is a reflective material describing possible ways these beliefs may manifest." },
-    sessionLead: { lv: "Ja vēlies izpētīt savus uzskatus individuālā darbā ar speciālistu - rezervē sesiju:", en: "If you would like to explore your beliefs in individual work with a specialist - book a session:" },
-    sessionCta: { lv: "Rezervēt sesiju", en: "Book your first session" },
+    futureTitle: { lv: "Kā tava ikdiena var mainīties, strādājot ar šiem uzskatiem", en: "How your everyday life can change as you work on these beliefs" },
+    disclaimer: { lv: "Šis nav medicīnisks vai psiholoģisks slēdziens. Tas ir tavu rezultātu apraksts, kas palīdz atpazīt uzskatu izpausmes veidus - sākumpunkts individuālajam darbam.", en: "This is not a medical or psychological assessment. It is a description of your results that helps you recognize how these beliefs may manifest - a starting point for individual work." },
+    sessionLead: { lv: "Tests ir sākumpunkts. Individuālajās sesijās kopā ar speciālistu tu mērķtiecīgi strādā ar saviem uzskatiem un to ietekmi uz izvēlēm, attiecībām un ikdienas reakcijām. Šī darba mērķis ir pārmaiņas, kas kļūst jūtamas tavā dzīvē.", en: "The test is your starting point. In individual sessions with a specialist, you work purposefully on your beliefs and their influence on your choices, relationships and daily reactions. The goal of this work is change you can feel in your life." },
+    sessionCta: { lv: "Rezervēt pirmo sesiju", en: "Book your first session" },
     privacyNote: { lv: "Šis e-pasts tika nosūtīts uz Tavu norādīto adresi. Tavas atbildes ir šifrētas un netiek izmantotas citos nolūkos.", en: "This email was sent to the address you provided. Your answers are encrypted and are not used for other purposes." },
   });
   await tpl("DAY_1", {

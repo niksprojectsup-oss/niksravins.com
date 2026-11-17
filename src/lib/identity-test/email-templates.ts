@@ -35,14 +35,14 @@ const CHROME: Record<
 > = {
   lv: {
     eyebrow: "TAVS PERSONĪGAIS REZULTĀTS",
-    heading: "Ieraudzīt, kas tevi vada.",
-    sessionHeading: "Vai esi gatavs spert nākamo soli?",
+    heading: "Atpazīšana ir sākums, nevis noslēgums.",
+    sessionHeading: "Darbs sesijā. Rezultāti dzīvē.",
     signoff: "Ar sirsnīgiem sveicieniem,",
   },
   en: {
     eyebrow: "YOUR PERSONAL RESULT",
-    heading: "See what drives you.",
-    sessionHeading: "Ready to take the next step?",
+    heading: "Recognition is the start, not the finish.",
+    sessionHeading: "Work in session. Results in life.",
     signoff: "With warm regards,",
   },
 };
