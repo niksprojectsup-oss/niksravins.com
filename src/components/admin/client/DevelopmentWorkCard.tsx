@@ -14,6 +14,7 @@ import {
   linkBeliefToLibraryTrunk,
   reopenTrunk,
   setBranchDone,
+  syncClientTestLinks,
 } from "@/lib/admin/actions/development";
 
 const STATUS_LABEL: Record<string, string> = {
@@ -431,6 +432,28 @@ export function DevelopmentWorkCard({
 
       {tab === "tests" && (
         <div className="mt-5">
+          <div className="mb-4 flex items-center gap-3">
+            <button
+              type="button"
+              disabled={isPending}
+              onClick={() =>
+                startTransition(async () => {
+                  setError("");
+                  const r = await syncClientTestLinks({ clientId });
+                  if (!r.ok) setError(r.error ?? "Kļūda");
+                  else setError(
+                    r.linked || r.review
+                      ? `Piesaistīti: ${r.linked}${r.review ? ` · manuālai pārbaudei: ${r.review}` : ""}`
+                      : "Nav atrasts neviens jauns iesniegums šim e-pastam.",
+                  );
+                })
+              }
+              className="rounded-lg border border-accent px-3 py-1.5 text-sm text-accent disabled:opacity-40"
+            >
+              Piesaistīt testus pēc e-pasta
+            </button>
+            {error && <span className="text-sm text-ink-subtle">{error}</span>}
+          </div>
           {card.submissions.length === 0 ? (
             <p className="type-body text-ink-subtle">Nav piesaistītu testa iesniegumu.</p>
           ) : (

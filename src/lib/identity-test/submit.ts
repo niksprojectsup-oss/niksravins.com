@@ -139,6 +139,23 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     },
   });
 
+  // Automātiskā sasaiste ar esošu klienta profilu (ja Client ar šo e-pastu
+  // jau pastāv). Nedrīkst ietekmēt rezultāta/e-pasta plūsmu - tikai
+  // labākās pūles piesaiste ar esošo verificēto loģiku.
+  try {
+    const { linkSubmissionForMatchingClient } = await import("@/lib/development/linking");
+    const linked = await linkSubmissionForMatchingClient(email);
+    if (linked.clientId && (linked.linked > 0 || linked.review > 0)) {
+      console.info("[identity] submission client link", {
+        submissionId: submission.id,
+        linked: linked.linked,
+        review: linked.review,
+      });
+    }
+  } catch (linkError) {
+    console.error("[identity] submission client link failed", linkError);
+  }
+
   if (marketingAllowed) {
     const day1 = await prisma.identityEmailTemplate.findUnique({ where: { step: "DAY_1" } });
     await prisma.identityEmailSequence.create({

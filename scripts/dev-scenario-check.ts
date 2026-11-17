@@ -5,7 +5,10 @@
  *   npx tsx scripts/dev-scenario-check.ts
  */
 import { prisma } from "../src/lib/db/prisma";
-import { linkIdentityTestSubmissionsForClient } from "../src/lib/development/linking";
+import {
+  linkIdentityTestSubmissionsForClient,
+  linkSubmissionForMatchingClient,
+} from "../src/lib/development/linking";
 import { getClientDevelopmentProgress } from "../src/lib/development/progress";
 import {
   getAdminDevelopmentCard,
@@ -37,6 +40,14 @@ async function main() {
     data: { email: EMAIL2, firstName: "Dev", lastName: "Check2", country: "LV" },
   });
   clientBId = clientB.id;
+
+  // Verificēts portāla konts klientam A (parole uzstādīta)
+  await prisma.user.create({
+    data: {
+      email: EMAIL, passwordHash: "devcheck-hash", role: "CLIENT",
+      clientId: clientAId, passwordSetAt: new Date(),
+    },
+  });
 
   const belief = await prisma.identityBelief.findFirst({ where: { status: "PUBLISHED" } });
   if (!belief) throw new Error("nav beliefs");
@@ -164,6 +175,43 @@ async function main() {
   const emptyView = await getClientBranchesView(clientBId, "lv");
   check("S9: tukšs klients → 0%, nav grupu", emptyView.progress.percent === 0 && emptyView.groups.length === 0);
 
+  // ── S10: submit-brīža saiste (linkSubmissionForMatchingClient) ──
+  // "Ritas scenārijs": klients eksistēja pirms iesnieguma; atsaistīts
+  // iesniegums piesaistās, kad helpers tiek izsaukts (kā submit plūsmā).
+  await prisma.identityTestSubmission.updateMany({
+    where: { id: { in: subIds } },
+    data: { clientId: null, linkStatus: "UNLINKED", linkedAt: null, linkMethod: null },
+  });
+  const r10 = await linkSubmissionForMatchingClient(EMAIL);
+  check("S10: submit-helper atrod klientu", r10.clientId === clientAId && r10.linked === 2, JSON.stringify(r10));
+  const subs10 = await prisma.identityTestSubmission.findMany({ where: { id: { in: subIds } } });
+  check("S10: abi LINKED pēc submit-helper", subs10.every((s) => s.clientId === clientAId && s.linkStatus === "LINKED"));
+
+  // e-pasts bez klienta → no-op
+  const r10b = await linkSubmissionForMatchingClient(`${MARK}-none@example.test`);
+  check("S10: e-pasts bez klienta → no-op", r10b.clientId === null && r10b.linked === 0);
+
+  // ── S11: jau citam klientam piesaistīts → REVIEW, nepārraksta ──
+  const r11 = await linkSubmissionForMatchingClient(EMAIL);
+  // atkārtots izsaukums tam pašam e-pastam - linked jau ir, nedrīkst dubultoties
+  check("S11: atkārtots izsaukums nedublē", r11.linked === 0 && r11.review === 0, JSON.stringify(r11));
+
+  // ── S12: klients BEZ verificēta portāla konta → saiste atteikta ──
+  const sub12 = await prisma.identityTestSubmission.create({
+    data: { selectedBeliefIds: [belief.id], locale: "lv", requestId: `${MARK}-b` },
+  });
+  subIds.push(sub12.id);
+  await prisma.identityTestResult.create({
+    data: {
+      submissionId: sub12.id, email: `enc:${EMAIL2}`, emailHash: (await import("../src/lib/identity-test/hash")).emailHash(EMAIL2),
+      portraitNow: "enc:n", portraitFuture: "enc:f", locale: "lv",
+    },
+  });
+  const r12 = await linkSubmissionForMatchingClient(EMAIL2);
+  check("S12: neverificēts konts → nav saistes", r12.clientId === null && r12.linked === 0, JSON.stringify(r12));
+  const sub12row = await prisma.identityTestSubmission.findUnique({ where: { id: sub12.id } });
+  check("S12: iesniegums paliek UNLINKED", sub12row!.linkStatus === "UNLINKED" && sub12row!.clientId === null);
+
   console.log(process.exitCode ? "\n== IR KĻŪDAS ==" : "\n== VISI SCENĀRIJI OK ==");
 }
 
@@ -176,6 +224,7 @@ main()
       await prisma.clientDevelopmentTrunk.deleteMany({ where: { clientId: { in: [clientAId, clientBId] } } });
       await prisma.identityTestResult.deleteMany({ where: { submissionId: { in: subIds } } });
       await prisma.identityTestSubmission.deleteMany({ where: { id: { in: subIds } } });
+      await prisma.user.deleteMany({ where: { clientId: { in: [clientAId, clientBId] } } });
       await prisma.client.deleteMany({ where: { id: { in: [clientAId, clientBId] } } });
       console.log("fixtures izdzēsti");
     } catch (e) { console.error("cleanup kļūda:", e); }

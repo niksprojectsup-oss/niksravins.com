@@ -330,6 +330,58 @@ export async function unlinkBeliefFromLibraryTrunk(input: {
   } catch (e) { return err(e); }
 }
 
+// ─── Retroaktīvā testa sasaiste (admin "Piesaistīt testus pēc e-pasta") ──
+// Izmanto to pašu verificēto saistes funkciju; auditēts ar veicēju un ID.
+
+export async function syncClientTestLinks(input: {
+  clientId: string;
+}): Promise<{ ok: true; linked: number; review: number } | { ok: false; error: string }> {
+  const session = await requireClientAccess(input.clientId);
+  try {
+    const client = await prisma.client.findUnique({
+      where: { id: input.clientId },
+      select: { email: true },
+    });
+    if (!client) return { ok: false, error: "Klients nav atrasts." };
+
+    // E-pasta verifikācijas pārbaude: bez verificēta portāla konta
+    // (User ar uzstādītu paroli) sasaisti neveicam.
+    const user = await prisma.user.findFirst({
+      where: { clientId: input.clientId, role: "CLIENT" },
+      select: { passwordSetAt: true },
+    });
+    const verified = Boolean(user?.passwordSetAt);
+    if (!verified) {
+      return { ok: false, error: "Klientam nav verificēta portāla konta - parole vēl nav uzstādīta." };
+    }
+
+    const { linkIdentityTestSubmissionsForClient } = await import(
+      "@/lib/development/linking"
+    );
+    const res = await linkIdentityTestSubmissionsForClient({
+      clientId: input.clientId,
+      email: client.email,
+    });
+
+    if (res.linked > 0 || res.review > 0) {
+      await prisma.clientDevelopmentEvent.create({
+        data: {
+          clientId: input.clientId,
+          action: "SUBMISSION_LINKED",
+          detail: `auto-sync e-pasts: linked=[${res.linkedIds.join(",")}] review=${res.review} verified=${verified}`,
+          actorAdminId: session.id,
+        },
+      });
+    }
+    revalidatePath(`/admin/clients/${input.clientId}`);
+    revalidatePath("/admin/identity-test/sent");
+    return { ok: true, linked: res.linked, review: res.review };
+  } catch (e) {
+    console.error("[development]", e);
+    return { ok: false, error: e instanceof Error ? e.message : "Darbība neizdevās." };
+  }
+}
+
 // ─── Manuālā testa sasaiste ─────────────────────────────────────────
 
 export async function linkSubmissionToClient(input: {
