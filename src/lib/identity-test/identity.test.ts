@@ -123,6 +123,7 @@ describe("composePortraits", () => {
 describe("validateSubmitPayload", () => {
   const base = {
     requestId: "123e4567-e89b-42d3-a456-426614174000",
+    name: "Anna",
     email: "test@example.com",
     locale: "lv",
     beliefIds: ["b1", "b2"],
@@ -130,6 +131,15 @@ describe("validateSubmitPayload", () => {
   };
   it("pieņem derīgu payload", () => {
     assert.deepEqual(validateSubmitPayload(base), { ok: true });
+  });
+  it("noraida tukšu vārdu", () => {
+    const r = validateSubmitPayload({ ...base, name: "   " });
+    assert.deepEqual(r, { ok: false, message: "invalid_name" });
+  });
+  it("noraida trūkstošu vārdu", () => {
+    const { name: _omit, ...withoutName } = base;
+    const r = validateSubmitPayload(withoutName);
+    assert.deepEqual(r, { ok: false, message: "invalid_name" });
   });
   it("noraida nederīgu e-pastu", () => {
     const r = validateSubmitPayload({ ...base, email: "nav-epasts" });

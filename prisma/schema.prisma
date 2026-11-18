@@ -983,6 +983,7 @@ model IdentityTestResult {
   submissionId   String   @unique
   email          String   @db.Text // šifrēts (encryptField)
   emailHash      String   // HMAC-SHA256 meklēšanai, nekad ne plaintext
+  name           String?  @db.Text // šifrēts (encryptField) - respondenta vārds
   portraitNow    String   @db.Text // šifrēts (encryptField)
   portraitFuture String   @db.Text // šifrēts (encryptField)
   contentVersion Int      @default(1)

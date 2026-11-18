@@ -255,6 +255,7 @@ export async function getSubmissionResultForAdmin(submissionId: string) {
   return {
     submissionId,
     email: decryptField(result.email),
+    name: result.name ? decryptField(result.name) : null,
     createdAt: result.submission.createdAt,
     locale: result.submission.locale,
     linkStatus: result.submission.linkStatus,

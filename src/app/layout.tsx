@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
-import { Fraunces, Unna } from "next/font/google";
+import { Fraunces, Manrope, Unna } from "next/font/google";
 import { portalIntlLocale } from "@/content/i18n/portal";
 import { getDocumentHtmlLangFromPathname } from "@/lib/i18n/document-lang";
 import { getPortalLocale } from "@/lib/i18n/portal-locale";
@@ -12,6 +12,12 @@ import "./globals.css";
 const fraunces = Fraunces({
   variable: "--font-family-display",
   subsets: ["latin"],
+  display: "swap",
+});
+
+const manrope = Manrope({
+  variable: "--font-family-manrope",
+  subsets: ["latin", "latin-ext"],
   display: "swap",
 });
 
@@ -46,7 +52,7 @@ export default async function RootLayout({
   return (
     <html
       lang={htmlLang}
-      className={`${fraunces.variable} ${unna.variable} h-full`}
+      className={`${fraunces.variable} ${manrope.variable} ${unna.variable} h-full`}
     >
       <body id="top" className="min-h-full flex flex-col font-sans text-ink antialiased">
         {children}

@@ -106,6 +106,7 @@ export type GenerationSnapshot = {
 
 export type SubmitPayload = {
   requestId: string;
+  name: string;
   email: string;
   marketingConsent: boolean;
   locale: string;

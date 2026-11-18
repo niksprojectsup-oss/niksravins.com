@@ -36,6 +36,8 @@
     system-ui, sans-serif;
   --font-display: var(--font-family-display), "Fraunces", "Iowan Old Style",
     "Palatino Linotype", Palatino, ui-serif, Georgia, serif;
+  --font-manrope: var(--font-family-manrope), ui-sans-serif, system-ui,
+    sans-serif;
 
   --text-xs: var(--nr-text-xs);
   --text-sm: var(--nr-text-sm);

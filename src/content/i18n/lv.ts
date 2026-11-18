@@ -538,7 +538,7 @@ export const lvContent: PublicContent = {
         "Atzīmē iekšējos uzskatus, kuros atpazīsti sevi, un saņem divus personalizētus portretus: kā šie uzskati ietekmē tavu ikdienu un kā varētu izskatīties dzīve pēc darba ar tiem.",
     },
     intro: {
-      title: "IERAUGI, KAS TEVI VADA.",
+      title: "Ieraugi, kas tevi vada.",
       subtitle: "Tavi iekšējie uzskati. Tava ikdiena. Tavas attiecības.",
       lead: "Atzīmē apgalvojumus, kuros atpazīsti sevi. Izvēlies tos, kuri visprecīzāk raksturo tavas domas, reakcijas vai ierasto rīcību.",
       note: "Nav jāizvēlas visi. Izvēlies tikai tos, kuri tev patiešām šķiet atbilstoši.",
@@ -568,6 +568,9 @@ export const lvContent: PublicContent = {
       lead1: "1. Kā izvēlētie uzskati var ietekmēt tavu ikdienu, emocijas un attiecības.",
       lead2: "2. Kā varētu izskatīties tava dzīve pēc darba ar šiem uzskatiem.",
       privacyNote: "E-pasta ievade ir nepieciešama rezultāta piegādei.",
+      nameLabel: "Tavs vārds",
+      namePlaceholder: "Vārds",
+      nameRequired: "Lūdzu, ievadi savu vārdu - tas ir obligāts rezultāta saņemšanai.",
       emailLabel: "E-pasta adrese",
       emailPlaceholder: "tavs@epasts.lv",
       submitCta: "Nosūtīt manu rezultātu",

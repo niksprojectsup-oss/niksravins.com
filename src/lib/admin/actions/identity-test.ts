@@ -451,6 +451,14 @@ export async function cancelSequenceAction(sequenceId: string) {
   return { ok: true };
 }
 
+/** Dzēš e-pasta piekrišanas ierakstu (Nosūtītie saraksts). Kaskādes dzēš piesaistītās secības; iesniegums, rezultāts un piegādes paliek. */
+export async function deleteEmailConsentAction(consentId: string) {
+  await audit("identity_test.delete", "email_consent", consentId);
+  await prisma.identityEmailConsent.delete({ where: { id: consentId } });
+  revalidatePath(ADMIN_BASE);
+  return { ok: true };
+}
+
 // ── Rezultātu priekšskatījums (draft||published, bez sūtīšanas) ──
 
 export async function previewCompositionAction(input: {

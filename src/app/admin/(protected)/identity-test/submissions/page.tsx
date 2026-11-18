@@ -10,7 +10,7 @@ export default async function IdentitySubmissionsPage() {
     orderBy: { createdAt: "desc" },
     take: 100,
     include: {
-      result: { select: { id: true, email: true, createdAt: true } },
+      result: { select: { id: true, email: true, name: true, createdAt: true } },
       deliveries: { orderBy: { createdAt: "desc" } },
     },
   });
@@ -23,7 +23,7 @@ export default async function IdentitySubmissionsPage() {
         <table className="w-full text-left text-sm">
           <thead className="bg-surface-subtle">
             <tr>
-              {["Laiks", "Valoda", "Statuss", "Drošība", "E-pasts", "Piegādes"].map((h) => (
+              {["Laiks", "Valoda", "Statuss", "Drošība", "Vārds", "E-pasts", "Piegādes"].map((h) => (
                 <th key={h} className="type-caption px-3 py-2 text-ink-subtle">{h}</th>
               ))}
             </tr>
@@ -35,6 +35,7 @@ export default async function IdentitySubmissionsPage() {
                 <td className="px-3 py-1.5">{s.locale}</td>
                 <td className="px-3 py-1.5">{s.status}</td>
                 <td className="px-3 py-1.5">{s.safetyTriggered ? "⚠" : "-"}</td>
+                <td className="px-3 py-1.5">{s.result?.name ? decryptField(s.result.name) : "-"}</td>
                 <td className="px-3 py-1.5">{s.result ? maskEmailAddress(decryptField(s.result.email)) : "-"}</td>
                 <td className="px-3 py-1.5">
                   {s.deliveries.map((d) => `${d.emailKind}:${d.status}`).join(", ") || "-"}

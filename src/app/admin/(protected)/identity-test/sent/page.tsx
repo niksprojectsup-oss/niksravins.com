@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/db/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
+import { ConsentDeleteButton } from "@/components/admin/identity-test/DeliveryActions";
 import { decryptField } from "@/lib/security/encryption";
 
 export const dynamic = "force-dynamic";
@@ -32,7 +33,7 @@ export default async function IdentitySentPage() {
         <table className="w-full text-left text-sm">
           <thead className="bg-surface-subtle">
             <tr>
-              {["Laiks", "E-pasts", "Valoda", "Mārketings", "Saite", "Piegādes"].map((h) => (
+              {["Laiks", "E-pasts", "Valoda", "Mārketings", "Saite", "Piegādes", ""].map((h) => (
                 <th key={h} className="type-caption px-3 py-2 text-ink-subtle">{h}</th>
               ))}
             </tr>
@@ -77,6 +78,9 @@ export default async function IdentitySentPage() {
                   {(c.submission?.deliveries ?? [])
                     .map((d) => `${d.emailKind}:${d.status}`)
                     .join(", ") || "-"}
+                </td>
+                <td className="px-3 py-1.5">
+                  <ConsentDeleteButton consentId={c.id} />
                 </td>
               </tr>
             ))}

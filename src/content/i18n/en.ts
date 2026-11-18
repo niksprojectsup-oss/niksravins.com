@@ -540,7 +540,7 @@ export const enContent: PublicContent = {
         "Mark the inner beliefs you recognize and receive two personalized portraits: how these beliefs may shape your daily life, and what life could look like after working with them.",
     },
     intro: {
-      title: "SEE WHAT DRIVES YOU.",
+      title: "See what drives you.",
       subtitle: "Your inner beliefs. Your daily life. Your relationships.",
       lead: "Mark the statements you recognize yourself in. Choose the ones that most accurately describe your thoughts, reactions, or usual behavior.",
       note: "You don't have to choose them all. Pick only those that genuinely fit.",
@@ -570,6 +570,9 @@ export const enContent: PublicContent = {
       lead1: "1. How the beliefs you selected may affect your daily life, emotions, and relationships.",
       lead2: "2. What your life could look like after working with these beliefs.",
       privacyNote: "Your email is required to deliver the result.",
+      nameLabel: "Your name",
+      namePlaceholder: "First name",
+      nameRequired: "Please enter your name - it is required to receive your result.",
       emailLabel: "Email address",
       emailPlaceholder: "you@example.com",
       submitCta: "Send my result",

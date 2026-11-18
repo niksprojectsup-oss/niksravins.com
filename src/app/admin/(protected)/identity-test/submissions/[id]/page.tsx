@@ -80,7 +80,9 @@ export default async function SubmissionDetailPage({
           </div>
         </dl>
         {result && (
-          <p className="mt-3 text-sm text-ink-subtle">E-pasts: {result.email}</p>
+          <p className="mt-3 text-sm text-ink-subtle">
+            {result.name ? `Vārds: ${result.name} · ` : ""}E-pasts: {result.email}
+          </p>
         )}
       </section>
 

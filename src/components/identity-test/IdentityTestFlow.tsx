@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import type { IdentityTestContent } from "@/content/i18n/types";
 import type { PublicBelief, TestContentTree } from "@/lib/identity-test/types";
 import { cn } from "@/lib/utils";
@@ -38,6 +38,8 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
   const [step, setStep] = useState<Step>("intro");
   const [themeIds, setThemeIds] = useState<Set<string>>(new Set());
   const [beliefIds, setBeliefIds] = useState<Set<string>>(new Set());
+  const [name, setName] = useState("");
+  const [nameError, setNameError] = useState(false);
   const [email, setEmail] = useState("");
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [requestId] = useState(() => crypto.randomUUID());
@@ -84,6 +86,10 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
   }
 
   async function submit() {
+    if (!name.trim()) {
+      setNameError(true);
+      return;
+    }
     setSubmitting(true);
     setError(null);
     try {
@@ -92,6 +98,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           requestId,
+          name: name.trim(),
           email,
           marketingConsent,
           locale,
@@ -136,37 +143,49 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
     <div
       className={cn(
         "mx-auto w-full",
-        step === "beliefs" || step === "themes" ? "max-w-5xl" : "max-w-2xl",
+        step === "beliefs" || step === "themes" || step === "intro" ? "max-w-5xl" : "max-w-2xl",
       )}
     >
       {step !== "intro" ? <ProgressBar ui={ui} stepIndex={stepIndex} /> : null}
 
       <div key={step} className="it-step-enter">
         {step === "intro" ? (
-          <section className="mx-auto max-w-2xl py-10 text-center md:py-16">
-            <div className="it-fade-in mx-auto mb-10 flex h-16 w-16 items-center justify-center rounded-full bg-accent-soft text-accent">
-              <svg viewBox="0 0 24 24" className="h-8 w-8" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round">
-                <circle cx="12" cy="12" r="9" />
-                <circle cx="12" cy="12" r="4.5" opacity={0.55} />
-                <circle cx="12" cy="12" r="0.7" fill="currentColor" />
-              </svg>
-            </div>
-            <div className="it-stagger">
-              <h1 className="font-display text-4xl leading-[1.1] tracking-tight text-ink md:text-6xl">
-                {ui.intro.title}
-              </h1>
-              <p className="mx-auto mt-5 max-w-xl font-display text-xl tracking-tight text-ink-muted md:text-2xl">
-                {ui.intro.subtitle}
-              </p>
-              <div className="mx-auto mt-9 max-w-prose space-y-3">
-                <p className="type-body">{ui.intro.lead}</p>
-                <p className="type-caption text-ink-subtle">{ui.intro.note}</p>
+          <section className="mx-auto max-w-5xl py-10 md:py-16">
+            <div className="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
+              <div className="it-stagger font-manrope">
+                <div className="flex items-center gap-3">
+                  <span className="h-px w-8 bg-ink" aria-hidden="true" />
+                  <span className="font-sans text-[11px] font-semibold uppercase tracking-[0.22em] text-ink">
+                    {locale === "lv" ? "IDENTITĀTES TESTS" : "IDENTITY TEST"}
+                  </span>
+                </div>
+                <h1 className="mt-7 font-manrope text-5xl font-bold leading-[1.05] tracking-tight text-ink md:text-6xl lg:text-7xl">
+                  {ui.intro.title}
+                </h1>
+                <p className="mt-6 max-w-lg font-manrope text-xl leading-relaxed text-ink-muted md:text-2xl">
+                  {ui.intro.subtitle}
+                </p>
+                <div className="it-fade-in mt-8 lg:hidden" aria-hidden="true">
+                  <IntroArt className="h-44 w-full md:h-56" />
+                </div>
+                <p className="mt-8 max-w-md text-[15px] leading-relaxed text-ink-muted">{ui.intro.lead}</p>
+                <div className="mt-10 flex flex-col items-start gap-4">
+                  <button type="button" onClick={() => setStep("themes")} className={cn(primaryBtn, "group")}>
+                    {ui.intro.startCta}
+                    <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+                  </button>
+                  <p className="type-caption flex items-start gap-1.5 text-ink-subtle">
+                    <svg viewBox="0 0 16 16" className="mt-0.5 h-3.5 w-3.5 shrink-0" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.3">
+                      <circle cx="8" cy="8" r="6.5" />
+                      <path d="M8 7.2v3.3" strokeLinecap="round" />
+                      <circle cx="8" cy="5" r="0.8" fill="currentColor" stroke="none" />
+                    </svg>
+                    {ui.intro.note}
+                  </p>
+                </div>
               </div>
-              <div className="mt-12">
-                <button type="button" onClick={() => setStep("themes")} className={cn(primaryBtn, "group")}>
-                  {ui.intro.startCta}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
-                </button>
+              <div className="it-fade-in relative hidden lg:block" aria-hidden="true">
+                <IntroArt className="h-[540px] w-full" />
               </div>
             </div>
           </section>
@@ -175,7 +194,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
         {step === "themes" ? (
           <section>
             <header className="mx-auto mb-12 max-w-2xl text-center">
-              <h1 className="font-display text-3xl leading-tight tracking-tight text-ink md:text-4xl">
+              <h1 className="font-manrope font-semibold text-3xl leading-tight tracking-tight text-ink md:text-4xl">
                 {ui.themeStep.heading}
               </h1>
             </header>
@@ -273,7 +292,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
                       </span>
                     ) : null}
                     <div>
-                      <h2 className="font-display text-xl tracking-tight text-ink md:text-2xl">{sub.name}</h2>
+                      <h2 className="font-manrope font-semibold text-xl tracking-tight text-ink md:text-2xl">{sub.name}</h2>
                       {theme ? <p className="type-caption text-ink-faint">{theme.name}</p> : null}
                     </div>
                   </div>
@@ -308,7 +327,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
                   ← {ui.beliefStep.back}
                 </button>
                 <p className="type-caption text-ink-subtle" aria-live="polite">
-                  <span className="font-display text-lg text-ink">{beliefIds.size}</span>{" "}
+                  <span className="font-manrope font-semibold text-lg text-ink">{beliefIds.size}</span>{" "}
                   {ui.beliefStep.selectedSuffix}
                 </p>
                 <button type="button" disabled={beliefIds.size === 0} onClick={() => setStep("review")} className={primaryBtn}>
@@ -323,12 +342,12 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
         {step === "review" ? (
           <section className="mx-auto max-w-2xl">
             <header className="mb-10 text-center">
-              <h1 className="font-display text-3xl leading-tight tracking-tight text-ink md:text-4xl">
+              <h1 className="font-manrope font-semibold text-3xl leading-tight tracking-tight text-ink md:text-4xl">
                 {ui.review.heading}
               </h1>
               <p className="type-caption mt-3 text-ink-subtle">{ui.review.subheading}</p>
               <p className="type-caption mt-2 text-ink-faint">
-                <span className="font-display text-base text-ink">{selectedBeliefs.length}</span>{" "}
+                <span className="font-manrope font-semibold text-base text-ink">{selectedBeliefs.length}</span>{" "}
                 {ui.beliefStep.selectedSuffix}
               </p>
             </header>
@@ -371,21 +390,54 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
 
         {step === "email" ? (
           <section className="mx-auto max-w-xl">
-            <header className="mb-10 text-center">
-              <h1 className="font-display text-3xl leading-tight tracking-tight text-ink md:text-4xl">
+            <header className="mb-10">
+              <p className="flex items-center gap-3 font-manrope text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-faint">
+                <span className="h-px w-8 bg-ink-faint/60" aria-hidden="true" />
+                {ui.steps[STEP_ORDER.length - 1]}
+              </p>
+              <h1 className="mt-5 font-manrope text-3xl font-bold leading-tight tracking-tight text-ink md:text-4xl">
                 {ui.emailStep.heading}
               </h1>
             </header>
             <div className="rounded-3xl border border-border-subtle bg-surface p-7 shadow-[0_1px_2px_rgb(26_25_23/0.03),0_24px_48px_-32px_rgb(26_25_23/0.12)] md:p-10">
-              <div className="layout-stack-sm mb-7">
+              <div className="layout-stack-sm mb-8">
                 <p className="type-body">{ui.emailStep.lead}</p>
                 <p className="type-body text-ink-muted">{ui.emailStep.lead1}</p>
                 <p className="type-body text-ink-muted">{ui.emailStep.lead2}</p>
               </div>
 
               <div className="layout-stack-sm">
+                <label htmlFor="identity-name" className="type-caption font-medium">
+                  {ui.emailStep.nameLabel} <span className="text-accent" aria-hidden="true">*</span>
+                </label>
+                <input
+                  id="identity-name"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  value={name}
+                  onChange={(event) => {
+                    setName(event.target.value);
+                    if (nameError) setNameError(false);
+                  }}
+                  placeholder={ui.emailStep.namePlaceholder}
+                  aria-invalid={nameError || undefined}
+                  aria-describedby={nameError ? "identity-name-error" : undefined}
+                  className={cn(
+                    "min-h-[52px] w-full rounded-xl border bg-canvas px-4.5 text-base text-ink shadow-[inset_0_1px_2px_rgb(26_25_23/0.04)] transition-all duration-200 placeholder:text-ink-faint focus-visible:border-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent",
+                    nameError ? "border-red-400" : "border-border",
+                  )}
+                />
+                {nameError ? (
+                  <p id="identity-name-error" role="alert" className="type-caption text-red-700">
+                    {ui.emailStep.nameRequired}
+                  </p>
+                ) : null}
+              </div>
+
+              <div className="layout-stack-sm mt-6">
                 <label htmlFor="identity-email" className="type-caption font-medium">
-                  {ui.emailStep.emailLabel}
+                  {ui.emailStep.emailLabel} <span className="text-accent" aria-hidden="true">*</span>
                 </label>
                 <input
                   id="identity-email"
@@ -400,7 +452,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
               </div>
 
               {consentLabel ? (
-                <label className="mt-6 flex cursor-pointer items-start gap-3 rounded-xl bg-surface-muted/70 p-4 transition-colors hover:bg-surface-muted">
+                <label className="mt-7 flex cursor-pointer items-start gap-3 rounded-xl border border-border-subtle bg-surface-muted/60 p-4 transition-colors hover:border-accent/30 hover:bg-surface-muted">
                   <input
                     type="checkbox"
                     className={checkboxClass}
@@ -417,7 +469,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
                 <p role="alert" className="type-caption mt-4 text-red-700">{error}</p>
               ) : null}
 
-              <div className="mt-8 flex items-center justify-between gap-4">
+              <div className="mt-9 flex items-center justify-between gap-4">
                 <button type="button" onClick={() => setStep("review")} className={backBtn}>
                   ← {ui.review.back}
                 </button>
@@ -443,7 +495,7 @@ export function IdentityTestFlow({ tree, ui, locale, consentLabel, bookingUrl }:
                 <path d="M4 12.5 9.5 18 20 6.5" />
               </svg>
             </div>
-            <h1 className="font-display text-3xl leading-tight tracking-tight text-ink md:text-4xl">
+            <h1 className="font-manrope font-semibold text-3xl leading-tight tracking-tight text-ink md:text-4xl">
               {ui.confirmation.heading}
             </h1>
             <p className="type-body mt-5">{ui.confirmation.body}</p>
@@ -510,5 +562,55 @@ function ProgressBar({ ui, stepIndex }: { ui: IdentityTestContent; stepIndex: nu
         })}
       </ol>
     </div>
+  );
+}
+
+/** Abstrakts organiskais vizuālis intro ekrānam: caurspīdīgas lapas kārtas un smalkas loklīnijas. */
+function IntroArt({ className }: { className?: string }) {
+  // Katrai instancei unikāli gradientu id - citādi url(#id) atrisina uz
+  // slēptās (display:none) kopijas defs, kas netiek renderēts.
+  const uid = useId().replace(/[^a-zA-Z0-9]/g, "");
+  const g = (n: string) => `ia-${n}-${uid}`;
+  return (
+    <svg viewBox="0 0 560 560" className={className} aria-hidden="true" fill="none">
+      <defs>
+        <linearGradient id={g("warm")} x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stopColor="#f0e7d8" />
+          <stop offset="1" stopColor="#e0d2ba" />
+        </linearGradient>
+        <linearGradient id={g("sage-light")} x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stopColor="#dfe8e1" />
+          <stop offset="1" stopColor="#b6cabd" />
+        </linearGradient>
+        <linearGradient id={g("sage-deep")} x1="0.2" y1="0" x2="0.8" y2="1">
+          <stop offset="0" stopColor="#bccfc4" />
+          <stop offset="1" stopColor="#8ca698" />
+        </linearGradient>
+      </defs>
+      {/* Smalkas plūstošas loklīnijas aiz slāņiem */}
+      <path d="M-40 120C140 60 320 -30 430 -160" stroke="var(--nr-accent-muted)" strokeWidth="1" opacity="0.6" />
+      <path d="M-60 520C120 420 260 330 340 180" stroke="var(--nr-warm)" strokeWidth="1" opacity="0.35" />
+      <path d="M260 700C420 560 520 430 580 260" stroke="var(--nr-accent-muted)" strokeWidth="1" opacity="0.5" />
+      {/* Lapas zvīņas: smails gals pa kreisi, apaļa mala aizkadra pa labi */}
+      <path
+        d="M120 340Q180 110 520 -60L660 -30Q580 240 340 400Q160 420 120 340Z"
+        fill={`url(#${g("warm")})`}
+        opacity="0.9"
+      />
+      <path
+        d="M190 430Q260 220 600 70L660 100Q600 370 400 490Q240 490 190 430Z"
+        fill={`url(#${g("sage-light")})`}
+        opacity="0.9"
+      />
+      <path
+        d="M260 520Q350 340 620 190L660 240Q620 470 440 565Q300 570 260 520Z"
+        fill={`url(#${g("sage-deep")})`}
+        opacity="0.85"
+      />
+      <path
+        d="M350 590Q450 460 620 360L660 430Q630 560 570 610Q420 640 350 590Z"
+        fill={`url(#${g("sage-deep")})`}
+      />
+    </svg>
   );
 }

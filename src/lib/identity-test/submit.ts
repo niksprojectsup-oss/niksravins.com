@@ -40,6 +40,7 @@ async function resolveResultTemplate(step: "RESULT", locale: string) {
 export async function processSubmission(payload: SubmitPayload): Promise<SubmitResult> {
   const payloadCheck = validateSubmitPayload({
     requestId: payload.requestId,
+    name: payload.name,
     email: payload.email,
     locale: payload.locale,
     beliefIds: payload.beliefIds,
@@ -50,6 +51,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
   }
 
   const email = normalizeEmail(payload.email);
+  const name = payload.name.trim();
 
   // Idempotence: requestId unikāls - dubultklikšķis atgriež esošo submission.
   let submission;
@@ -126,6 +128,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
         submissionId: submission.id,
         email: encryptField(email),
         emailHash: emailHash(email),
+        name: encryptField(name),
         portraitNow: encryptField(portraitNow),
         portraitFuture: encryptField(portraitFuture),
         contentVersion: snapshot.contentVersion,

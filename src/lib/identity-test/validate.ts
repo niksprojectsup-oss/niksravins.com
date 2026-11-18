@@ -11,6 +11,7 @@ export type PayloadValidation =
 
 export function validateSubmitPayload(input: {
   requestId?: unknown;
+  name?: unknown;
   email?: unknown;
   locale?: unknown;
   beliefIds?: unknown;
@@ -18,6 +19,9 @@ export function validateSubmitPayload(input: {
 }): PayloadValidation {
   if (typeof input.requestId !== "string" || !UUID_RE.test(input.requestId)) {
     return { ok: false, message: "invalid_request_id" };
+  }
+  if (typeof input.name !== "string" || input.name.trim().length === 0 || input.name.length > 120) {
+    return { ok: false, message: "invalid_name" };
   }
   if (typeof input.email !== "string" || !EMAIL_RE.test(input.email) || input.email.length > 254) {
     return { ok: false, message: "invalid_email" };

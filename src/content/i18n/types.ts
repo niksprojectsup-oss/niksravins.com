@@ -325,6 +325,9 @@ export type IdentityTestContent = {
     lead1: string;
     lead2: string;
     privacyNote: string;
+    nameLabel: string;
+    namePlaceholder: string;
+    nameRequired: string;
     emailLabel: string;
     emailPlaceholder: string;
     submitCta: string;

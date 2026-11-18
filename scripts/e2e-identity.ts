@@ -96,14 +96,14 @@ async function main() {
   // 1) Veiksmīgs iesniegums
   const reqId = crypto.randomUUID();
   const r1 = await processSubmission({
-    requestId: reqId, email: "e2e@test.lv", locale: LOCALE,
+    requestId: reqId, name: "E2E Tests", email: "e2e@test.lv", locale: LOCALE,
     beliefIds: beliefs.map((b) => b.id), marketingConsent: true,
   });
   console.log("submit#1:", JSON.stringify(r1));
 
   // 2) Tas pats requestId → jāatgriež esošais submission bez dubultošanas
   const r2 = await processSubmission({
-    requestId: reqId, email: "e2e@test.lv", locale: LOCALE,
+    requestId: reqId, name: "E2E Tests", email: "e2e@test.lv", locale: LOCALE,
     beliefIds: beliefs.map((b) => b.id), marketingConsent: true,
   });
   console.log("submit#2 (same requestId):", JSON.stringify(r2));
@@ -149,7 +149,7 @@ async function main() {
   });
   const reqCrisis = crypto.randomUUID();
   const rc = await processSubmission({
-    requestId: reqCrisis, email: "crisis@test.lv", locale: LOCALE,
+    requestId: reqCrisis, name: "E2E Krīze", email: "crisis@test.lv", locale: LOCALE,
     beliefIds: [crisisBelief.id], marketingConsent: true,
   });
   const crisisSub = await prisma.identityTestSubmission.findUnique({
@@ -232,7 +232,7 @@ async function main() {
   // 5) Noraidīts iesniegums (nepublicēts uzskats)
   const draftBelief = await prisma.identityBelief.findFirst({ where: { status: "DRAFT" } });
   const r3 = await processSubmission({
-    requestId: crypto.randomUUID(), email: "e2e@test.lv", locale: LOCALE,
+    requestId: crypto.randomUUID(), name: "E2E Tests", email: "e2e@test.lv", locale: LOCALE,
     beliefIds: [draftBelief!.id], marketingConsent: false,
   });
   console.log("submit#3 (draft belief):", JSON.stringify(r3));
