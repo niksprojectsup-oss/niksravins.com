@@ -22,6 +22,7 @@ const E = {
   booking: "#3d6b52",
   divider: "#d9d2c6",
   cardBorder: "#e3ded5",
+  sessionCard: "#efe9dc",
 } as const;
 
 const SERIF = "Georgia,'Times New Roman',serif";
@@ -31,19 +32,28 @@ const SANS = "'Helvetica Neue',Arial,Helvetica,sans-serif";
 // Rezultāta e-pasts iet tikai `lv` vai `en` - localeFallbackChain → [locale, en, lv].
 const CHROME: Record<
   string,
-  { eyebrow: string; heading: string; sessionHeading: string; signoff: string }
+  {
+    eyebrow: string;
+    heading: string;
+    sessionHeading: string;
+    signoff: string;
+    /** Paraksta vārds e-pasta beigās; LV ortogrāfijā ar garumzīmi. */
+    signoffName: string;
+  }
 > = {
   lv: {
     eyebrow: "TAVS PERSONĪGAIS REZULTĀTS",
     heading: "Atpazīšana ir sākums, nevis noslēgums.",
-    sessionHeading: "Darbs sesijā. Rezultāti dzīvē.",
+    sessionHeading: "Darbs sesijās. Rezultāts dzīvē.",
     signoff: "Ar sirsnīgiem sveicieniem,",
+    signoffName: "Niks Rāviņš",
   },
   en: {
     eyebrow: "YOUR PERSONAL RESULT",
     heading: "Recognition is the start, not the finish.",
     sessionHeading: "Work in session. Results in life.",
     signoff: "With warm regards,",
+    signoffName: "Niks Ravins",
   },
 };
 
@@ -99,9 +109,9 @@ function themeSectionHtml(input: {
     .map((t) => {
       const body = input.mode === "now" ? t.now : t.future;
       if (!body) return "";
-      return `<div style="margin-top:20px;">
-        <p style="margin:0;font-family:${SERIF};font-size:15px;font-weight:600;color:${E.ink};">${escapeHtml(t.name)}</p>
-        <p style="margin:9px 0 0;font-family:${SERIF};font-size:15px;line-height:1.8;color:${E.ink};">${escapeHtml(body)}</p>
+      return `<div style="margin-top:24px;">
+        <p style="margin:0;font-family:${SANS};font-size:11.5px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:${E.accent};">${escapeHtml(t.name)}</p>
+        <p style="margin:8px 0 0;font-family:${SERIF};font-size:15px;line-height:1.8;color:${E.ink};">${escapeHtml(body)}</p>
       </div>`;
     })
     .filter(Boolean)
@@ -128,7 +138,7 @@ function portraitCard(input: {
         </table>
       </td>
       <td valign="top" style="padding:32px 34px 34px 26px;border-left:1px solid ${E.cardBorder};">
-        <div style="font-family:${SANS};font-size:10px;font-weight:700;letter-spacing:2.8px;color:${E.accent};">${escapeHtml(input.label)}</div>
+        <div style="font-family:${SERIF};font-size:26px;font-weight:700;line-height:1.3;color:${E.ink};">${escapeHtml(input.label)}</div>
         ${input.extra ?? ""}
       </td>
     </tr>
@@ -164,6 +174,8 @@ export function buildResultEmail(input: {
   bookingUrl?: string;
   /** true → rezultāta beigās nav rezervācijas bloka (LV slēgts pēc produkta lēmuma). */
   hideBookingCta?: boolean;
+  /** true → sesiju karte ar devīzi paliek, bet rezervācijas poga netiek rādīta (LV). */
+  hideCtaButton?: boolean;
   /** Tēmu līmeņa pārskats abās kartēs (izvēlētie apgalvojumi + pozitīvie virzieni). */
   themes?: EmailThemeSection[];
   texts: {
@@ -247,19 +259,28 @@ export function buildResultEmail(input: {
       input.hideBookingCta
         ? ""
         : `<tr>
-      <td align="center" style="padding:46px 8px 0;">
-        <h2 style="margin:0;font-family:${SERIF};font-size:28px;font-weight:500;font-style:italic;line-height:1.3;color:${E.ink};">${escapeHtml(chrome.sessionHeading)}</h2>
-        <p style="margin:18px auto 0;max-width:450px;font-family:${SERIF};font-size:15px;line-height:1.8;color:${E.inkMuted};">${escapeHtml(input.texts.sessionLead)}</p>
-        <p style="margin:32px 0 0;">
-          <a href="${bookingUrl}" style="display:inline-block;padding:17px 42px;background-color:${E.booking};color:#fdfcfa;text-decoration:none;border-radius:999px;font-family:${SANS};font-size:15px;letter-spacing:0.5px;">${escapeHtml(input.texts.sessionCta)}&nbsp;&nbsp;&#8594;</a>
-        </p>
+      <td style="padding:46px 0 0;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="${E.sessionCard}" style="background-color:${E.sessionCard};border-radius:18px;">
+          <tr>
+            <td align="center" style="padding:46px 40px 48px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                <tr><td width="40" style="border-top:2px solid ${E.accent};font-size:1px;line-height:1px;">&nbsp;</td></tr>
+              </table>
+              <h2 style="margin:22px 0 0;font-family:${SERIF};font-size:30px;font-weight:600;line-height:1.3;color:${E.ink};">${escapeHtml(chrome.sessionHeading)}</h2>
+              <p style="margin:18px auto 0;max-width:460px;font-family:${SERIF};font-size:15px;line-height:1.8;color:${E.inkMuted};">${escapeHtml(input.texts.sessionLead)}</p>
+              ${input.hideCtaButton ? "" : `<p style="margin:32px 0 0;">
+                <a href="${bookingUrl}" style="display:inline-block;padding:17px 42px;background-color:${E.booking};color:#fdfcfa;text-decoration:none;border-radius:999px;font-family:${SANS};font-size:15px;letter-spacing:0.5px;">${escapeHtml(input.texts.sessionCta)}&nbsp;&nbsp;&#8594;</a>
+              </p>`}
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>`
     }
     <tr>
       <td align="center" style="padding:56px 0 0;">
         <p style="margin:0;font-family:${SANS};font-size:13px;color:${E.inkMuted};">${escapeHtml(chrome.signoff)}</p>
-        <p style="margin:8px 0 0;font-family:${SERIF};font-size:18px;font-style:italic;color:${E.ink};">${escapeHtml(siteConfig.name)}</p>
+        <p style="margin:8px 0 0;font-family:${SERIF};font-size:18px;font-style:italic;color:${E.ink};">${escapeHtml(chrome.signoffName)}</p>
       </td>
     </tr>
     <tr>
@@ -282,17 +303,33 @@ export function buildResultEmail(input: {
     "",
     input.texts.intro,
     "",
+    "* * *",
+    "",
     input.texts.nowTitle,
+    "",
     nowThemesText,
     "",
+    "* * *",
+    "",
     input.texts.futureTitle,
+    "",
     futureThemesText,
     "",
     input.texts.disclaimer,
     "",
-    ...(input.hideBookingCta ? [] : [input.texts.sessionLead, bookingUrl, ""]),
+    ...(input.hideBookingCta
+      ? []
+      : [
+          "* * *",
+          "",
+          chrome.sessionHeading,
+          "",
+          input.texts.sessionLead,
+          "",
+          ...(input.hideCtaButton ? [] : [`${input.texts.sessionCta}: ${bookingUrl}`, ""]),
+        ]),
     chrome.signoff,
-    siteConfig.name,
+    chrome.signoffName,
     "",
     input.texts.privacyNote,
   ].filter((line) => line !== undefined).join("\n");

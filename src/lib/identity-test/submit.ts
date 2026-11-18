@@ -211,7 +211,7 @@ export async function processSubmission(payload: SubmitPayload): Promise<SubmitR
     portraitNow,
     portraitFuture,
     bookingUrl,
-    hideBookingCta: payload.locale === "lv",
+    hideCtaButton: payload.locale === "lv",
     themes: emailThemes,
     texts: {
       greeting: resolved.values.greeting ?? "",
@@ -278,7 +278,7 @@ export async function resendResultEmail(resultId: string): Promise<SubmitResult>
     portraitNow,
     portraitFuture,
     bookingUrl: `${getAppBaseUrl()}${bookingPath}`,
-    hideBookingCta: result.locale === "lv",
+    hideCtaButton: result.locale === "lv",
     themes:
       snapshot?.emailThemes ??
       (snapshotBeliefs.length

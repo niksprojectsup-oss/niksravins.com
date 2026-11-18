@@ -1,0 +1,21 @@
+Hello,
+
+Thank you for completing the Identity Test. Below are two personalized portraits created from the beliefs you selected.
+
+How these beliefs may show up today
+Self-Worth and Identity
+In moments of closeness you may feel that love is not quite meant for you - as if you had to earn what others receive naturally. Comparing yourself to others, you almost always conclude that someone else is doing better - and that weighs on how you feel about yourself. Even after getting what you worked for, the feeling 'something is still missing' is already waiting nearby - and peace does not arrive.
+
+How life could look without them
+Self-Worth and Identity
+You can begin to accept love and care without having to prove your worth in return. Other people's qualities stop being the measure of yours - you can notice your own worth without constant comparison. You can begin to notice moments when you are enough as you are - without new proof.
+
+This is not a medical or psychological assessment - it is a reflective material describing possible ways these beliefs may manifest.
+
+If you would like to explore your beliefs in individual work with a specialist - book a session:
+http://localhost:3000/book
+
+With warm regards,
+Niks Ravins
+
+This email was sent to the address you provided. Your answers are encrypted and are not used for other purposes.
