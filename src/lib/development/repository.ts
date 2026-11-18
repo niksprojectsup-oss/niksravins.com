@@ -252,6 +252,9 @@ export async function getSubmissionResultForAdmin(submissionId: string) {
     include: { submission: true },
   });
   if (!result) return null;
+  const snapshot = result.snapshot as {
+    emailThemes?: { name: string; now: string; future: string }[];
+  } | null;
   return {
     submissionId,
     email: decryptField(result.email),
@@ -262,6 +265,7 @@ export async function getSubmissionResultForAdmin(submissionId: string) {
     clientId: result.submission.clientId,
     portraitNow: decryptField(result.portraitNow),
     portraitFuture: decryptField(result.portraitFuture),
+    emailThemes: Array.isArray(snapshot?.emailThemes) ? snapshot!.emailThemes : [],
     safetyTriggered: result.submission.safetyTriggered,
   };
 }

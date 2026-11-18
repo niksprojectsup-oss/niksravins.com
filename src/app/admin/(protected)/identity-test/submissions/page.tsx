@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { prisma } from "@/lib/db/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { maskEmailAddress } from "@/lib/email/client";
@@ -18,7 +19,7 @@ export default async function IdentitySubmissionsPage() {
   return (
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader title="Iesniegumi"
-        description="Pēdējie 100 iesniegumi ar piegādes statusiem. Portretu saturs šeit netiek rādīts." />
+        description="Pēdējie 100 iesniegumi ar piegādes statusiem. Klikšķini uz rindas, lai redzētu portretus un sasaisti." />
       <div className="overflow-x-auto rounded-md border border-border-subtle">
         <table className="w-full text-left text-sm">
           <thead className="bg-surface-subtle">
@@ -31,7 +32,11 @@ export default async function IdentitySubmissionsPage() {
           <tbody>
             {submissions.map((s) => (
               <tr key={s.id} className="border-t border-border-subtle">
-                <td className="px-3 py-1.5 whitespace-nowrap">{s.createdAt.toISOString().replace("T", " ").slice(0, 16)}</td>
+                <td className="px-3 py-1.5 whitespace-nowrap">
+                  <Link href={`/admin/identity-test/submissions/${s.id}`} className="text-accent underline underline-offset-2">
+                    {s.createdAt.toISOString().replace("T", " ").slice(0, 16)}
+                  </Link>
+                </td>
                 <td className="px-3 py-1.5">{s.locale}</td>
                 <td className="px-3 py-1.5">{s.status}</td>
                 <td className="px-3 py-1.5">{s.safetyTriggered ? "⚠" : "-"}</td>

@@ -104,7 +104,29 @@ export default async function SubmissionDetailPage({
         </ul>
       </section>
 
-      {result && (
+      {result && result.emailThemes.length > 0 ? (
+        <section className="observed-card p-6">
+          <h2 className="type-heading-sm">Portreti</h2>
+          <p className="mt-1 text-sm text-ink-subtle">Kā nosūtīts klientam e-pastā, grupēts pa tēmām.</p>
+          <div className="mt-4 space-y-5">
+            {result.emailThemes.map((t) => (
+              <div key={t.name} className="rounded-md border border-border-subtle p-4">
+                <h3 className="type-caption font-semibold">{t.name}</h3>
+                <div className="mt-3 grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <h4 className="type-caption text-ink-subtle">Pašreizējais portrets</h4>
+                    <p className="mt-1 whitespace-pre-wrap text-sm">{t.now}</p>
+                  </div>
+                  <div>
+                    <h4 className="type-caption text-ink-subtle">Nākotnes portrets</h4>
+                    <p className="mt-1 whitespace-pre-wrap text-sm">{t.future}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ) : result ? (
         <section className="observed-card p-6">
           <h2 className="type-heading-sm">Portreti</h2>
           <div className="mt-3 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -118,7 +140,7 @@ export default async function SubmissionDetailPage({
             </div>
           </div>
         </section>
-      )}
+      ) : null}
 
       <section className="observed-card p-6">
         <h2 className="type-heading-sm">Piegādes</h2>
