@@ -39,6 +39,14 @@ const CHROME: Record<
     signoff: string;
     /** Paraksta vārds e-pasta beigās; LV ortogrāfijā ar garumzīmi. */
     signoffName: string;
+    /** Personisks sesiju aicinājums e-pasta noslēgumā (tikai LV). */
+    invite?: {
+      heading: string;
+      body: string;
+      mailLabel: string;
+      email: string;
+      closing: string;
+    };
   }
 > = {
   lv: {
@@ -47,6 +55,13 @@ const CHROME: Record<
     sessionHeading: "Darbs sesijās. Rezultāts dzīvē.",
     signoff: "Ar sirsnīgiem sveicieniem,",
     signoffName: "Niks Rāviņš",
+    invite: {
+      heading: "Vēlies spert nākamo soli?",
+      body: "Ja vēlies dziļāk izprast savus iekšējos uzskatus un to ietekmi uz ikdienu, attiecībām un izvēlēm, aicinu pieteikties individuālai sesijai.",
+      mailLabel: "Raksti man:",
+      email: "hello@niksravins.com",
+      closing: "Ar prieku sazināšos ar tevi un pastāstīšu par turpmāko darbu.",
+    },
   },
   en: {
     eyebrow: "YOUR PERSONAL RESULT",
@@ -277,6 +292,24 @@ export function buildResultEmail(input: {
       </td>
     </tr>`
     }
+    ${
+      chrome.invite
+        ? `<tr>
+      <td style="padding:40px 0 0;">
+        <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" bgcolor="${E.surface}" style="background-color:${E.surface};border:1px solid ${E.cardBorder};border-radius:18px;">
+          <tr>
+            <td style="padding:38px 40px 40px;">
+              <h3 style="margin:0;font-family:${SANS};font-size:19px;font-weight:700;line-height:1.4;color:${E.ink};">${escapeHtml(chrome.invite.heading)}</h3>
+              <p style="margin:14px 0 0;font-family:${SANS};font-size:14.5px;line-height:1.8;color:${E.inkMuted};">${escapeHtml(chrome.invite.body)}</p>
+              <p style="margin:18px 0 0;font-family:${SANS};font-size:14.5px;line-height:1.8;color:${E.inkMuted};">${escapeHtml(chrome.invite.mailLabel)} <a href="mailto:${escapeHtml(chrome.invite.email)}" style="color:${E.accent};font-weight:600;text-decoration:underline;">${escapeHtml(chrome.invite.email)}</a></p>
+              <p style="margin:14px 0 0;font-family:${SANS};font-size:14.5px;line-height:1.8;color:${E.inkMuted};">${escapeHtml(chrome.invite.closing)}</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>`
+        : ""
+    }
     <tr>
       <td align="center" style="padding:56px 0 0;">
         <p style="margin:0;font-family:${SANS};font-size:13px;color:${E.inkMuted};">${escapeHtml(chrome.signoff)}</p>
@@ -328,6 +361,20 @@ export function buildResultEmail(input: {
           "",
           ...(input.hideCtaButton ? [] : [`${input.texts.sessionCta}: ${bookingUrl}`, ""]),
         ]),
+    ...(chrome.invite
+      ? [
+          "* * *",
+          "",
+          chrome.invite.heading,
+          "",
+          chrome.invite.body,
+          "",
+          `${chrome.invite.mailLabel} ${chrome.invite.email}`,
+          "",
+          chrome.invite.closing,
+          "",
+        ]
+      : []),
     chrome.signoff,
     chrome.signoffName,
     "",
