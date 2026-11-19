@@ -2,7 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { requireAdmin, requireClientAccess } from "@/lib/auth/guards";
-import { sendPortalSetupEmailForClient } from "@/lib/auth/client-repository";
+import {
+  ensureClientPortalAccount,
+  sendPortalSetupEmailForClient,
+} from "@/lib/auth/client-repository";
+import { prisma } from "@/lib/db/prisma";
+import { initializeClientWorkspace } from "@/lib/admin/client-workspace";
+import { sendPortalInviteEmail } from "@/lib/email/send-portal-setup-email";
 import {
   addSessionNote,
   archiveClientRecord,
@@ -216,6 +222,96 @@ export async function markSessionCompletedAction(
   revalidatePath("/admin/sessions");
   revalidatePath("/admin");
   return { success: true as const };
+}
+
+function deriveNameFromEmail(email: string): string {
+  const local = email.split("@")[0] ?? "";
+  const words = local
+    .replace(/[._\-+]+/g, " ")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1));
+  return words.join(" ") || "Client";
+}
+
+export async function inviteClientByEmailAction(input: {
+  email: string;
+  firstName?: string;
+  lastName?: string;
+}) {
+  const session = await requireAdmin();
+
+  const email = (input.email ?? "").trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+    return { error: "Enter a valid email address." };
+  }
+
+  const accountWithEmail = await prisma.user.findUnique({
+    where: { email },
+    select: { role: true },
+  });
+  if (accountWithEmail && accountWithEmail.role !== "CLIENT") {
+    return { error: "This email is already used by a non-client account." };
+  }
+
+  let client = await prisma.client.findUnique({ where: { email } });
+  let createdClient = false;
+
+  if (!client) {
+    const firstName = (input.firstName ?? "").trim() || deriveNameFromEmail(email);
+    const lastName = (input.lastName ?? "").trim();
+    client = await prisma.$transaction(async (tx) => {
+      const created = await tx.client.create({
+        data: {
+          firstName,
+          lastName,
+          email,
+          country: "",
+          timezone: "Europe/Riga",
+        },
+      });
+      await initializeClientWorkspace(tx, created.id);
+      return created;
+    });
+    createdClient = true;
+  }
+
+  const provisioned = await ensureClientPortalAccount({
+    clientId: client.id,
+    email: client.email.trim().toLowerCase(),
+  });
+  if (!provisioned) {
+    return { error: "Unable to prepare the portal account." };
+  }
+  if (provisioned.passwordAlreadySet) {
+    return { error: "This client already has an active portal account." };
+  }
+  if (!provisioned.setupToken) {
+    return { error: "Unable to create the portal setup link." };
+  }
+
+  const sent = await sendPortalInviteEmail({
+    firstName: client.firstName,
+    email: client.email,
+    setupToken: provisioned.setupToken,
+    clientId: client.id,
+  });
+  if (!sent.ok) {
+    return { error: sent.reason ?? "Unable to send the invitation email." };
+  }
+
+  await logAuditEvent({
+    action: "client.update",
+    resource: "client",
+    resourceId: client.id,
+    actorAdminId: session.id,
+    actorRole: session.role,
+    metadata: { event: "portal_invite_sent", email: client.email, createdClient },
+  });
+
+  revalidatePath("/admin/clients");
+  return { success: true as const, clientId: client.id, createdClient };
 }
 
 export async function resendPortalSetupEmailAction(clientId: string) {

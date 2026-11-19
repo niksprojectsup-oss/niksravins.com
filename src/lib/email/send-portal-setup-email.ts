@@ -8,6 +8,10 @@ import {
   buildResetPasswordEmail,
   buildResetPasswordUrl,
 } from "./templates/reset-password";
+import {
+  buildPortalInviteEmail,
+  buildPortalInviteUrl,
+} from "./templates/portal-invite";
 import { getAppBaseUrl } from "@/lib/url";
 
 function normalizeRecipient(email: string): string {
@@ -64,6 +68,66 @@ export async function sendCreatePasswordEmail(input: {
     });
   } else {
     console.info("[portal] setup email delivered", {
+      clientId: input.clientId,
+      recipient: maskEmailAddress(recipient),
+      providerId: result.id,
+      setupUrlHost: getAppBaseUrl(),
+    });
+  }
+
+  return result;
+}
+
+export async function sendPortalInviteEmail(input: {
+  firstName: string;
+  email: string;
+  setupToken: string;
+  clientId?: string;
+}): Promise<SendEmailResult> {
+  const recipient = normalizeRecipient(input.email);
+  const setupUrl = buildPortalInviteUrl(input.setupToken);
+  const message = buildPortalInviteEmail({
+    firstName: input.firstName,
+    setupUrl,
+  });
+
+  logEmailAttempt({
+    kind: "portal_invite",
+    recipient,
+    subject: message.subject,
+    context: {
+      clientId: input.clientId,
+      appBaseUrl: getAppBaseUrl(),
+      setupPath: "/client/set-password",
+    },
+  });
+
+  const result = await sendEmail(
+    {
+      to: recipient,
+      subject: message.subject,
+      html: message.html,
+      text: message.text,
+    },
+    {
+      kind: "portal_invite",
+      context: {
+        clientId: input.clientId,
+        appBaseUrl: getAppBaseUrl(),
+        recipient: maskEmailAddress(recipient),
+      },
+    },
+  );
+
+  if (!result.ok) {
+    console.warn("[portal] invite email not delivered", {
+      clientId: input.clientId,
+      recipient: maskEmailAddress(recipient),
+      skipped: Boolean(result.skipped),
+      reason: result.reason,
+    });
+  } else {
+    console.info("[portal] invite email delivered", {
       clientId: input.clientId,
       recipient: maskEmailAddress(recipient),
       providerId: result.id,

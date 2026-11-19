@@ -7,6 +7,7 @@ import {
 } from "@/components/admin/AdminStatusBadge";
 import { AdminTable } from "@/components/admin/AdminTable";
 import { ClientsToolbar } from "@/components/admin/ClientsToolbar";
+import { InviteClientForm } from "@/components/admin/InviteClientForm";
 import { adminPages } from "@/content/admin";
 import { listClientRecords } from "@/lib/admin/client-repository";
 import type { ClientListItem, ClientListSort } from "@/lib/admin/client-types";
@@ -45,6 +46,8 @@ export default async function AdminClientsPage({ searchParams }: AdminClientsPag
       <Suspense fallback={null}>
         <ClientsToolbar />
       </Suspense>
+
+      <InviteClientForm />
 
       <AdminTable<ClientListItem>
         rows={clients}
