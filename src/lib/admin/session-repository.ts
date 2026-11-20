@@ -1,4 +1,9 @@
 import { getServiceDurationMinutes } from "@/lib/booking/services-catalog";
+import {
+  addDaysToDateKey,
+  BUSINESS_TIMEZONE,
+  zonedLocalToUtc,
+} from "@/lib/booking/timezone";
 import { formatAdminDateTime } from "@/lib/admin/format";
 import { prisma, requireDatabase } from "@/lib/db/prisma";
 import type { AdminPayment, AdminSession, CalendarSlot, DashboardStats } from "@/lib/admin/types";
@@ -200,8 +205,9 @@ export async function getUpcomingSessions(limit = 4): Promise<AdminSession[]> {
 
 export async function getSessionsForDay(datePrefix: string): Promise<AdminSession[]> {
   requireDatabase();
-  const start = new Date(`${datePrefix}T00:00:00.000Z`);
-  const end = new Date(`${datePrefix}T23:59:59.999Z`);
+  const start = zonedLocalToUtc(datePrefix, "00:00", BUSINESS_TIMEZONE);
+  const nextDay = addDaysToDateKey(datePrefix, 1, BUSINESS_TIMEZONE);
+  const end = new Date(zonedLocalToUtc(nextDay, "00:00", BUSINESS_TIMEZONE).getTime() - 1);
 
   const sessions = await prisma.session.findMany({
     where: {

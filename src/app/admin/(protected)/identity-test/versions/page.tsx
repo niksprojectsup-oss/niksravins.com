@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/db/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { VersionRestoreButton } from "@/components/admin/identity-test/VersionRestoreButton";
+import { formatAdminDateTime } from "@/lib/admin/format";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +27,7 @@ export default async function IdentityVersionsPage() {
           <tbody>
             {versions.map((v) => (
               <tr key={v.id} className="border-t border-border-subtle">
-                <td className="px-3 py-1.5 whitespace-nowrap">{v.changedAt.toISOString().replace("T", " ").slice(0, 16)}</td>
+                <td className="px-3 py-1.5 whitespace-nowrap">{formatAdminDateTime(v.changedAt.toISOString())}</td>
                 <td className="px-3 py-1.5 font-mono text-xs">{v.entityType}:{v.entityId.slice(0, 8)}</td>
                 <td className="px-3 py-1.5">{v.field}</td>
                 <td className="px-3 py-1.5">{v.locale}</td>

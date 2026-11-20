@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { maskEmailAddress } from "@/lib/email/client";
 import { decryptField } from "@/lib/security/encryption";
+import { formatAdminDateTime } from "@/lib/admin/format";
 
 export const dynamic = "force-dynamic";
 
@@ -34,7 +35,7 @@ export default async function IdentitySubmissionsPage() {
               <tr key={s.id} className="border-t border-border-subtle">
                 <td className="px-3 py-1.5 whitespace-nowrap">
                   <Link href={`/admin/identity-test/submissions/${s.id}`} className="text-accent underline underline-offset-2">
-                    {s.createdAt.toISOString().replace("T", " ").slice(0, 16)}
+                    {formatAdminDateTime(s.createdAt.toISOString())}
                   </Link>
                 </td>
                 <td className="px-3 py-1.5">{s.locale}</td>

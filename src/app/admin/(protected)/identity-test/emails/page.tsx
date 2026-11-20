@@ -4,6 +4,7 @@ import { EmailManager } from "@/components/admin/identity-test/EmailManager";
 import { DeliveryActions } from "@/components/admin/identity-test/DeliveryActions";
 import { maskEmailAddress } from "@/lib/email/client";
 import { decryptField } from "@/lib/security/encryption";
+import { formatAdminDateTime } from "@/lib/admin/format";
 
 export const dynamic = "force-dynamic";
 
@@ -61,7 +62,7 @@ export default async function IdentityEmailsPage() {
                 <tr key={s.id} className="border-t border-border-subtle">
                   <td className="px-2 py-1.5">{mask(s.email)}</td>
                   <td className="px-2 py-1.5">{s.nextStep}</td>
-                  <td className="px-2 py-1.5">{s.nextSendAt.toISOString().slice(0, 10)}</td>
+                  <td className="px-2 py-1.5">{formatAdminDateTime(s.nextSendAt.toISOString())}</td>
                   <td className="px-2 py-1.5">{s.status}</td>
                   <td className="px-2 py-1.5">
                     {s.status === "ACTIVE" || s.status === "PROCESSING" ? <DeliveryActions sequenceId={s.id} canCancel /> : null}

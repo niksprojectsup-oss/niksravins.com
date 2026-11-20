@@ -2,6 +2,7 @@ import { prisma } from "@/lib/db/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { ConsentDeleteButton } from "@/components/admin/identity-test/DeliveryActions";
 import { decryptField } from "@/lib/security/encryption";
+import { formatAdminDateTime } from "@/lib/admin/format";
 
 export const dynamic = "force-dynamic";
 
@@ -42,7 +43,7 @@ export default async function IdentitySentPage() {
             {consents.map((c) => (
               <tr key={c.id} className="border-t border-border-subtle">
                 <td className="px-3 py-1.5 whitespace-nowrap">
-                  {c.createdAt.toISOString().replace("T", " ").slice(0, 16)}
+                  {formatAdminDateTime(c.createdAt.toISOString())}
                 </td>
                 <td className="px-3 py-1.5">
                   {c.submission ? (

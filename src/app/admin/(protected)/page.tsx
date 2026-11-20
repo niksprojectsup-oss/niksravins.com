@@ -7,9 +7,10 @@ import {
   getSessionsForDay,
   getUpcomingSessions,
 } from "@/lib/admin/session-repository";
+import { BUSINESS_TIMEZONE, getDateKeyInTimeZone } from "@/lib/booking/timezone";
 
 function todayKey() {
-  return new Date().toISOString().slice(0, 10);
+  return getDateKeyInTimeZone(new Date(), BUSINESS_TIMEZONE);
 }
 
 export default async function AdminDashboardPage() {

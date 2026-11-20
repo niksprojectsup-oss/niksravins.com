@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/db/prisma";
 import { AdminPageHeader } from "@/components/admin/AdminPageHeader";
 import { getSubmissionResultForAdmin } from "@/lib/development/repository";
+import { formatAdminDateTime } from "@/lib/admin/format";
 import { resolveTranslation } from "@/lib/identity-test/content";
 
 export const dynamic = "force-dynamic";
@@ -48,7 +49,7 @@ export default async function SubmissionDetailPage({
     <div className="layout-stack-lg max-w-wide">
       <AdminPageHeader
         title="Testa iesniegums"
-        description={`${submission.createdAt.toISOString().replace("T", " ").slice(0, 16)} · locale ${submission.locale} · statuss ${submission.status}`}
+        description={`${formatAdminDateTime(submission.createdAt.toISOString())} · locale ${submission.locale} · statuss ${submission.status}`}
       />
 
       <section className="observed-card p-6">
@@ -147,7 +148,7 @@ export default async function SubmissionDetailPage({
         <ul className="mt-3 space-y-1 text-sm">
           {submission.deliveries.map((d) => (
             <li key={d.id}>
-              {d.createdAt.toISOString().replace("T", " ").slice(0, 16)} - {d.emailKind}: {d.status}
+              {formatAdminDateTime(d.createdAt.toISOString())} - {d.emailKind}: {d.status}
             </li>
           ))}
           {submission.deliveries.length === 0 && <li className="text-ink-subtle">Nav piegāžu.</li>}
