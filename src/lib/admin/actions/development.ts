@@ -189,6 +189,65 @@ export async function setBranchDone(input: {
   } catch (e) { return err(e); }
 }
 
+export async function setBranchRating(input: {
+  clientId: string; branchId: string; rating: number | null;
+}): Promise<ActionResult> {
+  const session = await requireClientAccess(input.clientId);
+  if (input.rating !== null && (!Number.isInteger(input.rating) || input.rating < 1 || input.rating > 10)) {
+    return { ok: false, error: "Vērtējumam jābūt no 1 līdz 10." };
+  }
+  try {
+    await prisma.$transaction(async (tx) => {
+      const branch = await tx.clientDevelopmentBranch.findUnique({
+        where: { id: input.branchId },
+        include: { clientTrunk: true },
+      });
+      if (!branch || branch.clientTrunk.clientId !== input.clientId) throw new Error("Zars nav atrasts.");
+      await tx.clientDevelopmentBranch.update({
+        where: { id: branch.id }, data: { rating: input.rating },
+      });
+      await audit(tx, {
+        clientId: input.clientId, trunkId: branch.clientTrunkId, branchId: branch.id,
+        action: "BRANCH_RATED",
+        detail: `${input.rating ?? "-"}/10 - ${branch.textLv.slice(0, 80)}`,
+        actorAdminId: session.id,
+      });
+    });
+    revalidatePath(`/admin/clients/${input.clientId}`);
+    revalidatePath("/client/branches");
+    return { ok: true };
+  } catch (e) { return err(e); }
+}
+
+export async function setTrunkRating(input: {
+  clientId: string; clientTrunkId: string; rating: number | null;
+}): Promise<ActionResult> {
+  const session = await requireClientAccess(input.clientId);
+  if (input.rating !== null && (!Number.isInteger(input.rating) || input.rating < 1 || input.rating > 10)) {
+    return { ok: false, error: "Vērtējumam jābūt no 1 līdz 10." };
+  }
+  try {
+    await prisma.$transaction(async (tx) => {
+      const trunk = await tx.clientDevelopmentTrunk.findUnique({
+        where: { id: input.clientTrunkId },
+      });
+      if (!trunk || trunk.clientId !== input.clientId) throw new Error("Stumbrs nav atrasts.");
+      await tx.clientDevelopmentTrunk.update({
+        where: { id: trunk.id }, data: { rating: input.rating },
+      });
+      await audit(tx, {
+        clientId: input.clientId, trunkId: trunk.id,
+        action: "TRUNK_RATED",
+        detail: `${input.rating ?? "-"}/10 - ${trunk.titleLv.slice(0, 80)}`,
+        actorAdminId: session.id,
+      });
+    });
+    revalidatePath(`/admin/clients/${input.clientId}`);
+    revalidatePath("/client/branches");
+    return { ok: true };
+  } catch (e) { return err(e); }
+}
+
 export async function addBranchToTrunk(input: {
   clientId: string; clientTrunkId: string; textLv: string; textEn?: string;
 }): Promise<ActionResult> {

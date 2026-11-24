@@ -15,6 +15,8 @@ import {
   linkBeliefToLibraryTrunk,
   reopenTrunk,
   setBranchDone,
+  setBranchRating,
+  setTrunkRating,
   syncClientTestLinks,
 } from "@/lib/admin/actions/development";
 
@@ -30,6 +32,37 @@ const STATUS_CLASS: Record<string, string> = {
   COMPLETED: "bg-green-100 text-green-800",
   NEEDS_SUPPLEMENT: "bg-amber-100 text-amber-800",
 };
+
+function RatingPicker({
+  value,
+  disabled,
+  onSelect,
+}: {
+  value: number | null;
+  disabled?: boolean;
+  onSelect: (rating: number | null) => void;
+}) {
+  return (
+    <div className="inline-flex items-center gap-0.5" role="group" aria-label="Vērtējums 1-10">
+      {Array.from({ length: 10 }, (_, i) => i + 1).map((n) => (
+        <button
+          key={n}
+          type="button"
+          disabled={disabled}
+          onClick={() => onSelect(n === value ? null : n)}
+          className={`h-6 w-6 rounded text-xs font-medium transition-colors disabled:opacity-40 ${
+            value !== null && n <= value
+              ? "bg-accent text-surface"
+              : "bg-surface-subtle text-ink-subtle hover:bg-accent/20"
+          }`}
+        >
+          {n}
+        </button>
+      ))}
+      <span className="ml-1 w-8 text-xs text-ink-subtle">{value ? `${value}/10` : ""}</span>
+    </div>
+  );
+}
 
 function TrunkCard({
   clientId,
@@ -78,6 +111,16 @@ function TrunkCard({
               Pabeigts {new Date(trunk.completedAt).toLocaleDateString("lv-LV")}
             </p>
           )}
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="type-caption text-ink-subtle">Vērtējums:</span>
+            <RatingPicker
+              value={trunk.rating}
+              disabled={isPending}
+              onSelect={(rating) =>
+                run(() => setTrunkRating({ clientId, clientTrunkId: trunk.id, rating }))
+              }
+            />
+          </div>
         </div>
         <div className="flex flex-col items-end gap-2">
           {trunk.status !== "COMPLETED" && (
@@ -142,8 +185,8 @@ function TrunkCard({
 
       <ul className="mt-4 space-y-2">
         {trunk.branches.map((b) => (
-          <li key={b.id}>
-            <label className="flex items-start gap-3 type-body text-ink cursor-pointer">
+          <li key={b.id} className="flex flex-wrap items-center gap-3">
+            <label className="flex flex-1 items-start gap-3 type-body text-ink cursor-pointer">
               <input
                 type="checkbox"
                 className="mt-1 h-4 w-4 rounded border-border-strong accent-accent"
@@ -155,6 +198,13 @@ function TrunkCard({
               />
               <span className={b.done ? "text-ink-subtle line-through" : ""}>{b.textLv}</span>
             </label>
+            <RatingPicker
+              value={b.rating}
+              disabled={isPending}
+              onSelect={(rating) =>
+                run(() => setBranchRating({ clientId, branchId: b.id, rating }))
+              }
+            />
           </li>
         ))}
       </ul>

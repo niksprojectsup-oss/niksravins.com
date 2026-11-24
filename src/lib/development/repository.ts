@@ -33,6 +33,7 @@ export type AdminDevBranch = {
   textEn: string;
   done: boolean;
   doneAt: Date | null;
+  rating: number | null;
   sortOrder: number;
 };
 
@@ -48,6 +49,7 @@ export type AdminDevTrunk = {
   sessionId: string | null;
   completedSessionId: string | null;
   completedAt: Date | null;
+  rating: number | null;
   beliefStableKey: string | null;
   branches: AdminDevBranch[];
 };
@@ -216,6 +218,7 @@ export async function getAdminDevelopmentCard(clientId: string): Promise<AdminDe
       sessionId: t.sessionId,
       completedSessionId: t.completedSessionId,
       completedAt: t.completedAt,
+      rating: t.rating,
       beliefStableKey: t.belief?.stableKey ?? null,
       branches: t.branches.map((b) => ({
         id: b.id,
@@ -223,6 +226,7 @@ export async function getAdminDevelopmentCard(clientId: string): Promise<AdminDe
         textEn: b.textEn,
         done: b.done,
         doneAt: b.doneAt,
+        rating: b.rating,
         sortOrder: b.sortOrder,
       })),
     })),
@@ -283,7 +287,8 @@ export type ClientCompletedTrunk = {
   id: string;
   title: string;
   completedAt: Date | null;
-  branches: { text: string; doneAt: Date | null }[];
+  rating: number | null;
+  branches: { text: string; doneAt: Date | null; rating: number | null }[];
 };
 
 export type ClientBranchesView = {
@@ -308,11 +313,11 @@ export async function getClientBranchesView(clientId: string, locale: string): P
       where: { clientId, status: "COMPLETED" },
       orderBy: { completedAt: "asc" },
       select: {
-        id: true, titleLv: true, titleEn: true, completedAt: true,
+        id: true, titleLv: true, titleEn: true, completedAt: true, rating: true,
         branches: {
           where: { done: true },
           orderBy: { sortOrder: "asc" },
-          select: { textLv: true, textEn: true, doneAt: true },
+          select: { textLv: true, textEn: true, doneAt: true, rating: true },
         },
       },
     }),
@@ -322,9 +327,11 @@ export async function getClientBranchesView(clientId: string, locale: string): P
     id: t.id,
     title: (isEn ? t.titleEn || t.titleLv : t.titleLv || t.titleEn),
     completedAt: t.completedAt,
+    rating: t.rating,
     branches: t.branches.map((b) => ({
       text: (isEn ? b.textEn || b.textLv : b.textLv || b.textEn),
       doneAt: b.doneAt,
+      rating: b.rating,
     })),
   }));
 

@@ -65,7 +65,14 @@ export default async function ClientBranchesPage() {
             {view.completedTrunks.map((t) => (
               <div key={t.id} className="rounded-xl border border-[#e8e0d5] p-4">
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="font-medium text-[#2c2824]">{t.title}</h3>
+                  <h3 className="font-medium text-[#2c2824]">
+                    {t.title}
+                    {t.rating && (
+                      <span className="ml-2 rounded-full bg-[#efe9e2] px-2 py-0.5 text-xs font-medium text-[#7a8b6f]">
+                        {t.rating}/10
+                      </span>
+                    )}
+                  </h3>
                   {t.completedAt && (
                     <span className="shrink-0 text-xs text-[#8a8378]">
                       {labels.completedOn}{" "}
@@ -77,7 +84,12 @@ export default async function ClientBranchesPage() {
                   {t.branches.map((b, i) => (
                     <li key={i} className="flex gap-2 text-[#3d3831]">
                       <span className="text-[#7a8b6f]">✓</span>
-                      <span>{b.text}</span>
+                      <span className="flex-1">{b.text}</span>
+                      {b.rating && (
+                        <span className="shrink-0 rounded-full bg-[#efe9e2] px-2 py-0.5 text-xs font-medium text-[#7a8b6f]">
+                          {b.rating}/10
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ul>
