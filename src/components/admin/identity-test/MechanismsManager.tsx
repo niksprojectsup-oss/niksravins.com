@@ -25,8 +25,8 @@ export function MechanismsManager({
   connectors,
   translations,
 }: {
-  tags: { id: string; key: string; sortOrder: number; status: string; usage: number }[];
-  connectors: { id: string; key: string; kind: IdentityConnectorKind; status: string }[];
+  tags: { id: string; key: string; sortOrder: number; status: string; usage: number; updated: string }[];
+  connectors: { id: string; key: string; kind: IdentityConnectorKind; status: string; updated: string }[];
   translations: TRow[];
 }) {
   const router = useRouter();
@@ -55,12 +55,13 @@ export function MechanismsManager({
         </form>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
-            <thead><tr>{["Atslēga", "Lietojumi", "Statuss"].map((h) => <th key={h} className="type-caption px-2 py-1 text-ink-subtle">{h}</th>)}</tr></thead>
+            <thead><tr>{["Atslēga", "Lietojumi", "Atjaunināts", "Statuss"].map((h) => <th key={h} className="type-caption px-2 py-1 text-ink-subtle">{h}</th>)}</tr></thead>
             <tbody>
               {tags.map((tag) => (
                 <tr key={tag.id} className="border-t border-border-subtle">
                   <td className="px-2 py-1.5 font-mono text-xs">{tag.key}</td>
                   <td className="px-2 py-1.5">{tag.usage}</td>
+                  <td className="px-2 py-1.5 whitespace-nowrap text-ink-subtle">{tag.updated}</td>
                   <td className="px-2 py-1.5">
                     <StatusControl value={tag.status}
                       onSave={(s: IdentityContentStatus) => upsertMechanismTagAction({ id: tag.id, key: tag.key, status: s })} />
@@ -93,6 +94,7 @@ export function MechanismsManager({
             <summary className="flex cursor-pointer items-center gap-3">
               <span className="font-mono text-xs">{c.key}</span>
               <span className="type-caption text-ink-faint">{c.kind}</span>
+              <span className="type-caption ml-auto text-ink-subtle">{c.updated}</span>
             </summary>
             <div className="mt-3 space-y-3">
               <div className="flex items-center gap-3">

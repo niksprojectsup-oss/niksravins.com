@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import type {
   AdminDevelopmentCard,
   AdminDevTrunk,
@@ -204,6 +205,7 @@ export function DevelopmentWorkCard({
   card: AdminDevelopmentCard;
 }) {
   const [isPending, startTransition] = useTransition();
+  const router = useRouter();
   const [tab, setTab] = useState<"plan" | "beliefs" | "tests" | "history">("plan");
   const [addMode, setAddMode] = useState<"library" | "custom" | null>(null);
   const [libraryPick, setLibraryPick] = useState("");
@@ -352,6 +354,7 @@ export function DevelopmentWorkCard({
 
       {tab === "beliefs" && (
         <div className="mt-5 space-y-5">
+          {error && <p className="text-sm text-red-600">{error}</p>}
           {card.submissions.length === 0 && (
             <p className="type-body text-ink-subtle">Nav piesaistītu testa iesniegumu.</p>
           )}
@@ -395,7 +398,9 @@ export function DevelopmentWorkCard({
                                   setAddMode("custom");
                                 } else if (v) {
                                   startTransition(async () => {
-                                    await linkBeliefToLibraryTrunk({ clientId, beliefId: b.beliefId, libraryTrunkId: v });
+                                    const r = await linkBeliefToLibraryTrunk({ clientId, beliefId: b.beliefId, libraryTrunkId: v });
+                                    if (!r.ok) setError(r.error ?? "Kļūda");
+                                    else { setError(""); router.refresh(); }
                                   });
                                 }
                               }}
@@ -416,11 +421,13 @@ export function DevelopmentWorkCard({
                               disabled={isPending}
                               onClick={() =>
                                 startTransition(async () => {
-                                  await addTrunkFromLibrary({
+                                  const r = await addTrunkFromLibrary({
                                     clientId,
                                     libraryTrunkId: b.linkedLibraryTrunk!.id,
                                     beliefId: b.beliefId,
                                   });
+                                  if (!r.ok) setError(r.error ?? "Kļūda");
+                                  else { setError(""); router.refresh(); }
                                 })
                               }
                               className="type-caption text-accent underline"

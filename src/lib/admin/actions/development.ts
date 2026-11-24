@@ -42,7 +42,29 @@ export async function addTrunkFromLibrary(input: {
       const existing = await tx.clientDevelopmentTrunk.findFirst({
         where: { clientId: input.clientId, libraryTrunkId: lib.id },
       });
-      if (existing) throw new Error(`Stumbrs ${lib.libraryKey} jau ir klienta darba plānā.`);
+      if (existing) {
+        // Stumbrs jau ir plānā - piesaistām uzskatu esošajam stumbram,
+        // nevis noraidām (vairāki uzskati var norādīt uz vienu stumbru).
+        if (!input.beliefId) {
+          throw new Error(`Stumbrs ${lib.libraryKey} jau ir klienta darba plānā.`);
+        }
+        if (existing.beliefIds.includes(input.beliefId)) {
+          throw new Error("Šis uzskats jau ir pievienots darba plānam.");
+        }
+        await tx.clientDevelopmentTrunk.update({
+          where: { id: existing.id },
+          data: {
+            beliefIds: [...existing.beliefIds, input.beliefId],
+            beliefId: existing.beliefId ?? input.beliefId,
+          },
+        });
+        await audit(tx, {
+          clientId: input.clientId, trunkId: existing.id, action: "TRUNK_BELIEFS_UPDATED",
+          detail: `Pievienots uzskats esošajam stumbram ${lib.libraryKey}`,
+          actorAdminId: session.id,
+        });
+        return;
+      }
 
       const maxSort = await tx.clientDevelopmentTrunk.aggregate({
         where: { clientId: input.clientId }, _max: { sortOrder: true },
